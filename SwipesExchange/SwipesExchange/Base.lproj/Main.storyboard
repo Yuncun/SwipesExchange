@@ -1,0 +1,166 @@
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<document type="com.apple.InterfaceBuilder3.CocoaTouch.Storyboard.XIB" version="3.0" toolsVersion="4510" systemVersion="12F45" targetRuntime="iOS.CocoaTouch" propertyAccessControl="none" useAutolayout="YES" initialViewController="8YX-ce-x5E">
+    <dependencies>
+        <plugIn identifier="com.apple.InterfaceBuilder.IBCocoaTouchPlugin" version="3742"/>
+    </dependencies>
+    <scenes>
+        <!--Tab Bar Controller-->
+        <scene sceneID="Vex-rW-GRa">
+            <objects>
+                <tabBarController id="8YX-ce-x5E" sceneMemberID="viewController">
+                    <nil key="simulatedBottomBarMetrics"/>
+                    <tabBar key="tabBar" contentMode="scaleToFill" id="JQR-rB-NYL">
+                        <rect key="frame" x="0.0" y="431" width="320" height="49"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" flexibleMinY="YES"/>
+                        <color key="backgroundColor" white="0.0" alpha="0.0" colorSpace="calibratedWhite"/>
+                    </tabBar>
+                    <connections>
+                        <segue destination="VV3-qR-Kf8" kind="relationship" relationship="viewControllers" id="ZXx-Jm-0Yo"/>
+                        <segue destination="MPt-Wr-LET" kind="relationship" relationship="viewControllers" id="nAz-Pr-Dyn"/>
+                        <segue destination="I46-FO-8VW" kind="relationship" relationship="viewControllers" id="7CM-Ai-qe9"/>
+                    </connections>
+                </tabBarController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="FNP-y4-bzi" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="-233" y="183"/>
+        </scene>
+        <!--Sellers View Controller - Sellers-->
+        <scene sceneID="2xF-BZ-Mne">
+            <objects>
+                <tableViewController id="JbQ-Gn-53B" customClass="SESellersViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="baI-Nd-M7v">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="Gku-yW-LoH">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="Gku-yW-LoH" id="R5W-Yd-eSk">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Sellers" id="8gn-p6-qWh">
+                        <barButtonItem key="rightBarButtonItem" title="New" id="ubR-Nt-BuU"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="uq8-jV-B2M" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="183"/>
+        </scene>
+        <!--Connections View Controller - Connections-->
+        <scene sceneID="XHn-ki-cua">
+            <objects>
+                <tableViewController id="pMV-RT-aBM" customClass="SEConnectionsViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="rfA-Cr-h4l">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="vzc-TS-RXc">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="vzc-TS-RXc" id="Cui-pN-4dg">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Connections" id="ych-MC-yun">
+                        <barButtonItem key="leftBarButtonItem" title="Edit" id="sOE-f7-VgT"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="H6z-L3-87v" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="878"/>
+        </scene>
+        <!--Navigation Controller - Connections-->
+        <scene sceneID="TKM-JP-F6w">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="I46-FO-8VW" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Connections" id="9lG-YR-4gl"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dy8-qK-mtX">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="pMV-RT-aBM" kind="relationship" relationship="rootViewController" id="HR5-US-6kV"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="ncP-Bk-Bg5" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="240" y="878"/>
+        </scene>
+        <!--Navigation Controller - Sellers-->
+        <scene sceneID="rB5-wx-koU">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="MPt-Wr-LET" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Sellers" id="cRp-Ze-jop"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="NfR-8B-kJO">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="JbQ-Gn-53B" kind="relationship" relationship="rootViewController" id="Vem-ru-4TL"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="4oJ-Hn-sCV" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="240" y="183"/>
+        </scene>
+        <!--Navigation Controller - Buyers-->
+        <scene sceneID="L9l-ld-1Ie">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="VV3-qR-Kf8" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Buyers" id="iPc-fM-T1Z"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Kw-m0-L0v">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="pJn-g3-AHy" kind="relationship" relationship="rootViewController" id="kVP-pi-zo3"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IFb-4H-u6u" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="240" y="-517"/>
+        </scene>
+        <!--Buyers View Controller - Buyers-->
+        <scene sceneID="EbR-7C-2Lm">
+            <objects>
+                <tableViewController id="pJn-g3-AHy" customClass="SEBuyersViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="8e0-Om-viU">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" reuseIdentifier="Cell" id="0z2-Kk-pdH">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="0z2-Kk-pdH" id="LR8-9H-Y5W">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                        <connections>
+                            <outlet property="dataSource" destination="pJn-g3-AHy" id="dNH-3Y-zTR"/>
+                            <outlet property="delegate" destination="pJn-g3-AHy" id="bio-Gs-Lim"/>
+                        </connections>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Buyers" id="GOT-hs-Q7Z">
+                        <barButtonItem key="rightBarButtonItem" title="New" id="Uxf-gY-KRe"/>
+                    </navigationItem>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="IIe-8o-yfv" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="774" y="-517"/>
+        </scene>
+    </scenes>
+    <simulatedMetricsContainer key="defaultSimulatedMetrics">
+        <simulatedStatusBarMetrics key="statusBar"/>
+        <simulatedOrientationMetrics key="orientation"/>
+        <simulatedScreenMetrics key="destination" type="retina4"/>
+    </simulatedMetricsContainer>
+</document>
