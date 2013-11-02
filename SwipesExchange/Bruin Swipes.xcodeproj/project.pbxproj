@@ -9,6 +9,8 @@
 /* Begin PBXBuildFile section */
 		66169B131824455C004499C7 /* SEUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B121824455C004499C7 /* SEUser.m */; };
 		66169B161824588A004499C7 /* SEHalls.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B151824588A004499C7 /* SEHalls.m */; };
+		66169B191824DD12004499C7 /* SEBuyListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B181824DD12004499C7 /* SEBuyListing.m */; };
+		66169B1C1824DD20004499C7 /* SESellListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B1B1824DD20004499C7 /* SESellListing.m */; };
 		6626A40518242262000A15BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6626A40418242262000A15BB /* Foundation.framework */; };
 		6626A40718242262000A15BB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6626A40618242262000A15BB /* CoreGraphics.framework */; };
 		6626A40918242262000A15BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6626A40818242262000A15BB /* UIKit.framework */; };
@@ -43,6 +45,10 @@
 		66169B121824455C004499C7 /* SEUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUser.m; sourceTree = "<group>"; };
 		66169B141824588A004499C7 /* SEHalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHalls.h; sourceTree = "<group>"; };
 		66169B151824588A004499C7 /* SEHalls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHalls.m; sourceTree = "<group>"; };
+		66169B171824DD12004499C7 /* SEBuyListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuyListing.h; sourceTree = "<group>"; };
+		66169B181824DD12004499C7 /* SEBuyListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBuyListing.m; sourceTree = "<group>"; };
+		66169B1A1824DD20004499C7 /* SESellListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESellListing.h; sourceTree = "<group>"; };
+		66169B1B1824DD20004499C7 /* SESellListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESellListing.m; sourceTree = "<group>"; };
 		6626A40118242262000A15BB /* Bruin Swipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bruin Swipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6626A40418242262000A15BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6626A40618242262000A15BB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -231,6 +237,10 @@
 				6626A44D18242783000A15BB /* SEListing.m */,
 				66169B141824588A004499C7 /* SEHalls.h */,
 				66169B151824588A004499C7 /* SEHalls.m */,
+				66169B171824DD12004499C7 /* SEBuyListing.h */,
+				66169B181824DD12004499C7 /* SEBuyListing.m */,
+				66169B1A1824DD20004499C7 /* SESellListing.h */,
+				66169B1B1824DD20004499C7 /* SESellListing.m */,
 			);
 			name = Listings;
 			sourceTree = "<group>";
@@ -339,8 +349,10 @@
 				66169B161824588A004499C7 /* SEHalls.m in Sources */,
 				6626A41518242262000A15BB /* SEAppDelegate.m in Sources */,
 				66169B131824455C004499C7 /* SEUser.m in Sources */,
+				66169B191824DD12004499C7 /* SEBuyListing.m in Sources */,
 				6626A4441824266B000A15BB /* SESellersViewController.m in Sources */,
 				6626A44E18242783000A15BB /* SEListing.m in Sources */,
+				66169B1C1824DD20004499C7 /* SESellListing.m in Sources */,
 				6626A41118242262000A15BB /* main.m in Sources */,
 				6626A44718242677000A15BB /* SEConnectionsViewController.m in Sources */,
 				6626A43E1824236A000A15BB /* SEBuyersViewController.m in Sources */,

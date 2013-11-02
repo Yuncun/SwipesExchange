@@ -12,13 +12,19 @@
 
 @interface SEListing : NSObject
 
+//@property (nonatomic) NSInteger *height;	// constant once set
+
 @property (nonatomic) SEUser *user;
-@property (nonatomic) NSString *price;	// per ticket
+//@property (nonatomic) NSString *price;	// per ticket
 @property (nonatomic) NSInteger *count;	// number of tickets
 @property (nonatomic) SEHalls *halls;	// names of the halls.
 										// TODO: Consider using utility class.
 
-- (UIView *)buyerListingWithHeight:(CGFloat)height;
-- (UIView *)sellerListingWithHeight:(CGFloat)height;
+- (UIView *)listing44pt;
+- (UIView *)listing55pt;
+- (UIView *)listing66pt;
+
+//- (UIView *)buyerListingWithHeight:(CGFloat)height;
+//- (UIView *)sellerListingWithHeight:(CGFloat)height;
 
 @end
