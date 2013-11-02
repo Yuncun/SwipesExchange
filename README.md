@@ -15,7 +15,7 @@ We currently plan on having three major branches:
 
 This is the general overview, not fine-grained:
 
-![ClassHierarchy](/Users/mcdecoste/Documents/UCLA/Fall 2013/CS 130/SwipesExchange/ClassHierarchy.pdf)
+![ClassHierarchy](http://i.imgur.com/On01aBC.png)
 
 ## Other Notes
 
