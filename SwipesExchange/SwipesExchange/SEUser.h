@@ -15,4 +15,7 @@
 @property (nonatomic) NSArray *connections;
 @property (nonatomic) NSArray *listings;
 
+// TODO: figure out how to do this best
+@property (nonatomic) NSString *rating;
+
 @end

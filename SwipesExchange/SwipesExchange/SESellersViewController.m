@@ -7,6 +7,7 @@
 //
 
 #import "SESellersViewController.h"
+#import "SESellListing.h"
 
 @interface SESellersViewController ()
 
@@ -46,14 +47,14 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return 5;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,6 +63,9 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+	SESellListing *mattIsNotHungry = [[SESellListing alloc] init];
+	
+	[cell addSubview:[mattIsNotHungry listing55pt]];
     
     return cell;
 }

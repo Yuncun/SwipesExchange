@@ -10,8 +10,8 @@
 
 @interface SEBuyListing : SEListing
 
-- (UIView *)listing44pt;
-- (UIView *)listing55pt;
-- (UIView *)listing66pt;
+//- (UIView *)listing44pt;
+//- (UIView *)listing55pt;
+//- (UIView *)listing66pt;
 
 @end

@@ -39,10 +39,10 @@
 	return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
-- (UIView *)listing66pt
-{
-	return [[UIView alloc] initWithFrame:CGRectZero];
-}
+//- (UIView *)listing66pt
+//{
+//	return [[UIView alloc] initWithFrame:CGRectZero];
+//}
 
 /*
 - (UIView *)buyerListingWithHeight:(CGFloat)height
