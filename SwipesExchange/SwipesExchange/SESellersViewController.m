@@ -54,7 +54,7 @@
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 5;
+    return 20;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,10 +62,20 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+	// clear out old stuff
+#warning There has got to be a better way..
+	id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
+	for (int i = 0; i < (int)[shortcut count]; i++)
+	{
+		NSString *className = [[[shortcut objectAtIndex:i] class] description];
+		if ([className isEqualToString:@"UIView"])
+			[[shortcut objectAtIndex:i] removeFromSuperview];
+	}
+	
     // Configure the cell...
 	SESellListing *mattIsNotHungry = [[SESellListing alloc] init];
 	
-	[cell addSubview:[mattIsNotHungry listing55pt]];
+	[cell addSubview:[mattIsNotHungry listing44pt]];
     
     return cell;
 }

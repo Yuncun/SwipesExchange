@@ -12,8 +12,4 @@
 
 @property (nonatomic) NSString *price;	// per ticket
 
-//- (UIView *)listing44pt;
-//- (UIView *)listing55pt;
-//- (UIView *)listing66pt;
-
 @end

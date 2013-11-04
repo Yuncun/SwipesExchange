@@ -33,6 +33,28 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	[self establishRefreshControl];
+}
+
+// only called once
+- (void)establishRefreshControl
+{
+	// create pull-to-refresh control
+	UIRefreshControl *rc = [[UIRefreshControl alloc] init];
+	
+	// set its action
+	[rc addTarget:self action:@selector(requestRefresh) forControlEvents:UIControlEventValueChanged];
+	rc.attributedTitle = [[NSAttributedString alloc] initWithString:@"Updating..." attributes:nil]; // loading now
+	
+	[self setRefreshControl:rc];
+}
+
+- (void)requestRefresh
+{
+	[self.refreshControl setAttributedTitle:[[NSAttributedString alloc] initWithString:@"Updating..." attributes:nil]];
+	
+	// do stuff
 }
 
 - (void)didReceiveMemoryWarning
@@ -54,7 +76,7 @@
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 5;
+    return 20;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -62,11 +84,23 @@
     static NSString *CellIdentifier = @"Cell";
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
+	// clear out old stuff
+#warning There has got to be a better way..	NSArray *array = [cell subviews];
+	id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
+	for (int i = 0; i < (int)[shortcut count]; i++)
+	{
+		NSString *className = [[[shortcut objectAtIndex:i] class] description];
+		if ([className isEqualToString:@"UIView"])
+			[[shortcut objectAtIndex:i] removeFromSuperview];
+	}
+	
     // Configure the cell...
 	SEBuyListing *mattIsHungry = [[SEBuyListing alloc] init];
 	
 	[cell addSubview:[mattIsHungry listing44pt]];
     
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+	
     return cell;
 }
 

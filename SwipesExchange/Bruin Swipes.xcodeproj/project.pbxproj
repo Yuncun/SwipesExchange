@@ -28,6 +28,9 @@
 		6626A4441824266B000A15BB /* SESellersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6626A4431824266B000A15BB /* SESellersViewController.m */; };
 		6626A44718242677000A15BB /* SEConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6626A44618242677000A15BB /* SEConnectionsViewController.m */; };
 		6626A44E18242783000A15BB /* SEListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 6626A44D18242783000A15BB /* SEListing.m */; };
+		669646F618277C9D0023C782 /* SESendable.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F518277C9D0023C782 /* SESendable.m */; };
+		669646F918277CB60023C782 /* SEFeeler.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F818277CB60023C782 /* SEFeeler.m */; };
+		669646FC18277CBF0023C782 /* SEMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646FB18277CBF0023C782 /* SEMessage.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -74,6 +77,12 @@
 		6626A44618242677000A15BB /* SEConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConnectionsViewController.m; sourceTree = "<group>"; };
 		6626A44C18242783000A15BB /* SEListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEListing.h; sourceTree = "<group>"; };
 		6626A44D18242783000A15BB /* SEListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEListing.m; sourceTree = "<group>"; };
+		669646F418277C9D0023C782 /* SESendable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESendable.h; sourceTree = "<group>"; };
+		669646F518277C9D0023C782 /* SESendable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESendable.m; sourceTree = "<group>"; };
+		669646F718277CB60023C782 /* SEFeeler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEFeeler.h; sourceTree = "<group>"; };
+		669646F818277CB60023C782 /* SEFeeler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFeeler.m; sourceTree = "<group>"; };
+		669646FA18277CBF0023C782 /* SEMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEMessage.h; sourceTree = "<group>"; };
+		669646FB18277CBF0023C782 /* SEMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEMessage.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -112,6 +121,12 @@
 		66169B0F18244484004499C7 /* Sendable */ = {
 			isa = PBXGroup;
 			children = (
+				669646F418277C9D0023C782 /* SESendable.h */,
+				669646F518277C9D0023C782 /* SESendable.m */,
+				669646F718277CB60023C782 /* SEFeeler.h */,
+				669646F818277CB60023C782 /* SEFeeler.m */,
+				669646FA18277CBF0023C782 /* SEMessage.h */,
+				669646FB18277CBF0023C782 /* SEMessage.m */,
 			);
 			name = Sendable;
 			sourceTree = "<group>";
@@ -346,11 +361,14 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				669646F918277CB60023C782 /* SEFeeler.m in Sources */,
 				66169B161824588A004499C7 /* SEHalls.m in Sources */,
 				6626A41518242262000A15BB /* SEAppDelegate.m in Sources */,
 				66169B131824455C004499C7 /* SEUser.m in Sources */,
 				66169B191824DD12004499C7 /* SEBuyListing.m in Sources */,
+				669646F618277C9D0023C782 /* SESendable.m in Sources */,
 				6626A4441824266B000A15BB /* SESellersViewController.m in Sources */,
+				669646FC18277CBF0023C782 /* SEMessage.m in Sources */,
 				6626A44E18242783000A15BB /* SEListing.m in Sources */,
 				66169B1C1824DD20004499C7 /* SESellListing.m in Sources */,
 				6626A41118242262000A15BB /* main.m in Sources */,

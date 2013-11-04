@@ -48,26 +48,26 @@
 	UIView *view = (tall) ? [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 55.f)] :
 							[[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
 	
-	UILabel *name = (tall) ?	[[UILabel alloc] initWithFrame:CGRectMake(5.f, 0.f, 180.f, 34.f)] :
+	UILabel *name = (tall) ?	[[UILabel alloc] initWithFrame:CGRectMake(5.f, 0.f, 170.f, 30.f)] :
 								[[UILabel alloc] initWithFrame:CGRectMake(5.f, 0.f, 160.f, 30.f)];
 	[name setText:self.user.name];
 	[name setTextAlignment:NSTextAlignmentLeft];
 	[name setFont:[UIFont systemFontOfSize:topRowSize]];
 	
-	UILabel *num = (tall) ? [[UILabel alloc] initWithFrame:CGRectMake(200.f, 0.f, 115.f, 34.f)] :
-							[[UILabel alloc] initWithFrame:CGRectMake(200.f, 0.f, 115.f, 30.f)];
-	[num setText:[NSString stringWithFormat:@"%d requested", self.count]];
+	UILabel *num = (tall) ? [[UILabel alloc] initWithFrame:CGRectMake(180.f, 0.f, 105.f, 30.f)] :
+							[[UILabel alloc] initWithFrame:CGRectMake(180.f, 0.f, 105.f, 30.f)];
+	[num setText:[NSString stringWithFormat:@"%d requested", (int)self.count]];
 	[num setTextAlignment:NSTextAlignmentRight];
 	[num setFont:[UIFont systemFontOfSize:topRowSize]];
 	
-	UILabel *rating = (tall) ?	[[UILabel alloc] initWithFrame:CGRectMake(5.f, 29.f, 100.f, 20.f)] :
+	UILabel *rating = (tall) ?	[[UILabel alloc] initWithFrame:CGRectMake(5.f, 28.f, 100.f, 20.f)] :
 								[[UILabel alloc] initWithFrame:CGRectMake(5.f, 24.f, 160.f, 20.f)];
 	[rating setText:self.user.rating];
 	[rating setTextAlignment:NSTextAlignmentLeft];
 	[rating setFont:[UIFont systemFontOfSize:bottomRowSize]];
 	
-	UILabel *time = (tall) ?	[[UILabel alloc] initWithFrame:CGRectMake(141.f, 29.f, 174.f, 20.f)] :
-								[[UILabel alloc] initWithFrame:CGRectMake(200.f, 24.f, 115.f, 20.f)];
+	UILabel *time = (tall) ?	[[UILabel alloc] initWithFrame:CGRectMake(120.f, 28.f, 165.f, 20.f)] :
+								[[UILabel alloc] initWithFrame:CGRectMake(170.f, 24.f, 115.f, 20.f)];
 	[time setText:self.time];
 	[time setTextAlignment:NSTextAlignmentRight];
 	[time setFont:[UIFont systemFontOfSize:bottomRowSize]];
