@@ -59,7 +59,7 @@
 	
 	UILabel *priceAndNum = (tall) ? [[UILabel alloc] initWithFrame:CGRectMake(200.f, 0.f, 115.f, 34.f)] :
 									[[UILabel alloc] initWithFrame:CGRectMake(200.f, 0.f, 115.f, 30.f)];
-	[priceAndNum setText:[NSString stringWithFormat:@"%d at $%@", self.count, self.price]];
+	[priceAndNum setText:[NSString stringWithFormat:@"%d at $%@", (int)self.count, self.price]];
 	[priceAndNum setTextAlignment:NSTextAlignmentRight];
 	[priceAndNum setFont:[UIFont systemFontOfSize:topRowSize]];
 	
