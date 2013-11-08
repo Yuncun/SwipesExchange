@@ -6,6 +6,7 @@
 //  Copyright (c) 2013 CS130SwipesExchange. All rights reserved.
 //
 
+#import "SEReferences.h"
 #import "SEBuyersViewController.h"
 #import "SEBuyListing.h"
 
@@ -33,6 +34,10 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	// set tint
+	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
+//    self.navigationController.navigationBar.translucent = NO;
 	
 	[self establishRefreshControl];
 }
@@ -97,11 +102,16 @@
     // Configure the cell...
 	SEBuyListing *mattIsHungry = [[SEBuyListing alloc] init];
 	
-	[cell addSubview:[mattIsHungry listing44pt]];
+	[cell addSubview:[mattIsHungry listing]];
     
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*

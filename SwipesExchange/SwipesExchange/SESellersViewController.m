@@ -8,6 +8,7 @@
 
 #import "SESellersViewController.h"
 #import "SESellListing.h"
+#import "SEReferences.h"
 
 @interface SESellersViewController ()
 
@@ -33,6 +34,11 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	// set tint
+	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
+//    self.navigationController.navigationBar.translucent = NO;
+
 }
 
 - (void)didReceiveMemoryWarning
@@ -75,9 +81,16 @@
     // Configure the cell...
 	SESellListing *mattIsNotHungry = [[SESellListing alloc] init];
 	
-	[cell addSubview:[mattIsNotHungry listing44pt]];
+	[cell addSubview:[mattIsNotHungry listing]];
     
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+	
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*

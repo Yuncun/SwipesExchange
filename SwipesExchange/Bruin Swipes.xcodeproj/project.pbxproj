@@ -32,6 +32,8 @@
 		669646F618277C9D0023C782 /* SESendable.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F518277C9D0023C782 /* SESendable.m */; };
 		669646F918277CB60023C782 /* SEFeeler.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F818277CB60023C782 /* SEFeeler.m */; };
 		669646FC18277CBF0023C782 /* SEMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646FB18277CBF0023C782 /* SEMessage.m */; };
+		66C9BCDE182B13DD003C0E6E /* SEReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C9BCDD182B13DD003C0E6E /* SEReferences.m */; };
+		66C9BCE1182B1F59003C0E6E /* SESellersListingCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -86,6 +88,10 @@
 		669646F818277CB60023C782 /* SEFeeler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFeeler.m; sourceTree = "<group>"; };
 		669646FA18277CBF0023C782 /* SEMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEMessage.h; sourceTree = "<group>"; };
 		669646FB18277CBF0023C782 /* SEMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEMessage.m; sourceTree = "<group>"; };
+		66C9BCDC182B13DD003C0E6E /* SEReferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEReferences.h; sourceTree = "<group>"; };
+		66C9BCDD182B13DD003C0E6E /* SEReferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEReferences.m; sourceTree = "<group>"; };
+		66C9BCDF182B1F59003C0E6E /* SESellersListingCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESellersListingCreationViewController.h; sourceTree = "<group>"; };
+		66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESellersListingCreationViewController.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -177,6 +183,7 @@
 				6626A41318242262000A15BB /* SEAppDelegate.h */,
 				6626A41418242262000A15BB /* SEAppDelegate.m */,
 				6626A41618242262000A15BB /* Main.storyboard */,
+				66C9BCDB182B13B7003C0E6E /* Utility / Reference */,
 				6626A44818242747000A15BB /* Buyers */,
 				6626A4491824275A000A15BB /* Sellers */,
 				6626A44A18242760000A15BB /* Connections */,
@@ -237,6 +244,8 @@
 			children = (
 				6626A4421824266B000A15BB /* SESellersViewController.h */,
 				6626A4431824266B000A15BB /* SESellersViewController.m */,
+				66C9BCDF182B1F59003C0E6E /* SESellersListingCreationViewController.h */,
+				66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */,
 			);
 			name = Sellers;
 			sourceTree = "<group>";
@@ -263,6 +272,15 @@
 				66169B1B1824DD20004499C7 /* SESellListing.m */,
 			);
 			name = Listings;
+			sourceTree = "<group>";
+		};
+		66C9BCDB182B13B7003C0E6E /* Utility / Reference */ = {
+			isa = PBXGroup;
+			children = (
+				66C9BCDC182B13DD003C0E6E /* SEReferences.h */,
+				66C9BCDD182B13DD003C0E6E /* SEReferences.m */,
+			);
+			name = "Utility / Reference";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -369,9 +387,11 @@
 				669646F918277CB60023C782 /* SEFeeler.m in Sources */,
 				66169B161824588A004499C7 /* SEHalls.m in Sources */,
 				6626A41518242262000A15BB /* SEAppDelegate.m in Sources */,
+				66C9BCE1182B1F59003C0E6E /* SESellersListingCreationViewController.m in Sources */,
 				66169B131824455C004499C7 /* SEUser.m in Sources */,
 				66169B191824DD12004499C7 /* SEBuyListing.m in Sources */,
 				669646F618277C9D0023C782 /* SESendable.m in Sources */,
+				66C9BCDE182B13DD003C0E6E /* SEReferences.m in Sources */,
 				6626A4441824266B000A15BB /* SESellersViewController.m in Sources */,
 				669646FC18277CBF0023C782 /* SEMessage.m in Sources */,
 				660541D11828740600F3E579 /* SEBuyersListingCreationViewController.m in Sources */,

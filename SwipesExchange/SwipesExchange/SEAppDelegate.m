@@ -7,12 +7,15 @@
 //
 
 #import "SEAppDelegate.h"
+#import "SEReferences.h"
 
 @implementation SEAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
 {
     // Override point for customization after application launch.
+	[self.window setTintColor:[SEReferences mainColor]];
+	
     return YES;
 }
 							

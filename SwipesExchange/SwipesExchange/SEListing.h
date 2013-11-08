@@ -19,7 +19,6 @@
 										// TODO: Consider using utility class.
 @property (nonatomic) NSString *time;	// TODO: determine how to generate this. Should be of format "5:30pm - 7:00pm"
 
-- (UIView *)listing44pt;
-- (UIView *)listing55pt;
+- (UIView *)listing;
 
 @end
