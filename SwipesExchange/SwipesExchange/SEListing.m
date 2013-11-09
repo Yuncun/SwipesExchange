@@ -34,4 +34,24 @@
 	return [[UIView alloc] initWithFrame:CGRectZero];
 }
 
+- (UILabel *)topLeft
+{
+	return [[UILabel alloc] initWithFrame:CGRectZero];
+}
+
+- (UILabel *)bottomLeft
+{
+	return [[UILabel alloc] initWithFrame:CGRectZero];
+}
+
+- (UILabel *)topRight
+{
+	return [[UILabel alloc] initWithFrame:CGRectZero];
+}
+
+- (UILabel *)bottomRight
+{
+	return [[UILabel alloc] initWithFrame:CGRectZero];
+}
+
 @end

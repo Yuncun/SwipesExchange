@@ -12,5 +12,6 @@
 
 + (UIColor *)mainColor;
 + (UIColor *)altColor;
++ (NSString *)ratingForValue:(int)value;
 
 @end

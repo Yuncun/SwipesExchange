@@ -22,4 +22,17 @@
 //	return [UIColor colorWithRed:255.f/255.f green:251.f/255.f blue:184.f/255.f alpha:1.f]; // subtler
 }
 
++ (NSString *)ratingForValue:(int)value
+{
+	NSString *toReturn = @"";
+	for (int i = 0; i < 5; i++)
+	{
+		if (value > i) toReturn = [toReturn stringByAppendingString:@"★"];
+		else toReturn = [toReturn stringByAppendingString:@"☆"];
+	}
+	return toReturn;
+	
+	// consider also just returning like 1.4 ★ or thumbs up thumbs down
+}
+
 @end

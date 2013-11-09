@@ -34,6 +34,8 @@
 		669646FC18277CBF0023C782 /* SEMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646FB18277CBF0023C782 /* SEMessage.m */; };
 		66C9BCDE182B13DD003C0E6E /* SEReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C9BCDD182B13DD003C0E6E /* SEReferences.m */; };
 		66C9BCE1182B1F59003C0E6E /* SESellersListingCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */; };
+		66D9C1F8182D5EDD006D1D2E /* SESettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C1F7182D5EDD006D1D2E /* SESettingsViewController.m */; };
+		66D9C1FC182D6270006D1D2E /* SEListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C1FB182D6270006D1D2E /* SEListingCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -92,6 +94,10 @@
 		66C9BCDD182B13DD003C0E6E /* SEReferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEReferences.m; sourceTree = "<group>"; };
 		66C9BCDF182B1F59003C0E6E /* SESellersListingCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESellersListingCreationViewController.h; sourceTree = "<group>"; };
 		66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESellersListingCreationViewController.m; sourceTree = "<group>"; };
+		66D9C1F6182D5EDD006D1D2E /* SESettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESettingsViewController.h; sourceTree = "<group>"; };
+		66D9C1F7182D5EDD006D1D2E /* SESettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESettingsViewController.m; sourceTree = "<group>"; };
+		66D9C1FA182D6270006D1D2E /* SEListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEListingCell.h; sourceTree = "<group>"; };
+		66D9C1FB182D6270006D1D2E /* SEListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEListingCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -180,17 +186,12 @@
 		6626A40A18242262000A15BB /* Bruin Swipes */ = {
 			isa = PBXGroup;
 			children = (
+				66A8EB3F182DAA8800E479FE /* New Group */,
 				6626A41318242262000A15BB /* SEAppDelegate.h */,
 				6626A41418242262000A15BB /* SEAppDelegate.m */,
 				6626A41618242262000A15BB /* Main.storyboard */,
 				66C9BCDB182B13B7003C0E6E /* Utility / Reference */,
-				6626A44818242747000A15BB /* Buyers */,
-				6626A4491824275A000A15BB /* Sellers */,
-				6626A44A18242760000A15BB /* Connections */,
-				6626A44B18242766000A15BB /* Listings */,
-				66169B0D18244470004499C7 /* User */,
-				66169B0F18244484004499C7 /* Sendable */,
-				66169B101824448F004499C7 /* Connection */,
+				66A8EB3E182DAA6800E479FE /* Tabs */,
 				6626A41F18242262000A15BB /* Images.xcassets */,
 				6626A40B18242262000A15BB /* Supporting Files */,
 			);
@@ -274,13 +275,54 @@
 			name = Listings;
 			sourceTree = "<group>";
 		};
+		66A8EB3E182DAA6800E479FE /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				6626A44818242747000A15BB /* Buyers */,
+				6626A4491824275A000A15BB /* Sellers */,
+				6626A44A18242760000A15BB /* Connections */,
+				66D9C1F5182D5EC5006D1D2E /* Settings */,
+			);
+			name = Tabs;
+			sourceTree = "<group>";
+		};
+		66A8EB3F182DAA8800E479FE /* New Group */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			name = "New Group";
+			sourceTree = "<group>";
+		};
 		66C9BCDB182B13B7003C0E6E /* Utility / Reference */ = {
 			isa = PBXGroup;
 			children = (
 				66C9BCDC182B13DD003C0E6E /* SEReferences.h */,
 				66C9BCDD182B13DD003C0E6E /* SEReferences.m */,
+				6626A44B18242766000A15BB /* Listings */,
+				66D9C1F9182D625E006D1D2E /* Table View Cells */,
+				66169B0D18244470004499C7 /* User */,
+				66169B0F18244484004499C7 /* Sendable */,
+				66169B101824448F004499C7 /* Connection */,
 			);
 			name = "Utility / Reference";
+			sourceTree = "<group>";
+		};
+		66D9C1F5182D5EC5006D1D2E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				66D9C1F6182D5EDD006D1D2E /* SESettingsViewController.h */,
+				66D9C1F7182D5EDD006D1D2E /* SESettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		66D9C1F9182D625E006D1D2E /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				66D9C1FA182D6270006D1D2E /* SEListingCell.h */,
+				66D9C1FB182D6270006D1D2E /* SEListingCell.m */,
+			);
+			name = "Table View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -385,6 +427,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				669646F918277CB60023C782 /* SEFeeler.m in Sources */,
+				66D9C1F8182D5EDD006D1D2E /* SESettingsViewController.m in Sources */,
 				66169B161824588A004499C7 /* SEHalls.m in Sources */,
 				6626A41518242262000A15BB /* SEAppDelegate.m in Sources */,
 				66C9BCE1182B1F59003C0E6E /* SESellersListingCreationViewController.m in Sources */,
@@ -397,6 +440,7 @@
 				660541D11828740600F3E579 /* SEBuyersListingCreationViewController.m in Sources */,
 				6626A44E18242783000A15BB /* SEListing.m in Sources */,
 				66169B1C1824DD20004499C7 /* SESellListing.m in Sources */,
+				66D9C1FC182D6270006D1D2E /* SEListingCell.m in Sources */,
 				6626A41118242262000A15BB /* main.m in Sources */,
 				6626A44718242677000A15BB /* SEConnectionsViewController.m in Sources */,
 				6626A43E1824236A000A15BB /* SEBuyersViewController.m in Sources */,

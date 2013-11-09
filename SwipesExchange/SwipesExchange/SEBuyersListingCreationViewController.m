@@ -10,15 +10,20 @@
 #import "SEBuyListing.h"
 #import "SEUser.h"
 #import "SEReferences.h"
+#import "SEListingCell.h"
 
 @interface SEBuyersListingCreationViewController ()
 
 @property (nonatomic, strong) NSArray *sectionTitles;
 @property (nonatomic, strong) NSArray *cellsPerSection;
 
+@property (nonatomic, strong) SEBuyListing *buyListing; // use this to store values
+
 @end
 
 @implementation SEBuyersListingCreationViewController
+
+@synthesize buyListing = _buyListing;
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -34,7 +39,7 @@
     [super viewDidLoad];
 	
 	self.sectionTitles = @[@"Time and place", @"How many?", @"Preview", @""];
-	self.cellsPerSection = @[@[@"Time", @"Place"], @[@"Count"], @[@"Preview"], @[@"Submit"]];
+	self.cellsPerSection = @[@[@"Start Time", @"End Time", @"Place"], @[@"Count"], @[@"Preview"], @[@"Submit"]];
 
     // Uncomment the following line to preserve selection between presentations.
     // self.clearsSelectionOnViewWillAppear = NO;
@@ -47,6 +52,26 @@
 {
     [super didReceiveMemoryWarning];
     // Dispose of any resources that can be recreated.
+}
+
+#pragma mark - Buy Listing functions
+
+- (SEBuyListing *)buyListing
+{
+	if (_buyListing == nil)
+	{
+		// lazy instantiation with default data!
+		
+		_buyListing = [[SEBuyListing alloc] init];
+		[_buyListing setStartTime:@"5:00pm"];
+		[_buyListing setEndTime:@"8:00pm"];
+//		[_buyListing setUser:<#(SEUser *)#>]; set with default user
+		[_buyListing setCount:1];
+//		[_buyListing setHalls:<#(SEHalls *)#>];
+	}
+	
+	
+	return _buyListing;
 }
 
 #pragma mark - Table view data source
@@ -67,10 +92,10 @@
 {
     NSArray *arr = [self.cellsPerSection objectAtIndex:indexPath.section];
 	NSString *cellIden = [arr objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+	UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
     
 	// clear out old stuff
-#warning There has got to be a better way..	NSArray *array = [cell subviews];
+#warning There has got to be a better way..
 	id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
 	for (int i = 0; i < (int)[shortcut count]; i++)
 	{
@@ -83,13 +108,16 @@
     
 	// remove all previous subviews? .............
 	
+	
 	if ([cellIden isEqualToString:@"Preview"])
 	{
+		//		SEListingCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+		
 		// take device user information
-			// for now this is default code:
+		// for now this is default code:
 		SEUser *defUser = [[SEUser alloc] init];
 		[defUser setName:@"Joe Bruin"];
-		[defUser setRating:@"★★★★☆"];
+		[defUser setRating:[SEReferences ratingForValue:4]];
 		
 		// take count information
 		
@@ -99,18 +127,13 @@
 		
 		// create the preview, add it as subview
 		
-		SEBuyListing *sbl = [[SEBuyListing alloc] init];
-		[sbl setUser:defUser];
-		[sbl setTime:@"4:00pm - 7:00pm"];
-		[sbl setCount:5];
+		[self.buyListing setUser:defUser];
 		
-		UIView *view = [sbl listing];
-		
+		UIView *view = [self.buyListing listing];
+				
 		[cell addSubview:view];
 		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
-	}
-	
-	if ([cellIden isEqualToString:@"Submit"])
+	} else if ([cellIden isEqualToString:@"Submit"])
 	{
 		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
 		
@@ -123,73 +146,36 @@
 		
 		[view addSubview:label];
 		[cell addSubview:view];
-	}
-	
-	if ([cellIden isEqualToString:@"Time"])
+	} else
 	{
-		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
+		[cell.textLabel setText:cellIden];
+		NSString *detailText;
 		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0.f, 100.f, 43.f)];
-		[label setText:@"Time"];
-		[label setFont:[UIFont systemFontOfSize:18.f]];
-		[label setTextAlignment:NSTextAlignmentLeft];
+		if ([cellIden isEqualToString:@"Start Time"])
+		{
+			detailText = self.buyListing.startTime;
+		}
 		
-		UILabel *detail = [[UILabel alloc] initWithFrame:CGRectMake(155.f, 11.f, 150.f, 21.f)];
-		[detail setText:@"4:00pm - 7:00pm"];
-		[detail setFont:[UIFont systemFontOfSize:17.f]];
-		[detail setTextColor:[UIColor colorWithWhite:0.56f alpha:1.f]];
-		[detail setTextAlignment:NSTextAlignmentRight];
+		if ([cellIden isEqualToString:@"End Time"])
+		{
+			detailText = self.buyListing.endTime;
+		}
 		
-		[view addSubview:label];
-		[view addSubview:detail];
-		[cell addSubview:view];
+		if ([cellIden isEqualToString:@"Place"])
+		{
+			detailText = @"All dining halls";
+			// TODO: plug this in
+		}
+		
+		if ([cellIden isEqualToString:@"Count"])
+		{
+			int count = (int)self.buyListing.count;
+			if (count == 1) detailText = @"1 swipe";
+			else detailText = [NSString stringWithFormat:@"%d swipes", count];
+		}
+		
+		[cell.detailTextLabel setText:detailText];
 	}
-	
-	if ([cellIden isEqualToString:@"Place"])
-	{
-		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
-		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0.f, 100.f, 43.f)];
-		[label setText:@"Place"];
-		[label setFont:[UIFont systemFontOfSize:18.f]];
-		[label setTextAlignment:NSTextAlignmentLeft];
-		
-		UILabel *detail = [[UILabel alloc] initWithFrame:CGRectMake(155.f, 11.f, 150.f, 21.f)];
-		[detail setText:@"All dining halls"];
-		[detail setFont:[UIFont systemFontOfSize:17.f]];
-		[detail setTextColor:[UIColor colorWithWhite:0.56f alpha:1.f]];
-		[detail setTextAlignment:NSTextAlignmentRight];
-		
-		[view addSubview:label];
-		[view addSubview:detail];
-		[cell addSubview:view];
-	}
-	
-	if ([cellIden isEqualToString:@"Count"])
-	{
-		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
-		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(15.f, 0.f, 100.f, 43.f)];
-		[label setText:@"Count"];
-		[label setFont:[UIFont systemFontOfSize:18.f]];
-		[label setTextAlignment:NSTextAlignmentLeft];
-		
-		UILabel *detail = [[UILabel alloc] initWithFrame:CGRectMake(155.f, 11.f, 150.f, 21.f)];
-		[detail setText:@"5 swipes"];
-		[detail setFont:[UIFont systemFontOfSize:17.f]];
-		[detail setTextColor:[UIColor colorWithWhite:0.56f alpha:1.f]];
-		[detail setTextAlignment:NSTextAlignmentRight];
-		
-		[view addSubview:label];
-		[view addSubview:detail];
-		[cell addSubview:view];
-	}
-	
-//	UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
-//	[label setText:cellIden];
-//	[label setFont:[UIFont systemFontOfSize:20.f]];
-//	
-//	[cell addSubview:label];
 	
     return cell;
 }
