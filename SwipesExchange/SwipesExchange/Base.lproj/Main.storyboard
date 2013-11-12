@@ -18,6 +18,7 @@
                         <segue destination="VV3-qR-Kf8" kind="relationship" relationship="viewControllers" id="ZXx-Jm-0Yo"/>
                         <segue destination="MPt-Wr-LET" kind="relationship" relationship="viewControllers" id="nAz-Pr-Dyn"/>
                         <segue destination="I46-FO-8VW" kind="relationship" relationship="viewControllers" id="7CM-Ai-qe9"/>
+                        <segue destination="jHL-fV-lmX" kind="relationship" relationship="viewControllers" id="XMD-BO-nVJ"/>
                         <segue destination="eOt-gS-G1X" kind="relationship" relationship="viewControllers" id="IMf-8T-7Rh"/>
                     </connections>
                 </tabBarController>
@@ -272,6 +273,47 @@
             </objects>
             <point key="canvasLocation" x="735" y="701"/>
         </scene>
+        <!--Me View Controller - Root View Controller-->
+        <scene sceneID="vQ4-zz-9e1">
+            <objects>
+                <tableViewController id="3yL-gY-Ybf" customClass="SEMeViewController" sceneMemberID="viewController">
+                    <tableView key="view" opaque="NO" clipsSubviews="YES" clearsContextBeforeDrawing="NO" contentMode="scaleToFill" alwaysBounceVertical="YES" dataMode="prototypes" style="plain" separatorStyle="default" rowHeight="44" sectionHeaderHeight="22" sectionFooterHeight="22" id="CJB-Zy-cWV">
+                        <rect key="frame" x="0.0" y="0.0" width="320" height="568"/>
+                        <autoresizingMask key="autoresizingMask" widthSizable="YES" heightSizable="YES"/>
+                        <color key="backgroundColor" white="1" alpha="1" colorSpace="calibratedWhite"/>
+                        <prototypes>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="blue" hidesAccessoryWhenEditing="NO" indentationLevel="1" indentationWidth="0.0" id="ecU-bn-7EG">
+                                <rect key="frame" x="0.0" y="86" width="320" height="44"/>
+                                <autoresizingMask key="autoresizingMask"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="ecU-bn-7EG" id="9eL-2T-OUe">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="43"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
+                        </prototypes>
+                    </tableView>
+                    <navigationItem key="navigationItem" title="Root View Controller" id="gJ3-GG-Mza"/>
+                </tableViewController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="LSh-lZ-7lR" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="735" y="1383"/>
+        </scene>
+        <!--Navigation Controller - Me-->
+        <scene sceneID="JIX-dR-WV0">
+            <objects>
+                <navigationController definesPresentationContext="YES" id="jHL-fV-lmX" sceneMemberID="viewController">
+                    <tabBarItem key="tabBarItem" title="Me" image="contactLine" id="1Bg-qE-QVs"/>
+                    <navigationBar key="navigationBar" contentMode="scaleToFill" id="pDr-5K-xe9">
+                        <autoresizingMask key="autoresizingMask"/>
+                    </navigationBar>
+                    <connections>
+                        <segue destination="3yL-gY-Ybf" kind="relationship" relationship="rootViewController" id="lVf-cq-9uq"/>
+                    </connections>
+                </navigationController>
+                <placeholder placeholderIdentifier="IBFirstResponder" id="unF-y0-dIy" userLabel="First Responder" sceneMemberID="firstResponder"/>
+            </objects>
+            <point key="canvasLocation" x="201" y="1383"/>
+        </scene>
         <!--Navigation Controller - Settings-->
         <scene sceneID="MLo-IJ-eWc">
             <objects>
@@ -292,7 +334,7 @@
         <scene sceneID="TKM-JP-F6w">
             <objects>
                 <navigationController definesPresentationContext="YES" id="I46-FO-8VW" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Connections" image="contactLine" id="9lG-YR-4gl"/>
+                    <tabBarItem key="tabBarItem" title="Connections" image="conversationLine" id="9lG-YR-4gl"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="Dy8-qK-mtX">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -441,6 +483,14 @@
                                     <autoresizingMask key="autoresizingMask"/>
                                 </tableViewCellContentView>
                             </tableViewCell>
+                            <tableViewCell contentMode="scaleToFill" selectionStyle="none" indentationWidth="10" reuseIdentifier="datePicker" rowHeight="162" id="UlE-ok-dEw">
+                                <rect key="frame" x="0.0" y="383" width="320" height="162"/>
+                                <autoresizingMask key="autoresizingMask" flexibleMaxX="YES" flexibleMaxY="YES"/>
+                                <tableViewCellContentView key="contentView" opaque="NO" clipsSubviews="YES" multipleTouchEnabled="YES" contentMode="center" tableViewCell="UlE-ok-dEw" id="N7p-6k-DEe">
+                                    <rect key="frame" x="0.0" y="0.0" width="320" height="161"/>
+                                    <autoresizingMask key="autoresizingMask"/>
+                                </tableViewCellContentView>
+                            </tableViewCell>
                         </prototypes>
                         <connections>
                             <outlet property="dataSource" destination="XCs-Fs-Cst" id="dIi-8e-VIi"/>
@@ -508,6 +558,7 @@
     </scenes>
     <resources>
         <image name="contactLine" width="30" height="30"/>
+        <image name="conversationLine" width="30" height="30"/>
         <image name="multipleLine" width="30" height="30"/>
         <image name="settingsLine" width="30" height="30"/>
         <image name="singleLine" width="30" height="30"/>
