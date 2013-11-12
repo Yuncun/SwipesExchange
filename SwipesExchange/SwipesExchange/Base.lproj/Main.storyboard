@@ -411,7 +411,7 @@
         <scene sceneID="rB5-wx-koU">
             <objects>
                 <navigationController definesPresentationContext="YES" id="MPt-Wr-LET" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Selling" image="multipleLine" id="cRp-Ze-jop"/>
+                    <tabBarItem key="tabBarItem" title="Selling" image="moneyLine" id="cRp-Ze-jop"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="NfR-8B-kJO">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -569,7 +569,7 @@
         <scene sceneID="L9l-ld-1Ie">
             <objects>
                 <navigationController definesPresentationContext="YES" id="VV3-qR-Kf8" sceneMemberID="viewController">
-                    <tabBarItem key="tabBarItem" title="Buying" image="singleLine" id="iPc-fM-T1Z"/>
+                    <tabBarItem key="tabBarItem" title="Buying" image="calcLine" id="iPc-fM-T1Z"/>
                     <navigationBar key="navigationBar" contentMode="scaleToFill" id="8Kw-m0-L0v">
                         <autoresizingMask key="autoresizingMask"/>
                     </navigationBar>
@@ -621,11 +621,11 @@
         </scene>
     </scenes>
     <resources>
+        <image name="calcLine" width="30" height="30"/>
         <image name="contactLine" width="30" height="30"/>
         <image name="conversationLine" width="30" height="30"/>
-        <image name="multipleLine" width="30" height="30"/>
+        <image name="moneyLine" width="30" height="30"/>
         <image name="settingsLine" width="30" height="30"/>
-        <image name="singleLine" width="30" height="30"/>
     </resources>
     <simulatedMetricsContainer key="defaultSimulatedMetrics">
         <simulatedStatusBarMetrics key="statusBar"/>

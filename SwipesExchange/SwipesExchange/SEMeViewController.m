@@ -7,6 +7,7 @@
 //
 
 #import "SEMeViewController.h"
+#import "SEReferences.h"
 
 @interface SEMeViewController ()
 
@@ -32,6 +33,11 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	// set tint
+	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
+//    self.navigationController.navigationBar.translucent = NO;
+	
 }
 
 - (void)didReceiveMemoryWarning
