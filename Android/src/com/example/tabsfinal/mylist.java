@@ -10,6 +10,8 @@ import android.widget.ArrayAdapter;
 class MyList extends ListFragment
 {
 	String[] values = new String[] {"1", "2", "3"};
+	
+	
 	static MyList newInstance(int num) {
         MyList l = new MyList();
 
@@ -32,9 +34,12 @@ class MyList extends ListFragment
 	    @Override
 	    public void onActivityCreated(Bundle savedInstanceState) {
 	        super.onActivityCreated(savedInstanceState);
-	        setListAdapter(new ArrayAdapter<String>(getActivity(),
+	        final MyArrayAdapter adapter = new MyArrayAdapter(getActivity(), values);
+	        setListAdapter(adapter); 
+	        
+	        /*setListAdapter(new ArrayAdapter<String>(getActivity(),
 	                android.R.layout.simple_list_item_1, android.R.id.text1,
-	                values));
+	                values));*/
 	    }
 	
 }
