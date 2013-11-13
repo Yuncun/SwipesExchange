@@ -12,17 +12,18 @@ import android.widget.TextView;
 
 public class MyArrayAdapter extends ArrayAdapter<String> {
   private final Context context;
-  private final String[] values;
+//  private String[] values;
+  private List<Listing> entries;
   //private final String[] values2;
  // private final String[] values3;
   //private final List<String> vals;
   
 
 //The best practice for passing the data should be having all the data be in one object, rather than three arguments of strings. This is for early implementation sake.
-  public MyArrayAdapter(Context context, String[] values) {
-    super(context, R.layout.list_item, values);
+  public MyArrayAdapter(Context context, List<Listing> values) {
+    super(context, R.layout.list_item);
     this.context = context;
-    this.values = values;
+    this.entries = values;
     //this.values2 = values2;
     //this.values3 = values3;
     
@@ -31,6 +32,9 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
+	  //test
+	  System.out.println("getView is called");
+	  
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     
@@ -38,14 +42,20 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
     
     //Set the values of the strings on the list
     TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
-//    TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
+    TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
 //    TextView thirdLine = (TextView) rowView.findViewById(R.id.secondLine);
-    
     ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
-    firstLine.setText(values[position]);
- //   secondLine.setText(values2[position]);
+    //test outputs
+    String firstlinetext = ((entries.get(position)).getVenue()).getName();
+    String secondlinetext = ((entries.get(position)).getUser()).getName();
+    System.out.println("first line is" + firstlinetext);
+    System.out.println("second line is" + secondlinetext);
+    //test outputs
+  
+    firstLine.setText(((entries.get(position)).getVenue()).getName()); //get the name of the user from the entry in question
+    secondLine.setText(((entries.get(position)).getUser()).getName());
    
-  //  imageView.setImageResource(R.drawable.yes);
+    imageView.setImageResource(R.drawable.yes);
  
   
     return rowView;

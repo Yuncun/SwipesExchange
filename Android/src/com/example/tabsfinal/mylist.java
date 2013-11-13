@@ -9,8 +9,7 @@ import android.widget.ArrayAdapter;
 
 class MyList extends ListFragment
 {
-	String[] values = new String[] {"1", "2", "3"};
-	
+		
 	
 	static MyList newInstance(int num) {
         MyList l = new MyList();
@@ -34,7 +33,14 @@ class MyList extends ListFragment
 	    @Override
 	    public void onActivityCreated(Bundle savedInstanceState) {
 	        super.onActivityCreated(savedInstanceState);
-	        final MyArrayAdapter adapter = new MyArrayAdapter(getActivity(), values);
+	        
+	        BackendData data = new BackendData();
+	        data.updateListings();
+	        
+	        //test cause the debugger is fucked up for me
+	        System.out.println("Hello I'm at the updateListings thing");
+	        System.out.println("Data is");
+	        MyArrayAdapter adapter = new MyArrayAdapter(getActivity(), data.getListings());
 	        setListAdapter(adapter); 
 	        
 	        /*setListAdapter(new ArrayAdapter<String>(getActivity(),
