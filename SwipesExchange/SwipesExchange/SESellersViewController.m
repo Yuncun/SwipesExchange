@@ -9,6 +9,7 @@
 #import "SESellersViewController.h"
 #import "SESellListing.h"
 #import "SEReferences.h"
+#import "SEListingCell.h"
 
 @interface SESellersViewController ()
 
@@ -53,39 +54,25 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return 4;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 20;
+    return 4;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-	// clear out old stuff
-#warning There has got to be a better way..
-	id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
-	for (int i = 0; i < (int)[shortcut count]; i++)
-	{
-		NSString *className = [[[shortcut objectAtIndex:i] class] description];
-		if ([className isEqualToString:@"UIView"])
-			[[shortcut objectAtIndex:i] removeFromSuperview];
-	}
+    SEListingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 	
-    // Configure the cell...
-	SESellListing *mattIsNotHungry = [[SESellListing alloc] init];
-	
-	[cell addSubview:[mattIsNotHungry listing]];
-    
+	// Configure the cell...
+	[cell setListing:[[SESellListing alloc] init]];
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	
-    return cell;
+	return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath

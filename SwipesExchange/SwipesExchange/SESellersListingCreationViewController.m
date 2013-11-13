@@ -10,6 +10,8 @@
 #import "SESellListing.h"
 #import "SEUser.h"
 #import "SEReferences.h"
+#import "SEListingCell.h"
+#import "SESubmitCell.h"
 
 @interface SESellersListingCreationViewController ()
 
@@ -92,92 +94,75 @@
 {
     NSArray *arr = [self.cellsPerSection objectAtIndex:indexPath.section];
 	NSString *cellIden = [arr objectAtIndex:indexPath.row];
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
-    
-	// clear out old stuff
-#warning There has got to be a better way..
-	id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
-	for (int i = 0; i < (int)[shortcut count]; i++)
-	{
-		NSString *className = [[[shortcut objectAtIndex:i] class] description];
-		if ([className isEqualToString:@"UIView"])
-			[[shortcut objectAtIndex:i] removeFromSuperview];
-	}
-	
-    // Configure the cell...
-    
-	// remove all previous subviews? .............
 	
 	if ([cellIden isEqualToString:@"Preview"])
 	{
-		// take device user information
-		// for now this is default code:
+		SEListingCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+		
 		SEUser *defUser = [[SEUser alloc] init];
 		[defUser setName:@"Joe Bruin"];
 		[defUser setRating:[SEReferences ratingForValue:4]];
-		
-		// take count information
-		
-		// take time information
-		
-		// take place information
-		
-		// create the preview, add it as subview
-		
 		[self.sellListing setUser:defUser];
 		
-		UIView *view = [self.sellListing listing];
+		[cell setListing:self.sellListing];
 		
-		[cell addSubview:view];
-		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		// no need for the disclosure indicator
+		
+		return cell;
 	} else if ([cellIden isEqualToString:@"Submit"])
 	{
-		UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
-		
-		UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 5, 120, 34)];
-		[label setText:@"Submit"];
-		
-		[label setFont:[UIFont systemFontOfSize:20.f]];
-		[label setTextAlignment:NSTextAlignmentCenter];
-		[label setTextColor:[SEReferences mainColor]];
-		
-		[view addSubview:label];
-		[cell addSubview:view];
-	} else
-	{
-		[cell.textLabel setText:cellIden];
-		NSString *detailText;
-		
-		if ([cellIden isEqualToString:@"Start Time"])
-		{
-			detailText = self.sellListing.startTime;
-		}
-		
-		if ([cellIden isEqualToString:@"End Time"])
-		{
-			detailText = self.sellListing.endTime;
-		}
-		
-		if ([cellIden isEqualToString:@"Place"])
-		{
-			detailText = @"All dining halls";
-			// TODO: plug this in
-		}
-		
-		if ([cellIden isEqualToString:@"Count"])
-		{
-			int count = (int)self.sellListing.count;
-			if (count == 1) detailText = @"1 swipe";
-			else detailText = [NSString stringWithFormat:@"%d swipes", count];
-		}
-		
-		if ([cellIden isEqualToString:@"Price"])
-		{
-			detailText = [NSString stringWithFormat:@"$%@ each", self.sellListing.price];
-		}
-		
-		[cell.detailTextLabel setText:detailText];
+		SESubmitCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+		[cell setTitle:@"Submit"];
+		return cell;
 	}
+	
+	
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+    
+	// clear out old stuff
+//#warning There has got to be a better way..
+//	id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
+//	for (int i = 0; i < (int)[shortcut count]; i++)
+//	{
+//		NSString *className = [[[shortcut objectAtIndex:i] class] description];
+//		if ([className isEqualToString:@"UIView"])
+//			[[shortcut objectAtIndex:i] removeFromSuperview];
+//	}
+	
+    // Configure the cell...
+    
+	[cell.textLabel setText:cellIden];
+	NSString *detailText;
+	
+	if ([cellIden isEqualToString:@"Start Time"])
+	{
+		detailText = self.sellListing.startTime;
+	}
+	
+	if ([cellIden isEqualToString:@"End Time"])
+	{
+		detailText = self.sellListing.endTime;
+	}
+	
+	if ([cellIden isEqualToString:@"Place"])
+	{
+		detailText = @"All dining halls";
+		// TODO: plug this in
+	}
+	
+	if ([cellIden isEqualToString:@"Count"])
+	{
+		int count = (int)self.sellListing.count;
+		if (count == 1) detailText = @"1 swipe";
+		else detailText = [NSString stringWithFormat:@"%d swipes", count];
+	}
+	
+	if ([cellIden isEqualToString:@"Price"])
+	{
+		detailText = [NSString stringWithFormat:@"$%@ each", self.sellListing.price];
+	}
+	
+	[cell.detailTextLabel setText:detailText];
 	
     return cell;
 }
