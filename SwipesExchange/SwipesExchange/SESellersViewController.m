@@ -100,7 +100,7 @@
 	[h1 setEndTime:@"7:15pm"];
 	[h1 setPrice:@"5.00"];
 	
-	self.dataArray = @[@[h1], @[nd2], @[nd2, f3], @[f2, f1], @[c1]];
+	self.dataArray = @[@[h1], @[nd2], @[nd1, f3], @[f2, f1], @[c1]];
 }
 
 - (void)didReceiveMemoryWarning
