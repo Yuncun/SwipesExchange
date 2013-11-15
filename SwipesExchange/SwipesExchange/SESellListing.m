@@ -23,6 +23,7 @@
 	if (self)
 	{
 		// go crazy to make a demo
+		self.price = @"4.00";
 	}
 	
 	return self;

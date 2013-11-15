@@ -26,6 +26,11 @@
 
 @synthesize sellListing = _sellListing;
 
+- (IBAction)cancel:(id)sender
+{
+	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -47,6 +52,10 @@
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
     // self.navigationItem.rightBarButtonItem = self.editButtonItem;
+	
+	// set tint
+	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
+	//    self.navigationController.navigationBar.translucent = NO;
 }
 
 - (void)didReceiveMemoryWarning
@@ -169,6 +178,11 @@
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	NSArray *arr = [self.cellsPerSection objectAtIndex:indexPath.section];
+	NSString *cellIden = [arr objectAtIndex:indexPath.row];
+	
+	if ([cellIden isEqualToString:@"Submit"]) [self cancel:nil];
+	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

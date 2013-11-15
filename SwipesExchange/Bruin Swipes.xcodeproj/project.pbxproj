@@ -195,7 +195,6 @@
 		6626A40A18242262000A15BB /* Bruin Swipes */ = {
 			isa = PBXGroup;
 			children = (
-				66A8EB3F182DAA8800E479FE /* New Group */,
 				6626A41318242262000A15BB /* SEAppDelegate.h */,
 				6626A41418242262000A15BB /* SEAppDelegate.m */,
 				6626A41618242262000A15BB /* Main.storyboard */,
@@ -305,13 +304,6 @@
 				664B7F9B18307CF4003890B9 /* Me */,
 			);
 			name = Tabs;
-			sourceTree = "<group>";
-		};
-		66A8EB3F182DAA8800E479FE /* New Group */ = {
-			isa = PBXGroup;
-			children = (
-			);
-			name = "New Group";
 			sourceTree = "<group>";
 		};
 		66C9BCDB182B13B7003C0E6E /* Utility / Reference */ = {

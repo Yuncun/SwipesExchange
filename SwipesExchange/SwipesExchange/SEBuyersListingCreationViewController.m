@@ -50,6 +50,11 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
 
 @synthesize buyListing = _buyListing;
 
+- (IBAction)cancel:(id)sender
+{
+	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -62,6 +67,10 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	// set tint
+	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
+	//    self.navigationController.navigationBar.translucent = NO;
 	
 	// setup our data source
     NSMutableDictionary *itemOne = [@{ kTitleKey : @"Start Time",
@@ -149,7 +158,7 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
         {
             // we found a UIDatePicker in this cell, so update it's date value
             //
-            NSDictionary *itemData = self.dataArray[self.pickerIndexPath.row - 1];
+//            NSDictionary *itemData = self.dataArray[self.pickerIndexPath.row - 1];
 			// TODO: convert in data!
 //            [targetedDatePicker setDate:[itemData valueForKey:kDateKey] animated:NO];
         }
@@ -353,6 +362,11 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	NSArray *arr = [self.cellsPerSection objectAtIndex:indexPath.section];
+	NSString *cellIden = [arr objectAtIndex:indexPath.row];
+	
+	if ([cellIden isEqualToString:@"Submit"]) [self cancel:nil];
+	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 

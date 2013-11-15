@@ -7,13 +7,12 @@
 //
 
 #import "SEListingActionViewController.h"
+#import "SEListingCell.h"
+#import "SESubmitCell.h"
 
-@interface SEListingActionViewController ()
-
-@property (weak, nonatomic) IBOutlet UITableViewCell *listingCell;
-@property (weak, nonatomic) IBOutlet UITableViewCell *feelerCell;
-
-@end
+//@interface SEListingActionViewController ()
+//
+//@end
 
 @implementation SEListingActionViewController
 
@@ -21,18 +20,9 @@
 
 - (void)setListing:(SEListing *)listing
 {
-	// remove previous subviews
-#warning There has got to be a better way..	NSArray *array = [cell subviews];
-	id shortcut = [[[self.listingCell subviews] objectAtIndex:0] subviews];
-	for (int i = 0; i < (int)[shortcut count]; i++)
-	{
-		NSString *className = [[[shortcut objectAtIndex:i] class] description];
-		if ([className isEqualToString:@"UIView"])
-			[[shortcut objectAtIndex:i] removeFromSuperview];
-	}
+	_listing = listing;
 	
-	// set new subview
-	[self.listingCell addSubview:[_listing listing]];
+//	[self.tableView reloadData];
 }
 
 - (id)initWithStyle:(UITableViewStyle)style
@@ -77,11 +67,26 @@
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    switch (indexPath.section) {
-		case 0:
-			return self.listingCell;
-		default:
-			return self.feelerCell;
+	if (indexPath.section == 0)
+	{
+		SEListingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"listing" forIndexPath:indexPath];
+		
+		// Configure the cell...
+		[cell setListing:self.listing];
+		[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+		
+		return cell;
+	}
+	else
+	{
+		SESubmitCell *cell = [tableView dequeueReusableCellWithIdentifier:@"feeler" forIndexPath:indexPath];
+
+		[cell setTitle:@"Send Feeler"];
+		
+//		[cell.textLabel setText:@"Send Feeler"];
+//		[cell.detailTextLabel setText:[NSString stringWithFormat:@"to %@", self.listing.user.name]];
+		
+		return cell;
 	}
 }
 
