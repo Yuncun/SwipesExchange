@@ -10,6 +10,10 @@ import android.widget.ArrayAdapter;
 import android.widget.ImageView;
 import android.widget.TextView;
 
+/************THIS CLASS IS OBSOLETE*************/
+
+
+
 public class MyArrayAdapter extends ArrayAdapter<String> {
   private final Context context;
 //  private String[] values;
@@ -44,7 +48,7 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
     TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
     TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
 //    TextView thirdLine = (TextView) rowView.findViewById(R.id.secondLine);
-    ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
+ //   ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
     //test outputs
     String firstlinetext = ((entries.get(position)).getVenue()).getName();
     String secondlinetext = ((entries.get(position)).getUser()).getName();
@@ -55,7 +59,7 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
     firstLine.setText(((entries.get(position)).getVenue()).getName()); //get the name of the user from the entry in question
     secondLine.setText(((entries.get(position)).getUser()).getName());
    
-    imageView.setImageResource(R.drawable.yes);
+//   imageView.setImageResource(R.drawable.yes);
  
   
     return rowView;
