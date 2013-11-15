@@ -36,9 +36,9 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
 
   @Override
   public View getView(int position, View convertView, ViewGroup parent) {
-	  //test
-	  System.out.println("getView is called");
-	  
+          //test
+          System.out.println("getView is called");
+          
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     

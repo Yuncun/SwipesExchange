@@ -64,7 +64,7 @@ public class MainActivity extends FragmentActivity implements
 						actionBar.setSelectedNavigationItem(position);
 					}
 				});
-
+		
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
@@ -128,21 +128,23 @@ public class MainActivity extends FragmentActivity implements
 			// TODO Auto-generated method stub
 			return 3;
 		}
-		}
-
-//Not sure what this is - es
-		public CharSequence getPageTitle(int position) {
-			Locale l = Locale.getDefault();
+		public String getPageTitle(int position) {
+			//Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
-				return getString(R.string.title_section1).toUpperCase(l);
+				return getString(R.string.title_section1);
+				//return getString(R.string.random);
 			case 1:
-				return getString(R.string.title_section2).toUpperCase(l);
+				return getString(R.string.title_section2);
 			case 2:
-				return getString(R.string.title_section3).toUpperCase(l);
+				return getString(R.string.title_section3);
 			}
 			return null;
 		}
+		}
+
+
+	
 }
 
 	/**
