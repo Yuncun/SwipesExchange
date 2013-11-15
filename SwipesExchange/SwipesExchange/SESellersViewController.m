@@ -9,8 +9,14 @@
 #import "SESellersViewController.h"
 #import "SESellListing.h"
 #import "SEReferences.h"
+#import "SEListingCell.h"
+#import "SEListingActionViewController.h"
 
 @interface SESellersViewController ()
+
+@property (nonatomic, strong) NSArray *headerArray;
+@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) SESellListing *destinationListing;
 
 @end
 
@@ -39,6 +45,62 @@
 	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
 //    self.navigationController.navigationBar.translucent = NO;
 
+	self.headerArray = @[@"De Neve", @"Covel", @"Feast", @"Hedrick", @"Sproul"];
+	
+	SESellListing *nd1 = [[SESellListing alloc] init];
+	[nd1.user setName:@"Kate Linton"];
+	[nd1.user setRating:[SEReferences ratingForValue:5]];
+	[nd1 setCount:1];
+	[nd1 setStartTime:@"12:00pm"];
+	[nd1 setEndTime:@"2:00pm"];
+	[nd1 setPrice:@"4.00"];
+	SESellListing *nd2 = [[SESellListing alloc] init];
+	[nd2.user setName:@"Eli Rockwell"];
+	[nd2.user setRating:[SEReferences ratingForValue:3]];
+	[nd2 setCount:2];
+	[nd2 setStartTime:@"1:00pm"];
+	[nd2 setEndTime:@"2:30pm"];
+	[nd2 setPrice:@"3.00"];
+	
+	SESellListing *c1 = [[SESellListing alloc] init];
+	[c1.user setName:@"Joe Bruin"];
+	[c1.user setRating:[SEReferences ratingForValue:5]];
+	[c1 setCount:1];
+	[c1 setStartTime:@"6:00pm"];
+	[c1 setEndTime:@"7:00pm"];
+	[c1 setPrice:@"4.00"];
+	
+	SESellListing *f1 = [[SESellListing alloc] init];
+	[f1.user setName:@"Holly Hill"];
+	[f1.user setRating:[SEReferences ratingForValue:5]];
+	[f1 setCount:1];
+	[f1 setStartTime:@"5:00pm"];
+	[f1 setEndTime:@"8:00pm"];
+	[f1 setPrice:@"4.00"];
+	SESellListing *f2 = [[SESellListing alloc] init];
+	[f2.user setName:@"Andrew Abraham"];
+	[f2.user setRating:[SEReferences ratingForValue:2]];
+	[f2 setCount:1];
+	[f2 setStartTime:@"5:45pm"];
+	[f2 setEndTime:@"7:00pm"];
+	[f2 setPrice:@"3.00"];
+	SESellListing *f3 = [[SESellListing alloc] init];
+	[f3.user setName:@"Valerie Katz"];
+	[f3.user setRating:[SEReferences ratingForValue:4]];
+	[f3 setCount:3];
+	[f3 setStartTime:@"7:00pm"];
+	[f3 setEndTime:@"7:45pm"];
+	[f3 setPrice:@"4.00"];
+	
+	SESellListing *h1 = [[SESellListing alloc] init];
+	[h1.user setName:@"Parker Lane"];
+	[h1.user setRating:[SEReferences ratingForValue:5]];
+	[h1 setCount:1];
+	[h1 setStartTime:@"6:00pm"];
+	[h1 setEndTime:@"7:15pm"];
+	[h1 setPrice:@"5.00"];
+	
+	self.dataArray = @[@[h1], @[nd2], @[nd2, f3], @[f2, f1], @[c1]];
 }
 
 - (void)didReceiveMemoryWarning
@@ -47,50 +109,71 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (SESellListing *)dataObjectAtIndexPath:(NSIndexPath *)ip
+{
+	return [[self.dataArray objectAtIndex:ip.section] objectAtIndex:ip.row];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return self.headerArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 20;
+    return [[self.dataArray objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-	// clear out old stuff
-#warning There has got to be a better way..
-	id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
-	for (int i = 0; i < (int)[shortcut count]; i++)
-	{
-		NSString *className = [[[shortcut objectAtIndex:i] class] description];
-		if ([className isEqualToString:@"UIView"])
-			[[shortcut objectAtIndex:i] removeFromSuperview];
-	}
+    SEListingCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
 	
-    // Configure the cell...
-	SESellListing *mattIsNotHungry = [[SESellListing alloc] init];
-	
-	[cell addSubview:[mattIsNotHungry listing]];
-    
+	// Configure the cell...
+	[cell setListing:[self dataObjectAtIndexPath:indexPath]];
 	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
 	
-    return cell;
+	return cell;
+}
+
+- (CGFloat)tableView:(UITableView *)tableView heightForHeaderInSection:(NSInteger)section
+{
+	return 24.f;
+}
+
+- (UIView *)tableView:(UITableView *)tableView viewForHeaderInSection:(NSInteger)section
+{
+	UIView *header = [[UIView alloc] initWithFrame:CGRectMake(15, 4, 305, 20)];
+	UILabel *label = [[UILabel alloc] initWithFrame:header.frame];
+	[label setFont:[UIFont systemFontOfSize:15]];
+	[label setText:[self.headerArray objectAtIndex:section]];
+	[label setTextColor:[UIColor colorWithWhite:0.f alpha:0.65f]];
+	
+	[header addSubview:label];
+	
+	return header;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	// set destination listing
+	self.destinationListing = [self dataObjectAtIndexPath:indexPath];
+	
+	// perform segue
+	[self performSegueWithIdentifier:@"followListing" sender:self];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString:@"followListing"])
+	{
+		SEListingActionViewController *dest = [segue destinationViewController];
+		[dest setListing:self.destinationListing];
+	}
 }
 
 /*

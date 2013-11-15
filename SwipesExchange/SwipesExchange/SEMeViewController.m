@@ -9,7 +9,20 @@
 #import "SEMeViewController.h"
 #import "SEReferences.h"
 
+#define kCellIden		@"cellIdentifier"
+#define kCellTitle		@"cellTitle"
+#define kCellDetail		@"cellDetail"
+#define kCellAcc		@"cellAccessory"
+
+#define kCellRightDet	@"detail"
+#define kCellCustom		@"custom"
+
+#define kCellAccNone	@0
+#define kCellAccDisc	@1
+
 @interface SEMeViewController ()
+
+@property (nonatomic, strong) NSArray *cellArray;
 
 @end
 
@@ -38,6 +51,23 @@
 	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
 //    self.navigationController.navigationBar.translucent = NO;
 	
+	NSDictionary *dictOne = @{kCellIden		: @"detail",
+							  kCellTitle	: @"Name",
+							  kCellDetail	: @"Joe Bruin",
+							  kCellAcc		: @1 };
+	
+	NSDictionary *dictTwo = @{kCellIden		: @"detail",
+							  kCellTitle	: @"Rating",
+							  kCellDetail	: @"None yet",
+							  kCellAcc		: @0 };
+	
+	NSDictionary *dictThree = @{kCellIden	: @"detail",
+							  kCellTitle	: @"ID Number",
+							  kCellDetail	: @"None yet",
+							  kCellAcc		: @0 };
+	
+	self.cellArray = @[@[dictOne, dictTwo], @[dictThree]];
+	
 }
 
 - (void)didReceiveMemoryWarning
@@ -50,26 +80,45 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return self.cellArray.count;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return [[self.cellArray objectAtIndex:section] count];
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
+    NSDictionary *dict = [[self.cellArray objectAtIndex:indexPath.section] objectAtIndex:indexPath.row];
+	
+	NSString *cellIdentifier = [dict objectForKey:kCellIden];
+    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
+	[cell.textLabel setText:[dict objectForKey:kCellTitle]];
+	[cell.detailTextLabel setText:[dict objectForKey:kCellDetail]];
+	
+	NSNumber *num = [dict objectForKey:kCellAcc];
+	switch ([num intValue]) {
+		case 0:
+			[cell setAccessoryType:UITableViewCellAccessoryNone];
+			break;
+		case 1:
+			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+			break;
+		default:
+			break;
+	}
     
     return cell;
+}
+
+- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
+{
+	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
 /*

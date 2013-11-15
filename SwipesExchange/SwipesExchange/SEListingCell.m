@@ -17,52 +17,36 @@
 @property (nonatomic, strong) UILabel *bottomLeft;
 @property (nonatomic, strong) UILabel *bottomRight;
 
-@property (nonatomic, strong) UIView *view;
-
 @end
 
 @implementation SEListingCell
 
 @synthesize listing = _listing;
 
-//- (SEListing *)listing
-//{
-//	if (_listing)
-//	{
-//		// lazy instantiation
-//	}
-//	return _listing;
-//}
-
 - (void)setListing:(SEListing *)listing
 {
-	if ([self.topLeft superview] != self)
+	_listing = listing;
+	
+	if (self.topLeft == nil)
 	{
-		NSLog(@"Initialized");
+		self.topLeft = _listing.topLeft;
+		self.topRight = _listing.topRight;
+		self.bottomLeft = _listing.bottomLeft;
+		self.bottomRight = _listing.bottomRight;
+		
 		[self addSubview:self.topLeft];
 		[self addSubview:self.topRight];
 		[self addSubview:self.bottomLeft];
 		[self addSubview:self.bottomRight];
 	}
 	
-	NSLog(@"Updated");
-	
-	self.topLeft = _listing.topLeft;
-	self.topRight = _listing.topRight;
-	self.bottomLeft = _listing.bottomLeft;
-	self.bottomRight = _listing.bottomRight;
-	
-	self.view = _listing.listing;
-}
-
-- (void)setView:(UIView *)view
-{
-	if (!self.subviewed)
+	else
 	{
-		NSLog(@"View subbed in");
-		[self addSubview:self.view];
+		[self.topLeft setText:_listing.topLeft.text];
+		[self.topRight setText:_listing.topRight.text];
+		[self.bottomLeft setText:_listing.bottomLeft.text];
+		[self.bottomRight setText:_listing.bottomRight.text];
 	}
-	NSLog(@"Set");
 }
 
 - (id)initWithStyle:(UITableViewCellStyle)style reuseIdentifier:(NSString *)reuseIdentifier
@@ -70,12 +54,7 @@
     self = [super initWithStyle:style reuseIdentifier:reuseIdentifier];
     if (self) {
         // Initialization code
-		NSLog(@"Initialized");
-		[self addSubview:self.topLeft];
-		[self addSubview:self.topRight];
-		[self addSubview:self.bottomLeft];
-		[self addSubview:self.bottomRight];
-    }
+	}
     return self;
 }
 

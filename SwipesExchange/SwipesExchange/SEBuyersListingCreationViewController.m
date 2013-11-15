@@ -11,6 +11,7 @@
 #import "SEUser.h"
 #import "SEReferences.h"
 #import "SEListingCell.h"
+#import "SESubmitCell.h"
 
 #define kPickerAnimationDuration    0.40   // duration for the animation to slide the date picker into view
 #define kPickerTag              99     // view tag identifiying the date picker view
@@ -49,6 +50,11 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
 
 @synthesize buyListing = _buyListing;
 
+- (IBAction)cancel:(id)sender
+{
+	[[self presentingViewController] dismissViewControllerAnimated:YES completion:nil];
+}
+
 - (id)initWithStyle:(UITableViewStyle)style
 {
     self = [super initWithStyle:style];
@@ -61,6 +67,10 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
 - (void)viewDidLoad
 {
     [super viewDidLoad];
+	
+	// set tint
+	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
+	//    self.navigationController.navigationBar.translucent = NO;
 	
 	// setup our data source
     NSMutableDictionary *itemOne = [@{ kTitleKey : @"Start Time",
@@ -148,7 +158,7 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
         {
             // we found a UIDatePicker in this cell, so update it's date value
             //
-            NSDictionary *itemData = self.dataArray[self.pickerIndexPath.row - 1];
+//            NSDictionary *itemData = self.dataArray[self.pickerIndexPath.row - 1];
 			// TODO: convert in data!
 //            [targetedDatePicker setDate:[itemData valueForKey:kDateKey] animated:NO];
         }
@@ -281,97 +291,82 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
 	{
 		NSArray *arr = [self.cellsPerSection objectAtIndex:indexPath.section];
 		NSString *cellIden = [arr objectAtIndex:indexPath.row];
-		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
 		
-		// clear out old stuff
-#warning There has got to be a better way..
-		id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
-		for (int i = 0; i < (int)[shortcut count]; i++)
-		{
-			NSString *className = [[[shortcut objectAtIndex:i] class] description];
-			if ([className isEqualToString:@"UIView"])
-				[[shortcut objectAtIndex:i] removeFromSuperview];
-		}
-		
-		// Configure the cell...
-		
-		// remove all previous subviews? .............
-		
-		
+		// if it's the preview
 		if ([cellIden isEqualToString:@"Preview"])
 		{
-			//		SEListingCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+			SEListingCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
 			
-			// take device user information
-			// for now this is default code:
 			SEUser *defUser = [[SEUser alloc] init];
 			[defUser setName:@"Joe Bruin"];
 			[defUser setRating:[SEReferences ratingForValue:4]];
-			
-			// take count information
-			
-			// take time information
-			
-			// take place information
-			
-			// create the preview, add it as subview
-			
 			[self.buyListing setUser:defUser];
 			
-			UIView *view = [self.buyListing listing];
+			[cell setListing:self.buyListing];
 			
-			[cell addSubview:view];
-			[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
+			// no need for the disclosure indicator
+			
+			return cell;
 		} else if ([cellIden isEqualToString:@"Submit"])
 		{
-			UIView *view = [[UIView alloc] initWithFrame:CGRectMake(0.f, 0.f, 320.f, 44.f)];
-			
-			UILabel *label = [[UILabel alloc] initWithFrame:CGRectMake(100, 5, 120, 34)];
-			[label setText:@"Submit"];
-			
-			[label setFont:[UIFont systemFontOfSize:20.f]];
-			[label setTextAlignment:NSTextAlignmentCenter];
-			[label setTextColor:[SEReferences mainColor]];
-			
-			[view addSubview:label];
-			[cell addSubview:view];
-		} else
-		{
-			[cell.textLabel setText:cellIden];
-			NSString *detailText;
-			
-			if ([cellIden isEqualToString:@"Start Time"])
-			{
-				detailText = self.buyListing.startTime;
-			}
-			
-			if ([cellIden isEqualToString:@"End Time"])
-			{
-				detailText = self.buyListing.endTime;
-			}
-			
-			if ([cellIden isEqualToString:@"Place"])
-			{
-				detailText = @"All dining halls";
-				// TODO: plug this in
-			}
-			
-			if ([cellIden isEqualToString:@"Count"])
-			{
-				int count = (int)self.buyListing.count;
-				if (count == 1) detailText = @"1 swipe";
-				else detailText = [NSString stringWithFormat:@"%d swipes", count];
-			}
-			
-			[cell.detailTextLabel setText:detailText];
+			SESubmitCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+			[cell setTitle:@"Submit"];
+			return cell;
 		}
 		
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIden forIndexPath:indexPath];
+		
+		// clear out old stuff
+//#warning There has got to be a better way..
+//		id shortcut = [[[cell subviews] objectAtIndex:0] subviews];
+//		for (int i = 0; i < (int)[shortcut count]; i++)
+//		{
+//			NSString *className = [[[shortcut objectAtIndex:i] class] description];
+//			if ([className isEqualToString:@"UIView"])
+//				[[shortcut objectAtIndex:i] removeFromSuperview];
+//		}
+		
+		// Configure the cell...
+		
+		[cell.textLabel setText:cellIden];
+		NSString *detailText;
+		
+		if ([cellIden isEqualToString:@"Start Time"])
+		{
+			detailText = self.buyListing.startTime;
+		}
+		
+		if ([cellIden isEqualToString:@"End Time"])
+		{
+			detailText = self.buyListing.endTime;
+		}
+		
+		if ([cellIden isEqualToString:@"Place"])
+		{
+			detailText = @"All dining halls";
+			// TODO: plug this in
+		}
+		
+		if ([cellIden isEqualToString:@"Count"])
+		{
+			int count = (int)self.buyListing.count;
+			if (count == 1) detailText = @"1 swipe";
+			else detailText = [NSString stringWithFormat:@"%d swipes", count];
+		}
+		
+		[cell.detailTextLabel setText:detailText];
+
 		return cell;
 	}
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	NSArray *arr = [self.cellsPerSection objectAtIndex:indexPath.section];
+	NSString *cellIden = [arr objectAtIndex:indexPath.row];
+	
+	if ([cellIden isEqualToString:@"Submit"]) [self cancel:nil];
+	
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
 }
 
