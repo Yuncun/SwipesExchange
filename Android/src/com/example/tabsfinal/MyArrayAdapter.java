@@ -46,17 +46,21 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
     
     //Set the values of the strings on the list
     TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
+    TextView firstLineRight = (TextView) rowView.findViewById(R.id.firstLineRight);
     TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
 //    TextView thirdLine = (TextView) rowView.findViewById(R.id.secondLine);
  //   ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
     //test outputs
     String firstlinetext = ((entries.get(position)).getVenue()).getName();
     String secondlinetext = ((entries.get(position)).getUser()).getName();
+    String firstlinerighttext = String.valueOf(((entries.get(position)).getSwipeCount()));
     System.out.println("first line is" + firstlinetext);
     System.out.println("second line is" + secondlinetext);
+    System.out.println("first line right is" + firstlinerighttext);
     //test outputs
   
     firstLine.setText(((entries.get(position)).getVenue()).getName()); //get the name of the user from the entry in question
+    firstLineRight.setText(String.valueOf(((entries.get(position)).getSwipeCount())));
     secondLine.setText(((entries.get(position)).getUser()).getName());
    
 //   imageView.setImageResource(R.drawable.yes);

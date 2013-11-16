@@ -26,8 +26,8 @@ public final class R {
     }
     public static final class id {
         public static final int action_settings=0x7f080005;
-        public static final int firstLine=0x7f080004;
-        public static final int icon=0x7f080002;
+        public static final int firstLine=0x7f080002;
+        public static final int firstLineRight=0x7f080004;
         public static final int pager=0x7f080000;
         public static final int secondLine=0x7f080003;
         public static final int section_label=0x7f080001;

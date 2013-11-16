@@ -15,11 +15,19 @@ import android.widget.SimpleAdapter;
 
 class MyList extends ListFragment
 {
-                String[] values = new String[] {"1", "2", "3"};
+		//page_num 0 is Buy listings, 1 is Sell listings, 2 is Messages (can add more)
+		private int page_num;
         
         static MyList newInstance(int num) {
         MyList l = new MyList();
-
+        
+        if (num == 0)
+        	l.page_num = 0;
+        else if (num == 0)
+        	l.page_num = 1;
+        else
+        	l.page_num = 2;
+        
         Bundle args = new Bundle();
         args.putInt("num", num);
 
@@ -44,6 +52,12 @@ class MyList extends ListFragment
                 data.updateListings();
                 
                 /*Some crazy shit to convert List<Listing> into List<String>*/
+                
+             //   switch (this.getId())
+               // {
+                
+              //  }
+                
                 List<Listing> entries = data.getListings();
                 
                 List<String> VenueNames = new ArrayList<String>();
@@ -60,19 +74,21 @@ class MyList extends ListFragment
                 }
                 
                 //SimpleAdapter that should be able to put up multiple List<Strings>
+            
                 
                 List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-                Map<String, String> map;
+                
                 int count = entries.size();
                 for(int i = 0; i < count; i++) {
-                    map = new HashMap<String, String>();
-                    map.put("Headline", UserNames.get(i)+" @ "+VenueNames.get(i));
-                    map.put("Subline", "Selling "+ DescAmount.get(i) + " swipes at $5 until " +  DescTime.get(i));
+                	Map<String, String> map = new HashMap<String, String>();
+                    map.put("Headline", UserNames.get(i));
+                    map.put("Subline", "Until " +  DescTime.get(i));
+                    map.put("Headline2", "" + DescAmount.get(i) + " requested");
                     
                     list.add(map);
                 }
 
-                SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, R.layout.list_item, new String[] { "Headline", "Subline" }, new int[] { R.id.firstLine, R.id.secondLine });
+                SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, R.layout.list_item, new String[] { "Headline", "Subline", "Headline2" }, new int[] { R.id.firstLine, R.id.secondLine , R.id.firstLineRight});
                 setListAdapter(adapter);
                 
                 //test cause the debugger is fucked up for me
