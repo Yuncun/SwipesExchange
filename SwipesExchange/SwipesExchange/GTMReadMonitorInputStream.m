@@ -49,14 +49,14 @@
 #pragma mark -
 
 + (id)inputStreamWithStream:(NSInputStream *)input {
-  return [[[self alloc] initWithStream:input] autorelease];
+  return [[self alloc] initWithStream:input];
 }
 
 - (id)initWithStream:(NSInputStream *)input  {
   self = [super init];
   if (self) {
-    inputStream_ = [input retain];
-    thread_ = [[NSThread currentThread] retain];
+    inputStream_ = input;
+    thread_ = [NSThread currentThread];
   }
   return self;
 }
@@ -65,12 +65,12 @@
   return [self initWithStream:nil];
 }
 
-- (void)dealloc {
-  [inputStream_ release];
-  [thread_ release];
-  [runLoopModes_ release];
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [inputStream_ release];
+//  [thread_ release];
+//  [runLoopModes_ release];
+//  [super dealloc];
+//}
 
 #pragma mark -
 

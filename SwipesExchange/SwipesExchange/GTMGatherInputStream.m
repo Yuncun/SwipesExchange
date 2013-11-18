@@ -18,13 +18,13 @@
 @implementation GTMGatherInputStream
 
 + (NSInputStream *)streamWithArray:(NSArray *)dataArray {
-  return [[[self alloc] initWithArray:dataArray] autorelease];
+  return [[self alloc] initWithArray:dataArray];
 }
 
 - (id)initWithArray:(NSArray *)dataArray {
   self = [super init];
   if (self) {
-    dataArray_ = [dataArray retain];
+    dataArray_ = dataArray;
     arrayIndex_ = 0;
     dataOffset_ = 0;
 
@@ -43,13 +43,13 @@
   return self;
 }
 
-- (void)dealloc {
-  [dataArray_ release];
-  [dummyStream_ release];
-  [dummyData_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [dataArray_ release];
+//  [dummyStream_ release];
+//  [dummyData_ release];
+//
+//  [super dealloc];
+//}
 
 - (NSInteger)read:(uint8_t *)buffer maxLength:(NSUInteger)len {
 
@@ -112,7 +112,7 @@
 
   // 10.4's NSURLConnection tends to retain streams needlessly,
   // so we'll free up the data array right away
-  [dataArray_ release];
+//  [dataArray_ release];
   dataArray_ = nil;
 }
 

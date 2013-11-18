@@ -77,12 +77,12 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
          keychainItemName:(NSString *)keychainItemName
                  delegate:(id)delegate
          finishedSelector:(SEL)finishedSelector {
-  return [[[self alloc] initWithScope:scope
+  return [[self alloc] initWithScope:scope
                              clientID:clientID
                          clientSecret:clientSecret
                      keychainItemName:keychainItemName
                              delegate:delegate
-                     finishedSelector:finishedSelector] autorelease];
+                     finishedSelector:finishedSelector];
 }
 
 - (id)initWithScope:(NSString *)scope
@@ -114,11 +114,11 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
              clientSecret:(NSString *)clientSecret
          keychainItemName:(NSString *)keychainItemName
         completionHandler:(void (^)(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error))handler {
-  return [[[self alloc] initWithScope:scope
+  return [[self alloc] initWithScope:scope
                              clientID:clientID
                          clientSecret:clientSecret
                      keychainItemName:keychainItemName
-                    completionHandler:handler] autorelease];
+                    completionHandler:handler];
 }
 
 - (id)initWithScope:(NSString *)scope
@@ -154,11 +154,11 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
                   keychainItemName:(NSString *)keychainItemName
                           delegate:(id)delegate
                   finishedSelector:(SEL)finishedSelector {
-  return [[[self alloc] initWithAuthentication:auth
+  return [[self alloc] initWithAuthentication:auth
                               authorizationURL:authorizationURL
                               keychainItemName:keychainItemName
                                       delegate:delegate
-                              finishedSelector:finishedSelector] autorelease];
+                              finishedSelector:finishedSelector];
 }
 
 - (id)initWithAuthentication:(GTMOAuth2Authentication *)auth
@@ -172,7 +172,7 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
 
   self = [super initWithNibName:nibName bundle:nibBundle];
   if (self != nil) {
-    delegate_ = [delegate retain];
+    delegate_ = delegate;
     finishedSelector_ = finishedSelector;
 
     Class signInClass = [[self class] signInClass];
@@ -207,10 +207,10 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
                   authorizationURL:(NSURL *)authorizationURL
                   keychainItemName:(NSString *)keychainItemName
                  completionHandler:(void (^)(GTMOAuth2ViewControllerTouch *viewController, GTMOAuth2Authentication *auth, NSError *error))handler {
-  return [[[self alloc] initWithAuthentication:auth
+  return [[self alloc] initWithAuthentication:auth
                               authorizationURL:authorizationURL
                               keychainItemName:keychainItemName
-                             completionHandler:handler] autorelease];
+                             completionHandler:handler];
 }
 
 - (id)initWithAuthentication:(GTMOAuth2Authentication *)auth
@@ -230,30 +230,30 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
 }
 #endif
 
-- (void)dealloc {
-  [webView_ setDelegate:nil];
-
-  [backButton_ release];
-  [forwardButton_ release];
-  [initialActivityIndicator_ release];
-  [navButtonsView_ release];
-  [rightBarButtonItem_ release];
-  [webView_ release];
-  [signIn_ release];
-  [request_ release];
-  [delegate_ release];
-#if NS_BLOCKS_AVAILABLE
-  [completionBlock_ release];
-  [popViewBlock_ release];
-#endif
-  [keychainItemName_ release];
-  [initialHTMLString_ release];
-  [browserCookiesURL_ release];
-  [userData_ release];
-  [properties_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [webView_ setDelegate:nil];
+//
+//  [backButton_ release];
+//  [forwardButton_ release];
+//  [initialActivityIndicator_ release];
+//  [navButtonsView_ release];
+//  [rightBarButtonItem_ release];
+//  [webView_ release];
+//  [signIn_ release];
+//  [request_ release];
+//  [delegate_ release];
+//#if NS_BLOCKS_AVAILABLE
+//  [completionBlock_ release];
+//  [popViewBlock_ release];
+//#endif
+//  [keychainItemName_ release];
+//  [initialHTMLString_ release];
+//  [browserCookiesURL_ release];
+//  [userData_ release];
+//  [properties_ release];
+//
+//  [super dealloc];
+//}
 
 + (NSString *)authNibName {
   // subclasses may override this to specify a custom nib name
@@ -355,7 +355,7 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
     // access self.view after calling [super loadView] will enter an infinite
     // loop due to the fact that UIViewController's -view accessor calls
     // loadView when self.view is nil.
-    self.view = [[[UIView alloc] init] autorelease];
+    self.view = [[UIView alloc] init];
 
 #if DEBUG
     NSLog(@"missing %@.nib", nibName);
@@ -430,11 +430,11 @@ finishedWithAuth:(GTMOAuth2Authentication *)auth
   // (so no further callback is required)
   hasCalledFinished_ = YES;
 
-  [delegate_ autorelease];
+//  [delegate_ autorelease];
   delegate_ = nil;
 
 #if NS_BLOCKS_AVAILABLE
-  [completionBlock_ autorelease];
+//  [completionBlock_ autorelease];
   completionBlock_ = nil;
 #endif
 
@@ -529,7 +529,7 @@ static Class gSignInClass = Nil;
 
   // Be sure the returned pointer has the life of the autorelease pool,
   // in case self is released immediately
-  return [[obj retain] autorelease];
+  return obj;
 }
 
 #pragma mark SignIn callbacks
@@ -633,7 +633,7 @@ static Class gSignInClass = Nil;
       [invocation invoke];
     }
 
-    [delegate_ autorelease];
+//    [delegate_ autorelease];
     delegate_ = nil;
 
 #if NS_BLOCKS_AVAILABLE
@@ -641,7 +641,7 @@ static Class gSignInClass = Nil;
       completionBlock_(self, auth, error);
 
       // release the block here to avoid a retain loop on the controller
-      [completionBlock_ autorelease];
+//      [completionBlock_ autorelease];
       completionBlock_ = nil;
     }
 #endif
@@ -860,8 +860,8 @@ static Class gSignInClass = Nil;
 // For unit tests: allow setting a mock object
 + (void)setDefaultKeychain:(GTMOAuth2Keychain *)keychain {
   if (sDefaultKeychain != keychain) {
-    [sDefaultKeychain release];
-    sDefaultKeychain = [keychain retain];
+//    [sDefaultKeychain release];
+    sDefaultKeychain = keychain;
   }
 }
 
@@ -939,10 +939,10 @@ static Class gSignInClass = Nil;
 
 + (NSMutableDictionary *)keychainQueryForService:(NSString *)service account:(NSString *)account {
   NSMutableDictionary *query = [NSMutableDictionary dictionaryWithObjectsAndKeys:
-                         (id)kSecClassGenericPassword, (id)kSecClass,
-                         @"OAuth", (id)kSecAttrGeneric,
-                         account, (id)kSecAttrAccount,
-                         service, (id)kSecAttrService,
+                         (__bridge id)kSecClassGenericPassword, (__bridge id)kSecClass,
+                         @"OAuth", (__bridge id)kSecAttrGeneric,
+                         account, (__bridge id)kSecAttrAccount,
+                         service, (__bridge id)kSecAttrService,
                          nil];
   return query;
 }
@@ -960,14 +960,14 @@ static Class gSignInClass = Nil;
   if (0 < [service length] && 0 < [account length]) {
     CFDataRef passwordData = NULL;
     NSMutableDictionary *keychainQuery = [self keychainQueryForService:service account:account];
-    [keychainQuery setObject:(id)kCFBooleanTrue forKey:(id)kSecReturnData];
-    [keychainQuery setObject:(id)kSecMatchLimitOne forKey:(id)kSecMatchLimit];
+    [keychainQuery setObject:(id)kCFBooleanTrue forKey:(__bridge id)kSecReturnData];
+    [keychainQuery setObject:(__bridge id)kSecMatchLimitOne forKey:(__bridge id)kSecMatchLimit];
 
-    status = SecItemCopyMatching((CFDictionaryRef)keychainQuery,
+    status = SecItemCopyMatching((__bridge CFDictionaryRef)keychainQuery,
                                        (CFTypeRef *)&passwordData);
-    if (status == noErr && 0 < [(NSData *)passwordData length]) {
-      result = [[[NSString alloc] initWithData:(NSData *)passwordData
-                                      encoding:NSUTF8StringEncoding] autorelease];
+    if (status == noErr && 0 < [(__bridge NSData *)passwordData length]) {
+      result = [[NSString alloc] initWithData:(__bridge NSData *)passwordData
+                                      encoding:NSUTF8StringEncoding];
     }
     if (passwordData != NULL) {
       CFRelease(passwordData);
@@ -987,7 +987,7 @@ static Class gSignInClass = Nil;
   OSStatus status = kGTMOAuth2KeychainErrorBadArguments;
   if (0 < [service length] && 0 < [account length]) {
     NSMutableDictionary *keychainQuery = [self keychainQueryForService:service account:account];
-    status = SecItemDelete((CFDictionaryRef)keychainQuery);
+    status = SecItemDelete((__bridge CFDictionaryRef)keychainQuery);
   }
   if (status != noErr && error != NULL) {
     *error = [NSError errorWithDomain:kGTMOAuth2KeychainErrorDomain
@@ -1009,13 +1009,13 @@ static Class gSignInClass = Nil;
     if (0 < [password length]) {
       NSMutableDictionary *keychainQuery = [self keychainQueryForService:service account:account];
       NSData *passwordData = [password dataUsingEncoding:NSUTF8StringEncoding];
-      [keychainQuery setObject:passwordData forKey:(id)kSecValueData];
+      [keychainQuery setObject:passwordData forKey:(__bridge id)kSecValueData];
 
       if (accessibility != NULL && &kSecAttrAccessible != NULL) {
-        [keychainQuery setObject:(id)accessibility
-                          forKey:(id)kSecAttrAccessible];
+        [keychainQuery setObject:(__bridge id)accessibility
+                          forKey:(__bridge id)kSecAttrAccessible];
       }
-      status = SecItemAdd((CFDictionaryRef)keychainQuery, NULL);
+      status = SecItemAdd((__bridge CFDictionaryRef)keychainQuery, NULL);
     }
   }
   if (status != noErr && error != NULL) {

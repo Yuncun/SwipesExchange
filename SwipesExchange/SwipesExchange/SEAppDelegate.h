@@ -12,4 +12,8 @@
 
 @property (strong, nonatomic) UIWindow *window;
 
+// Google Backend
+// Device token from APNS in string format
+@property(nonatomic, copy) NSString *tokenString;
+
 @end

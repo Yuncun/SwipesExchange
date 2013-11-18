@@ -51,38 +51,38 @@
 #endif
 
 + (id)queryWithMethodName:(NSString *)methodName {
-  return [[[self alloc] initWithMethodName:methodName] autorelease];
+	return [[self alloc] initWithMethodName:methodName]; // autorelease
 }
 
 - (id)initWithMethodName:(NSString *)methodName {
   self = [super init];
   if (self) {
-    requestID_ = [[[self class] nextRequestID] retain];
+	  requestID_ = [[self class] nextRequestID]; // was retain
 
     methodName_ = [methodName copy];
     if ([methodName_ length] == 0) {
-      [self release];
+//      [self release];
       self = nil;
     }
   }
   return self;
 }
 
-- (void)dealloc {
-  [methodName_ release];
-  [json_ release];
-  [bodyObject_ release];
-  [childCache_ release];
-  [requestID_ release];
-  [uploadParameters_ release];
-  [urlQueryParameters_ release];
-  [additionalHTTPHeaders_ release];
-#if NS_BLOCKS_AVAILABLE
-  [completionBlock_ release];
-#endif
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [methodName_ release];
+//  [json_ release];
+//  [bodyObject_ release];
+//  [childCache_ release];
+//  [requestID_ release];
+//  [uploadParameters_ release];
+//  [urlQueryParameters_ release];
+//  [additionalHTTPHeaders_ release];
+//#if NS_BLOCKS_AVAILABLE
+//  [completionBlock_ release];
+//#endif
+//
+//  [super dealloc];
+//}
 
 
 - (id)copyWithZone:(NSZone *)zone {
@@ -92,8 +92,8 @@
   if ([json_ count] > 0) {
     // Deep copy the parameters
     CFPropertyListRef ref = CFPropertyListCreateDeepCopy(kCFAllocatorDefault,
-                                                         json_, kCFPropertyListMutableContainers);
-    query.JSON = [NSMakeCollectable(ref) autorelease];
+                                                         (__bridge CFPropertyListRef)(json_), kCFPropertyListMutableContainers);
+	  query.JSON = (__bridge NSMutableDictionary *)(ref);// = NSMakeCollectable(ref); // autorelease
   }
   query.bodyObject = self.bodyObject;
   query.requestID = self.requestID;

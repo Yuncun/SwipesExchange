@@ -64,8 +64,8 @@
                         humanReadable:humanReadable
                                 error:error];
   if (data) {
-    NSString *jsonStr = [[[NSString alloc] initWithData:data
-                                               encoding:NSUTF8StringEncoding] autorelease];
+    NSString *jsonStr = [[NSString alloc] initWithData:data
+                                               encoding:NSUTF8StringEncoding];
     return jsonStr;
   }
   return nil;

@@ -32,7 +32,7 @@
 
 + (GTLUploadParameters *)uploadParametersWithData:(NSData *)data
                                          MIMEType:(NSString *)mimeType {
-  GTLUploadParameters *params = [[[GTLUploadParameters alloc] init] autorelease];
+  GTLUploadParameters *params = [[GTLUploadParameters alloc] init];
   params.data = data;
   params.MIMEType = mimeType;
   return params;
@@ -40,7 +40,7 @@
 
 + (GTLUploadParameters *)uploadParametersWithFileHandle:(NSFileHandle *)fileHandle
                                                MIMEType:(NSString *)mimeType {
-  GTLUploadParameters *params = [[[GTLUploadParameters alloc] init] autorelease];
+  GTLUploadParameters *params = [[GTLUploadParameters alloc] init];
   params.fileHandle = fileHandle;
   params.MIMEType = mimeType;
   return params;
@@ -57,15 +57,15 @@
   return newParams;
 }
 
-- (void)dealloc {
-  [MIMEType_ release];
-  [data_ release];
-  [fileHandle_ release];
-  [uploadLocationURL_ release];
-  [slug_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [MIMEType_ release];
+//  [data_ release];
+//  [fileHandle_ release];
+//  [uploadLocationURL_ release];
+//  [slug_ release];
+//
+//  [super dealloc];
+//}
 
 - (NSString *)description {
   NSMutableArray *array = [NSMutableArray array];

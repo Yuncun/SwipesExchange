@@ -173,9 +173,9 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
   // designated initializer
   self = [super init];
   if (self) {
-    auth_ = [auth retain];
-    authorizationURL_ = [authorizationURL retain];
-    delegate_ = [delegate retain];
+    auth_ = auth;
+    authorizationURL_ = authorizationURL;
+    delegate_ = delegate;
     webRequestSelector_ = webRequestSelector;
     finishedSelector_ = finishedSelector;
 
@@ -194,21 +194,21 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
   return self;
 }
 
-- (void)dealloc {
-  [self stopReachabilityCheck];
-
-  [auth_ release];
-  [authorizationURL_ release];
-  [additionalAuthorizationParameters_ release];
-  [delegate_ release];
-  [pendingFetcher_ release];
-#if !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
-  [userProfile_ release];
-#endif
-  [userData_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [self stopReachabilityCheck];
+//
+//  [auth_ release];
+//  [authorizationURL_ release];
+//  [additionalAuthorizationParameters_ release];
+//  [delegate_ release];
+//  [pendingFetcher_ release];
+//#if !GTM_OAUTH2_SKIP_GOOGLE_SUPPORT
+//  [userProfile_ release];
+//#endif
+//  [userData_ release];
+//
+//  [super dealloc];
+//}
 
 #pragma mark Sign-in Sequence Methods
 
@@ -222,7 +222,7 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
 
   [self closeTheWindow];
 
-  [delegate_ autorelease];
+//  [delegate_ autorelease];
   delegate_ = nil;
 }
 
@@ -604,8 +604,8 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
   if (error) {
 #if DEBUG
     if (data) {
-      NSString *dataStr = [[[NSString alloc] initWithData:data
-                                                 encoding:NSUTF8StringEncoding] autorelease];
+      NSString *dataStr = [[NSString alloc] initWithData:data
+                                                 encoding:NSUTF8StringEncoding];
       NSLog(@"infoFetcher error: %@\n%@", error, dataStr);
     }
 #endif
@@ -657,7 +657,7 @@ finishedWithFetcher:(GTMHTTPFetcher *)fetcher
   //
   // we want to autorelease it rather than assign to the property in case
   // the delegate is below us in the call stack
-  [delegate_ autorelease];
+//  [delegate_ autorelease];
   delegate_ = nil;
 }
 
@@ -667,7 +667,7 @@ static void ReachabilityCallBack(SCNetworkReachabilityRef target,
                                  SCNetworkConnectionFlags flags,
                                  void *info) {
   // pass the flags to the signIn object
-  GTMOAuth2SignIn *signIn = (GTMOAuth2SignIn *)info;
+  GTMOAuth2SignIn *signIn = (__bridge GTMOAuth2SignIn *)info;
 
   [signIn reachabilityTarget:target
                 changedFlags:flags];
@@ -688,7 +688,7 @@ static void ReachabilityCallBack(SCNetworkReachabilityRef target,
                                                          host);
   if (reachabilityRef_) {
     BOOL isScheduled = NO;
-    SCNetworkReachabilityContext ctx = { 0, self, NULL, NULL, NULL };
+    SCNetworkReachabilityContext ctx = { 0, (__bridge void *)(self), NULL, NULL, NULL };
 
     if (SCNetworkReachabilitySetCallback(reachabilityRef_,
                                          ReachabilityCallBack, &ctx)) {
@@ -708,7 +708,7 @@ static void ReachabilityCallBack(SCNetworkReachabilityRef target,
 
 - (void)destroyUnreachabilityTimer {
   [networkLossTimer_ invalidate];
-  [networkLossTimer_ autorelease];
+//  [networkLossTimer_ autorelease];
   networkLossTimer_ = nil;
 }
 
@@ -735,11 +735,11 @@ static void ReachabilityCallBack(SCNetworkReachabilityRef target,
         && networkLossTimeoutInterval_ > 0
         && !hasNotifiedNetworkLoss_) {
       SEL sel = @selector(reachabilityTimerFired:);
-      networkLossTimer_ = [[NSTimer scheduledTimerWithTimeInterval:networkLossTimeoutInterval_
+      networkLossTimer_ = [NSTimer scheduledTimerWithTimeInterval:networkLossTimeoutInterval_
                                                             target:self
                                                           selector:sel
                                                           userInfo:nil
-                                                           repeats:NO] retain];
+                                                           repeats:NO];
     }
   }
 }
@@ -814,8 +814,8 @@ static void ReachabilityCallBack(SCNetworkReachabilityRef target,
       [fetcher beginFetchWithCompletionHandler:^(NSData *data, NSError *error) {
   #if DEBUG
         if (error) {
-          NSString *errStr = [[[NSString alloc] initWithData:data
-                                                    encoding:NSUTF8StringEncoding] autorelease];
+          NSString *errStr = [[NSString alloc] initWithData:data
+                                                    encoding:NSUTF8StringEncoding];
           NSLog(@"revoke error: %@", errStr);
         }
   #endif // DEBUG

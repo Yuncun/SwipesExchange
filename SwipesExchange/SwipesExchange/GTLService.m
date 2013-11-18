@@ -193,26 +193,26 @@ static NSString *ETagIfPresent(GTLObject *obj) {
   return self;
 }
 
-- (void)dealloc {
-  [parseQueue_ release];
-  [userAgent_ release];
-  [fetcherService_ release];
-  [userAgentAddition_ release];
-  [serviceProperties_ release];
-  [surrogates_ release];
-#if NS_BLOCKS_AVAILABLE
-  [uploadProgressBlock_ release];
-  [retryBlock_ release];
-#endif
-  [apiKey_ release];
-  [apiVersion_ release];
-  [rpcURL_ release];
-  [rpcUploadURL_ release];
-  [urlQueryParameters_ release];
-  [additionalHTTPHeaders_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [parseQueue_ release];
+//  [userAgent_ release];
+//  [fetcherService_ release];
+//  [userAgentAddition_ release];
+//  [serviceProperties_ release];
+//  [surrogates_ release];
+//#if NS_BLOCKS_AVAILABLE
+//  [uploadProgressBlock_ release];
+//  [retryBlock_ release];
+//#endif
+//  [apiKey_ release];
+//  [apiVersion_ release];
+//  [rpcURL_ release];
+//  [rpcUploadURL_ release];
+//  [urlQueryParameters_ release];
+//  [additionalHTTPHeaders_ release];
+//
+//  [super dealloc];
+//}
 
 - (NSString *)requestUserAgent {
   NSString *userAgent = self.userAgent;
@@ -263,9 +263,9 @@ static NSString *ETagIfPresent(GTLObject *obj) {
                                 ticket:(GTLServiceTicket *)ticket {
 
   // subclasses may add headers to this
-  NSMutableURLRequest *request = [[[NSMutableURLRequest alloc] initWithURL:url
+  NSMutableURLRequest *request = [[NSMutableURLRequest alloc] initWithURL:url
                                                                cachePolicy:NSURLRequestReloadIgnoringCacheData
-                                                           timeoutInterval:60] autorelease];
+                                                           timeoutInterval:60];
   NSString *requestUserAgent = self.requestUserAgent;
   [request setValue:requestUserAgent forHTTPHeaderField:@"User-Agent"];
 
@@ -521,7 +521,7 @@ static NSString *ETagIfPresent(GTLObject *obj) {
 #if NS_BLOCKS_AVAILABLE
   // copy the completion handler block to the heap; this does nothing if the
   // block is already on the heap
-  completionHandler = [[completionHandler copy] autorelease];
+  completionHandler = [completionHandler copy];
   [fetcher setProperty:completionHandler
                 forKey:kFetcherCompletionHandlerKey];
 #endif
@@ -748,7 +748,7 @@ static NSString *ETagIfPresent(GTLObject *obj) {
                       didFinishSelector:(SEL)finishedSelector
                       completionHandler:(id)completionHandler // GTLServiceCompletionHandler
                                  ticket:(GTLServiceTicket *)ticket {
-  GTLBatchQuery *batchCopy = [[batch copy] autorelease];
+  GTLBatchQuery *batchCopy = [batch copy];
   NSArray *queries = batchCopy.queries;
   NSUInteger numberOfQueries = [queries count];
   if (numberOfQueries == 0) return nil;
@@ -991,8 +991,8 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
           } else {
             // No structured JSON error was available; make a plaintext server
             // error response visible in the error object.
-            NSString *reasonStr = [[[NSString alloc] initWithData:data
-                                                         encoding:NSUTF8StringEncoding] autorelease];
+            NSString *reasonStr = [[NSString alloc] initWithData:data
+                                                         encoding:NSUTF8StringEncoding];
             NSDictionary *userInfo = [NSDictionary dictionaryWithObject:reasonStr
                                                                  forKey:NSLocalizedFailureReasonErrorKey];
             error = [NSError errorWithDomain:kGTMHTTPFetcherStatusDomain
@@ -1031,7 +1031,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 
   // copy the run loop modes, if any, so we don't need to access them
   // from the parsing thread
-  [fetcher setProperty:[[[self runLoopModes] copy] autorelease]
+  [fetcher setProperty:[[self runLoopModes] copy]
                 forKey:kFetcherCallbackRunLoopModesKey];
 
   // we post parsing notifications now to ensure they're on caller's
@@ -1063,17 +1063,16 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
   NSOperationQueue *queue = self.parseQueue;
   if (queue) {
     NSInvocationOperation *op;
-    op = [[[NSInvocationOperation alloc] initWithTarget:self
+    op = [[NSInvocationOperation alloc] initWithTarget:self
                                                selector:parseSel
-                                                 object:fetcher] autorelease];
+                                                 object:fetcher];
     ticket.parseOperation = op;
     [queue addOperation:op];
     // the fetcher now belongs to the parsing thread
   } else {
     // parse on the current thread, on Mac OS X 10.4 through 10.5.7
     // or when the project defines GTL_SKIP_PARSE_THREADING
-    [self performSelector:parseSel
-               withObject:fetcher];
+    [self performSelector:parseSel withObject:fetcher];
   }
 }
 
@@ -1082,16 +1081,16 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 
   // Generally protect the fetcher properties, since canceling a ticket would
   // release the fetcher properties dictionary
-  NSMutableDictionary *properties = [[fetcher.properties retain] autorelease];
+  NSMutableDictionary *properties = fetcher.properties;
 
   // The callback thread is retaining the fetcher, so the fetcher shouldn't keep
   // retaining the callback thread
   NSThread *callbackThread = [properties valueForKey:kFetcherCallbackThreadKey];
-  [[callbackThread retain] autorelease];
+//  [[callbackThread retain] autorelease];
   [properties removeObjectForKey:kFetcherCallbackThreadKey];
 
   GTLServiceTicket *ticket = [properties valueForKey:kFetcherTicketKey];
-  [[ticket retain] autorelease];
+//  [[ticket retain] autorelease];
 
   NSDictionary *responseHeaders = fetcher.responseHeaders;
   NSString *contentType = [responseHeaders objectForKey:@"Content-Type"];
@@ -1178,9 +1177,9 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
   NSOperationQueue *delegateQueue = self.delegateQueue;
   if (delegateQueue) {
     NSInvocationOperation *op;
-    op = [[[NSInvocationOperation alloc] initWithTarget:self
+    op = [[NSInvocationOperation alloc] initWithTarget:self
                                                selector:parseDoneSel
-                                                 object:fetcher] autorelease];
+                                                 object:fetcher];
     [delegateQueue addOperation:op];
   } else if (runLoopModes) {
     [self performSelector:parseDoneSel
@@ -1506,7 +1505,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 
     if (nextPageToken || nextStartIndex) {
       // Make a query for the next page, preserving the request ID
-      nextPageQuery = [[query copy] autorelease];
+      nextPageQuery = [query copy];
       nextPageQuery.requestID = query.requestID;
 
       if (nextPageToken) {
@@ -1679,7 +1678,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
                            ticket:nil];
   }
 
-  GTLQuery *query = [[(GTLQuery *)queryObj copy] autorelease];
+  GTLQuery *query = [(GTLQuery *)queryObj copy];
   NSString *methodName = query.methodName;
   NSDictionary *params = query.JSON;
   GTLObject *bodyObject = query.bodyObject;
@@ -1708,7 +1707,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
                             ticket:nil];
   }
 
-  GTLQuery *query = [[(GTLQuery *)queryObj copy] autorelease];
+  GTLQuery *query = [(GTLQuery *)queryObj copy];
   NSString *methodName = query.methodName;
   NSDictionary *params = query.JSON;
   GTLObject *bodyObject = query.bodyObject;
@@ -2023,7 +2022,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 
 - (void)setExactUserAgent:(NSString *)userAgent {
   // internal use only
-  [userAgent_ release];
+//  [userAgent_ release];
   userAgent_ = [userAgent copy];
 }
 
@@ -2074,14 +2073,14 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 // The service properties becomes the initial value for each future ticket's
 // properties
 - (void)setServiceProperties:(NSDictionary *)dict {
-  [serviceProperties_ autorelease];
+//  [serviceProperties_ autorelease];
   serviceProperties_ = [dict mutableCopy];
 }
 
 - (NSDictionary *)serviceProperties {
   // be sure the returned pointer has the life of the autorelease pool,
   // in case self is released immediately
-  return [[serviceProperties_ retain] autorelease];
+  return serviceProperties_;
 }
 
 - (void)setServiceProperty:(id)obj forKey:(NSString *)key {
@@ -2103,7 +2102,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 
   // be sure the returned pointer has the life of the autorelease pool,
   // in case self is released immediately
-  return [[obj retain] autorelease];
+  return obj;
 }
 
 - (void)setServiceUserData:(id)userData {
@@ -2111,7 +2110,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 }
 
 - (id)serviceUserData {
-  return [[[self servicePropertyForKey:kUserDataPropertyKey] retain] autorelease];
+  return [self servicePropertyForKey:kUserDataPropertyKey];
 }
 
 - (void)setAuthorizer:(id <GTMFetcherAuthorizationProtocol>)authorizer {
@@ -2192,16 +2191,16 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 #endif
 
 + (id)ticketForService:(GTLService *)service {
-  return [[[self alloc] initWithService:service] autorelease];
+  return [[self alloc] initWithService:service];
 }
 
 - (id)initWithService:(GTLService *)service {
   self = [super init];
   if (self) {
-    service_ = [service retain];
+    service_ = service;
 
     ticketProperties_ = [service.serviceProperties mutableCopy];
-    surrogates_ = [service.surrogates retain];
+    surrogates_ = service.surrogates;
     uploadProgressSelector_ = service.uploadProgressSelector;
     isRetryEnabled_ = service.retryEnabled;
     retrySelector_ = service.retrySelector;
@@ -2217,25 +2216,25 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
   return self;
 }
 
-- (void)dealloc {
-  [service_ release];
-  [ticketProperties_ release];
-  [surrogates_ release];
-  [objectFetcher_ release];
-#if NS_BLOCKS_AVAILABLE
-  [uploadProgressBlock_ release];
-  [retryBlock_ release];
-#endif
-  [postedObject_ release];
-  [fetchedObject_ release];
-  [executingQuery_ release];
-  [originalQuery_ release];
-  [fetchError_ release];
-  [apiKey_ release];
-  [parseOperation_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [service_ release];
+//  [ticketProperties_ release];
+//  [surrogates_ release];
+//  [objectFetcher_ release];
+//#if NS_BLOCKS_AVAILABLE
+//  [uploadProgressBlock_ release];
+//  [retryBlock_ release];
+//#endif
+//  [postedObject_ release];
+//  [fetchedObject_ release];
+//  [executingQuery_ release];
+//  [originalQuery_ release];
+//  [fetchError_ release];
+//  [apiKey_ release];
+//  [parseOperation_ release];
+//
+//  [super dealloc];
+//}
 
 - (NSString *)description {
   NSString *devKeyInfo = @"";
@@ -2300,7 +2299,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
   [self.executingQuery executionDidStop];
   self.executingQuery = self.originalQuery;
 
-  [service_ autorelease];
+//  [service_ autorelease];
   service_ = nil;
 }
 
@@ -2315,18 +2314,18 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 - (id)userData {
   // be sure the returned pointer has the life of the autorelease pool,
   // in case self is released immediately
-  return [[[self propertyForKey:kUserDataPropertyKey] retain] autorelease];
+  return [self propertyForKey:kUserDataPropertyKey];
 }
 
 - (void)setProperties:(NSDictionary *)dict {
-  [ticketProperties_ autorelease];
+//  [ticketProperties_ autorelease];
   ticketProperties_ = [dict mutableCopy];
 }
 
 - (NSDictionary *)properties {
   // be sure the returned pointer has the life of the autorelease pool,
   // in case self is released immediately
-  return [[ticketProperties_ retain] autorelease];
+  return ticketProperties_;
 }
 
 - (void)setProperty:(id)obj forKey:(NSString *)key {
@@ -2348,7 +2347,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 
   // be sure the returned pointer has the life of the autorelease pool,
   // in case self is released immediately
-  return [[obj retain] autorelease];
+  return obj;
 }
 
 - (NSDictionary *)surrogates {
@@ -2356,8 +2355,8 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 }
 
 - (void)setSurrogates:(NSDictionary *)dict {
-  [surrogates_ autorelease];
-  surrogates_ = [dict retain];
+//  [surrogates_ autorelease];
+  surrogates_ = dict;
 }
 
 - (SEL)uploadProgressSelector {
@@ -2383,7 +2382,7 @@ totalBytesExpectedToSend:(NSInteger)totalBytesExpected {
 
 #if NS_BLOCKS_AVAILABLE
 - (void)setUploadProgressBlock:(GTLServiceUploadProgressBlock)block {
-  [uploadProgressBlock_ autorelease];
+//  [uploadProgressBlock_ autorelease];
   uploadProgressBlock_ = [block copy];
 
   if (uploadProgressBlock_) {

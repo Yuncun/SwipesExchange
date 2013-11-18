@@ -10,4 +10,9 @@
 
 @implementation SEHalls
 
+- (NSString *)fullList
+{
+	return @"";
+}
+
 @end

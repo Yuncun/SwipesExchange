@@ -15,7 +15,7 @@
 
 #import <Foundation/Foundation.h>
 #import "CloudAuthenticatorDelegate.h"
-#import "CloudBackendIOSClientAppDelegate.h"
+#import "SEAppDelegate.h"
 #import "CloudControllerDelegate.h"
 #import "CloudEntityCollection.h"
 #import "GTLMobilebackend.h"
@@ -30,7 +30,7 @@ extern NSString *const kCloudControllerDeviceTokenNotification;
 @interface CloudControllerHelper : NSObject<CloudAuthenticatorDelegate>
 
 // Reference to the application
-@property(nonatomic, retain) CloudBackendIOSClientAppDelegate *appDelegate;
+@property(nonatomic, retain) SEAppDelegate *appDelegate;
 // Reference to mobile backend service.
 @property(nonatomic, strong, readonly) GTLServiceMobilebackend *cloudEndpointService;
 

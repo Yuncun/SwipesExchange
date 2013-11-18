@@ -42,8 +42,8 @@ static BOOL memsrch(const unsigned char* needle, NSUInteger needle_len,
 
 + (GTMMIMEPart *)partWithHeaders:(NSDictionary *)headers body:(NSData *)body {
 
-  return [[[self alloc] initWithHeaders:headers
-                                   body:body] autorelease];
+  return [[self alloc] initWithHeaders:headers
+                                   body:body];
 }
 
 - (id)initWithHeaders:(NSDictionary *)headers
@@ -51,7 +51,7 @@ static BOOL memsrch(const unsigned char* needle, NSUInteger needle_len,
 
   if ((self = [super init]) != nil) {
 
-    bodyData_ = [body retain];
+    bodyData_ = body;
 
     // generate the header data by coalescing the dictionary as
     // lines of "key: value\r\m"
@@ -69,7 +69,7 @@ static BOOL memsrch(const unsigned char* needle, NSUInteger needle_len,
       // look for troublesome characters in the header keys & values
       static NSCharacterSet *badChars = nil;
       if (!badChars) {
-        badChars = [[NSCharacterSet characterSetWithCharactersInString:@":\r\n"] retain];
+        badChars = [NSCharacterSet characterSetWithCharactersInString:@":\r\n"];
       }
 
       NSRange badRange = [key rangeOfCharacterFromSet:badChars];
@@ -85,16 +85,16 @@ static BOOL memsrch(const unsigned char* needle, NSUInteger needle_len,
     // headers end with an extra blank line
     [headerString appendString:@"\r\n"];
 
-    headerData_ = [[headerString dataUsingEncoding:NSUTF8StringEncoding] retain];
+    headerData_ = [headerString dataUsingEncoding:NSUTF8StringEncoding];
   }
   return self;
 }
 
-- (void) dealloc {
-  [headerData_ release];
-  [bodyData_ release];
-  [super dealloc];
-}
+//- (void) dealloc {
+//  [headerData_ release];
+//  [bodyData_ release];
+//  [super dealloc];
+//}
 
 // Returns true if the parts contents contain the given set of bytes.
 //
@@ -124,7 +124,7 @@ static BOOL memsrch(const unsigned char* needle, NSUInteger needle_len,
 @implementation GTMMIMEDocument
 
 + (GTMMIMEDocument *)MIMEDocument {
-  return [[[self alloc] init] autorelease];
+  return [[self alloc] init];
 }
 
 - (id)init {
@@ -138,10 +138,10 @@ static BOOL memsrch(const unsigned char* needle, NSUInteger needle_len,
   return self;
 }
 
-- (void)dealloc {
-  [parts_ release];
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [parts_ release];
+//  [super dealloc];
+//}
 
 // Adds a new part to this mime document with the given headers and body.
 - (void)addPartWithHeaders:(NSDictionary *)headers
@@ -196,13 +196,13 @@ static BOOL memsrch(const unsigned char* needle, NSUInteger needle_len,
     if (!didCollide) break; // we're fine, no more attempts needed
 
     // try again with a random number appended
-    boundary = [NSString stringWithFormat:@"%@_%08x", kBaseBoundary,
+    boundary = [NSMutableString stringWithFormat:@"%@_%08x", kBaseBoundary,
                 [self random]];
   }
 
   if (didCollide) {
     // fallback... two random numbers
-    boundary = [NSString stringWithFormat:@"%08x_tedborg_%08x",
+    boundary = [NSMutableString stringWithFormat:@"%08x_tedborg_%08x",
                                           [self random], [self random]];
   }
 

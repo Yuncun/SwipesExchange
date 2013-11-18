@@ -98,7 +98,7 @@ static NSString *const kRefreshFetchArgsKey = @"requestArgs";
                               completionHandler:(id)completionHandler
                                          thread:(NSThread *)thread {
   GTMOAuth2AuthorizationArgs *obj;
-  obj = [[[GTMOAuth2AuthorizationArgs alloc] init] autorelease];
+	obj = [[GTMOAuth2AuthorizationArgs alloc] init]; // was auto-release
   obj.request = req;
   obj.delegate = delegate;
   obj.selector = sel;
@@ -107,15 +107,15 @@ static NSString *const kRefreshFetchArgsKey = @"requestArgs";
   return obj;
 }
 
-- (void)dealloc {
-  [request_ release];
-  [delegate_ release];
-  [completionHandler_ release];
-  [thread_ release];
-  [error_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [request_ release];
+//  [delegate_ release];
+//  [completionHandler_ release];
+//  [thread_ release];
+//  [error_ release];
+//
+//  [super dealloc];
+//}
 @end
 
 
@@ -199,7 +199,7 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
                             redirectURI:(NSString *)redirectURI
                                clientID:(NSString *)clientID
                            clientSecret:(NSString *)clientSecret {
-  GTMOAuth2Authentication *obj = [[[self alloc] init] autorelease];
+	GTMOAuth2Authentication *obj = [[self alloc] init]; // was auto-release
   obj.serviceProvider = serviceProvider;
   obj.tokenURL = tokenURL;
   obj.redirectURI = redirectURI;
@@ -235,23 +235,23 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
           [self class], self, valuesStr];
 }
 
-- (void)dealloc {
-  [clientID_ release];
-  [clientSecret_ release];
-  [redirectURI_ release];
-  [parameters_ release];
-  [authorizationTokenKey_ release];
-  [tokenURL_ release];
-  [expirationDate_ release];
-  [additionalTokenRequestParameters_ release];
-  [additionalGrantTypeRequestParameters_ release];
-  [refreshFetcher_ release];
-  [authorizationQueue_ release];
-  [userData_ release];
-  [properties_ release];
-
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [clientID_ release];
+//  [clientSecret_ release];
+//  [redirectURI_ release];
+//  [parameters_ release];
+//  [authorizationTokenKey_ release];
+//  [tokenURL_ release];
+//  [expirationDate_ release];
+//  [additionalTokenRequestParameters_ release];
+//  [additionalGrantTypeRequestParameters_ release];
+//  [refreshFetcher_ release];
+//  [authorizationQueue_ release];
+//  [userData_ release];
+//  [properties_ release];
+//
+//  [super dealloc];
+//}
 
 #pragma mark -
 
@@ -311,8 +311,8 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
                                    error:&error];
 #if DEBUG
     if (error) {
-      NSString *str = [[[NSString alloc] initWithData:data
-                                             encoding:NSUTF8StringEncoding] autorelease];
+      NSString *str = [[NSString alloc] initWithData:data
+											encoding:NSUTF8StringEncoding]; // was auto-release
       NSLog(@"NSJSONSerialization error %@ parsing %@",
             error, str);
     }
@@ -325,9 +325,9 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
       jsonParseClass = NSClassFromString(@"SBJSON");
     }
     if (jsonParseClass) {
-      GTMOAuth2ParserClass *parser = [[[jsonParseClass alloc] init] autorelease];
-      NSString *jsonStr = [[[NSString alloc] initWithData:data
-                                                 encoding:NSUTF8StringEncoding] autorelease];
+		GTMOAuth2ParserClass *parser = [[jsonParseClass alloc] init]; // was auto-release
+      NSString *jsonStr = [[NSString alloc] initWithData:data
+												encoding:NSUTF8StringEncoding]; // was auto-release
       if (jsonStr) {
         obj = [parser objectWithString:jsonStr error:&error];
 #if DEBUG
@@ -586,9 +586,9 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
       NSOperationQueue *delegateQueue = self.fetcherService.delegateQueue;
       if (delegateQueue) {
         NSInvocationOperation *op;
-        op = [[[NSInvocationOperation alloc] initWithTarget:self
+        op = [[NSInvocationOperation alloc] initWithTarget:self
                                                    selector:sel
-                                                     object:args] autorelease];
+													object:args]; // was auto-release
         [delegateQueue addOperation:op];
       } else {
         [self performSelector:sel
@@ -887,8 +887,8 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
         [self setKeysForResponseJSONData:data];
       } else {
         // Support for legacy token servers that return form-urlencoded data
-        NSString *dataStr = [[[NSString alloc] initWithData:data
-                                                   encoding:NSUTF8StringEncoding] autorelease];
+        NSString *dataStr = [[NSString alloc] initWithData:data
+												  encoding:NSUTF8StringEncoding]; // was autorelease
         [self setKeysForResponseString:dataStr];
       }
 
@@ -1153,13 +1153,13 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 
   // Be sure the returned pointer has the life of the autorelease pool,
   // in case self is released immediately
-  return [[obj retain] autorelease];
+  return obj;
 }
 
 #pragma mark Utility Routines
 
 + (NSString *)encodedOAuthValueForString:(NSString *)str {
-  CFStringRef originalString = (CFStringRef) str;
+  CFStringRef originalString = (__bridge CFStringRef) str;
   CFStringRef leaveUnescaped = NULL;
   CFStringRef forceEscaped =  CFSTR("!*'();:@&=+$,/?%#[]");
 
@@ -1170,10 +1170,10 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
                                                          leaveUnescaped,
                                                          forceEscaped,
                                                          kCFStringEncodingUTF8);
-    [(id)CFMakeCollectable(escapedStr) autorelease];
+//    (__bridge id)escapedStr;
   }
 
-  return (NSString *)escapedStr;
+  return (__bridge NSString *)escapedStr;
 }
 
 + (NSString *)encodedQueryParametersForDictionary:(NSDictionary *)dict {
@@ -1249,8 +1249,8 @@ finishedRefreshWithFetcher:(GTMHTTPFetcher *)fetcher
 }
 
 + (NSDictionary *)dictionaryWithResponseData:(NSData *)data {
-  NSString *responseStr = [[[NSString alloc] initWithData:data
-                                                 encoding:NSUTF8StringEncoding] autorelease];
+  NSString *responseStr = [[NSString alloc] initWithData:data
+                                                 encoding:NSUTF8StringEncoding];
   NSDictionary *dict = [self dictionaryWithResponseString:responseStr];
   return dict;
 }

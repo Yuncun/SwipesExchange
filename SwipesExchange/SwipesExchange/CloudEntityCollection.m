@@ -13,7 +13,7 @@
  * limitations under the License.
  */
 
-#import "CloudBackendIOSClientAppDelegate.h"
+#import "SEAppDelegate.h"
 #import "CloudEntity.h"
 #import "CloudEntityCollection.h"
 #import "CloudNotificationHandler.h"
@@ -25,7 +25,7 @@
   // Key is topic as NSString, object is handler as CloudNotificationHandler.
   NSMutableDictionary *_topicHandlerDictionary;
   GTLServiceMobilebackend *_cloudEndpointService;
-  CloudBackendIOSClientAppDelegate *_appDelegate;
+  SEAppDelegate *_appDelegate;
 }
 @end
 
@@ -50,7 +50,7 @@ static CloudEntityCollection *singleton;
   if (self) {
     UIResponder <UIApplicationDelegate> *myDelegate =
         [[UIApplication sharedApplication] delegate];
-    _appDelegate = (CloudBackendIOSClientAppDelegate *) myDelegate;
+    _appDelegate = (SEAppDelegate *) myDelegate;
     _topicHandlerDictionary = [NSMutableDictionary dictionary];
   }
 
@@ -116,7 +116,7 @@ static CloudEntityCollection *singleton;
   }
 
   // Add the device's token to regId field of the current query
-  CloudBackendIOSClientAppDelegate *myApp = [self appDelegate];
+  SEAppDelegate *myApp = [self appDelegate];
   NSAssert([myApp.tokenString length], @"Device token is invalid");
   cbQuery.regId = [kCloudEntityCollectionIOSDevicePrefix
                       stringByAppendingString:myApp.tokenString];
@@ -314,7 +314,7 @@ static CloudEntityCollection *singleton;
   return _cloudEndpointService;
 }
 
-- (CloudBackendIOSClientAppDelegate *)appDelegate {
+- (SEAppDelegate *)appDelegate {
   return _appDelegate;
 }
 

@@ -40,7 +40,7 @@ const CFStringRef kCharsToForceEscape = CFSTR("!*'();:@&=+$,/?%#[]");
 
   NSString *resultStr = str;
 
-  CFStringRef originalString = (CFStringRef) str;
+  CFStringRef originalString = (__bridge CFStringRef) str;
   CFStringRef leaveUnescaped = NULL;
 
   CFStringRef escapedStr;
@@ -50,7 +50,7 @@ const CFStringRef kCharsToForceEscape = CFSTR("!*'();:@&=+$,/?%#[]");
                                                        kCharsToForceEscape,
                                                        kCFStringEncodingUTF8);
   if (escapedStr) {
-    resultStr = [(id)CFMakeCollectable(escapedStr) autorelease];
+    resultStr = (__bridge NSString *)(escapedStr);
   }
   return resultStr;
 }
@@ -60,7 +60,7 @@ const CFStringRef kCharsToForceEscape = CFSTR("!*'();:@&=+$,/?%#[]");
   // them with +'s
   NSString *resultStr = str;
 
-  CFStringRef originalString = (CFStringRef) str;
+  CFStringRef originalString = (__bridge CFStringRef) str;
   CFStringRef leaveUnescaped = CFSTR(" ");
 
   CFStringRef escapedStr;
@@ -71,7 +71,7 @@ const CFStringRef kCharsToForceEscape = CFSTR("!*'();:@&=+$,/?%#[]");
                                                        kCFStringEncodingUTF8);
 
   if (escapedStr) {
-    NSMutableString *mutableStr = [NSMutableString stringWithString:(NSString *)escapedStr];
+    NSMutableString *mutableStr = [NSMutableString stringWithString:(__bridge NSString *)escapedStr];
     CFRelease(escapedStr);
 
     // replace spaces with plusses
@@ -109,9 +109,9 @@ const CFStringRef kCharsToForceEscape = CFSTR("!*'();:@&=+$,/?%#[]");
 
       if (encoded == nil) {
         // Start encoding and catch up on the character skipped so far
-        encoded = [[[NSMutableString alloc] initWithBytes:utf8
+        encoded = [[NSMutableString alloc] initWithBytes:utf8
                                                    length:idx
-                                                 encoding:NSUTF8StringEncoding] autorelease];
+                                                 encoding:NSUTF8StringEncoding];
       }
 
       // append this byte as a % and then uppercase hex
@@ -175,7 +175,7 @@ const CFStringRef kCharsToForceEscape = CFSTR("!*'();:@&=+$,/?%#[]");
 
   static NSCharacterSet* dotSet = nil;
   if (dotSet == nil) {
-    dotSet = [[NSCharacterSet characterSetWithCharactersInString:@"."] retain];
+    dotSet = [NSCharacterSet characterSetWithCharactersInString:@"."];
   }
 
   if (ver1 == nil) ver1 = @"";

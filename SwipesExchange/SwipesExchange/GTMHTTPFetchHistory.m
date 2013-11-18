@@ -35,10 +35,10 @@ static NSString* const kGTMETagHeader = @"Etag";
   return self;
 }
 
-- (void)dealloc {
-  [cookies_ release];
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [cookies_ release];
+//  [super dealloc];
+//}
 
 // Add all cookies in the new cookie array to the storage,
 // replacing stored cookies as appropriate.
@@ -215,20 +215,20 @@ static NSString* const kGTMETagHeader = @"Etag";
 - (id)initWithResponse:(NSURLResponse *)response data:(NSData *)data {
   self = [super init];
   if (self != nil) {
-    response_ = [response retain];
-    data_ = [data retain];
+	response_ = response; // was retain
+    data_ = data; // was retain
     useDate_ = [[NSDate alloc] init];
   }
   return self;
 }
 
-- (void)dealloc {
-  [response_ release];
-  [data_ release];
-  [useDate_ release];
-  [reservationDate_ release];
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [response_ release];
+//  [data_ release];
+//  [useDate_ release];
+//  [reservationDate_ release];
+//  [super dealloc];
+//}
 
 - (NSString *)description {
   NSString *reservationStr = reservationDate_ ?
@@ -271,10 +271,10 @@ static NSString* const kGTMETagHeader = @"Etag";
   return self;
 }
 
-- (void)dealloc {
-  [responses_ release];
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [responses_ release];
+//  [super dealloc];
+//}
 
 - (NSString *)description {
   return [NSString stringWithFormat:@"%@ %p: {responses:%@}",
@@ -338,7 +338,7 @@ static NSString* const kGTMETagHeader = @"Etag";
 
   @synchronized(self) {
     NSURL *key = [request URL];
-    response = [[[responses_ objectForKey:key] retain] autorelease];
+	response = [responses_ objectForKey:key]; // // was retain, autorelease
 
     // Touch the date to indicate this was recently retrieved
     [response setUseDate:[NSDate date]];
@@ -425,11 +425,11 @@ static NSString* const kGTMETagHeader = @"Etag";
   return self;
 }
 
-- (void)dealloc {
-  [etaggedDataCache_ release];
-  [cookieStorage_ release];
-  [super dealloc];
-}
+//- (void)dealloc {
+//  [etaggedDataCache_ release];
+//  [cookieStorage_ release];
+//  [super dealloc];
+//}
 
 - (void)updateRequest:(NSMutableURLRequest *)request isHTTPGet:(BOOL)isHTTPGet {
   @synchronized(self) {
@@ -490,8 +490,8 @@ static NSString* const kGTMETagHeader = @"Etag";
         NSData *dataToStore = shouldCacheETaggedData_ ? downloadedData : nil;
 
         GTMCachedURLResponse *cachedResponse;
-        cachedResponse = [[[GTMCachedURLResponse alloc] initWithResponse:response
-                                                                      data:dataToStore] autorelease];
+        cachedResponse = [[GTMCachedURLResponse alloc] initWithResponse:response
+																   data:dataToStore]; // was autoreleased
         [etaggedDataCache_ storeCachedResponse:cachedResponse
                                   forRequest:request];
       } else {
