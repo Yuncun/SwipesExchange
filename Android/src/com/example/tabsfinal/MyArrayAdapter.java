@@ -25,7 +25,7 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
 
 //The best practice for passing the data should be having all the data be in one object, rather than three arguments of strings. This is for early implementation sake.
   public MyArrayAdapter(Context context, List<Listing> values) {
-    super(context, R.layout.list_item);
+    super(context, R.layout.sell_list_item);
     this.context = context;
     this.entries = values;
     //this.values2 = values2;
@@ -42,18 +42,20 @@ public class MyArrayAdapter extends ArrayAdapter<String> {
     LayoutInflater inflater = (LayoutInflater) context
         .getSystemService(Context.LAYOUT_INFLATER_SERVICE);
     
-    View rowView = inflater.inflate(R.layout.list_item, parent, false);
+    View rowView = inflater.inflate(R.layout.sell_list_item, parent, false);
     
     //Set the values of the strings on the list
     TextView firstLine = (TextView) rowView.findViewById(R.id.firstLine);
     TextView firstLineRight = (TextView) rowView.findViewById(R.id.firstLineRight);
     TextView secondLine = (TextView) rowView.findViewById(R.id.secondLine);
+    TextView secondLineRight = (TextView) rowView.findViewById(R.id.secondLineRight);
 //    TextView thirdLine = (TextView) rowView.findViewById(R.id.secondLine);
  //   ImageView imageView = (ImageView) rowView.findViewById(R.id.icon);
     //test outputs
     String firstlinetext = ((entries.get(position)).getVenue()).getName();
     String secondlinetext = ((entries.get(position)).getUser()).getName();
     String firstlinerighttext = String.valueOf(((entries.get(position)).getSwipeCount()));
+    //String secondlinerighttext = String.valueOf((entries.get(position).getPrice))
     System.out.println("first line is" + firstlinetext);
     System.out.println("second line is" + secondlinetext);
     System.out.println("first line right is" + firstlinerighttext);

@@ -123,9 +123,11 @@ public class MainActivity extends FragmentActivity implements
 				return MyList.newInstance(position);
 			case 1:
 				return MyList.newInstance(position);
-			default:
+			case 2:
 				return MyList.newInstance(position);
+			
 			}
+				return null;
 			}
 
 		@Override

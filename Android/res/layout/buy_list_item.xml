@@ -1,0 +1,50 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="50dip"
+    android:padding="5dip" >
+
+     <TextView
+        android:id="@+id/firstLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+      
+       	android:paddingTop="0dp"
+       	android:paddingLeft="5dp"
+       	android:textSize="16sp"
+       	
+       
+        
+        android:gravity="center_vertical"
+        android:text="Example application"
+        />
+
+    <TextView
+        android:id="@+id/secondLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+  		android:paddingLeft="5dp"
+        android:layout_below="@id/firstLine"
+        
+       
+        android:text="Description"
+        android:textSize="12sp" />
+
+
+    
+    <TextView
+        android:id="@+id/firstLineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        
+     	android:layout_alignParentRight="true"
+        android:paddingTop="0dp"
+        
+        
+        
+        android:text="Number requested"
+        android:textSize="16sp"
+        />
+    
+    	
+
+</RelativeLayout> 
