@@ -1,6 +1,6 @@
 package com.example.tabsfinal;
 
-public class Listing {
+public abstract class Listing {
 
 	private int swipeCount;
 	private User user;

@@ -20,7 +20,7 @@
 
     <TextView
         android:id="@+id/secondLine"
-        android:layout_width="fill_parent"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
   		android:paddingLeft="5dp"
         android:layout_below="@id/firstLine"
@@ -44,5 +44,13 @@
         android:text="Number requested"
         android:textSize="16sp"
         />
+    
+    	<TextView
+	    android:id="@+id/secondLineRight"
+	    android:layout_width="wrap_content"
+	    android:layout_height="wrap_content"
+	    android:layout_alignParentRight="true"
+	    android:layout_below="@id/firstLineRight"
+	    />
 
 </RelativeLayout> 
