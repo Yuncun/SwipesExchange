@@ -8,9 +8,11 @@
 
 #import <Foundation/Foundation.h>
 
-@interface SEHalls : NSObject
+@interface SEHalls : NSDictionary
 
 // considering using dictionary? key/value pairs. more expandable down the road.
 // don't need to show dining halls in listing. can filter table by hall
+
+- (NSString *)fullList;
 
 @end
