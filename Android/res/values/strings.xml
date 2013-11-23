@@ -6,6 +6,7 @@
     <string name="title_section1">Buying</string>
     <string name="title_section2">Selling</string>
     <string name="title_section3">Messages</string>
+    <string name="title_section4">New Listing</string>
     <string name="random">Random</string>
 
 </resources>

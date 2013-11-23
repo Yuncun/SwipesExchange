@@ -4,6 +4,7 @@ import java.util.Locale;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Intent;
 import android.support.v4.app.ListFragment;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -12,13 +13,19 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.NavUtils;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class MainActivity extends FragmentActivity implements
@@ -32,7 +39,9 @@ public class MainActivity extends FragmentActivity implements
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
+	//Button myButton;
 	SectionsPagerAdapter mSectionsPagerAdapter;
+	ActionBar actionBar;
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
@@ -42,11 +51,15 @@ public class MainActivity extends FragmentActivity implements
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setContentView(R.layout.activity_main);
-
+		actionBar = getActionBar();
+		
 		// Set up the action bar.
-		final ActionBar actionBar = getActionBar();
+		
+		actionBar.setIcon(R.drawable.yes);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
-
+		
+		
+		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
@@ -54,6 +67,8 @@ public class MainActivity extends FragmentActivity implements
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		
+	
 
 		// When swiping between different sections, select the corresponding
 		// tab. We can also use ActionBar.Tab#select() to do this if we have
@@ -65,23 +80,73 @@ public class MainActivity extends FragmentActivity implements
 					}
 				});
 		
+		
+		//TextView tabText = (TextView) tabView.findViewById()
+		
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
+			View tabView = this.getLayoutInflater().inflate(R.layout.tab_layout, null);
+			TextView tabText = (TextView) tabView.findViewById(R.id.tabText);
+			tabText.setText(mSectionsPagerAdapter.getPageTitle(i));
+			ImageView tabImage = (ImageView) tabView.findViewById(R.id.tabIcon);
+			switch(i)
+			{
+			case 0:
+				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.shopping_basket_checkmark));
+				break;
+			case 1:
+				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.currency_sign_dollar_add));
+				break;
+			case 2:
+				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
+				break;
+			case 3:
+				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
+				break;
+			
+			}
+			
 			actionBar.addTab(actionBar.newTab()
-					.setText(mSectionsPagerAdapter.getPageTitle(i))
-					.setTabListener(this));
+					
+					
+					
+					.setTabListener(this).setCustomView(tabView));
 		}
+		
+		
+		
 	}
+	
+	
+	
 
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
 		getMenuInflater().inflate(R.menu.main, menu);
-		return true;
+		RelativeLayout relativeLayout = (RelativeLayout) menu.findItem(R.id.layout_item).getActionView();
+		View inflatedView = getLayoutInflater().inflate(R.layout.actionbar_top, null);
+		inflatedView.findViewById(R.id.new_button).setOnClickListener(new OnClickListener() {
+ 
+			@Override
+			public void onClick(View v) {
+					Log.d("button", "Click!");
+					actionBar.setSelectedNavigationItem(3);
+				
+			}
+		});
+		relativeLayout.addView(inflatedView);
+		
+		return (super.onCreateOptionsMenu(menu));
+		
+		//RelativeLayout relativeLayout = (RelativeLayout) menu.findItem(R.id.section_label).getActionView();
+		//View inflatedView = getLayoutInflater().inflate(R.layout.actionbar_top, null);
+		//relativeLayout.addView(inflatedView);
+		
 	}
 
 	@Override
@@ -101,6 +166,8 @@ public class MainActivity extends FragmentActivity implements
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
 	}
+	
+	
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -125,6 +192,9 @@ public class MainActivity extends FragmentActivity implements
 				return MyList.newInstance(position);
 			case 2:
 				return MyList.newInstance(position);
+			case 3:
+				return NewListingFragment.newInstance(position);
+		
 			
 			}
 				return null;
@@ -133,18 +203,19 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 3;
+			return 4;
 		}
 		public String getPageTitle(int position) {
 			//Locale l = Locale.getDefault();
 			switch (position) {
 			case 0:
 				return getString(R.string.title_section1);
-				//return getString(R.string.random);
 			case 1:
 				return getString(R.string.title_section2);
 			case 2:
 				return getString(R.string.title_section3);
+			case 3:
+				return getString(R.string.title_section4);
 			}
 			return null;
 		}

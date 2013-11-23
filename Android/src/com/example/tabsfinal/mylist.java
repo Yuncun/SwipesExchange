@@ -29,6 +29,7 @@ class MyList extends ListFragment
         else if (num == 2)
         	l.page_num = 2;
         
+        
         Bundle args = new Bundle();
         args.putInt("num", num);
 
