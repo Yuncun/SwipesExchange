@@ -9,10 +9,6 @@
 #import "SEAppDelegate.h"
 #import "SEReferences.h"
 
-// Google Backend
-#import "CloudEntityCollection.h"
-#import "CloudControllerHelper.h"
-
 @implementation SEAppDelegate
 
 - (BOOL)application:(UIApplication *)application didFinishLaunchingWithOptions:(NSDictionary *)launchOptions
@@ -20,88 +16,8 @@
     // Override point for customization after application launch.
 	[self.window setTintColor:[SEReferences mainColor]];
 	
-	// Google Backend
-#if (TARGET_IPHONE_SIMULATOR)
-	NSLog(@"This application uses the push notification functionality. %@",
-		  @"It has to be executed on a physical device instead of a simulator.");
-	
-	return NO;
-#endif
-	
-	// Register for push notification
-	UIRemoteNotificationType types =
-	(UIRemoteNotificationTypeSound | UIRemoteNotificationTypeAlert);
-	[[UIApplication sharedApplication] registerForRemoteNotificationTypes:types];
-	
     return YES;
 }
-
-// Start Google Backend
-
-- (void)application:(UIApplication *)application
-didRegisterForRemoteNotificationsWithDeviceToken:(NSData *)deviceToken {
-	NSString *token = [self hexStringFromData:deviceToken];
-	NSLog(@"content---%@", token);
-	
-	// Save the token
-	self.tokenString = token;
-	
-	// Notify controller that device token is received
-	[[NSNotificationCenter defaultCenter]
-	 postNotificationName:kCloudControllerDeviceTokenNotification
-	 object:self];
-}
-
-// Returns an NSString object that contains a hexadecimal representation of the
-// receiver’s contents.
-- (NSString *)hexStringFromData:(NSData *)data {
-	NSUInteger dataLength = [data length];
-	NSMutableString *stringBuffer =
-	[NSMutableString stringWithCapacity:dataLength * 2];
-	const unsigned char *dataBuffer = [data bytes];
-	for (int i=0; i<dataLength; i++) {
-		[stringBuffer appendFormat:@"%02x", (NSUInteger)dataBuffer[i]];
-	}
-	
-	return stringBuffer;
-}
-
-- (void)application:(UIApplication *)app
-didFailToRegisterForRemoteNotificationsWithError:(NSError *)err {
-	NSLog(@"%@", err);
-}
-
-- (void)application:(UIApplication *)application
-didReceiveRemoteNotification:(NSDictionary *)userInfo {
-	NSLog(@"Alert: %@", userInfo);
-	
-	NSString *message = userInfo[@"hiddenMessage"];
-	// message is in the format of "<regId>:query:<clientSubId>" based on the
-	// backend
-	NSArray *tokens = [message componentsSeparatedByString:@":"];
-	
-	// Tokens are not expected, do nothing
-	if ([tokens count] != 3) {
-		NSLog(@"Message doesn't conform to the subId format at the backend: %@",
-			  message);
-		return;
-	}
-	
-	// Token type isn't "query", do nothing
-	if (![tokens[1] isEqual: @"query"]) {
-		NSLog(@"Message is not in type QUERY: %@", message);
-		return;
-	}
-	
-	// Handle this push notification based on this topicID
-	NSString *topicID = tokens[2]; // clientSubId
-	CloudEntityCollection *entityCollection =
-	[CloudEntityCollection sharedInstance];
-	[entityCollection handlePushNotificationWithTopicID:topicID];
-}
-
-// End Google Backend
-
 
 
 
