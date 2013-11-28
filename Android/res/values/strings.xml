@@ -8,5 +8,15 @@
     <string name="title_section3">Messages</string>
     <string name="title_section4">New Listing</string>
     <string name="random">Random</string>
+    
+    <string name="select_time">Start Time</string>
+    <string name="select_time2">End Time</string>
+    <string name="submit_listing">Submit</string>
 
+    
+    
+      
+        
+        
+   
 </resources>

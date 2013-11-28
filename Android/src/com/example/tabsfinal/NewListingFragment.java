@@ -1,53 +1,147 @@
 package com.example.tabsfinal;
 
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
 
 import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentTransaction;
+import android.support.v4.app.DialogFragment;
+import android.content.Context;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
 import android.widget.Button;
+import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnGroupClickListener;
+import android.widget.TextView;
+import android.widget.TimePicker;
 
 public class NewListingFragment extends Fragment{
 
         //Button createbuylisting;
+	
+		Button time1;
+		
+		private ArrayList<String> parentItems = new ArrayList<String>();
+		private ArrayList<Object> childItems = new ArrayList<Object>();
         
         private int page_num;
+        
+      
         
            static NewListingFragment newInstance(int num) {
                
                 NewListingFragment myFrag = new NewListingFragment();
                 Bundle args = new Bundle();
                 args.putInt("num", num);
-                myFrag.page_num = num;
-
+                myFrag.page_num = 3;
+                
                 myFrag.setArguments(args);
+                
+                
 
                 return myFrag;
 
             }
+
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
                 
-        View view = inflater.inflate(R.layout.addlisting, container, false);
+        View view = inflater.inflate(R.layout.expandable_list_view, container, false);
+       
+        
+        //final TimePicker tp = (TimePicker) view.findViewById(R.id.timePicker1);
+        //tp.setVisibility(View.INVISIBLE);
+       // tp.setVisibility(View.VISIBLE);
+  
+        //TimePickerFragment tpf = TimePickerFragment.newInstance(2);
+       // FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
+       
+       // transaction.add(tpf, "embeddedTime").commit();
+        
+        
+        
+        /*view.findViewById(R.id.Text1).setOnClickListener(new OnClickListener() {
+        	 
+			@Override
+			public void onClick(View v) {
+					Log.d("button", "Qutie far");
+					
+					Log.d("button", "END");
+				
+					toggle_contents(tp, v);
+				
+			}
+		});
+        */
         return view;
     }
-        
-        
+        /*
+        public void toggle_contents(TimePicker tp, View v) {
+        	if(tp.isShown())
+			{
+        		FX.slide_up(getActivity().getApplicationContext(), tp);
+				tp.setVisibility(View.INVISIBLE);
+			}
+			else
+			{
+				FX.slide_down(getActivity().getApplicationContext(), tp);
+				tp.setVisibility(View.VISIBLE);
+			}
+        	
+        }
+*/
+
+    
         @Override
         public void onActivityCreated(Bundle savedInstanceState) {
                 
             super.onActivityCreated(savedInstanceState);
             
             
+            ExpandableListView lv = (ExpandableListView) getActivity().findViewById(R.id.exlist);
+            setGroupParents();
+            setChildData();
+            
+           
+            //lv.setGroupIndicator(null);
+         
+            MyExpandableAdapter adapter = new MyExpandableAdapter(parentItems, childItems);
+            adapter.setInflater((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE), getActivity());
+            
+           /* lv.setOnGroupClickListener(new OnGroupClickListener() {
+           	 public boolean onGroupClick(ExpandableListView parent, View v, int groupPosition, long id){
+                    // TODO Auto-generated method stub.
+                    if(adapter.getChildrenCount(groupPosition) == 0){
+                        return false;
+                    }else{
+                        return true;                   
+                    }
+           	
+           }});*/
+            lv.setDividerHeight(4);
+            lv.setGroupIndicator(null);
+            
+           //lv.setClickable(true);
+            lv.setAdapter(adapter);
+            
+            
+           
+           // lv.setOnChildClickListener(new OnClickListener();
+            
+            
+            
+            
             
             //Later this should be moved into main activity
          //   final Communications coms = new Communications();
-            
-            //Button button = (Button) getView().findViewById(R.id.buybutton);
-           // button.setOnClickListener(new View.OnClickListener() {
+           
               //  public void onClick(View v) {
                         
                         //Communications.addBuyerListing(buyList);
@@ -56,6 +150,51 @@ public class NewListingFragment extends Fragment{
                // }
            // });
                 
+        }
+        
+        public void setGroupParents() {
+        	parentItems.add("Set Start Time:                      Press to set");
+        	parentItems.add("Start Time:");
+        	parentItems.add("Set End Time:                        Press to set");
+        	parentItems.add("End Time:");
+        	parentItems.add("Venue");
+        	parentItems.add("TBD");
+        	
+        }
+        
+        public void setChildData() {
+        	ArrayList<String> child = new ArrayList<String>();
+        	child.add("PlaceHolder");
+        	//child.add("Games");
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
+        	//child.add("PlaceHolder");
+        	childItems.add(child);
+       
+        	
+        	child = new ArrayList<String>();
+        	child.add("PlaceHolder");
+        	childItems.add(child);
+        	
+        	
+        	child = new ArrayList<String>();
+        	//child.add("PlaceHolder");
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
+        	child.add("De Neve");
+        	child.add("Covell");
+        	child.add("Hedrick");
+        	//child.add("Applet");
+        	//child.add("AspectJ");
+        	//child.add("Beans");
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
+        	child.add("Some text");
+        	childItems.add(child);
+        	
         }
             
         

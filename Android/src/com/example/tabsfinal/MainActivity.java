@@ -27,6 +27,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -40,13 +41,14 @@ public class MainActivity extends FragmentActivity implements
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	//Button myButton;
+	
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ActionBar actionBar;
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
+	TimePicker tp;
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
@@ -58,6 +60,7 @@ public class MainActivity extends FragmentActivity implements
 		actionBar.setIcon(R.drawable.yes);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
+		tp = (TimePicker) findViewById(R.id.timePicker1);
 		
 		
 		// Create the adapter that will return a fragment for each of the three
@@ -221,7 +224,10 @@ public class MainActivity extends FragmentActivity implements
 		}
 		}
 
-
+	
+	
+	
+	
 	
 }
 
