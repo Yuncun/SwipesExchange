@@ -1,0 +1,232 @@
+﻿
+# Please enter the commit message for your changes. Lines starting
+# with '#' will be ignored, and an empty message aborts the commit.
+# On branch v1.0
+# Changes to be committed:
+#   (use "git reset HEAD <file>..." to unstage)
+#
+#	modified:   Android/.classpath
+#	new file:   Android/bin/MainActivity.apk
+#	modified:   Android/bin/classes.dex
+#	modified:   Android/bin/classes/com/example/tabsfinal/Listing.class
+#	modified:   Android/bin/classes/com/example/tabsfinal/MainActivity$1.class
+#	modified:   Android/bin/classes/com/example/tabsfinal/MainActivity$2.class
+#	modified:   Android/bin/classes/com/example/tabsfinal/MainActivity$SectionsPagerAdapter.class
+#	modified:   Android/bin/classes/com/example/tabsfinal/MainActivity.class
+#	modified:   Android/bin/classes/com/example/tabsfinal/MyExpandableAdapter.class
+#	modified:   Android/bin/classes/com/example/tabsfinal/NewListingFragment.class
+#	new file:   Android/bin/dexedLibs/android-support-v4-af17ef9e8b221e9bc357cf0e6c34517a.jar
+#	modified:   Android/bin/resources.ap_
+#	new file:   Android/libs/aws-android-sdk-1.7.0-debug.jar
+#	new file:   Android/src/com/example/tabsfinal/Constants.java
+#	modified:   Android/src/com/example/tabsfinal/Listing.java
+#	modified:   Android/src/com/example/tabsfinal/MainActivity.java
+#	deleted:    Android/src/com/example/tabsfinal/MyArrayAdapter.java
+#	modified:   Android/src/com/example/tabsfinal/MyExpandableAdapter.java
+#	modified:   Android/src/com/example/tabsfinal/NewListingFragment.java
+#	new file:   Android/src/com/example/tabsfinal/SimpleDBData.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/.classpath
+#	new file:   solutions-mobile-backend-starter-android-client-master/.project
+#	new file:   solutions-mobile-backend-starter-android-client-master/.settings/org.eclipse.jdt.core.prefs
+#	new file:   solutions-mobile-backend-starter-android-client-master/AndroidManifest.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/LICENSE
+#	new file:   solutions-mobile-backend-starter-android-client-master/README.md
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/AndroidManifest.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/BuildConfig.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackend$1.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackend.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendActivity$1.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendActivity.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$1.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$2.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$3.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$4.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$5.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$6.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$7.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$8.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$9.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$BackendCaller$1.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$BackendCaller.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync$ContinuousQueryHandler.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendAsync.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendMessaging$CloudMessageHandler.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudBackendMessaging.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudCallbackHandler.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudEndpointUtils$1.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudEndpointUtils$2.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudEndpointUtils.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudEntity.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudQuery$Order.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudQuery$Scope.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/CloudQuery.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/Consts.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/F$Op.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/F.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/GCMIntentService.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/Manifest$permission.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/Manifest.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$attr.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$drawable.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$id.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$integer.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$layout.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$menu.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$string.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R$style.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/R.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$Builder.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$Delete.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$DeleteAll.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$Get.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$GetAll.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$Insert.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$InsertAll.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$List.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$Patch.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$Update.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend$UpdateAll.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/Mobilebackend.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/MobilebackendRequest.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/MobilebackendRequestInitializer.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/model/EntityDto.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/model/EntityListDto.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/model/Filter.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/model/FilterDto.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/mobilebackend/model/QueryDto.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/sample/guestbook/GuestbookActivity$1.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/sample/guestbook/GuestbookActivity$2.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/sample/guestbook/GuestbookActivity.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/sample/socialtalk/SocialTalkActivity$1.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/classes/com/google/cloud/backend/android/sample/socialtalk/SocialTalkActivity.class
+#	new file:   solutions-mobile-backend-starter-android-client-master/bin/proguard.txt
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/LICENSE.txt
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/classpath-include
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/BSD-LICENSE.txt
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/css/maven-base.css
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/css/maven-theme.css
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/css/print.css
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/css/site.css
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-api-client-android-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-api-client-appengine-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-api-client-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-api-client-java6-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-api-client-servlet-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-http-client-android-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-http-client-appengine-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-http-client-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-http-client-gson-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-http-client-jackson-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-http-client-jackson2-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-http-client-protobuf-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-oauth-client-appengine-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-oauth-client-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-oauth-client-java6-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-oauth-client-java7-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-oauth-client-jetty-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/dependencies/google-oauth-client-servlet-dependencies.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/descriptor.json
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/gcp-test-mobilebackend-v1-20130328053901-java-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/gcp-test-mobilebackend-v1-20130328053901-java-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-api-client-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-api-client-android-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-http-client-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-http-client-android-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-http-client-gson-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-http-client-jackson-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-http-client-jackson2-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/google-oauth-client-1.14.1-beta-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/gson-2.1-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/jackson-core-2.1.3-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs-sources/jackson-core-asl-1.9.11-sources.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-api-client-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-api-client-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-api-client-android-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-api-client-android-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-android-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-android-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-gson-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-gson-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-jackson-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-jackson-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-jackson2-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-http-client-jackson2-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-oauth-client-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-oauth-client-1.14.1-beta.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/google-oauth-client-assembly-1.14.1-beta.pom
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/gson-2.1.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/gson-2.1.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/jackson-core-2.1.3.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/jackson-core-2.1.3.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/jackson-core-asl-1.9.11.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/jackson-core-asl-1.9.11.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/libs/jsr305-1.3.9.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/Mobilebackend.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/MobilebackendRequest.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/MobilebackendRequestInitializer.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/model/EntityDto.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/model/EntityListDto.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/model/Filter.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/model/FilterDto.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/mobilebackend-v1-generated-source/com/google/cloud/backend/android/mobilebackend/model/QueryDto.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/proguard-google-api-client.txt
+#	new file:   solutions-mobile-backend-starter-android-client-master/endpoint-libs/libmobilebackend-v1/mobilebackend/readme.html
+#	new file:   solutions-mobile-backend-starter-android-client-master/gen/com/google/cloud/backend/android/BuildConfig.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/gen/com/google/cloud/backend/android/Manifest.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/gen/com/google/cloud/backend/android/R.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/ic_launcher-web.png
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/android-support-v4.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/gcm.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-api-client-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-api-client-android-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-http-client-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-http-client-android-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-http-client-gson-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-http-client-jackson-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-http-client-jackson2-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-oauth-client-1.14.1-beta.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-play-services.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/google-play-services.jar.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/gson-2.1.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/jackson-core-2.1.3.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/jackson-core-asl-1.9.11.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/libs/jsr305-1.3.9.jar
+#	new file:   solutions-mobile-backend-starter-android-client-master/proguard-google-api-client.txt
+#	new file:   solutions-mobile-backend-starter-android-client-master/proguard-project.txt
+#	new file:   solutions-mobile-backend-starter-android-client-master/project.properties
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/drawable-hdpi/ic_launcher.png
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/drawable-ldpi/ic_launcher.png
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/drawable-mdpi/ic_launcher.png
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/drawable-xhdpi/ic_launcher.png
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/layout/activity_main.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/menu/activity_main.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/values-v11/styles.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/values-v14/styles.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/values/integers.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/values/strings.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/res/values/styles.xml
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudBackend.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudBackendActivity.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudBackendAsync.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudBackendMessaging.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudCallbackHandler.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudEndpointUtils.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudEntity.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/CloudQuery.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/Consts.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/F.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/GCMIntentService.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/sample/guestbook/GuestbookActivity.java
+#	new file:   solutions-mobile-backend-starter-android-client-master/src/com/google/cloud/backend/android/sample/socialtalk/SocialTalkActivity.java
+#
+# Changes not staged for commit:
+#   (use "git add/rm <file>..." to update what will be committed)
+#   (use "git checkout -- <file>..." to discard changes in working directory)
+#   (commit or discard the untracked or modified content in submodules)
+#
+#	deleted:    Android/bin/classes/com/example/tabsfinal/MyArrayAdapter.class
+#	modified:   bin (modified content, untracked content)
+#
+

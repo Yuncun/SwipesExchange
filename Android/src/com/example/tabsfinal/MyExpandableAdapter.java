@@ -5,8 +5,10 @@ package com.example.tabsfinal;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
+
 import android.app.Activity;
 import android.content.Context;
+import android.os.AsyncTask;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -268,5 +270,25 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return false;
 	}
+	
+	/**ADD LISTING**/
+	private class AddHighScoreTask extends AsyncTask<Listing, Void, Void> {
+
+		protected Void doInBackground(Listing... highScores) {
+
+			SimpleDBData hs = new SimpleDBData();
+			hs.addHighScore(highScores[0]);
+
+			return null;
+		}
+
+//This onPostExecute is not applicable to our fragment layout. Normally this closes the addListing activity, returning the user to the original screen.
+/*
+		protected void onPostExecute(Void result) {
+
+			AddScoreActivity.this.finish();
+		}*/
+	}
+	
 
 }

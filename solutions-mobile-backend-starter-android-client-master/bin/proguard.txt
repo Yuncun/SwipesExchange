@@ -1,0 +1,12 @@
+# view AndroidManifest.xml #generated:48
+-keep class com.google.android.gcm.GCMBroadcastReceiver { <init>(...); }
+
+# view AndroidManifest.xml #generated:46
+-keep class com.google.cloud.backend.android.GCMIntentService { <init>(...); }
+
+# view AndroidManifest.xml #generated:28
+-keep class com.google.cloud.backend.android.sample.guestbook.GuestbookActivity { <init>(...); }
+
+# onClick res/layout/activity_main.xml #generated:21
+-keepclassmembers class * { *** onSendButtonPressed(...); }
+

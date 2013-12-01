@@ -2,10 +2,15 @@ package com.example.tabsfinal;
 
 import java.util.Locale;
 
+import com.example.tabsfinal.Constants;
+//import com.example.tabsfinal.Listing; //Listing
+import com.example.tabsfinal.SimpleDBData;
+
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.support.v4.app.ListFragment;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -152,6 +157,7 @@ public class MainActivity extends FragmentActivity implements
 		
 	}
 
+	
 	@Override
 	public void onTabSelected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
@@ -171,7 +177,32 @@ public class MainActivity extends FragmentActivity implements
 	}
 	
 	
+/**PopulateLists will start the domain for the data. This is called to initiate the simpleDB data**/
+	//This will later be called for buyer lists and seller lists
+	   private class PopulateHighScoresTask extends AsyncTask<Void, Void, Void> {
 
+			protected Void doInBackground(Void... voids) {
+
+				SimpleDBData list = new SimpleDBData();
+	            list.createHighScoresDomain();
+	            /*
+				for (int i = 1; i <= 10; i++) {
+	                String playerName = Constants.getRandomPlayerName();
+	                int score = Constants.getRandomScore();
+					HighScore hs = new HighScore( playerName, score );
+					
+					list.addHighScore(hs);
+				}*/
+
+				return null;
+			}
+
+			protected void onPostExecute(Void result) {
+
+			}
+		}
+
+	    
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.

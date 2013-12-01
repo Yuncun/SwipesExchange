@@ -1,6 +1,9 @@
 package com.example.tabsfinal;
 
-public abstract class Listing {
+import java.io.Serializable;
+
+public abstract class Listing implements Serializable{ //I have no idea if implementing Serializable with this abstract  class will cause problems later
+	
 
 	private int swipeCount;
 	private User user;
