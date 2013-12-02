@@ -4,12 +4,10 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.app.DialogFragment;
 import android.content.Context;
-import android.os.AsyncTask;
 import android.os.Bundle;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -19,6 +17,7 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.ExpandableListView.OnChildClickListener;
 import android.widget.ExpandableListView.OnGroupClickListener;
 import android.widget.TextView;
 import android.widget.TimePicker;
@@ -54,6 +53,8 @@ public class NewListingFragment extends Fragment{
         @Override
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
             Bundle savedInstanceState) {
+        	
+        	//setContentView(R.layout.expandable_list_view);
                 
         View view = inflater.inflate(R.layout.expandable_list_view, container, false);
        
@@ -108,13 +109,15 @@ public class NewListingFragment extends Fragment{
             
             
             ExpandableListView lv = (ExpandableListView) getActivity().findViewById(R.id.exlist);
-            setGroupParents();
-            setChildData();
+            if(parentItems.isEmpty())
+            	setGroupParents();
+            if(childItems.isEmpty())
+            	setChildData();
             
            
             //lv.setGroupIndicator(null);
          
-            MyExpandableAdapter adapter = new MyExpandableAdapter(parentItems, childItems);
+            MyExpandableAdapter adapter = new MyExpandableAdapter(lv, parentItems, childItems);
             adapter.setInflater((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE), getActivity());
             
            /* lv.setOnGroupClickListener(new OnGroupClickListener() {
@@ -125,10 +128,34 @@ public class NewListingFragment extends Fragment{
                     }else{
                         return true;                   
                     }
+                 
            	
            }});*/
+            /*
+            lv.setOnChildClickListener(new OnChildClickListener() {
+
+
+
+                @Override
+
+                public boolean onChildClick(ExpandableListView parent, View v,
+
+                        int groupPosition, int childPosition, long id) {
+
+                    // TODO Auto-generated method stub
+
+                    if (groupPosition==4)
+                    {
+                    	parent.collapseGroup(groupPosition);
+                    }
+
+                    return true;
+
+                }
+
+            });*/
             lv.setDividerHeight(4);
-            lv.setGroupIndicator(null);
+           // lv.setGroupIndicator(null);
             
            //lv.setClickable(true);
             lv.setAdapter(adapter);
@@ -155,12 +182,16 @@ public class NewListingFragment extends Fragment{
         }
         
         public void setGroupParents() {
-        	parentItems.add("Set Start Time:                      Press to set");
+        	parentItems.add("Set Start Time                 SET");
         	parentItems.add("Start Time:");
-        	parentItems.add("Set End Time:                        Press to set");
+        	parentItems.add("Set End Time                           PRESS");
         	parentItems.add("End Time:");
-        	parentItems.add("Venue");
-        	parentItems.add("TBD");
+        	parentItems.add("Set Venue");
+        	parentItems.add("Venue:");
+        	parentItems.add("Set Price");
+        	parentItems.add("Price:");
+        	parentItems.add("");
+        	parentItems.add("Submit");
         	
         }
         
@@ -194,12 +225,23 @@ public class NewListingFragment extends Fragment{
         	childItems.add(child);
         	
         	child = new ArrayList<String>();
-        	child.add("Some text");
+        	//child.add("Some text");
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
+        	child.add("PlaceHolder");
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
         	childItems.add(child);
         	
         }
-        
-        
             
         
 }

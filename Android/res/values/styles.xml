@@ -16,5 +16,16 @@
     <style name="AppTheme" parent="AppBaseTheme">
         <!-- All customizations that are NOT specific to a particular API-level can go here. -->
     </style>
+    
+    <style name="cust_dialog" parent="@android:style/Theme.Dialog">
+    <item name="android:windowTitleStyle">@style/dialog_title_style</item>
+    <item name="android:background">@android:color/white</item>
+  </style>
+
+<style name="dialog_title_style" parent="android:Widget.TextView">
+    <item name="android:textColor">@color/mycolor1</item>
+    <item name="android:textSize">15sp</item>
+    <item name="android:padding">10dp</item>
+</style>
 
 </resources>
