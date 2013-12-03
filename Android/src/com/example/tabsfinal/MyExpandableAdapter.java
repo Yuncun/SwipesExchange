@@ -333,7 +333,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
 				//int my_color = 5882874;
 				
-				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+				int my_color = Color.WHITE;
 						//getResources().
 				//my_color.
 
@@ -363,7 +363,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
 				//int my_color = 5882874;
 				
-				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+				int my_color = Color.WHITE;
 						//getResources().
 				//my_color.
 
@@ -382,7 +382,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				((CheckedTextView) convertView).setText(str);
 				
 			}
-			int back_color = Color.LTGRAY;
+			int back_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		
 		//((TextView) convertView).setChecked(isExpanded);
@@ -398,7 +398,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			SpannableStringBuilder str = new SpannableStringBuilder(whole);
 			//int my_color = 5882874;
 			
-			int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+			int my_color = Color.WHITE;
 					//getResources().
 			//my_color.
 
@@ -413,7 +413,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
 			
 			((CheckedTextView) convertView).setText(str);
-			int back_color = Color.LTGRAY;
+			int back_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		}
 		else if(groupPosition == 3)
@@ -430,7 +430,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
 				//int my_color = 5882874;
 				
-				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+				int my_color = Color.WHITE;
 						//getResources().
 				//my_color.
 
@@ -458,7 +458,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
 				//int my_color = 5882874;
 				
-				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+				int my_color = Color.WHITE;
 						//getResources().
 				//my_color.
 
@@ -476,7 +476,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
 				((CheckedTextView) convertView).setText(str);
 			}
-			int back_color = Color.LTGRAY;
+			int back_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 	
 		//((TextView) convertView).setChecked(isExpanded);
@@ -493,7 +493,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			SpannableStringBuilder str = new SpannableStringBuilder(whole);
 			//int my_color = 5882874;
 			
-			int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+			int my_color = Color.WHITE;
 					//getResources().
 			//my_color.
 
@@ -510,7 +510,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			);
 			//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
 			((CheckedTextView) convertView).setText(str);
-			int back_color = Color.LTGRAY;
+			int back_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		}
 		

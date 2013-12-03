@@ -5,6 +5,7 @@ import java.util.Locale;
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
 import android.support.v4.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -53,6 +54,7 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_main);
 		actionBar = getActionBar();
 		
@@ -111,7 +113,9 @@ public class MainActivity extends FragmentActivity implements
 			case 3:
 				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
 				break;
-			
+			case 4:
+				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
+				break;
 			}
 			
 			actionBar.addTab(actionBar.newTab()
@@ -218,6 +222,8 @@ public class MainActivity extends FragmentActivity implements
 			case 2:
 				return MyList.newInstance(position);
 			case 3:
+				return NewListingFragmentBuy.newInstance(position);
+			case 4:
 				return NewListingFragment.newInstance(position);
 		
 			
@@ -228,7 +234,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
-			return 4;
+			return 5;
 		}
 		public String getPageTitle(int position) {
 			//Locale l = Locale.getDefault();
@@ -241,6 +247,8 @@ public class MainActivity extends FragmentActivity implements
 				return getString(R.string.title_section3);
 			case 3:
 				return getString(R.string.title_section4);
+			case 4:
+				return getString(R.string.title_section5);
 			}
 			return null;
 		}

@@ -22,6 +22,7 @@ class MyList extends ListFragment
         static MyList newInstance(int num) {
         MyList l = new MyList();
         
+        
         if (num == 0)
         	l.page_num = 0;
         else if (num == 1)
@@ -63,9 +64,9 @@ class MyList extends ListFragment
                {
             	   List<BuyListing> buyEntries = data.getBuyListings();
                    
-            	   Log.d("test", "Fuck");
+            	  // Log.d("test", "Fuck");
                    //System.out.println("tag", "FUCK11111111111111111111111111");
-                   List<String> VenueNames = new ArrayList<String>();
+                  /* List<String> VenueNames = new ArrayList<String>();
                    List<String> UserNames = new ArrayList<String>();
                    List<String> DescTime = new ArrayList<String>();
                    List<String> DescAmount = new ArrayList<String>();
@@ -82,9 +83,10 @@ class MyList extends ListFragment
                            //DescAmount.add(String.valueOf((sellEntries.get(i)).getSwipeCount()));
                            //Prices.add(String.valueOf((sellEntries.get(i)).getPrice()));
                    }
+                   */
                    
                    //SimpleAdapter that should be able to put up multiple List<Strings>
-               
+               /*
                    
                    List<Map<String, String>> list = new ArrayList<Map<String, String>>();
                    
@@ -97,16 +99,19 @@ class MyList extends ListFragment
                        
                        list.add(map);
                    }
+                   */
 
-                   SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, R.layout.sell_list_item, new String[] { "Headline", "Subline", "Headline2" }, new int[] { R.id.firstLine, R.id.secondLine , R.id.firstLineRight});
+                   //SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, R.layout.sell_list_item, new String[] { "Headline", "Subline", "Headline2" }, new int[] { R.id.firstLine, R.id.secondLine , R.id.firstLineRight});
+                  
+            	   BuyListAdapter adapter= new BuyListAdapter(getActivity(), buyEntries);
                    setListAdapter(adapter);
                }
                else if(this.page_num==1)
                {
             	   //List<BuyListing> buyEntries = data.getBuyListings();
   List<SellListing> sellEntries = data.getSellListings();
-                   
-            	   Log.d("test", "Fuck");
+                   /*
+            	  // Log.d("test", "Fuck");
                    //System.out.println("tag", "FUCK11111111111111111111111111");
                    List<String> VenueNames = new ArrayList<String>();
                    List<String> UserNames = new ArrayList<String>();
@@ -136,13 +141,13 @@ class MyList extends ListFragment
                    	Map<String, String> map = new HashMap<String, String>();
                        map.put("Headline", UserNames.get(i));
                        map.put("Subline", "Until " +  DescTime.get(i));
-                       map.put("Headline2", "" + DescAmount.get(i) + " requested");
-                       map.put("Headline3", "price:" + Prices.get(i));
+                       map.put("Headline2", "" + DescAmount.get(i));
+                       map.put("Headline3", "Price: " + Prices.get(i));
                        
                        list.add(map);
                    }
-
-                   SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, R.layout.sell_list_item, new String[] { "Headline", "Subline", "Headline2", "Headline3" }, new int[] { R.id.firstLine, R.id.secondLine , R.id.firstLineRight, R.id.secondLineRight});
+	*/
+                   SellListAdapter adapter = new SellListAdapter(getActivity(), sellEntries);
                    setListAdapter(adapter);
           
                }

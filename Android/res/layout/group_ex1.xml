@@ -6,7 +6,7 @@
     android:clickable="true"
     android:orientation="vertical"
     android:paddingLeft="40dp"
-    android:background="#D1EEEE"
+    android:background="#CCFFFF"
     tools:context=".MainActivity" >
 
     <LinearLayout

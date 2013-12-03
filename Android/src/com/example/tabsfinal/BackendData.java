@@ -40,12 +40,16 @@ public class BackendData {
                 List<BuyListing> updatedBuyList = new ArrayList<BuyListing>();
                 
                 //---RETRIEVE FROM DB the LISTING NAMED "ERIC SHEN"---//
-            	SimpleDBData hs = new SimpleDBData();
-        		BuyListing dblisting = (BuyListing) hs.getListing("Eric Shen");
+            	/*SimpleDBData hs = new SimpleDBData();
+            	BuyListing dblisting = new BuyListing();
+            	if (hs.getCount()>0)
+            	{
+        		dblisting = (BuyListing) hs.getListing("Eric Shen");
         		dblisting.setEndTime("END OF THE WORLD");
         		dblisting.setStartTime("THE BEGINNING");
-        		dblisting.setSwipeCount(99999);
-        		dblisting.setTime(null);
+        		dblisting.setSwipeCount(99);
+        		//dblisting.setTime(null);
+            	}*/
                 
         //DATABASE ITEMS
         
@@ -103,9 +107,9 @@ public class BackendData {
           
           }
 
-	
+	/*if(hs.getCount()>0)
         updatedBuyList.add(dblisting);
-        
+        */
                 this.mySellListings = updatedSellList;
                 this.myBuyListings = updatedBuyList;
                 

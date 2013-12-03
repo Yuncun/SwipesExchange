@@ -2,6 +2,8 @@
     android:layout_width="fill_parent"
     android:layout_height="50dip"
     android:padding="5dip" >
+    
+    
 
      <TextView
         android:id="@+id/firstLine"
@@ -31,21 +33,32 @@
         android:textSize="12sp" />
 
 
-    
+    <LinearLayout
+         android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_alignParentRight="true"
+        android:paddingTop="0dp"
+        android:background="@drawable/rectangle"
+        
+        >
     <TextView
         android:id="@+id/firstLineRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+         android:layout_width="fill_parent" 
+   		 android:layout_height="fill_parent"
+        android:gravity="center"
+       
         
-     	android:layout_alignParentRight="true"
-        android:paddingTop="0dp"
+     	
         
         
         
         android:text="Number requested"
-        android:textSize="16sp"
+        android:textSize="14sp"
+        android:textStyle="bold"
         />
     
-    	
+    
+    
+    	</LinearLayout>
 
 </RelativeLayout> 

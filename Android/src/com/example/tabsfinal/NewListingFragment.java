@@ -40,7 +40,7 @@ public class NewListingFragment extends Fragment{
                 NewListingFragment myFrag = new NewListingFragment();
                 Bundle args = new Bundle();
                 args.putInt("num", num);
-                myFrag.page_num = 3;
+                myFrag.page_num = 4;
                 
                 myFrag.setArguments(args);
                 

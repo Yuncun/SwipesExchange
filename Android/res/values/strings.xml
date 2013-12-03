@@ -6,7 +6,9 @@
     <string name="title_section1">BUYING</string>
     <string name="title_section2">SELLING</string>
     <string name="title_section3">MESSAGES</string>
-    <string name="title_section4">NEW SELL LISTING</string>
+    <string name="title_section4">NEW BUY LISTING</string>
+    <string name="title_section5">NEW SELL LISTING</string>
+    
     <string name="random">Random</string>
   
     
