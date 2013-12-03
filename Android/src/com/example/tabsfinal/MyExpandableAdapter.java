@@ -1,29 +1,21 @@
 package com.example.tabsfinal;
 
 
-
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 
 import android.app.Activity;
 import android.app.Dialog;
-import android.content.Context;
 import android.graphics.Color;
-import android.graphics.LightingColorFilter;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
-import android.text.Html;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
-import android.text.format.Time;
 import android.text.style.ForegroundColorSpan;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
@@ -31,7 +23,7 @@ import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
-import android.widget.Toast;
+//import com.amazonaws.demo.highscores.AddScoreActivity.AddHighScoreTask;
 
 public class MyExpandableAdapter extends BaseExpandableListAdapter {
 
@@ -630,6 +622,15 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 						 
 	                    @Override
 	                    public void onClick(View view) {
+	                    	
+	                    	//RANDOM, for testing
+	                    	BuyListing newPost = new BuyListing();
+	                    	User newUser = new User("Eric Shen");
+	                    	Venue newVenue = new Venue("Covel");
+	                    	newPost.setUser(newUser);
+	                    	newPost.setVenue(newVenue);
+	                    	
+	                    	new AddHighScoreTask().execute(newPost);
 	                        
 	                        //TODO: direct data to database
 	 

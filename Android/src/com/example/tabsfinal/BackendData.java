@@ -3,6 +3,10 @@ package com.example.tabsfinal;
 import java.util.ArrayList;
 import java.util.List;
 
+import android.os.AsyncTask;
+
+
+
 //This is the class where we keep all of our backend, and keep functions that pulls data from the backend. 
 public class BackendData {
         
@@ -31,9 +35,20 @@ public class BackendData {
                 //Currently hardwired to sample values, but this will later be used to update the listings from backend data.
                 int random = (int )(Math.random() * 12 + 1);
                 
+               
                 List<SellListing> updatedSellList = new ArrayList<SellListing>();
                 List<BuyListing> updatedBuyList = new ArrayList<BuyListing>();
                 
+                //---RETRIEVE FROM DB the LISTING NAMED "ERIC SHEN"---//
+            	SimpleDBData hs = new SimpleDBData();
+        		BuyListing dblisting = (BuyListing) hs.getListing("Eric Shen");
+        		dblisting.setEndTime("END OF THE WORLD");
+        		dblisting.setStartTime("THE BEGINNING");
+        		dblisting.setSwipeCount(99999);
+        		dblisting.setTime(null);
+                
+        //DATABASE ITEMS
+        
         for (int i = 0; i < random; ++i) {
                 
                 BuyListing randomBuyEntry = new BuyListing();
@@ -84,11 +99,20 @@ public class BackendData {
                 
          updatedSellList.add(randomSellEntry);
           updatedBuyList.add(randomBuyEntry);
+          
+          
           }
+
+	
+        updatedBuyList.add(dblisting);
+        
                 this.mySellListings = updatedSellList;
                 this.myBuyListings = updatedBuyList;
                 
         }
         
+        
+        
 
 }
+
