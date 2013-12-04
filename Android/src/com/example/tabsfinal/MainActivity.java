@@ -6,6 +6,7 @@ import android.app.ActionBar;
 import android.app.FragmentTransaction;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.support.v4.app.ListFragment;
 import android.os.AsyncTask;
 import android.os.Bundle;
@@ -60,7 +61,7 @@ public class MainActivity extends FragmentActivity implements
 		
 		// Set up the action bar.
 		
-		actionBar.setIcon(R.drawable.yes);
+		//actionBar.setIcon(R.drawable.yes);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
 		tp = (TimePicker) findViewById(R.id.timePicker1);
@@ -96,9 +97,10 @@ public class MainActivity extends FragmentActivity implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
 			View tabView = this.getLayoutInflater().inflate(R.layout.tab_layout, null);
+			//tabView.setBackgroundColor(Color.BLACK);
 			TextView tabText = (TextView) tabView.findViewById(R.id.tabText);
 			tabText.setText(mSectionsPagerAdapter.getPageTitle(i));
-			ImageView tabImage = (ImageView) tabView.findViewById(R.id.tabIcon);
+			/*ImageView tabImage = (ImageView) tabView.findViewById(R.id.tabIcon);
 			switch(i)
 			{
 			case 0:
@@ -117,7 +119,7 @@ public class MainActivity extends FragmentActivity implements
 				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
 				break;
 			}
-			
+			*/
 			actionBar.addTab(actionBar.newTab()
 					
 					
@@ -142,8 +144,18 @@ public class MainActivity extends FragmentActivity implements
  
 			@Override
 			public void onClick(View v) {
-					Log.d("button", "Click!");
+					
 					actionBar.setSelectedNavigationItem(3);
+				
+			}
+		});
+		
+		inflatedView.findViewById(R.id.new_button2).setOnClickListener(new OnClickListener() {
+			 
+			@Override
+			public void onClick(View v) {
+					
+					actionBar.setSelectedNavigationItem(4);
 				
 			}
 		});

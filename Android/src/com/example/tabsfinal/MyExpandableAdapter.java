@@ -33,12 +33,13 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	private ArrayList<String> parentItems, child;
 	private int minutes_start, minutes_end, hours_start, hours_end;
 	private TimePicker tp_start, tp_end;
-	private NumberPicker dollars, cents;
+	private NumberPicker dollars, cents, swipes;
 	
 	private Venue venue;
 	private String venue_name;
 	private ExpandableListView parent;
 	private int my_dollars, my_cents;
+	private int num_swipes;
 	Button yes_button;
 	Button cancel_button;
 	Dialog submit_dialog;
@@ -56,6 +57,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		venue_name = "De Neve";
 		my_dollars = 0;
 		my_cents = 0;
+		num_swipes = 1;
 		this.parent = parent;
 		
 		
@@ -70,6 +72,16 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		 		
 		        
 		
+	 }
+	 
+	 public int getNumSwipes()
+	 {
+		 return num_swipes;
+	 }
+	 
+	 public void setNumSwipes(int num)
+	 {
+		 num_swipes = num;
 	 }
 	 
 	 public int getCents()
@@ -209,8 +221,12 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			else if (groupPosition == 7)
 				convertView = inflater.inflate(R.layout.group_ex2, null);
 			else if (groupPosition == 8)
+				convertView = inflater.inflate(R.layout.group_ex5, null);
+			else if (groupPosition == 9)
 				convertView = inflater.inflate(R.layout.group_ex2, null);
-			else if (groupPosition ==9)
+			else if (groupPosition == 10)
+				convertView = inflater.inflate(R.layout.group_ex2, null);
+			else if (groupPosition ==11)
 				convertView = inflater.inflate(R.layout.group_ex2, null);
 		//}
 		if (groupPosition == 0)
@@ -274,6 +290,13 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			dollars.setValue(my_dollars);
 		}
 			
+		if(groupPosition == 8)
+		{
+			this.swipes = (NumberPicker) convertView.findViewById(R.id.numberPickerSwipes);
+			swipes.setMinValue(1);
+			swipes.setMaxValue(20);
+			swipes.setValue(num_swipes);
+		}
 		
 
 		
@@ -513,6 +536,38 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			int back_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		}
+		else if(groupPosition==9)
+		{
+			String my_swipes = String.valueOf(getNumSwipes());
+			String mystring = my_swipes + " swipe(s)";
+			String end_str = mystring;
+			String start_str = parentItems.get(groupPosition) + "                         ";
+			String whole = start_str + end_str;
+			int start = whole.indexOf(end_str);
+			int end = whole.length();
+			SpannableStringBuilder str = new SpannableStringBuilder(whole);
+			//int my_color = 5882874;
+			
+			int my_color = Color.WHITE;
+					//getResources().
+			//my_color.
+
+			str.setSpan(
+
+			    new ForegroundColorSpan(my_color), 
+
+			    start, 
+
+			    end, 
+
+			    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
+
+			);
+			//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
+			((CheckedTextView) convertView).setText(str);
+			int back_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+			((CheckedTextView) convertView).setBackgroundColor(back_color);
+		}
 		
 		else if (groupPosition==0)
 		{
@@ -582,7 +637,23 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			int back_color = Color.WHITE;
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		}
-		else if(groupPosition ==9)
+		else if (groupPosition==8)
+		{
+			String start_str = "Set Amount                                ";
+			String end_str = "Press to set";
+			String str = start_str + end_str;
+			 SpannableStringBuilder mystring = new SpannableStringBuilder(str);
+			 int end = start_str.length();
+			 int start = str.indexOf(start_str);
+			 mystring.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
+			((CheckedTextView) convertView).setText(mystring);
+			
+			//((CheckedTextView) convertView).setCheckMarkDrawable(R.drawable.shopping_basket_checkmark);
+			((CheckedTextView) convertView).setChecked(isExpanded);
+			int back_color = Color.WHITE;
+			((CheckedTextView) convertView).setBackgroundColor(back_color);
+		}
+		else if(groupPosition ==11)
 		{
 			((CheckedTextView) convertView).setText(parentItems.get(groupPosition));
 			((CheckedTextView) convertView).setChecked(isExpanded);
@@ -706,6 +777,10 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		{
 			my_dollars = dollars.getValue();
 			my_cents = cents.getValue();
+		}
+		if(groupPosition==8)
+		{
+			num_swipes = swipes.getValue();
 		}
 	}
 

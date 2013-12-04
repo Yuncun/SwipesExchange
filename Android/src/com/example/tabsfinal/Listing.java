@@ -11,7 +11,20 @@ public abstract class Listing implements Serializable{ //I have no idea if imple
         private String time;
         private String startTime;
         private String endTime;
+        public String section;
+        public Boolean isSection;
         
+        
+        
+        public String getSection()
+        {
+        	return section;
+        }
+        
+        public void setSection(String section)
+        {
+        	this.section = section;
+        }
         
         public int getSwipeCount() {
                 return swipeCount;

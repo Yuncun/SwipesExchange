@@ -1,6 +1,8 @@
 package com.example.tabsfinal;
 
 import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -63,6 +65,12 @@ class MyList extends ListFragment
                if(this.page_num==0)
                {
             	   List<BuyListing> buyEntries = data.getBuyListings();
+            	   
+            	   Collections.sort(buyEntries, new Comparator<BuyListing>(){
+            		   public int compare(BuyListing emp1, BuyListing emp2) {
+            		     return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName());
+            		   }
+            		 });
                    
             	  // Log.d("test", "Fuck");
                    //System.out.println("tag", "FUCK11111111111111111111111111");
@@ -110,6 +118,11 @@ class MyList extends ListFragment
                {
             	   //List<BuyListing> buyEntries = data.getBuyListings();
   List<SellListing> sellEntries = data.getSellListings();
+  Collections.sort(sellEntries, new Comparator<SellListing>(){
+	   public int compare(SellListing emp1, SellListing emp2) {
+	     return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName());
+	   }
+	 });
                    /*
             	  // Log.d("test", "Fuck");
                    //System.out.println("tag", "FUCK11111111111111111111111111");

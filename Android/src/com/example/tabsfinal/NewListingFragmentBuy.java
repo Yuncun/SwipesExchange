@@ -154,7 +154,7 @@ public class NewListingFragmentBuy extends Fragment{
                 }
 
             });*/
-            lv.setDividerHeight(4);
+           
            // lv.setGroupIndicator(null);
             
            //lv.setClickable(true);
@@ -188,6 +188,8 @@ public class NewListingFragmentBuy extends Fragment{
         	parentItems.add("End Time:");
         	parentItems.add("Set Venue");
         	parentItems.add("Venue:");
+        	parentItems.add("Set amount:");
+        	parentItems.add("Swipes requested:");
         	parentItems.add("");
         	parentItems.add("Submit");
         	
@@ -214,19 +216,26 @@ public class NewListingFragmentBuy extends Fragment{
         	childItems.add(child);
         	
         	child = new ArrayList<String>();
-        	child.add("De Neve");
+        	child.add("Bruin Cafe");
+        	child.add("Cafe 1919");
         	child.add("Covell");
+        	child.add("De Neve");
+        	child.add("Feast");
+        	
         	child.add("Hedrick");
-        	//child.add("Applet");
-        	//child.add("AspectJ");
-        	//child.add("Beans");
+        	child.add("RendeZvouz");
         	childItems.add(child);
         	
         	child = new ArrayList<String>();
         	//child.add("Some text");
         	childItems.add(child);
         	
-   
+        	child = new ArrayList<String>();
+        	child.add("PlaceHolder");
+        	childItems.add(child);
+        	
+        	child = new ArrayList<String>();
+        	childItems.add(child);
         	
         	child = new ArrayList<String>();
         	childItems.add(child);

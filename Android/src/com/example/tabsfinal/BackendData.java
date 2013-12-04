@@ -91,13 +91,15 @@ public class BackendData {
                 
                 randomBuyEntry.setEndTime(String.valueOf((int)(Math.random() * 7 + 4)));
                 randomSellEntry.setEndTime(String.valueOf((int)(Math.random() * 7 + 4)));
-                randomBuyEntry.setStartTime("start time");
-                randomSellEntry.setStartTime("start time");
+                randomBuyEntry.setStartTime("8:00");
+                randomSellEntry.setStartTime("8:00");
                 
                 int randomMath = (int )(Math.random() * 15 + 1);
                 randomBuyEntry.setSwipeCount(randomMath); 
                 randomSellEntry.setSwipeCount(randomMath);
                 
+                randomBuyEntry.isSection = false;
+                randomSellEntry.isSection = false;
                 double random_price = 2.02;
                 randomSellEntry.setPrice(random_price);
                 

@@ -20,6 +20,16 @@
         android:text="Example application"
         />
 
+     <ImageView
+	     android:id="@+id/forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_next_item"
+        android:layout_centerVertical="true"
+        android:layout_alignParentRight="true"
+       
+	    />
+     
     <TextView
         android:id="@+id/secondLine"
         android:layout_width="wrap_content"
@@ -27,14 +37,26 @@
   		android:paddingLeft="5dp"
         android:layout_below="@id/firstLine"
         
-       
+       android:textColor="#808080"
         android:text="Description"
+        android:textSize="12sp" />
+    
+         <TextView
+        android:id="@+id/thirdLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+  		android:paddingLeft="2dp"
+        android:layout_toRightOf="@id/secondLine"
+        
+       android:textColor="#808080"
+        
         android:textSize="12sp" />
 
      <LinearLayout
          android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
+         android:layout_toLeftOf="@id/forward"
+       
         android:paddingTop="0dp"
         android:background="@drawable/rectangle"
         android:id="@+id/boxSell"
@@ -63,11 +85,13 @@
 	    android:id="@+id/secondLineRight"
 	    android:layout_width="wrap_content"
 	    android:layout_height="wrap_content"
-	    android:layout_alignParentRight="true"
-	    android:paddingRight="3dp"
-	    android:layout_below="@id/boxSell"
 	    
+	    
+	    android:layout_below="@id/boxSell"
+	    android:textColor="#808080"
 	    android:textSize="12sp"
+	    android:layout_alignParentRight="true"
+	    android:paddingRight="25dp"
 	    />
 
 </RelativeLayout> 

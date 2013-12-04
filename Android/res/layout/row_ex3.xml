@@ -16,6 +16,7 @@
     android:textSize="15sp"
     android:textStyle="bold"
     android:text="Test String 1" 
+     android:textColor="@android:color/white"
    
     />
     
@@ -31,6 +32,7 @@
     android:textStyle="bold" 
     android:layout_alignParentRight="true"
     android:text="Test String 2"
+    
    
     />
 

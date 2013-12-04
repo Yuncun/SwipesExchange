@@ -8,6 +8,8 @@
         android:id="@+id/exlistbuy"
         android:layout_height="match_parent"
         android:layout_width="match_parent"
-        android:groupIndicator="@null" />
+        android:groupIndicator="@null"
+        android:divider="#D8D8D8"
+    android:dividerHeight="2dp" />
 
 </LinearLayout>

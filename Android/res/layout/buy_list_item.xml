@@ -28,15 +28,36 @@
   		android:paddingLeft="5dp"
         android:layout_below="@id/firstLine"
         
-       
+       android:textColor="#808080"
         android:text="Description"
         android:textSize="12sp" />
-
+    
+     <TextView
+        android:id="@+id/thirdLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+  		android:paddingLeft="2dp"
+        android:layout_toRightOf="@id/secondLine"
+        
+       android:textColor="#808080"
+        
+        android:textSize="12sp" />
+	<ImageView
+	     android:id="@+id/forward"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:src="@drawable/ic_action_next_item"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+      
+	    />
 
     <LinearLayout
          android:layout_width="30dp"
         android:layout_height="30dp"
-        android:layout_alignParentRight="true"
+        android:layout_toLeftOf="@id/forward"
+        android:layout_centerVertical="true"
+       
         android:paddingTop="0dp"
         android:background="@drawable/rectangle"
         
