@@ -89,8 +89,8 @@ public class BackendData {
                 randomBuyEntry.setTime("time left");
                 randomSellEntry.setTime("time left");
                 
-                randomBuyEntry.setEndTime(String.valueOf((int)(Math.random() * 7 + 4)));
-                randomSellEntry.setEndTime(String.valueOf((int)(Math.random() * 7 + 4)));
+                randomBuyEntry.setEndTime(String.valueOf((int)(Math.random() * 7 + 4)) + ":00");
+                randomSellEntry.setEndTime(String.valueOf((int)(Math.random() * 7 + 4)) + ":00");
                 randomBuyEntry.setStartTime("8:00");
                 randomSellEntry.setStartTime("8:00");
                 
@@ -100,7 +100,7 @@ public class BackendData {
                 
                 randomBuyEntry.isSection = false;
                 randomSellEntry.isSection = false;
-                double random_price = 2.02;
+                double random_price = 2.35;
                 randomSellEntry.setPrice(random_price);
                 
          updatedSellList.add(randomSellEntry);

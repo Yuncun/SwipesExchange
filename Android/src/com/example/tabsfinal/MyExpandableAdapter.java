@@ -568,7 +568,6 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			int back_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		}
-		
 		else if (groupPosition==0)
 		{
 			//int start = 15;
@@ -661,7 +660,8 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			((CheckedTextView) convertView).setTypeface(null, Typeface.BOLD);
 			((CheckedTextView) convertView).setGravity(Gravity.CENTER_HORIZONTAL);
 			
-		
+			int back_color = Color.WHITE;
+			((CheckedTextView) convertView).setBackgroundColor(back_color);
 			
 			convertView.setOnClickListener(new OnClickListener() {
 

@@ -4,14 +4,15 @@ import java.io.Serializable;
 
 public abstract class Listing implements Serializable{ //I have no idea if implementing Serializable with this abstract  class will cause problems later
         
-
-        private int swipeCount;
+	//the following variables need to be set when we create a new listing from the backend
+        private int swipeCount; 
         private User user;
-        private Venue venue;
+        private Venue venue; //might need to change this to just a string
         private String time;
         private String startTime;
         private String endTime;
         public String section;
+     //this one we take care of after
         public Boolean isSection;
         
         

@@ -218,6 +218,7 @@ public class NewListingFragment extends Fragment{
         	childItems.add(child);
         	
         	child = new ArrayList<String>();
+        	child.add("Any");
         	child.add("Bruin Cafe");
         	child.add("Cafe 1919");
         	child.add("Covell");

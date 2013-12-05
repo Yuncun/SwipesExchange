@@ -580,6 +580,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			((CheckedTextView) convertView).setTypeface(null, Typeface.BOLD);
 			((CheckedTextView) convertView).setGravity(Gravity.CENTER_HORIZONTAL);
 			
+			int back_color = Color.WHITE;
+			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		
 			
 			convertView.setOnClickListener(new OnClickListener() {

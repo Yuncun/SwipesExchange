@@ -216,12 +216,12 @@ public class NewListingFragmentBuy extends Fragment{
         	childItems.add(child);
         	
         	child = new ArrayList<String>();
+        	child.add("Any");
         	child.add("Bruin Cafe");
         	child.add("Cafe 1919");
         	child.add("Covell");
         	child.add("De Neve");
         	child.add("Feast");
-        	
         	child.add("Hedrick");
         	child.add("RendeZvouz");
         	childItems.add(child);
