@@ -32,7 +32,7 @@ public abstract class Listing implements Serializable{ //I have no idea if imple
                 return swipeCount;
         }
 
-		public Sting getSwipeCountString() {
+		public String getSwipeCountString() {
 				return Integer.toString(swipeCount);
 		}
 

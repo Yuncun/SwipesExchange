@@ -805,9 +805,9 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	}
 
     /**ADD LISTING**/
-    private class AddSellListingTask extends AsyncTask<Listing, Void, Void> {
+    private class AddSellListingTask extends AsyncTask<SellListing, Void, Void> {
 
-			protected Void doInBackground(Listing... listings) {
+			protected Void doInBackground(SellListing... listings) {
 
                     SimpleDBData db = new SimpleDBData();
                     db.addSellListing(listings[0]);

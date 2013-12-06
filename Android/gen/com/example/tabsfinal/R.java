@@ -37,9 +37,10 @@ public final class R {
         public static final int hand_handshake_checkmark=0x7f020006;
         public static final int ic_action_forward=0x7f020007;
         public static final int ic_action_next_item=0x7f020008;
-        public static final int rectangle=0x7f020009;
-        public static final int shopping_basket_checkmark=0x7f02000a;
-        public static final int yes=0x7f02000b;
+        public static final int ic_launcher=0x7f020009;
+        public static final int rectangle=0x7f02000a;
+        public static final int shopping_basket_checkmark=0x7f02000b;
+        public static final int yes=0x7f02000c;
     }
     public static final class id {
         public static final int Cancel_Button=0x7f0a000c;

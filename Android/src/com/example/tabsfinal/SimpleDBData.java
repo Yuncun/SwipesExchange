@@ -79,14 +79,14 @@ public class SimpleDBData {
 		private static final String BUY_COUNT_QUERY = "select count(*) from 'BuyListings'";
 		
 		private static final String LISTINGS_DOMAIN = "Listings";
-		private static final String HIGH_SCORES_DOMAIN = "HighScores";
-		private static final String PLAYER_ATTRIBUTE = "player";
-		private static final String SCORE_ATTRIBUTE = "score";
+		//private static final String HIGH_SCORES_DOMAIN = "HighScores";
+		//private static final String PLAYER_ATTRIBUTE = "player";
+		//private static final String SCORE_ATTRIBUTE = "score";
 
         private static final String USER_SORT_QUERY = "select player, score from HighScores where player > '' order by player asc";
         private static final String VENUE_SORT_QUERY = "select player, score from HighScores where score >= '0' order by score desc";
         private static final String NO_SORT_QUERY = "select player, score from HighScores";        
-        private static final String COUNT_QUERY = "select count(*) from HighScores";
+        //private static final String COUNT_QUERY = "select count(*) from HighScores";
 
         public static final int USER_SORT	= 1;
         public static final int VENUE_SORT  = 2;
@@ -163,14 +163,14 @@ public class SimpleDBData {
     /*
      * Creates a new item and adds it to the SellListings domain.
      */
-        public void addSellListing( Listing  newSeller) {
+        public void addSellListing( SellListing  newSeller) {
 
                 String username = newSeller.getUser().getName();
 				String venue = newSeller.getVenue().getName();
 				String startTime = newSeller.getStartTime();
 				String endTime = newSeller.getEndTime();
 				String count = newSeller.getSwipeCountString();
-				String price = newSellter.getPriceString();
+				String price = newSeller.getPriceString();
 
                 ReplaceableAttribute usernameAttribute = new ReplaceableAttribute( USERNAME_ATTRIBUTE, username, Boolean.TRUE );
                 ReplaceableAttribute venueAttribute = new ReplaceableAttribute( VENUE_ATTRIBUTE, venue, Boolean.TRUE );
@@ -200,13 +200,13 @@ public class SimpleDBData {
     /*
      * Creates a new item and adds it to the BuyListings domain.
      */
-        public void addBuyListing( Listing newBuyer ) {
+        public void addBuyListing( BuyListing newBuyer ) {
 
                 String username = newBuyer.getUser().getName();
 				String venue = newBuyer.getVenue().getName();
 				String startTime = newBuyer.getStartTime();
 				String endTime = newBuyer.getEndTime();
-				String count = newBuyer.getSwipeCount();
+				String count = Integer.toString(newBuyer.getSwipeCount());
 
                 ReplaceableAttribute usernameAttribute = new ReplaceableAttribute( USERNAME_ATTRIBUTE, username, Boolean.TRUE );
                 ReplaceableAttribute venueAttribute = new ReplaceableAttribute( VENUE_ATTRIBUTE, venue, Boolean.TRUE );
@@ -235,7 +235,7 @@ public class SimpleDBData {
      * Converts an array of Items into an array of SellListing objects.
      */
         protected List<SellListing> convertItemToSellListingArray( List<Item> items ) {
-                List<Listing> lsts = new ArrayList<Listing>( items.size() ); 
+                List<SellListing> lsts = new ArrayList<SellListing>( items.size() ); 
                 for ( Item item : items ) {
                         lsts.add( this.convertItemToSellListing( item ) );
                 }
@@ -246,7 +246,7 @@ public class SimpleDBData {
      * Converts an array of Items into an array of BuyListing objects.
      */
         protected List<BuyListing> convertItemToBuyListingArray( List<Item> items ) {
-                List<Listing> lsts = new ArrayList<Listing>( items.size() ); 
+                List<BuyListing> lsts = new ArrayList<BuyListing>( items.size() ); 
                 for ( Item item : items ) {
                         lsts.add( this.convertItemToBuyListing( item ) );
                 }         
@@ -257,7 +257,6 @@ public class SimpleDBData {
      * Converts a single SimpleDB Item into a SellListing object.
      */
         protected SellListing convertItemToSellListing( Item item ) {
-                Listing lst = new SellListing();
 
                 User usr = new User(this.getUserForItem(item));
                 Venue vne = new Venue(this.getVenueForItem(item));
@@ -266,11 +265,13 @@ public class SimpleDBData {
 				int cnt = this.getIntValueForAttributeFromList( START_TIME_ATTRIBUTE, item.getAttributes() );
 				double prc = this.getDoubleValueForAttributeFromList( PRICE_ATTRIBUTE, item.getAttributes() );
 
+                SellListing lst = new SellListing();
+				
                 lst.setUser(usr);
                 lst.setVenue(vne);
 				lst.setStartTime(strt);
-				lst.setEndtime(end);
-				lst.setSwipecount(cnt);
+				lst.setEndTime(end);
+				lst.setSwipeCount(cnt);
 				lst.setPrice(prc);
 
                 return lst;
@@ -280,7 +281,6 @@ public class SimpleDBData {
      * Converts a single SimpleDB Item into a BuyListing object.
      */
         protected BuyListing convertItemToBuyListing( Item item ) {
-                BuyListing lst = new BuyListing();
 
                 User usr = new User(this.getUserForItem(item));
                 Venue vne = new Venue(this.getVenueForItem(item));
@@ -288,11 +288,13 @@ public class SimpleDBData {
 				String end = this.getStringValueForAttributeFromList( END_TIME_ATTRIBUTE, item.getAttributes() );
 				int cnt = this.getIntValueForAttributeFromList( START_TIME_ATTRIBUTE, item.getAttributes() );
 
+                BuyListing lst = new BuyListing();
+
                 lst.setUser(usr);
                 lst.setVenue(vne);
 				lst.setStartTime(strt);
-				lst.setEndtime(end);
-				lst.setSwipecount(cnt);
+				lst.setEndTime(end);
+				lst.setSwipeCount(cnt);
 
                 return lst;
 		}
@@ -343,7 +345,7 @@ public class SimpleDBData {
      * Extracts the value for the given attribute from the list of attributes.
      * Extracted value is returned as a double.
      */
-        protected int getDoubleValueForAttributeFromList( String attributeName, List<Attribute> attributes ) {
+        protected double getDoubleValueForAttributeFromList( String attributeName, List<Attribute> attributes ) {
                 for ( Attribute attribute : attributes ) {
                         if ( attribute.getName().equals( attributeName ) ) {
                                 return Double.parseDouble( attribute.getValue() );
@@ -351,67 +353,5 @@ public class SimpleDBData {
                 }
                 
                 return 0;     
-        }
-
-	/*
-	 *  THESE FUNCTIONS ARE UNUSED
-	 */
-
-	/*
-     * Gets the item from the List domain with the item name equal to 'listing'.
-     */
-        public Listing getListing( String listing ) {
-                GetAttributesRequest gar = new GetAttributesRequest( LISTINGS_DOMAIN, listing );
-                GetAttributesResult response = this.sdbClient.getAttributes(gar);
-                
-                String playerName = this.getStringValueForAttributeFromList( USER_ATTRIBUTE, response.getAttributes() );                                
-                int score = this.getIntValueForAttributeFromList( VENUE_ATTRIBUTE, response.getAttributes() );
-                
-                Listing retrievedList = new BuyListing();//Later write in SellListing too, depending on case (ES)
-                
-                return retrievedList;                
-        }
-
-    /*
-     * Removes the item from the HighScores domain.
-     * The item removes is the item whose 'player' matches the theHighScore submitted.
-     */
-        public void removeHighScore( Listing score ) {
-                DeleteAttributesRequest dar = new DeleteAttributesRequest( LISTINGS_DOMAIN, score.getUser().getName() );
-                this.sdbClient.deleteAttributes( dar );
-        }
-
-        
-    /*
-     * Using the pre-defined query, extracts items from the domain in a determined order using the 'select' operation.
-     */
-        public synchronized List<Listing> getListings() {
-                String query = null;
-                switch ( this.sortMethod ) {
-                        case USER_SORT: query = USER_SORT_QUERY; break;
-                        case VENUE_SORT: query = VENUE_SORT_QUERY; break;
-                        default: query = NO_SORT_QUERY; break;
-                }
-                
-                SelectRequest selectRequest = new SelectRequest( query ).withConsistentRead( true );
-                selectRequest.setNextToken( this.nextToken );
-                
-                SelectResult response = this.sdbClient.select( selectRequest );
-                this.nextToken = response.getNextToken();
-                
-                return this.convertItemToListingArray( response.getItems() );        
-        }
-
-	/*
-     * If a 'nextToken' was returned on the previous query execution, use the next token to get the next batch of items.
-     */
-        @SuppressWarnings("unchecked")
-        public synchronized List<Listing> getNextPageOfScores() {
-                if ( this.nextToken == null ) {
-                        return Collections.EMPTY_LIST;
-                }
-                else {
-                        return this.getListings();
-                }
         }
 }

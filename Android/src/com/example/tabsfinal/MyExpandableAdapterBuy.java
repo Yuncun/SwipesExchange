@@ -724,10 +724,10 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		return false;
 	}
 
-    /**ADD LISTING**/
-    private class AddBuyListingTask extends AsyncTask<Listing, Void, Void> {
+    /**ADD BUY LISTING**/
+    private class AddBuyListingTask extends AsyncTask<BuyListing, Void, Void> {
 
-            protected Void doInBackground(Listing... listings) {
+            protected Void doInBackground(BuyListing... listings) {
 
                     SimpleDBData db = new SimpleDBData();
                     db.addBuyListing(listings[0]);

@@ -32,11 +32,11 @@ public class BackendData {
 
 				SimpleDBData db = new SimpleDBData();
 
-				int SellListingCount = db.GetSellCount();
-				int BuyListingCount = db.GetBuyCount();
+				int SellListingCount = db.getSellCount();
+				int BuyListingCount = db.getBuyCount();
 
-				this.mySellListings = db.GetSellListings();
-				this.myBuyListings = db.GetBuyListings();		
+				this.mySellListings = db.getSellListings();
+				this.myBuyListings = db.getBuyListings();		
 		}
 }
 
