@@ -1,19 +1,18 @@
 //
-//  SESettingsViewController.m
+//  SESignInExampleViewController.m
 //  Bruin Swipes
 //
-//  Created by Matthew DeCoste on 11/8/13.
+//  Created by Matthew DeCoste on 12/6/13.
 //  Copyright (c) 2013 CS130SwipesExchange. All rights reserved.
 //
 
-#import "SESettingsViewController.h"
-#import "SEReferences.h"
+#import "SESignInExampleViewController.h"
 
-@interface SESettingsViewController ()
+@interface SESignInExampleViewController ()
 
 @end
 
-@implementation SESettingsViewController
+@implementation SESignInExampleViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -32,11 +31,7 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-	// self.navigationItem.rightBarButtonItem = self.editButtonItem;
-	
-	// set tint
-	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
-	//    self.navigationController.navigationBar.translucent = NO;
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 }
 
 - (void)didReceiveMemoryWarning
@@ -51,14 +46,14 @@
 {
 #warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return 0;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
 #warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 1;
+    return 0;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
@@ -67,20 +62,8 @@
     UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
     
     // Configure the cell...
-	[cell.textLabel setText:@"Show login"];
     
     return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//	[self performSegueWithIdentifier:@"login" sender:self];
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	
 }
 
 /*

@@ -34,7 +34,6 @@
 		
 		[self addSubview:self.label];
 	}
-	
 	else
 	{
 		[self.label setText:_title];

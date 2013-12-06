@@ -10,4 +10,7 @@
 
 @implementation SEMessage
 
+@synthesize user = _user;
+@synthesize content = _content;
+
 @end

@@ -49,14 +49,14 @@
 	
 	SESellListing *nd1 = [[SESellListing alloc] init];
 	[nd1.user setName:@"Kate Linton"];
-	[nd1.user setRating:[SEReferences ratingForValue:5]];
+	[nd1.user setRating:[SEReferences ratingForUps:7 downs:0]];
 	[nd1 setCount:1];
 	[nd1 setStartTime:@"12:00pm"];
 	[nd1 setEndTime:@"2:00pm"];
 	[nd1 setPrice:@"4.00"];
 	SESellListing *nd2 = [[SESellListing alloc] init];
 	[nd2.user setName:@"Eli Rockwell"];
-	[nd2.user setRating:[SEReferences ratingForValue:3]];
+	[nd2.user setRating:[SEReferences ratingForUps:4 downs:2]];
 	[nd2 setCount:2];
 	[nd2 setStartTime:@"1:00pm"];
 	[nd2 setEndTime:@"2:30pm"];
@@ -64,7 +64,7 @@
 	
 	SESellListing *c1 = [[SESellListing alloc] init];
 	[c1.user setName:@"Joe Bruin"];
-	[c1.user setRating:[SEReferences ratingForValue:5]];
+	[c1.user setRating:[SEReferences ratingForUps:6 downs:0]];
 	[c1 setCount:1];
 	[c1 setStartTime:@"6:00pm"];
 	[c1 setEndTime:@"7:00pm"];
@@ -72,21 +72,21 @@
 	
 	SESellListing *f1 = [[SESellListing alloc] init];
 	[f1.user setName:@"Holly Hill"];
-	[f1.user setRating:[SEReferences ratingForValue:5]];
+	[f1.user setRating:[SEReferences ratingForUps:8 downs:1]];
 	[f1 setCount:1];
 	[f1 setStartTime:@"5:00pm"];
 	[f1 setEndTime:@"8:00pm"];
 	[f1 setPrice:@"4.00"];
 	SESellListing *f2 = [[SESellListing alloc] init];
 	[f2.user setName:@"Andrew Abraham"];
-	[f2.user setRating:[SEReferences ratingForValue:2]];
+	[f2.user setRating:[SEReferences ratingForUps:1 downs:2]];
 	[f2 setCount:1];
 	[f2 setStartTime:@"5:45pm"];
 	[f2 setEndTime:@"7:00pm"];
 	[f2 setPrice:@"3.00"];
 	SESellListing *f3 = [[SESellListing alloc] init];
 	[f3.user setName:@"Valerie Katz"];
-	[f3.user setRating:[SEReferences ratingForValue:4]];
+	[f3.user setRating:[SEReferences ratingForUps:5 downs:1]];
 	[f3 setCount:3];
 	[f3 setStartTime:@"7:00pm"];
 	[f3 setEndTime:@"7:45pm"];
@@ -94,7 +94,7 @@
 	
 	SESellListing *h1 = [[SESellListing alloc] init];
 	[h1.user setName:@"Parker Lane"];
-	[h1.user setRating:[SEReferences ratingForValue:5]];
+	[h1.user setRating:[SEReferences ratingForUps:4 downs:0]];
 	[h1 setCount:1];
 	[h1 setStartTime:@"6:00pm"];
 	[h1 setEndTime:@"7:15pm"];

@@ -299,7 +299,7 @@ static NSString *kOtherCell = @"otherCell";			// the remaining cells at the end
 			
 			SEUser *defUser = [[SEUser alloc] init];
 			[defUser setName:@"Joe Bruin"];
-			[defUser setRating:[SEReferences ratingForValue:4]];
+			[defUser setRating:[SEReferences ratingForUps:4 downs:1]];
 			[self.buyListing setUser:defUser];
 			
 			[cell setListing:self.buyListing];

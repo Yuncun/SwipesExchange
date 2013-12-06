@@ -35,4 +35,14 @@
 	// consider also just returning like 1.4 ★ or thumbs up thumbs down
 }
 
++ (NSString *)ratingForUps:(int)ups downs:(int)downs
+{
+	return [NSString stringWithFormat:@"%d✓\t%d✗", ups, downs];
+}
+
++ (NSString *)localUserID
+{
+	return @"MatthewDeCoste";
+}
+
 @end

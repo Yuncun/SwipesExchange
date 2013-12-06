@@ -58,12 +58,12 @@
 	
 	NSDictionary *dictTwo = @{kCellIden		: @"detail",
 							  kCellTitle	: @"Rating",
-							  kCellDetail	: @"None yet",
+							  kCellDetail	: [SEReferences ratingForUps:5 downs:0],
 							  kCellAcc		: @0 };
 	
 	NSDictionary *dictThree = @{kCellIden	: @"detail",
 							  kCellTitle	: @"ID Number",
-							  kCellDetail	: @"None yet",
+							  kCellDetail	: @"194380230",
 							  kCellAcc		: @0 };
 	
 	self.cellArray = @[@[dictOne, dictTwo], @[dictThree]];

@@ -13,5 +13,7 @@
 + (UIColor *)mainColor;
 + (UIColor *)altColor;
 + (NSString *)ratingForValue:(int)value;
++ (NSString *)ratingForUps:(int)ups downs:(int)downs;
++ (NSString *)localUserID; // TODO: replace with persistent storage of user
 
 @end

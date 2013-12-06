@@ -32,6 +32,11 @@
 		664B7F9E18307FE6003890B9 /* SEMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664B7F9D18307FE6003890B9 /* SEMeViewController.m */; };
 		664B7FA11831E1C3003890B9 /* SEListingActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664B7FA01831E1C3003890B9 /* SEListingActionViewController.m */; };
 		667EB7F118343D7200D966ED /* SESubmitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 667EB7F018343D7200D966ED /* SESubmitCell.m */; };
+		6687746B1851C755009709F3 /* SEMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6687746A1851C755009709F3 /* SEMessageCell.m */; };
+		6687746E1851D153009709F3 /* SEConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6687746D1851D153009709F3 /* SEConversation.m */; };
+		668774711851D25E009709F3 /* SEConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668774701851D25E009709F3 /* SEConversationViewController.m */; };
+		668774741851DCB1009709F3 /* SEConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 668774731851DCB1009709F3 /* SEConversationCell.m */; };
+		668774771851E262009709F3 /* SESignInExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668774761851E262009709F3 /* SESignInExampleViewController.m */; };
 		668C0C9518361BD800D520E5 /* SESIgnInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668C0C9418361BD800D520E5 /* SESIgnInViewController.m */; };
 		669646F618277C9D0023C782 /* SESendable.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F518277C9D0023C782 /* SESendable.m */; };
 		669646F918277CB60023C782 /* SEFeeler.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F818277CB60023C782 /* SEFeeler.m */; };
@@ -94,6 +99,16 @@
 		664B7FA01831E1C3003890B9 /* SEListingActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEListingActionViewController.m; sourceTree = "<group>"; };
 		667EB7EF18343D7200D966ED /* SESubmitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESubmitCell.h; sourceTree = "<group>"; };
 		667EB7F018343D7200D966ED /* SESubmitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESubmitCell.m; sourceTree = "<group>"; };
+		668774691851C755009709F3 /* SEMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEMessageCell.h; sourceTree = "<group>"; };
+		6687746A1851C755009709F3 /* SEMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEMessageCell.m; sourceTree = "<group>"; };
+		6687746C1851D153009709F3 /* SEConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEConversation.h; sourceTree = "<group>"; };
+		6687746D1851D153009709F3 /* SEConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConversation.m; sourceTree = "<group>"; };
+		6687746F1851D25E009709F3 /* SEConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEConversationViewController.h; sourceTree = "<group>"; };
+		668774701851D25E009709F3 /* SEConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConversationViewController.m; sourceTree = "<group>"; };
+		668774721851DCB1009709F3 /* SEConversationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEConversationCell.h; sourceTree = "<group>"; };
+		668774731851DCB1009709F3 /* SEConversationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConversationCell.m; sourceTree = "<group>"; };
+		668774751851E262009709F3 /* SESignInExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESignInExampleViewController.h; sourceTree = "<group>"; };
+		668774761851E262009709F3 /* SESignInExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESignInExampleViewController.m; sourceTree = "<group>"; };
 		668C0C9318361BD800D520E5 /* SESIgnInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESIgnInViewController.h; sourceTree = "<group>"; };
 		668C0C9418361BD800D520E5 /* SESIgnInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESIgnInViewController.m; sourceTree = "<group>"; };
 		669646F418277C9D0023C782 /* SESendable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESendable.h; sourceTree = "<group>"; };
@@ -161,6 +176,8 @@
 		66169B101824448F004499C7 /* Connection */ = {
 			isa = PBXGroup;
 			children = (
+				6687746C1851D153009709F3 /* SEConversation.h */,
+				6687746D1851D153009709F3 /* SEConversation.m */,
 			);
 			name = Connection;
 			sourceTree = "<group>";
@@ -269,6 +286,8 @@
 			children = (
 				6626A44518242677000A15BB /* SEConnectionsViewController.h */,
 				6626A44618242677000A15BB /* SEConnectionsViewController.m */,
+				6687746F1851D25E009709F3 /* SEConversationViewController.h */,
+				668774701851D25E009709F3 /* SEConversationViewController.m */,
 			);
 			name = Connections;
 			sourceTree = "<group>";
@@ -307,6 +326,8 @@
 				664B7F9B18307CF4003890B9 /* Me */,
 				668C0C9318361BD800D520E5 /* SESIgnInViewController.h */,
 				668C0C9418361BD800D520E5 /* SESIgnInViewController.m */,
+				668774751851E262009709F3 /* SESignInExampleViewController.h */,
+				668774761851E262009709F3 /* SESignInExampleViewController.m */,
 			);
 			name = Tabs;
 			sourceTree = "<group>";
@@ -339,8 +360,12 @@
 			children = (
 				66D9C1FA182D6270006D1D2E /* SEListingCell.h */,
 				66D9C1FB182D6270006D1D2E /* SEListingCell.m */,
+				668774721851DCB1009709F3 /* SEConversationCell.h */,
+				668774731851DCB1009709F3 /* SEConversationCell.m */,
 				667EB7EF18343D7200D966ED /* SESubmitCell.h */,
 				667EB7F018343D7200D966ED /* SESubmitCell.m */,
+				668774691851C755009709F3 /* SEMessageCell.h */,
+				6687746A1851C755009709F3 /* SEMessageCell.m */,
 			);
 			name = "Table View Cells";
 			sourceTree = "<group>";
@@ -446,25 +471,30 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668774771851E262009709F3 /* SESignInExampleViewController.m in Sources */,
 				669646F918277CB60023C782 /* SEFeeler.m in Sources */,
 				66D9C1F8182D5EDD006D1D2E /* SESettingsViewController.m in Sources */,
 				66169B161824588A004499C7 /* SEHalls.m in Sources */,
 				6626A41518242262000A15BB /* SEAppDelegate.m in Sources */,
+				6687746B1851C755009709F3 /* SEMessageCell.m in Sources */,
 				66C9BCE1182B1F59003C0E6E /* SESellersListingCreationViewController.m in Sources */,
 				66169B131824455C004499C7 /* SEUser.m in Sources */,
 				66169B191824DD12004499C7 /* SEBuyListing.m in Sources */,
 				664B7F9E18307FE6003890B9 /* SEMeViewController.m in Sources */,
 				669646F618277C9D0023C782 /* SESendable.m in Sources */,
 				66C9BCDE182B13DD003C0E6E /* SEReferences.m in Sources */,
+				668774711851D25E009709F3 /* SEConversationViewController.m in Sources */,
 				6626A4441824266B000A15BB /* SESellersViewController.m in Sources */,
 				669646FC18277CBF0023C782 /* SEMessage.m in Sources */,
 				660541D11828740600F3E579 /* SEBuyersListingCreationViewController.m in Sources */,
+				6687746E1851D153009709F3 /* SEConversation.m in Sources */,
 				6626A44E18242783000A15BB /* SEListing.m in Sources */,
 				66169B1C1824DD20004499C7 /* SESellListing.m in Sources */,
 				66D9C1FC182D6270006D1D2E /* SEListingCell.m in Sources */,
 				6626A41118242262000A15BB /* main.m in Sources */,
 				667EB7F118343D7200D966ED /* SESubmitCell.m in Sources */,
 				668C0C9518361BD800D520E5 /* SESIgnInViewController.m in Sources */,
+				668774741851DCB1009709F3 /* SEConversationCell.m in Sources */,
 				664B7FA11831E1C3003890B9 /* SEListingActionViewController.m in Sources */,
 				6626A44718242677000A15BB /* SEConnectionsViewController.m in Sources */,
 				6626A43E1824236A000A15BB /* SEBuyersViewController.m in Sources */,

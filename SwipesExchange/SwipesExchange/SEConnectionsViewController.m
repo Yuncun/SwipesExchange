@@ -8,8 +8,17 @@
 
 #import "SEConnectionsViewController.h"
 #import "SEReferences.h"
+#import "SEConversation.h"
+#import "SEConversationCell.h"
+#import "SEConversationViewController.h"
+
+#import "SEMessage.h"
+#import "SESellListing.h"
 
 @interface SEConnectionsViewController ()
+
+@property (nonatomic, strong) NSArray *dataArray;
+@property (nonatomic, strong) SEConversation *destinationConversation; // for selecting
 
 @end
 
@@ -37,6 +46,45 @@
 	// set tint
 	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
 	//    self.navigationController.navigationBar.translucent = NO;
+	
+	// put in data
+	
+	SEUser *buyer = [[SEUser alloc] init]; // is me
+	[buyer setName:@"Josephine Bruin"];
+	[buyer setRating:[SEReferences ratingForUps:8 downs:0]];
+	[buyer setIdNumber:@"Nope"];
+	
+	SEUser *me = [[SEUser alloc] init];
+	[me setName:@"Joe Bruin"];
+	[me setRating:[SEReferences ratingForUps:5 downs:0]];
+	[me setIdNumber:[SEReferences localUserID]];
+	
+	SESellListing *listing = [[SESellListing alloc] init];
+	[listing setUser:me];
+	[listing setCount:1];
+	[listing setStartTime:@"6:00pm"];
+	[listing setEndTime:@"7:15pm"];
+	[listing setPrice:@"$4.00"];
+	
+	SEMessage *m1 = [[SEMessage alloc] init];
+	[m1 setUser:buyer];
+	[m1 setContent:@"I only have $3. That okay?"];
+	
+	SEMessage *m2 = [[SEMessage alloc] init];
+	[m2 setUser:me];
+	[m2 setContent:@"That's fine. Meet by the benches at 6:30?"];
+	
+	SEMessage *m3 = [[SEMessage alloc] init];
+	[m3 setUser:buyer];
+	[m3 setContent:@"Sounds good!"];
+	
+	SEConversation *c = [[SEConversation alloc] init];
+	[c setSeller:me];
+	[c setBuyer:buyer];
+	[c setListing:listing];
+	[c setMessages:@[m1, m2, m3]];
+	
+	self.dataArray = @[c];
 }
 
 - (void)didReceiveMemoryWarning
@@ -45,35 +93,52 @@
     // Dispose of any resources that can be recreated.
 }
 
+- (SEConversation *)dataObjectAtIndexPath:(NSIndexPath *)ip
+{
+	return [self.dataArray objectAtIndex:ip.row];
+}
+
 #pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 0;
+    return 1;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 0;
+    return self.dataArray.count;
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
+    SEConversationCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+	
+	// Configure the cell...
+	[cell setConversation:[self dataObjectAtIndexPath:indexPath]];
+	[cell setAccessoryType:UITableViewCellAccessoryDisclosureIndicator];
     
     return cell;
 }
 
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
 {
+	self.destinationConversation = [self dataObjectAtIndexPath:indexPath];
+	
+	// perform segue
+	[self performSegueWithIdentifier:@"followConversation" sender:self];
 	[tableView deselectRowAtIndexPath:indexPath animated:YES];
+}
+
+- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
+{
+	if ([segue.identifier isEqualToString:@"followConversation"])
+	{
+		SEConversationViewController *dest = [segue destinationViewController];
+		[dest setConversation:self.destinationConversation];
+	}
 }
 
 /*

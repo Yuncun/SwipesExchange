@@ -7,7 +7,11 @@
 //
 
 #import "SESendable.h"
+#import "SEUser.h"
 
 @interface SEMessage : SESendable
+
+@property (nonatomic, strong) SEUser *user;
+@property (nonatomic, strong) NSString *content;
 
 @end

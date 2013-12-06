@@ -110,7 +110,7 @@
 		
 		SEUser *defUser = [[SEUser alloc] init];
 		[defUser setName:@"Joe Bruin"];
-		[defUser setRating:[SEReferences ratingForValue:4]];
+		[defUser setRating:[SEReferences ratingForUps:4 downs:1]];
 		[self.sellListing setUser:defUser];
 		
 		[cell setListing:self.sellListing];

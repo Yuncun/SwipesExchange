@@ -1,19 +1,21 @@
 //
-//  SESettingsViewController.m
+//  SEConversationViewController.m
 //  Bruin Swipes
 //
-//  Created by Matthew DeCoste on 11/8/13.
+//  Created by Matthew DeCoste on 12/6/13.
 //  Copyright (c) 2013 CS130SwipesExchange. All rights reserved.
 //
 
-#import "SESettingsViewController.h"
+#import "SEConversationViewController.h"
+#import "SEMessageCell.h"
+#import "SESubmitCell.h"
 #import "SEReferences.h"
 
-@interface SESettingsViewController ()
+@interface SEConversationViewController ()
 
 @end
 
-@implementation SESettingsViewController
+@implementation SEConversationViewController
 
 - (id)initWithStyle:(UITableViewStyle)style
 {
@@ -32,11 +34,13 @@
     // self.clearsSelectionOnViewWillAppear = NO;
  
     // Uncomment the following line to display an Edit button in the navigation bar for this view controller.
-	// self.navigationItem.rightBarButtonItem = self.editButtonItem;
+    // self.navigationItem.rightBarButtonItem = self.editButtonItem;
 	
-	// set tint
-	self.navigationController.navigationBar.barTintColor = [SEReferences altColor];
-	//    self.navigationController.navigationBar.translucent = NO;
+	// set title to be name of *other* user
+	NSString *otherName = self.conversation.buyer.name;
+	if ([self.conversation.buyer.idNumber isEqualToString:[SEReferences localUserID]])
+		otherName = self.conversation.seller.name;
+	self.navigationItem.title = otherName;
 }
 
 - (void)didReceiveMemoryWarning
@@ -49,38 +53,43 @@
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView
 {
-#warning Potentially incomplete method implementation.
     // Return the number of sections.
-    return 1;
+    return 2;
 }
 
 - (NSInteger)tableView:(UITableView *)tableView numberOfRowsInSection:(NSInteger)section
 {
-#warning Incomplete method implementation.
     // Return the number of rows in the section.
-    return 1;
+	switch (section) {
+		case 0:
+			return self.conversation.messages.count;
+			break;
+			
+		default:
+			return 1;
+			break;
+	}
 }
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    static NSString *CellIdentifier = @"Cell";
-    UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:CellIdentifier forIndexPath:indexPath];
-    
-    // Configure the cell...
-	[cell.textLabel setText:@"Show login"];
-    
-    return cell;
-}
-
-- (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath
-{
-//	[self performSegueWithIdentifier:@"login" sender:self];
-	[tableView deselectRowAtIndexPath:indexPath animated:YES];
-}
-
-- (void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender
-{
-	
+    if (indexPath.section == 1)
+	{
+		UITableViewCell *cell = [tableView dequeueReusableCellWithIdentifier:@"New" forIndexPath:indexPath];
+		
+		// Configure the cell...
+		
+		return cell;
+	}
+	else
+	{
+		SEMessageCell *cell = [tableView dequeueReusableCellWithIdentifier:@"Cell" forIndexPath:indexPath];
+		
+		// Configure the cell...
+		[cell setMessage:[self.conversation.messages objectAtIndex:indexPath.row]];
+		
+		return cell;
+	}
 }
 
 /*

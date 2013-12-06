@@ -30,7 +30,7 @@
 		// go crazy to make a demo
 		SEUser *demoUser = [[SEUser alloc] init];
 		[demoUser setName:@"Matthew DeCoste"];
-		[demoUser setRating:[SEReferences ratingForValue:4]];
+		[demoUser setRating:[SEReferences ratingForUps:4 downs:1]];
 		self.user = demoUser;
 		self.startTime = @"4:00pm";
 		self.endTime = @"7:00pm";
