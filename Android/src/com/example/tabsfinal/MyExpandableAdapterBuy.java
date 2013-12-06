@@ -23,7 +23,6 @@ import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
-//import com.amazonaws.demo.highscores.AddScoreActivity.AddHighScoreTask;
 
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
@@ -616,16 +615,18 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	                    public void onClick(View view) {
 	                    	
 	                    	//RANDOM, for testing
-	                    	BuyListing newPost = new BuyListing();
+
+	                    	BuyListing newListing = new BuyListing();
+
+							// TODO: Implement with user data
+
 	                    	User newUser = new User("Eric Shen");
 	                    	Venue newVenue = new Venue("Covel");
-	                    	newPost.setUser(newUser);
-	                    	newPost.setVenue(newVenue);
+
+	                    	newListing.setUser(newUser);
+	                    	newListing.setVenue(newVenue);
 	                    	
-	                    	new AddHighScoreTask().execute(newPost);
-	                        
-	                        //TODO: direct data to database
-	 
+	                    	new AddBuyListingTask().execute(newListing);
 	                    }
 	                });
 					
@@ -722,23 +723,21 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return false;
 	}
+
     /**ADD LISTING**/
-    private class AddHighScoreTask extends AsyncTask<Listing, Void, Void> {
+    private class AddBuyListingTask extends AsyncTask<Listing, Void, Void> {
 
-            protected Void doInBackground(Listing... highScores) {
+            protected Void doInBackground(Listing... listings) {
 
-                    SimpleDBData hs = new SimpleDBData();
-                    hs.addHighScore(highScores[0]);
+                    SimpleDBData db = new SimpleDBData();
+                    db.addBuyListing(listings[0]);
 
                     return null;
             }
 
-//This onPostExecute is not applicable to our fragment layout. Normally this closes the addListing activity, returning the user to the original screen.
-/*
             protected void onPostExecute(Void result) {
 
-                    AddScoreActivity.this.finish();
-            }*/
+            }
     }
 
 }

@@ -23,7 +23,6 @@ import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
-//import com.amazonaws.demo.highscores.AddScoreActivity.AddHighScoreTask;
 
 public class MyExpandableAdapter extends BaseExpandableListAdapter {
 
@@ -65,13 +64,10 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		
 	}
 	
-	 public void setInflater(LayoutInflater inflater, Activity activity) {
+	 public void setInflater(LayoutInflater inflater, Activity activity) 
+	 {
 		         this.inflater = inflater;
 		         this.activity = activity;
-		 		
-		 		
-		        
-		
 	 }
 	 
 	 public int getNumSwipes()
@@ -695,16 +691,18 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	                    public void onClick(View view) {
 	                    	
 	                    	//RANDOM, for testing
-	                    	BuyListing newPost = new BuyListing();
-	                    	User newUser = new User("Eric Shen");
+
+							SellListing newListing = new SellListing();
+
+							// TODO: Implement with user data
+
+							User newUser = new User("Eric Shen");
 	                    	Venue newVenue = new Venue("Covel");
-	                    	newPost.setUser(newUser);
-	                    	newPost.setVenue(newVenue);
+
+	                    	newListing.setUser(newUser);
+	                    	newListing.setVenue(newVenue);
 	                    	
-	                    	new AddHighScoreTask().execute(newPost);
-	                        
-	                        //TODO: direct data to database
-	 
+	                    	new AddSellListingTask().execute(newListing);
 	                    }
 	                });
 					
@@ -805,23 +803,20 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return false;
 	}
+
     /**ADD LISTING**/
-    private class AddHighScoreTask extends AsyncTask<Listing, Void, Void> {
+    private class AddSellListingTask extends AsyncTask<Listing, Void, Void> {
 
-            protected Void doInBackground(Listing... highScores) {
+			protected Void doInBackground(Listing... listings) {
 
-                    SimpleDBData hs = new SimpleDBData();
-                    hs.addHighScore(highScores[0]);
+                    SimpleDBData db = new SimpleDBData();
+                    db.addSellListing(listings[0]);
 
                     return null;
             }
 
-//This onPostExecute is not applicable to our fragment layout. Normally this closes the addListing activity, returning the user to the original screen.
-/*
-            protected void onPostExecute(Void result) {
+			protected void onPostExecute(Void result) {
 
-                    AddScoreActivity.this.finish();
-            }*/
+            }
     }
-
 }

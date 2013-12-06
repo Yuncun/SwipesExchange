@@ -13,9 +13,15 @@ public class Constants {
     // to devices securely.
     // http://aws.amazon.com/articles/Mobile/4611615499399490
     //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-        public static final String ACCESS_KEY_ID = "AKIAJIJMYS5ZGJ5SAJIQ";
-        public static final String SECRET_KEY = "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";
+
+    public static final String ACCESS_KEY_ID = "AKIAJWQU5ZV4ZEZHRDWA"; 
+	public static final String ACCESS_KEY_ID_ERIC = "AKIAJIJMYS5ZGJ5SAJIQ";
+
+    public static final String SECRET_KEY = "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 ";
+	public static final String SECRET_KEY_ERIC = "BR/YtBiUwH4Yjb02W2A9Z1hOXh2GsBVIPLlIPUqj";
     
+	
+
     public static final Random random = new Random();
     public static final String[] NAMES = new String[] { "Norm", "Jim", "Jason", "Zach", "Matt", "Glenn", "Will", "Wade", "Trevor", "Jeremy", "Ryan", "Matty", "Steve", "Pavel" };
 

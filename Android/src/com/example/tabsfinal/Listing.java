@@ -12,6 +12,7 @@ public abstract class Listing implements Serializable{ //I have no idea if imple
         private String startTime;
         private String endTime;
         public String section;
+
      //this one we take care of after
         public Boolean isSection;
         
@@ -30,6 +31,11 @@ public abstract class Listing implements Serializable{ //I have no idea if imple
         public int getSwipeCount() {
                 return swipeCount;
         }
+
+		public Sting getSwipeCountString() {
+				return Integer.toString(swipeCount);
+		}
+
         public void setSwipeCount(int swipeCount) {
                 this.swipeCount = swipeCount;
         }

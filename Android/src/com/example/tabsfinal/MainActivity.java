@@ -191,18 +191,20 @@ public class MainActivity extends FragmentActivity implements
 
         protected Void doInBackground(Void... voids) {
 
-                SimpleDBData list = new SimpleDBData();
-    list.createHighScoresDomain();
-    /*
-                for (int i = 1; i <= 10; i++) {
-        String playerName = Constants.getRandomPlayerName();
-        int score = Constants.getRandomScore();
-                        HighScore hs = new HighScore( playerName, score );
-                        
-                        list.addHighScore(hs);
-                }*/
+			SimpleDBData list = new SimpleDBData();
+			// list.createHighScoresDomain();
 
-                return null;
+			/*
+			for (int i = 1; i <= 10; i++) {
+			String playerName = Constants.getRandomPlayerName();
+			int score = Constants.getRandomScore();
+			HighScore hs = new HighScore( playerName, score );
+                        
+                    list.addHighScore(hs);
+            }
+			*/
+
+			return null;
         }
 
         protected void onPostExecute(Void result) {

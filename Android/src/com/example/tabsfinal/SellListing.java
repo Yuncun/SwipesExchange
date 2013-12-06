@@ -7,13 +7,15 @@ public class SellListing extends Listing{
 	private double price;
 	
 	public void setPrice(double price) {
-		
 		this.price = price;
 	}
 	
 	public double getPrice() {
 		return this.price;
-		
+	}
+
+	public String getPriceString() {
+		return Double.toString (this.price);
 	}
 	
 }
