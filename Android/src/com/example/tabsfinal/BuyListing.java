@@ -1,5 +1,11 @@
 package com.example.tabsfinal;
 
-public class BuyListing extends Listing{
+/**
+ * Item definition including the section.
+ */
+public class BuyListing extends Listing {
+    
+   
 
+  
 }

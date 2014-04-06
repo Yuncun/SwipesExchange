@@ -1,11 +1,28 @@
 package com.example.tabsfinal;
 
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Locale;
+
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
+import com.amazonaws.services.simpledb.model.ListDomainsResult;
+import com.amazonaws.services.simpledb.model.PutAttributesRequest;
+import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 
 import android.app.ActionBar;
 import android.app.FragmentTransaction;
+import android.content.Context;
 import android.content.Intent;
+import android.content.pm.ActivityInfo;
+import android.graphics.Color;
 import android.support.v4.app.ListFragment;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
@@ -27,6 +44,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.TimePicker;
+
 
 public class MainActivity extends FragmentActivity implements
 		ActionBar.TabListener {
@@ -40,29 +59,49 @@ public class MainActivity extends FragmentActivity implements
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	//Button myButton;
+	
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ActionBar actionBar;
+	//public SimpleDBData my_data;
+	public BackendData l;
+	public String test = "fuck";
+	//public AddHighScoreTask hst;
+	//private TestConnect tc;
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-
+	TimePicker tp;
+	
+	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_main);
+		//tc = new TestConnect();
+		//l = new BackendData(this);
+		//tc.doInBackground();
+		//tc.execute("");
 		actionBar = getActionBar();
+		 
+			        // display error
+			    
+		//my_data = new SimpleDBData();
+		//hst = new AddHighScoreTask();
+		//hst.doInBackground();
 		
 		// Set up the action bar.
 		
-		actionBar.setIcon(R.drawable.yes);
+		//actionBar.setIcon(R.drawable.yes);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
+		tp = (TimePicker) findViewById(R.id.timePicker1);
 		
 		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager());
+		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);;
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
@@ -90,9 +129,14 @@ public class MainActivity extends FragmentActivity implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
 			View tabView = this.getLayoutInflater().inflate(R.layout.tab_layout, null);
+			//tabView.setBackgroundColor(Color.BLACK);
 			TextView tabText = (TextView) tabView.findViewById(R.id.tabText);
 			tabText.setText(mSectionsPagerAdapter.getPageTitle(i));
+			
+		
+		/*
 			ImageView tabImage = (ImageView) tabView.findViewById(R.id.tabIcon);
+			
 			switch(i)
 			{
 			case 0:
@@ -107,9 +151,11 @@ public class MainActivity extends FragmentActivity implements
 			case 3:
 				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
 				break;
-			
+			case 4:
+				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
+				break;
 			}
-			
+			*/
 			actionBar.addTab(actionBar.newTab()
 					
 					
@@ -134,7 +180,17 @@ public class MainActivity extends FragmentActivity implements
  
 			@Override
 			public void onClick(View v) {
-					Log.d("button", "Click!");
+					
+					actionBar.setSelectedNavigationItem(2);
+				
+			}
+		});
+		
+		inflatedView.findViewById(R.id.new_button2).setOnClickListener(new OnClickListener() {
+			 
+			@Override
+			public void onClick(View v) {
+					
 					actionBar.setSelectedNavigationItem(3);
 				
 			}
@@ -165,18 +221,44 @@ public class MainActivity extends FragmentActivity implements
 	@Override
 	public void onTabReselected(ActionBar.Tab tab,
 			FragmentTransaction fragmentTransaction) {
+		
 	}
 	
-	
+   /* private class PopulateHighScoresTask extends AsyncTask<Void, Void, Void> {
+
+        protected Void doInBackground(Void... voids) {
+
+                SimpleDBData list = new SimpleDBData();
+    //list.createHighScoresDomain();
+    /*
+                for (int i = 1; i <= 10; i++) {
+        String playerName = Constants.getRandomPlayerName();
+        int score = Constants.getRandomScore();
+                        HighScore hs = new HighScore( playerName, score );
+                        
+                        list.addHighScore(hs);
+                }
+
+                return null;
+        }
+
+        protected void onPostExecute(Void result) {
+
+        }
+}
+*/
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
 	 * one of the sections/tabs/pages.
 	 */
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
+		
+		MainActivity mActivity;
 
-		public SectionsPagerAdapter(FragmentManager fm) {
+		public SectionsPagerAdapter(FragmentManager fm, MainActivity my_activity) {
 			super(fm);
+			mActivity = my_activity;
 		}
 
 		@Override
@@ -187,11 +269,11 @@ public class MainActivity extends FragmentActivity implements
 			switch(position)
 			{
 			case 0:
-				return MyList.newInstance(position);
+				return MyList.newInstance(position, mActivity, l);
 			case 1:
-				return MyList.newInstance(position);
+				return MyList.newInstance(position, mActivity, l);
 			case 2:
-				return MyList.newInstance(position);
+				return NewListingFragmentBuy.newInstance(position, mActivity);
 			case 3:
 				return NewListingFragment.newInstance(position);
 		
@@ -203,6 +285,7 @@ public class MainActivity extends FragmentActivity implements
 		@Override
 		public int getCount() {
 			// TODO Auto-generated method stub
+			
 			return 4;
 		}
 		public String getPageTitle(int position) {
@@ -213,15 +296,130 @@ public class MainActivity extends FragmentActivity implements
 			case 1:
 				return getString(R.string.title_section2);
 			case 2:
-				return getString(R.string.title_section3);
-			case 3:
 				return getString(R.string.title_section4);
+			case 3:
+				return getString(R.string.title_section5);
+			
 			}
 			return null;
 		}
 		}
 
+	  /* private class AddHighScoreTask extends AsyncTask<Listing, Void, Void> {
 
+		   public SimpleDBData hs;
+           protected Void doInBackground(Listing... highScores) {
+        	   Listing dblisting = new BuyListing();
+        	   User my_user = new User("Eric");
+        	   Venue my_venue = new Venue("Hell");
+        	   dblisting.setVenue(my_venue);
+        	   dblisting.setUser(my_user);
+       		dblisting.setEndTime("END OF THE WORLD");
+       		dblisting.setStartTime("THE BEGINNING");
+       		dblisting.setSwipeCount(99);
+       		//dblisting.setTime(null);
+                  hs = new SimpleDBData();
+                  hs.addHighScore(dblisting);
+                   
+
+                   return null;
+           }
+       }
+	  /* 
+	   private class TestConnect extends AsyncTask<Listing, Void, Void> {
+
+			  public static final int USER_SORT = 1;
+		        
+		        public static final int VENUE_SORT  = 2;
+		        public static final int NO_SORT     = 0;
+		        
+		        private static final String LISTINGS_DOMAIN = "Listings";
+		        
+		        private static final String USER_ATTRIBUTE = "Name"; //Not sure what this might fuck up so Im not gonna change it to "users" as it should be
+		        private static final String VENUE_ATTRIBUTE = "Venue";
+		        
+		        private static final String USER_SORT_QUERY = "select player, score from HighScores where player > '' order by player asc";
+		        private static final String VENUE_SORT_QUERY = "select player, score from HighScores where score >= '0' order by score desc";
+		        private static final String NO_SORT_QUERY = "select player, score from HighScores";
+		        
+		        private static final String COUNT_QUERY = "select count(*) from HighScores";
+		                
+		        protected AmazonSimpleDBClient sdbClient;
+		        protected String nextToken;
+		        protected int sortMethod;
+		        protected int count;
+		        public String reg_key = "AKIAJWQU5ZV4ZEZHRDWA";
+		        public String sec_key = "cgwIKqYn1YoYDhnkqt4oPaizIXdWeHtgNlliBaND";
+		        @Override
+		        protected Void doInBackground(Listing... params) {
+		        	android.os.Debug.waitForDebugger();
+		            //for (int i = 0; i < 5; i++) {
+		                try {
+		                	AWSCredentials credentials = new BasicAWSCredentials( reg_key,sec_key );
+		                    this.sdbClient = new AmazonSimpleDBClient( credentials); 
+		                    sdbClient.setEndpoint("sdb.us-west-2.amazonaws.com");
+		                    this.sdbClient.setRegion(Region.getRegion(Regions.US_WEST_2));
+		                    String test = "Listings";
+		                    //sdbClient.
+		                    ListDomainsResult result = sdbClient.listDomains();
+		                    int x = result.getDomainNames().size();
+		                    Boolean found = false;
+		                    //while(x>0)
+		                    //{
+		                      //  if(result.getDomainNames().get(x) == test) 
+		                        	//found = true;
+		                    //} 
+		                    
+		                    Listing score = new BuyListing();
+		             	   User my_user = new User("Eric");
+		             	   Venue my_venue = new Venue("Hell");
+		             	  score.setVenue(my_venue);
+		             	   score.setUser(my_user);
+		            		score.setEndTime("END OF THE WORLD");
+		            		score.setStartTime("THE BEGINNING");
+		            		score.setSwipeCount(99);
+		            		//dblisting.setTime(null);
+		                       //hs = new SimpleDBData();
+		                      // hs.addHighScore(dblisting);
+		                    
+		                    ReplaceableAttribute playerAttribute = new ReplaceableAttribute( USER_ATTRIBUTE, score.getUser().getName(), Boolean.TRUE );
+		                    ReplaceableAttribute scoreAttribute = new ReplaceableAttribute( VENUE_ATTRIBUTE, score.getVenue().getName(), Boolean.TRUE );
+		                    
+		                    List<ReplaceableAttribute> attrs = new ArrayList<ReplaceableAttribute>(2);
+		                    attrs.add( playerAttribute );
+		                    attrs.add( scoreAttribute );
+		                    
+		                    PutAttributesRequest par = new PutAttributesRequest(LISTINGS_DOMAIN, score.getUser().getName(), attrs);                
+		                    try {
+		                    		//my_count++;
+		                    		
+		                            this.sdbClient.putAttributes( par );
+		                    }
+		                    catch ( Exception exception ) {
+		                    	
+		                            System.out.println( "EXCEPTION = " + exception );
+		                    }
+
+		                    //if(!found)
+		                    //{
+		                        //this.createHighScoresDomain(test);
+		                          
+		                    //}
+		                    //Thread.sleep(1000);
+		                } catch (Exception e) {
+		                    //e.printStackTrace();
+		                }
+		            //}
+		            return null;
+		        }
+		  }
+
+
+
+	
+	
+	*/
+	
 	
 }
 

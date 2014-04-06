@@ -4,11 +4,25 @@ android:layout_width="fill_parent"
 android:layout_height="wrap_content"
 android:gravity="right" >
 
+    <Button
+    android:id="@+id/new_button2"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+      android:layout_alignParentRight="true"
+    android:textColor="#FFFFFF"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    android:text="NEW SELL" />
 <Button
     android:id="@+id/new_button"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-    android:layout_alignParentRight="true"
+ 
     android:textColor="#FFFFFF"
-    android:text="New" />
+     android:layout_toLeftOf="@id/new_button2"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    android:text="NEW BUY" />
+
+
 </RelativeLayout>
