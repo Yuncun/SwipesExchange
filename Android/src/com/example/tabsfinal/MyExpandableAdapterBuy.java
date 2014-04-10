@@ -771,7 +771,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	        public static final int VENUE_SORT  = 2;
 	        public static final int NO_SORT     = 0;
 	        
-	        private static final String LISTINGS_DOMAIN = "Listings";
+	        private static final String BUY_LISTINGS_DOMAIN = "BuyListings";
 	        
 	        private static final String USER_ATTRIBUTE = "Name"; //Not sure what this might fuck up so Im not gonna change it to "users" as it should be
 	        private static final String VENUE_ATTRIBUTE = "Venue";
@@ -790,8 +790,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	        protected String nextToken;
 	        protected int sortMethod;
 	        protected int count;
-	        public String reg_key = "AKIAJWQU5ZV4ZEZHRDWA";
-	        public String sec_key = "cgwIKqYn1YoYDhnkqt4oPaizIXdWeHtgNlliBaND";
+	        public String reg_key = "AKIAIBKEOA7FKTHHVG7Q";
+	        public String sec_key = "5kap6qSvIB6VYdxEt+w10rYz8C41UUp2s1f2umd/";
 	        @Override
 	        protected Void doInBackground(Listing... params) {
 	        	
@@ -861,7 +861,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	                    
 	                    
 	                    
-	                    PutAttributesRequest par = new PutAttributesRequest(LISTINGS_DOMAIN, uID, attrs);                
+	                    PutAttributesRequest par = new PutAttributesRequest(BUY_LISTINGS_DOMAIN, uID, attrs);                
 	                    try {
 	                    		//my_count++;
 	                    		
@@ -870,6 +870,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	                    catch ( Exception exception ) {
 	                    	
 	                            System.out.println( "EXCEPTION = " + exception );
+	                            
 	                    }
 
 	                    //if(!found)

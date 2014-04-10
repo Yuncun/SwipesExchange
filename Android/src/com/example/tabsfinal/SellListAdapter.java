@@ -184,7 +184,5 @@ public class SellListAdapter  extends BaseAdapter
 	}
 
 
-	
+
 }
-
-

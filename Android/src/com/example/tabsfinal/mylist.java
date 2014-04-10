@@ -34,6 +34,7 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
 import android.widget.SimpleAdapter;
+import android.widget.Toast;
 
 class MyList extends ListFragment
 {
@@ -43,11 +44,12 @@ class MyList extends ListFragment
 		static MainActivity mActivity;
 		//private Boolean isFinished;
         public List<BuyListing> buyEntries;
+        
         private TestConnectGet tc;
         private Context v;
         
         Button btnStartProgress;
-        ProgressDialog progressBar;
+       // ProgressDialog progressBar;
         private int progressBarStatus = 0;
         private Handler progressBarHandler = new Handler();
         
@@ -96,7 +98,7 @@ class MyList extends ListFragment
          		 });
          	   }
                 
-        	progressBar.dismiss();
+        	
                
          	   BuyListAdapter adapter= new BuyListAdapter(getActivity(), buyEntries);
                 setListAdapter(adapter);
@@ -130,7 +132,7 @@ class MyList extends ListFragment
                if(this.page_num==0)
                {
             	   
-            	   tc = new TestConnectGet();
+            	   tc = new TestConnectGet(getActivity());
             	   //buyEntries = tc.execute().get();
             	   //isFinished=false;
             	   /*
@@ -148,6 +150,8 @@ class MyList extends ListFragment
             	   //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
             		   // tc.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[])null);
             		//else
+            	   //ProgressDialog dialog;
+            	   
             		    tc.execute();
             	   
             	   
@@ -276,13 +280,17 @@ class MyList extends ListFragment
             private class TestConnectGet extends AsyncTask<Void, Void, List<BuyListing>> {
 
         		  public static final int USER_SORT = 1;
+        		   
+        		   private Context context;
+        		   
+        		   private ProgressDialog progressBar;
         		  
         		  private BackendData data_parent;
         	        private final ReentrantLock lock = new ReentrantLock();
         	        public static final int VENUE_SORT  = 2;
         	        public static final int NO_SORT     = 0;
         	        
-        	        private static final String LISTINGS_DOMAIN = "Listings";
+        	        private static final String BUY_LISTINGS_DOMAIN = "BuyListings";
         	        
         	        private static final String USER_ATTRIBUTE = "Name"; //Not sure what this might fuck up so Im not gonna change it to "users" as it should be
         	        private static final String VENUE_ATTRIBUTE = "Venue";
@@ -297,9 +305,15 @@ class MyList extends ListFragment
         	        protected String nextToken;
         	        protected int sortMethod;
         	        protected int count;
-        	        public String reg_key = "AKIAJWQU5ZV4ZEZHRDWA";
-        	        public String sec_key = "cgwIKqYn1YoYDhnkqt4oPaizIXdWeHtgNlliBaND";
-        	        private ProgressDialog dialog;
+        	        // OLD KEY public String reg_key = "AKIAJWQU5ZV4ZEZHRDWA";
+        	        // OLD KEY public String sec_key = "cgwIKqYn1YoYDhnkqt4oPaizIXdWeHtgNlliBaND";
+        	        
+        	        public String reg_key = "AKIAIBKEOA7FKTHHVG7Q";
+        	        public String sec_key = "5kap6qSvIB6VYdxEt+w10rYz8C41UUp2s1f2umd/";
+        	        
+        	        
+        	        
+        	        //private ProgressDialog dialog;
         	    
         	     //public List<BuyListing> updatedBuyList;
         	      
@@ -312,41 +326,50 @@ class MyList extends ListFragment
         	        	dialog = new ProgressDialog();
         	            this.dialog.setMessage("Progress start");
         	            this.dialog.show();
+        	            
+        	            
         	        }*/
 
+        	        public TestConnectGet(Context context) {
+        	        	this.context = context;
+        	        }
+        	        
         	        @Override
         	        protected void onPreExecute() {
-        	            //super.onPreExecute();
-        	            progressBar = new ProgressDialog(v);
+        	           // super.onPreExecute();
+        	            Log.d("test", "PreExecute1");
+        	            //progressBar = new ProgressDialog(v);
         	            //progressBar.setCanceledOnTouchOutside(false);
-        	            progressBar.setCancelable(true);
-        	            progressBar.setMessage("Loading listings...");
+        	           
         	            //progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
         	           // progressBar.setProgress(0);
         	            //progressBar.setMax(100);
-        	            progressBar.show();
+        	        	//Toast.makeText(this.context, "Loading listings...", Toast.LENGTH_SHORT).show();
+        	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Listings are loading...", true);
+        	            //progressBar.show();
         	            
+        	        	Log.d("test", "PreExecute2");
         	            
-        	            
-        	            progressBarStatus = 0;
+        	            //progressBarStatus = 0;
         	        }
         	        
         	      @Override
         	    protected void onPostExecute(List<BuyListing> result) {
         	    	//android.os.Debug.waitForDebugger();
+        	    	  Log.d("test", "PostExecute1");
         	        //do stuff
-        	    	 // super.onPostExecute(result);
-        	    	
+        	    	 //super.onPostExecute(result);
+        	    	  progressBar.dismiss();
         	    	buyEntries = result;
         	    	
         	    	
         	    	doMore();
-        	    	progressBar.dismiss();
         	    	
+        	    	 
         	    	  //Log.d("owl", "cupcake");
-        	    	  
+        	    	  Log.d("test", "PostExecute");
         	    	  //d
-        	                
+        	    	
         	        }
         	    
               
@@ -365,7 +388,7 @@ class MyList extends ListFragment
         	      
         	        @Override
         	        protected List<BuyListing> doInBackground(Void... params) {
-        	        	android.os.Debug.waitForDebugger();
+        	        	//android.os.Debug.waitForDebugger();
         	        	
         	        	 List<BuyListing> updatedBuyList = new ArrayList<BuyListing>();
         	        	 //isFinished = false;
@@ -386,10 +409,10 @@ class MyList extends ListFragment
         	                    this.sdbClient.setRegion(Region.getRegion(Regions.US_WEST_2));
         	                    String test = "Listings";
         	                    
-        	                    
+        	                    Log.d("test", "Beginning requests...");
         	                    
         	                  List<Item> items  = new ArrayList<Item>();
-        	                String query = "select * from `Listings`";
+        	                String query = "select * from `BuyListings`";
         	                //Log.d("panda", "22");
         	                String nextToken = null;
         	                //int count = 1;
@@ -432,6 +455,11 @@ class MyList extends ListFragment
         	            	  if(num_attributes>0)
         	            	  {
         	            		  User u = new User(items.get(i).getAttributes().get(0).getValue());
+        	            		  Log.d("owl", items.get(i).getAttributes().get(0).getValue());
+        	            		  Log.d("owl", items.get(i).getAttributes().get(1).getValue());
+        	            		  Log.d("owl", items.get(i).getAttributes().get(2).getValue());
+        	            		  Log.d("owl", items.get(i).getAttributes().get(3).getValue());
+        	            		  Log.d("owl", items.get(i).getAttributes().get(4).getValue());
         	            		  bl.setUser(u);
         	            		  if(num_attributes>1)
         	            		  {
@@ -469,7 +497,7 @@ class MyList extends ListFragment
         	                    //e.printStackTrace();
         	                }
         	            //in_use = false;
-        	            
+        	                //progressBar.dismiss();
         	           //cancel(true);
         	            return updatedBuyList;
         	        }
