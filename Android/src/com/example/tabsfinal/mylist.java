@@ -305,11 +305,8 @@ class MyList extends ListFragment
         	        protected String nextToken;
         	        protected int sortMethod;
         	        protected int count;
-        	        // OLD KEY public String reg_key = "AKIAJWQU5ZV4ZEZHRDWA";
-        	        // OLD KEY public String sec_key = "cgwIKqYn1YoYDhnkqt4oPaizIXdWeHtgNlliBaND";
+        	      
         	        
-        	        public String reg_key = "AKIAIBKEOA7FKTHHVG7Q";
-        	        public String sec_key = "5kap6qSvIB6VYdxEt+w10rYz8C41UUp2s1f2umd/";
         	        
         	        
         	        
@@ -338,6 +335,7 @@ class MyList extends ListFragment
         	        protected void onPreExecute() {
         	           // super.onPreExecute();
         	            Log.d("test", "PreExecute1");
+        	            
         	            //progressBar = new ProgressDialog(v);
         	            //progressBar.setCanceledOnTouchOutside(false);
         	           
@@ -396,7 +394,7 @@ class MyList extends ListFragment
         	            //for (int i = 0; i < 5; i++) {
         	                try {
         	                	 //updatedBuyList=  new ArrayList<BuyListing>();
-        	                	AWSCredentials credentials = new BasicAWSCredentials( reg_key,sec_key );
+        	                	AWSCredentials credentials = new BasicAWSCredentials(Constants.getRegKey(),Constants.getSecKey() );
         	                	try{
         	                	  this.sdbClient = new AmazonSimpleDBClient( credentials); 
         	                	  Log.d("owl", "success creating DBClient");

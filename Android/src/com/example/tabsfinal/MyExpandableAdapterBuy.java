@@ -790,14 +790,13 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	        protected String nextToken;
 	        protected int sortMethod;
 	        protected int count;
-	        public String reg_key = "AKIAIBKEOA7FKTHHVG7Q";
-	        public String sec_key = "5kap6qSvIB6VYdxEt+w10rYz8C41UUp2s1f2umd/";
+	        
 	        @Override
 	        protected Void doInBackground(Listing... params) {
 	        	
 	            
 	                try {
-	                	AWSCredentials credentials = new BasicAWSCredentials( reg_key,sec_key );
+	                	AWSCredentials credentials = new BasicAWSCredentials(Constants.getRegKey(),Constants.getSecKey());
 	                    this.sdbClient = new AmazonSimpleDBClient( credentials); 
 	                    sdbClient.setEndpoint("sdb.us-west-2.amazonaws.com");
 	                    this.sdbClient.setRegion(Region.getRegion(Regions.US_WEST_2));

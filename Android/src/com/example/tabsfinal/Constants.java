@@ -2,33 +2,29 @@ package com.example.tabsfinal;
 
 //ES - This class is take directly from the highscores sample. The random names is not used here.
 
-import java.util.Random;
 
 
-public class Constants {
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-    // This sample App is for demonstration purposes only.
-    // It is not secure to embed your credentials into source code.
-    // Please read the following article for getting credentials
-    // to devices securely.
-    // http://aws.amazon.com/articles/Mobile/4611615499399490
-    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+
+public final class Constants {
+
 	
-        public static final String ACCESS_KEY_ID = "AKIAJWQU5ZV4ZEZHRDWA";
-        public static final String SECRET_KEY = "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";
+	public static final String reg_key = "AKIAIBKEOA7FKTHHVG7Q";
+    public static final String sec_key = "5kap6qSvIB6VYdxEt+w10rYz8C41UUp2s1f2umd/";
     
-    public static final Random random = new Random();
-    public static final String[] NAMES = new String[] { "Norm", "Jim", "Jason", "Zach", "Matt", "Glenn", "Will", "Wade", "Trevor", "Jeremy", "Ryan", "Matty", "Steve", "Pavel" };
+    public Constants()
+    {
+    
+    }
+    
+    public static final String getRegKey()
+    {
+    	return reg_key;
+    }
+    
+    public static final String getSecKey()
+    {
+    	return sec_key;
+    }
+    
 
-    
-    public static String getRandomPlayerName() {
-        int name1 = random.nextInt( NAMES.length );
-        int name2 = random.nextInt( NAMES.length );
-        
-        return NAMES[name1] + " " + NAMES[name2];
-    }
-    
-    public static int getRandomScore() {
-        return random.nextInt( 1000 ) + 1;
-    }
 }
