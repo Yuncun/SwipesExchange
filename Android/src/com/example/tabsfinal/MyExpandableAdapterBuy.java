@@ -642,7 +642,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	tc = new TestConnect();
 		                    	BuyListing bl = new BuyListing();
 		                    	tc.execute(bl);
-		                    	
+		                    	ConnectToServlet.talk("HELLO FROM NEW SWIPES");
 		                    	
 		                    	
 		                        submit_dialog.dismiss();
