@@ -24,7 +24,7 @@ import android.widget.TimePicker;
 
 public class NewListingFragment extends Fragment{
 
-        //Button createbuylisting;
+        
 	
 		Button time1;
 		

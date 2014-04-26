@@ -12,7 +12,6 @@ public abstract class Listing implements Serializable{
         private String startTime;
         private String endTime;
         public String section;
-     //this one we take care of after
         public Boolean isSection;
         
         

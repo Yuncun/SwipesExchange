@@ -42,42 +42,23 @@ class MyList extends ListFragment
 		public int page_num;
 		public BackendData data;
 		static MainActivity mActivity;
-		//private Boolean isFinished;
         public List<BuyListing> buyEntries;
         
         private TestConnectGet tc;
         private Context v;
         
         Button btnStartProgress;
-       // ProgressDialog progressBar;
-        private int progressBarStatus = 0;
-        private Handler progressBarHandler = new Handler();
-        
-        
-        
-        //public boolean isFinished;
+
         static MyList newInstance(int num, MainActivity my_activity, BackendData bd) {
         	mActivity = my_activity;
         MyList l = new MyList();
         l.v = my_activity;
-       //l.data = bd;
         l.buyEntries = new ArrayList<BuyListing>();
-        
-        if (num == 0)
-        {
-        	
-        	
-        	l.page_num = 0;
-        }
-        else if (num == 1)
-        	l.page_num = 1;
-        else if (num == 2)
-        	l.page_num = 2;
-        
-        
+        l.page_num = num;
+   
         Bundle args = new Bundle();
         args.putInt("num", num);
-        
+       
    	
        l.setArguments(args);
 
@@ -118,214 +99,53 @@ class MyList extends ListFragment
             public void onActivityCreated(Bundle savedInstanceState) {
                 super.onActivityCreated(savedInstanceState);
                 
-                //data = new BackendData();
-                //data.updateListings();
-                
-                Log.d("panda", "even farther");
-                
-                /*Some crazy shit to convert List<Listing> into List<String>*/
-                
-             //   switch (this.getId())
-               // {-
-                
-              //  }
+      
                if(this.page_num==0)
                {
             	   
             	   tc = new TestConnectGet(getActivity());
-            	   //buyEntries = tc.execute().get();
-            	   //isFinished=false;
-            	   /*
-				   try {
-					buyEntries = tc.execute().get();
-				} catch (InterruptedException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				} catch (ExecutionException e) {
-					// TODO Auto-generated catch block
-					e.printStackTrace();
-				}
-		*/
-            	   
-            	   //if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.HONEYCOMB)
-            		   // tc.executeOnExecutor(AsyncTask.THREAD_POOL_EXECUTOR, (Void[])null);
-            		//else
-            	   //ProgressDialog dialog;
+       
             	   
             		    tc.execute();
             	   
             	   
-            	   /*
-            	   if(buyEntries.size()>1) {
-            	   Collections.sort(buyEntries, new Comparator<BuyListing>(){
-            		   public int compare(BuyListing emp1, BuyListing emp2) {
-            		     return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName());
-            		     
-            		     
-            		   }
-            	   
-            		 });
-            	   }
-                   
-         
-                   
-
-                  
-            	   BuyListAdapter adapter= new BuyListAdapter(getActivity(), buyEntries);
-                   setListAdapter(adapter);
-                   */
+          
                    
                }
                else if(this.page_num==1)
                {
-            	   //List<BuyListing> buyEntries = data.getBuyListings();
+            	  
             	   BackendData bd = new BackendData();
             	   bd.updateListings();
-  List<SellListing> sellEntries = bd.getSellListings();
-  if(sellEntries.size()>1){
-  Collections.sort(sellEntries, new Comparator<SellListing>(){
-	   public int compare(SellListing emp1, SellListing emp2) {
-	     return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName());
-	   }
-	 });
-  }
-                   /*
-            	  // Log.d("test", "Fuck");
-                   //System.out.println("tag", "FUCK11111111111111111111111111");
-                   List<String> VenueNames = new ArrayList<String>();
-                   List<String> UserNames = new ArrayList<String>();
-                   List<String> DescTime = new ArrayList<String>();
-                   List<String> DescAmount = new ArrayList<String>();
-                   List<String> Prices = new ArrayList<String>();
-                   
-                   for (int i = 0; i < sellEntries.size(); ++i) {
-                           VenueNames.add(((sellEntries.get(i)).getVenue()).getName());
-                           
-                           UserNames.add(((sellEntries.get(i)).getUser()).getName());
-                          // UserNames.add(((sellEntries.get(i)).getUser()).getName());
-                           DescTime.add((sellEntries.get(i)).getEndTime());
-                           //DescTime.add((sellEntries.get(i)).getEndTime());
-                           DescAmount.add(String.valueOf((sellEntries.get(i)).getSwipeCount()));
-                           //DescAmount.add(String.valueOf((sellEntries.get(i)).getSwipeCount()));
-                           Prices.add(String.valueOf((sellEntries.get(i)).getPrice()));
-                   }
-                   
-                   //SimpleAdapter that should be able to put up multiple List<Strings>
-               
-                   
-                   List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-                   
-                   int count = sellEntries.size();
-                   for(int i = 0; i < count; i++) {
-                   	Map<String, String> map = new HashMap<String, String>();
-                       map.put("Headline", UserNames.get(i));
-                       map.put("Subline", "Until " +  DescTime.get(i));
-                       map.put("Headline2", "" + DescAmount.get(i));
-                       map.put("Headline3", "Price: " + Prices.get(i));
-                       
-                       list.add(map);
-                   }
-	*/
+            	   List<SellListing> sellEntries = bd.getSellListings();
+            	   if(sellEntries.size()>1)
+            	   {
+            		   	Collections.sort(sellEntries, new Comparator<SellListing>()
+            		   	{
+	            		    public int compare(SellListing emp1, SellListing emp2) 
+	            	   		{
+	            		    	return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName());
+	            	   		}
+            		   	});
+            	  }
+             
                    SellListAdapter adapter = new SellListAdapter(getActivity(), sellEntries);
                    setListAdapter(adapter);
           
                }
-            //else if (this.page_num==2)
-            //{
-            	//int x = 2;
-            	//x++;
-            	/*List<BuyListing> buyEntries = data.getBuyListings();
-                Log.d("test", "sdf");
-                
-                List<String> VenueNames = new ArrayList<String>();
-                List<String> UserNames = new ArrayList<String>();
-                List<String> DescTime = new ArrayList<String>();
-                List<String> DescAmount = new ArrayList<String>();
-               // List<String> Prices = new ArrayList<String>();
-                
-                for (int i = 0; i < buyEntries.size(); ++i) {
-                        VenueNames.add(((buyEntries.get(i)).getVenue()).getName());
-                        
-                        UserNames.add(((buyEntries.get(i)).getUser()).getName());
-                       // UserNames.add(((sellEntries.get(i)).getUser()).getName());
-                        DescTime.add((buyEntries.get(i)).getEndTime());
-                        //DescTime.add((sellEntries.get(i)).getEndTime());
-                        DescAmount.add(String.valueOf((buyEntries.get(i)).getSwipeCount()));
-                        //DescAmount.add(String.valueOf((sellEntries.get(i)).getSwipeCount()));
-                        //Prices.add(String.valueOf((sellEntries.get(i)).getPrice()));
-                }
-                
-                //SimpleAdapter that should be able to put up multiple List<Strings>
-            
-                
-                List<Map<String, String>> list = new ArrayList<Map<String, String>>();
-                
-                int count = buyEntries.size();
-                for(int i = 0; i < count; i++) {
-                	Map<String, String> map = new HashMap<String, String>();
-                    map.put("Headline", UserNames.get(i));
-                    map.put("Subline", "Until " +  DescTime.get(i));
-                    map.put("Headline2", "" + DescAmount.get(i) + " requested");
-                    
-                    list.add(map);
-                }
-
-                SimpleAdapter adapter = new SimpleAdapter(getActivity(), list, R.layout.sell_list_item, new String[] { "Headline", "Subline", "Headline2" }, new int[] { R.id.firstLine, R.id.secondLine , R.id.firstLineRight});
-                setListAdapter(adapter);
-                */
-            
-            //}
+       
             }
             
             private class TestConnectGet extends AsyncTask<Void, Void, List<BuyListing>> {
 
-        		  public static final int USER_SORT = 1;
+        		
         		   
         		   private Context context;
-        		   
         		   private ProgressDialog progressBar;
-        		  
-        		  private BackendData data_parent;
-        	        private final ReentrantLock lock = new ReentrantLock();
-        	        public static final int VENUE_SORT  = 2;
-        	        public static final int NO_SORT     = 0;
-        	        
-        	        private static final String BUY_LISTINGS_DOMAIN = "BuyListings";
-        	        
-        	        private static final String USER_ATTRIBUTE = "Name"; //Not sure what this might fuck up so Im not gonna change it to "users" as it should be
-        	        private static final String VENUE_ATTRIBUTE = "Venue";
-        	        
-        	        private static final String USER_SORT_QUERY = "select player, score from HighScores where player > '' order by player asc";
-        	        private static final String VENUE_SORT_QUERY = "select player, score from HighScores where score >= '0' order by score desc";
-        	        private static final String NO_SORT_QUERY = "select player, score from HighScores";
-        	        
-        	        private static final String COUNT_QUERY = "select count(*) from HighScores";
-        	        public Boolean in_use;
-        	        protected AmazonSimpleDBClient sdbClient;
-        	        protected String nextToken;
-        	        protected int sortMethod;
-        	        protected int count;
-        	      
-        	        
-        	        
-        	        
-        	        
-        	        //private ProgressDialog dialog;
-        	    
-        	     //public List<BuyListing> updatedBuyList;
-        	      
-        	     //public List<BuyListing> getBuyListing()
-        	     
-        	    	 //return updatedBuyList;
-        	     //}
-        	       /* @Override
-        	        protected void onPreExecute() {
-        	        	dialog = new ProgressDialog();
-        	            this.dialog.setMessage("Progress start");
-        	            this.dialog.show();
-        	            
-        	            
-        	        }*/
+        	       protected AmazonSimpleDBClient sdbClient;
+        	       int count;
+        	  
+ 
 
         	        public TestConnectGet(Context context) {
         	        	this.context = context;
@@ -336,19 +156,13 @@ class MyList extends ListFragment
         	           // super.onPreExecute();
         	            Log.d("test", "PreExecute1");
         	            
-        	            //progressBar = new ProgressDialog(v);
-        	            //progressBar.setCanceledOnTouchOutside(false);
-        	           
-        	            //progressBar.setProgressStyle(ProgressDialog.STYLE_HORIZONTAL);
-        	           // progressBar.setProgress(0);
-        	            //progressBar.setMax(100);
-        	        	//Toast.makeText(this.context, "Loading listings...", Toast.LENGTH_SHORT).show();
+        	
         	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Listings are loading...", true);
-        	            //progressBar.show();
+        	            
         	            
         	        	Log.d("test", "PreExecute2");
         	            
-        	            //progressBarStatus = 0;
+        	           
         	        }
         	        
         	      @Override
@@ -370,19 +184,7 @@ class MyList extends ListFragment
         	    	
         	        }
         	    
-              
-             /* private List<BuyListing> myMethod(List<BuyListing> myList){
-                  //handle value 
-              	myList = getBuyListing();
-              	Log.d("owl", Integer.toString(myList.size()));
-                    return myList; 
-                  }*/
-        	      
-        	   // @Override
-        	    //protected void onPreExecute() {
-        	    //	super.onPreExecute();
-        	      // data_parent.isFinished = false;
-        	   // }
+    
         	      
         	        @Override
         	        protected List<BuyListing> doInBackground(Void... params) {

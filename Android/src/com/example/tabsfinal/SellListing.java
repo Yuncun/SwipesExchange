@@ -1,7 +1,5 @@
 package com.example.tabsfinal;
 
-
-
 public class SellListing extends Listing{
 
 	private double price;

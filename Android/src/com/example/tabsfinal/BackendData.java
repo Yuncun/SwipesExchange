@@ -1,5 +1,7 @@
 package com.example.tabsfinal;
 
+
+//WILL BE OBSOLETE ONCE BACKEND IS IMPLEMENTED FOR SELL LIST
 import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.ExecutionException;
@@ -33,7 +35,7 @@ import android.widget.Toast;
 
 
 
-//This is the class where we keep all of our backend, and keep functions that pulls data from the backend. 
+
 public class BackendData {
 	
    

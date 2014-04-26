@@ -50,9 +50,9 @@ import android.widget.TimePicker;
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	private Activity activity;
-	private ArrayList<Object> childtems;
+	private ArrayList<Object> child_items;
 	private  LayoutInflater inflater;
-	private ArrayList<String> parentItems, child;
+	private ArrayList<String> parent_items, child;
 	private int minutes_start, minutes_end, hours_start, hours_end;
 	private TimePicker tp_start, tp_end;
 	private int num_swipes;
@@ -72,10 +72,11 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	
 
 	public MyExpandableAdapterBuy(ExpandableListView parent, ArrayList<String> parents, ArrayList<Object> childern) {
-		this.parentItems = parents;
-		this.childtems = childern;
+		this.parent_items = parents;
+		this.child_items = childern;
 		
 		venue = new Venue("");
+		//TODO Change default times to current time + ~3 hours
 		minutes_start = 0;
 		minutes_end = 0;
 		hours_start = 8;
@@ -123,9 +124,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	 public String getVenueName () {
 		 return venue_name;
 	 }
-	 //need to catch error if time hasn't been initialized/time
-	 //fields haven't been expanded and they try and submit
-	 //^wont happen because we set the time to an initial time
 	 
 	 public int getStartMinutes() {
 		return minutes_start;
@@ -163,7 +161,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	 {
 		 if (hours_24 == 0)
 			 return 12;
-		 else if(hours_24 < 12)
+		 else if(hours_24 <= 12)
 			 return hours_24;
 		 else
 		 {
@@ -180,9 +178,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		 return false;
 	 }
 	 
-
-//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
 	 
+	@SuppressWarnings("unchecked")
 	@Override
 	public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
@@ -200,38 +197,35 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			else if (groupPosition ==5)
 				convertView = inflater.inflate(R.layout.group_ex2, null);
 		
-		if (groupPosition == 0)
+		if (groupPosition == 0) // Picking the start time
 		{
+			// Initialize the TimePicker
 			this.tp_start = (TimePicker) convertView.findViewById(R.id.timePicker1);
 			
-			//tp_start.setSaveEnabled(true);
-		}
-		
-		
-		if (groupPosition == 1)
-		{
-			this.tp_end = (TimePicker) convertView.findViewById(R.id.timePicker2);
-			
-			//tp_start.setSaveEnabled(true);
-		}
-		
-		if(groupPosition == 0)
-		{
+			// TODO: Change to current time
 			tp_start.setCurrentMinute(minutes_start);
-			
 			tp_start.setCurrentHour(hours_start);
 		}
-		if(groupPosition == 1)
+		
+		
+		
+		if(groupPosition == 1) //Picking the end time
 		{
+			// Initialize the TimePicker
+			this.tp_end = (TimePicker) convertView.findViewById(R.id.timePicker2);
+			
+			// TODO: Change to current time + ~3 hours
 			tp_end.setCurrentMinute(minutes_end);
 			tp_end.setCurrentHour(hours_end);
 		}
 		
-		if (groupPosition == 2)
+		if (groupPosition == 2) //Picking the venue
 		{
-			child = (ArrayList<String>) childtems.get(groupPosition);
+		
+			// Unchecked cast is necessary
+			child = (ArrayList<String>) child_items.get(groupPosition);
 			TextView textView = null;
-			//Log.d("Panda", Integer.toString(getStartMinutes()));
+			
 			textView = (TextView) convertView.findViewById(R.id.textView1ex);
 			textView.setText(child.get(childPosition));
 			
@@ -239,8 +233,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 				@Override
 				public void onClick(View view) {
-					//Toast.makeText(activity, child.get(childPosition),
-							//Toast.LENGTH_SHORT).show();
+					
 					setVenueName(child.get(childPosition));
 					getParent().collapseGroup(2);
 					
@@ -249,7 +242,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			
 		}
 		
-		if(groupPosition == 3)
+		if(groupPosition == 3) //Picking the # of desired swipes
 		{
 			this.swipes = (NumberPicker) convertView.findViewById(R.id.numberPickerSwipes);
 			swipes.setMinValue(1);
@@ -257,14 +250,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			swipes.setValue(num_swipes);
 		}
 			
-		
-
-		
-
-	
-
-	
-
 		return convertView;
 	}
 	
@@ -276,139 +261,70 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 		if (convertView == null) {
 			
-				
-				//if(groupPosition==4)
-					//convertView = inflater.inflate(R.layout.row_ex3, null);
-				//else
-			//if (groupPosition==9)
-				//convertView = inflater.inflate(R.layout.row_ex2, null);
-			//else
 					convertView = inflater.inflate(R.layout.row_ex, null);
 		}
 
 		
-		
-		 ////if (getChildrenCount(groupPosition)== 0) {
-	           // convertView.setEnabled(false); //Greys out group name
-	        //} 
-		//((CheckedTextView) convertView.findViewById(R.id.textView1Checked)).setText(parentItems.get(groupPosition));
-		//((CheckedTextView) convertView.findViewById(R.id.textView1Checked)).setChecked(isExpanded);
-		
-		//checkedView.setText(parentItems.get(groupPosition));
-		//checkedView.setChecked(isExpanded);
-		//Time stime = null;
-		//stime.hour = getStartHours();
-		//stime.minute = getStartMinutes();
-		//SimpleDateFormat df = new SimpleDateFormat("mm:ss");
-		
-		
 		if(groupPosition == 0)
 		{
 		String mystring = String.format("%d:%02d", fixHours(getStartHours()), getStartMinutes());
-		//df.format()
+		
 			if(isPM(getStartHours()))
 			{
+				//TODO: Better method of creating a group item string
 				String end_str = mystring + "PM";
-				String start_str = parentItems.get(groupPosition) + "                                 ";
+				String start_str = parent_items.get(groupPosition) + "                                 ";
 				String whole = start_str + end_str;
 				int start = whole.indexOf(end_str);
 				int end = whole.length();
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
-				//int my_color = 5882874;
-				
 				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
-						//getResources().
-				//my_color.
 
-				str.setSpan(
-
-				    new ForegroundColorSpan(my_color), 
-
-				    start, 
-
-				    end, 
-
-				    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-
-				);
+				str.setSpan(new ForegroundColorSpan(my_color),start,end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
 				
-				//SpannableStringBuilder mystringbuilder = new SpannableStringBuilder(whole);
+				
 				 end = start_str.length();
 				 start = whole.indexOf(start_str);
 				 str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				//((CheckedTextView) convertView).setText(mystring);
-				//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
 				((CheckedTextView) convertView).setText(str);
-				//((TextView) convertView).setOnClickListener(null);
-				//((TextView) convertView).setClickable(false);
 				
 			}
 			else
 			{
 				String end_str = mystring + "AM";
-				String start_str = parentItems.get(groupPosition) + "                                 ";
+				String start_str = parent_items.get(groupPosition) + "                                 ";
 				String whole = start_str + end_str;
 				int start = whole.indexOf(end_str);
 				int end = whole.length();
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
-				//int my_color = 5882874;
-				
 				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
-						//getResources().
-				//my_color.
 
-				str.setSpan(
-
-				    new ForegroundColorSpan(my_color), 
-
-				    start, 
-
-				    end, 
-
-				    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-
-				);
+				str.setSpan(new ForegroundColorSpan(my_color), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
 				
-				//SpannableStringBuilder mystringbuilder = new SpannableStringBuilder(whole);
 				 end = start_str.length();
 				 start = whole.indexOf(start_str);
 				 str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
 				((CheckedTextView) convertView).setText(str);
 				
 			}
 			int back_color = Color.WHITE;
 			((CheckedTextView) convertView).setChecked(isExpanded);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
-		
-		//((TextView) convertView).setChecked(isExpanded);
 		}
 		else if(groupPosition == 2)
 		{
 			String mystring = getVenueName();
 			String end_str = mystring;
-			String start_str = parentItems.get(groupPosition) + "                                        ";
+			String start_str = parent_items.get(groupPosition) + "                                        ";
 			String whole = start_str + end_str;
 			int start = whole.indexOf(end_str);
 			int end = whole.length();
 			SpannableStringBuilder str = new SpannableStringBuilder(whole);
-			//int my_color = 5882874;
-			
 			int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
-					//getResources().
-			//my_color.
 
-			str.setSpan(
-
-			    new ForegroundColorSpan(my_color), 
-
-			    start, 
-
-			    end, 
-
-			    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+			str.setSpan(new ForegroundColorSpan(my_color), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
 			
-			//SpannableStringBuilder mystringbuilder = new SpannableStringBuilder(whole);
+			
 			 end = start_str.length();
 			 start = whole.indexOf(start_str);
 			 str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
@@ -421,112 +337,71 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		else if(groupPosition == 1)
 		{
 		String mystring = String.format("%d:%02d", fixHours(getEndHours()), getEndMinutes());
-		//df.format()
+		
 			if(isPM(getEndHours()))
 			{
 				String end_str = mystring + "PM";
-				String start_str = parentItems.get(groupPosition) + "                                   ";
+				String start_str = parent_items.get(groupPosition) + "                                   ";
 				String whole = start_str + end_str;
 				int start = whole.indexOf(end_str);
 				int end = whole.length();
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
-				//int my_color = 5882874;
+				
 				
 				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
-						//getResources().
-				//my_color.
 
-				str.setSpan(
-
-				    new ForegroundColorSpan(my_color), 
-
-				    start, 
-
-				    end,  
-
-				    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-
-				);
+				str.setSpan(new ForegroundColorSpan(my_color), start, end,  SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
 				
-				//SpannableStringBuilder mystringbuilder = new SpannableStringBuilder(whole);
 				 end = start_str.length();
 				 start = whole.indexOf(start_str);
 				 str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
 				((CheckedTextView) convertView).setText(str);
 			}
 			else
 			{
 				String end_str = mystring + "AM";
-				String start_str = parentItems.get(groupPosition) + "                                   ";
+				String start_str = parent_items.get(groupPosition) + "                                   ";
 				String whole = start_str + end_str;
 				int start = whole.indexOf(end_str);
 				int end = whole.length();
 				SpannableStringBuilder str = new SpannableStringBuilder(whole);
-				//int my_color = 5882874;
+				
 				
 				int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
-						//getResources().
-				//my_color.
 
-				str.setSpan(
-
-				    new ForegroundColorSpan(my_color), 
-
-				    start, 
-
-				    end, 
-
-				    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-
-				);
+				str.setSpan(new ForegroundColorSpan(my_color), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
 				
-				//SpannableStringBuilder mystringbuilder = new SpannableStringBuilder(whole);
+				
 				 end = start_str.length();
 				 start = whole.indexOf(start_str);
 				str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-				//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
+				
 				((CheckedTextView) convertView).setText(str);
 			}
 			int back_color = Color.WHITE;
 			((CheckedTextView) convertView).setChecked(isExpanded);
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
-	
-		//((TextView) convertView).setChecked(isExpanded);
 		}
 		else if(groupPosition==3)
 		{
 			String my_swipes = String.valueOf(getNumSwipes());
 			String mystring = my_swipes + " swipe(s)";
 			String end_str = mystring;
-			String start_str = parentItems.get(groupPosition) + "                                    ";
+			String start_str = parent_items.get(groupPosition) + "                                    ";
 			String whole = start_str + end_str;
 			int start = whole.indexOf(end_str);
 			int end = whole.length();
 			SpannableStringBuilder str = new SpannableStringBuilder(whole);
-			//int my_color = 5882874;
+			
 			
 			int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
-					//getResources().
-			//my_color.
-
-			str.setSpan(
-
-			    new ForegroundColorSpan(my_color), 
-
-			    start, 
-
-			    end, 
-
-			    SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE
-
-			);
 			
-			//SpannableStringBuilder mystringbuilder = new SpannableStringBuilder(whole);
+			str.setSpan(new ForegroundColorSpan(my_color), start, end, SpannableStringBuilder.SPAN_EXCLUSIVE_EXCLUSIVE);
+			
 			 end = start_str.length();
 			 start = whole.indexOf(start_str);
 			 str.setSpan(new android.text.style.StyleSpan(android.graphics.Typeface.BOLD), start, end, Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-			//((CheckedTextView) convertView).setText(Html.fromHtml(parentItems.get(groupPosition) + "           " + whole));
+			
 			 ((CheckedTextView) convertView).setChecked(isExpanded);
 			((CheckedTextView) convertView).setText(str);
 			int back_color = Color.WHITE;
@@ -535,17 +410,15 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		else if (groupPosition==4)
 		{
 			((CheckedTextView) convertView).setPadding(0, 5, 0, 5);
-			((CheckedTextView) convertView).setText(parentItems.get(groupPosition));
+			((CheckedTextView) convertView).setText(parent_items.get(groupPosition));
 			
-			//((CheckedTextView) convertView).setCheckMarkDrawable(R.drawable.shopping_basket_checkmark);
-			//((CheckedTextView) convertView).setChecked(isExpanded);
 			int back_color = Color.WHITE;
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
 		}
 		else if(groupPosition ==5)
 		{
-			((CheckedTextView) convertView).setText(parentItems.get(groupPosition));
-			//((CheckedTextView) convertView).setChecked(isExpanded);
+			((CheckedTextView) convertView).setText(parent_items.get(groupPosition));
+			
 			((CheckedTextView) convertView).setPadding(0, 10, 0, 10);
 			((CheckedTextView) convertView).setTypeface(null, Typeface.BOLD);
 			((CheckedTextView) convertView).setGravity(Gravity.CENTER_HORIZONTAL);
@@ -562,7 +435,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 					boolean cancel = false;
 					if((getStartHours()>getEndHours()) || (getStartHours()==getEndHours() && getStartMinutes()>getEndMinutes()))
 					{
-						//inflate error dialog
 						cancel = true;
 						time_error_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
 						time_error_dialog.setContentView(R.layout.dialog_time_error);
@@ -585,18 +457,14 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						
 					}
 			
-						
 					if(!cancel)
 					{
 						submit_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
 						submit_dialog.setContentView(R.layout.dialog_submit);
 						cancel_button = (Button) submit_dialog.findViewById(R.id.Cancel_Button);
 				 		yes_button = (Button) submit_dialog.findViewById(R.id.Yes_Button);
-						//TextView submit_title = (TextView) view.findViewById(R.id.dialogTitle1);
 						
 						submit_dialog.setTitle("Submit new listing?");
-						
-						
 						
 						
 						cancel_button.setOnClickListener(new View.OnClickListener() {
@@ -621,7 +489,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	
 		                    	
 		                        submit_dialog.dismiss();
-		                        //TODO: direct data to database
 		 
 		                    }
 		                });
@@ -630,17 +497,13 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						submit_dialog.show();
 					}
 					
-					
-					
 				}
 			});
 			
 		}
 		else
 		{
-			((CheckedTextView) convertView).setText(parentItems.get(groupPosition));
-			
-			//((CheckedTextView) convertView).setCheckMarkDrawable(R.drawable.shopping_basket_checkmark);
+			((CheckedTextView) convertView).setText(parent_items.get(groupPosition));
 			((CheckedTextView) convertView).setChecked(isExpanded);
 			int back_color = Color.WHITE;
 			((CheckedTextView) convertView).setBackgroundColor(back_color);
@@ -661,7 +524,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	@Override
 	public int getChildrenCount(int groupPosition) {
-		return ((ArrayList<String>) childtems.get(groupPosition)).size();
+		return ((ArrayList<String>) child_items.get(groupPosition)).size();
 	}
 
 	@Override
@@ -671,7 +534,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	@Override
 	public int getGroupCount() {
-		return parentItems.size();
+		return parent_items.size();
 	}
 
 	@Override
@@ -719,16 +582,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
 		return false;
 	}
-    /**ADD LISTING**/
-    private class AddHighScoreTask extends AsyncTask<Listing, Void, Void> {
-
-            protected Void doInBackground(Listing... highScores) {
-
-                    SimpleDBData hs = new SimpleDBData();
-                    hs.addHighScore(highScores[0]);
-
-                    return null;
-            }
+  
 
 //This onPostExecute is not applicable to our fragment layout. Normally this closes the addListing activity, returning the user to the original screen.
 /*
@@ -738,28 +592,22 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
             }*/
             
 
-    }
+    
     private class TestConnect extends AsyncTask<Listing, Void, Void> {
 
-		  public static final int USER_SORT = 1;
+		  
 	        
-	        public static final int VENUE_SORT  = 2;
-	        public static final int NO_SORT     = 0;
+	   
 	        
 	        private static final String BUY_LISTINGS_DOMAIN = "BuyListings";
 	        
-	        private static final String USER_ATTRIBUTE = "Name"; //Not sure what this might fuck up so Im not gonna change it to "users" as it should be
+	        private static final String USER_ATTRIBUTE = "Name"; 
 	        private static final String VENUE_ATTRIBUTE = "Venue";
 	        private static final String NUM_ATTRIBUTE = "Num";
 	        private static final String ENDTIME_ATTRIBUTE = "EndTime";
 	        private static final String STARTTIME_ATTRIBUTE = "StartTime";
 	        
 	        
-	        private static final String USER_SORT_QUERY = "select player, score from HighScores where player > '' order by player asc";
-	        private static final String VENUE_SORT_QUERY = "select player, score from HighScores where score >= '0' order by score desc";
-	        private static final String NO_SORT_QUERY = "select player, score from HighScores";
-	        
-	        private static final String COUNT_QUERY = "select count(*) from HighScores";
 	                
 	        protected AmazonSimpleDBClient sdbClient;
 	        protected String nextToken;
@@ -775,16 +623,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	                    this.sdbClient = new AmazonSimpleDBClient( credentials); 
 	                    sdbClient.setEndpoint("sdb.us-west-2.amazonaws.com");
 	                    this.sdbClient.setRegion(Region.getRegion(Regions.US_WEST_2));
-	                    //String test = "Listings";
-	                    //sdbClient.
-	                   // ListDomainsResult result = sdbClient.listDomains();
-	                    //int x = result.getDomainNames().size();
-	                   // Boolean found = false;
-	                    //while(x>0)
-	                    //{
-	                      //  if(result.getDomainNames().get(x) == test) 
-	                        	//found = true;
-	                    //} 
+	              
 	                    
 	                    Listing score = new BuyListing();
 	             	   User my_user = new User("Thomas Muller");
@@ -803,10 +642,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	             		   score.setStartTime(mystring + "AM");
 	            		score.setSwipeCount(getNumSwipes());
 	            		
-	            		//score.isSection = false;
-	            		//dblisting.setTime(null);
-	                       //hs = new SimpleDBData();
-	                      // hs.addHighScore(dblisting);
+	            	
 	                    
 	                    ReplaceableAttribute playerAttribute = new ReplaceableAttribute( USER_ATTRIBUTE, score.getUser().getName(), Boolean.TRUE );
 	                    ReplaceableAttribute scoreAttribute = new ReplaceableAttribute( VENUE_ATTRIBUTE, score.getVenue().getName(), Boolean.TRUE );
@@ -837,7 +673,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	                    
 	                    PutAttributesRequest par = new PutAttributesRequest(BUY_LISTINGS_DOMAIN, uID, attrs);                
 	                    try {
-	                    		//my_count++;
+	                    		
 	                    		
 	                            this.sdbClient.putAttributes( par );
 	                    }
@@ -847,16 +683,11 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	                            
 	                    }
 
-	                    //if(!found)
-	                    //{
-	                        //this.createHighScoresDomain(test);
-	                          
-	                    //}
-	                    //Thread.sleep(1000);
+	               
 	                } catch (Exception e) {
-	                    //e.printStackTrace();
+	                    
 	                }
-	            //}
+	           
 	            return null;
 	        }
 	  }

@@ -146,19 +146,19 @@ public class BuyListAdapter  extends BaseAdapter
     }
 
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
+        
         return position;
     }
 
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
+      
         return position;
     }
 
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
+		
 		return myList.size();
 	}
 
