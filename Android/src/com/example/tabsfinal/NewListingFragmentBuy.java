@@ -118,7 +118,7 @@ public class NewListingFragmentBuy extends Fragment{
            
             //lv.setGroupIndicator(null);
          
-            MyExpandableAdapterBuy adapter = new MyExpandableAdapterBuy(lv, parentItems, childItems, mActivity);
+            MyExpandableAdapterBuy adapter = new MyExpandableAdapterBuy(lv, parentItems, childItems);
             adapter.setInflater((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE), getActivity());
             
            /* lv.setOnGroupClickListener(new OnGroupClickListener() {

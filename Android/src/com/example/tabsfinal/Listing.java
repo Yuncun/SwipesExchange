@@ -2,7 +2,7 @@ package com.example.tabsfinal;
 
 import java.io.Serializable;
 
-public abstract class Listing implements Serializable{ //I have no idea if implementing Serializable with this abstract  class will cause problems later
+public abstract class Listing implements Serializable{ 
         
 	//the following variables need to be set when we create a new listing from the backend
         private int swipeCount; 

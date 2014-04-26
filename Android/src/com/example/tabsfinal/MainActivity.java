@@ -58,20 +58,19 @@ public class MainActivity extends FragmentActivity implements
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	//Button myButton;
+	
 	
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ActionBar actionBar;
-	//public SimpleDBData my_data;
+	
 	public BackendData l;
 	public String test = "fuck";
-	//public AddHighScoreTask hst;
-	//private TestConnect tc;
+	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	TimePicker tp;
+	//TimePicker tp;
 	
 	
 	@Override
@@ -79,24 +78,17 @@ public class MainActivity extends FragmentActivity implements
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_main);
-		//tc = new TestConnect();
-		//l = new BackendData(this);
-		//tc.doInBackground();
-		//tc.execute("");
+		
+		
 		actionBar = getActionBar();
 		 
-			        // display error
-			    
-		//my_data = new SimpleDBData();
-		//hst = new AddHighScoreTask();
-		//hst.doInBackground();
 		
 		// Set up the action bar.
 		
 		//actionBar.setIcon(R.drawable.yes);
 		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
-		tp = (TimePicker) findViewById(R.id.timePicker1);
+		//tp = (TimePicker) findViewById(R.id.timePicker1);
 		
 		
 		// Create the adapter that will return a fragment for each of the three
@@ -120,7 +112,7 @@ public class MainActivity extends FragmentActivity implements
 				});
 		
 		
-		//TextView tabText = (TextView) tabView.findViewById()
+		
 		
 		// For each of the sections in the app, add a tab to the action bar.
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
@@ -129,11 +121,13 @@ public class MainActivity extends FragmentActivity implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
 			View tabView = this.getLayoutInflater().inflate(R.layout.tab_layout, null);
-			//tabView.setBackgroundColor(Color.BLACK);
+			
 			TextView tabText = (TextView) tabView.findViewById(R.id.tabText);
 			tabText.setText(mSectionsPagerAdapter.getPageTitle(i));
 			
 		
+			//the following commented code can be used to create unique images to display on each tab
+			
 		/*
 			ImageView tabImage = (ImageView) tabView.findViewById(R.id.tabIcon);
 			
@@ -156,11 +150,14 @@ public class MainActivity extends FragmentActivity implements
 				break;
 			}
 			*/
+			
+			
+			//Add the tabs to the action bar
 			actionBar.addTab(actionBar.newTab()
 					
 					
-					
-					.setTabListener(this).setCustomView(tabView));
+			//Listen for clicks on the tabs
+			.setTabListener(this).setCustomView(tabView));
 		}
 		
 		
@@ -199,9 +196,6 @@ public class MainActivity extends FragmentActivity implements
 		
 		return (super.onCreateOptionsMenu(menu));
 		
-		//RelativeLayout relativeLayout = (RelativeLayout) menu.findItem(R.id.section_label).getActionView();
-		//View inflatedView = getLayoutInflater().inflate(R.layout.actionbar_top, null);
-		//relativeLayout.addView(inflatedView);
 		
 	}
 
@@ -224,29 +218,7 @@ public class MainActivity extends FragmentActivity implements
 		
 	}
 	
-   /* private class PopulateHighScoresTask extends AsyncTask<Void, Void, Void> {
 
-        protected Void doInBackground(Void... voids) {
-
-                SimpleDBData list = new SimpleDBData();
-    //list.createHighScoresDomain();
-    /*
-                for (int i = 1; i <= 10; i++) {
-        String playerName = Constants.getRandomPlayerName();
-        int score = Constants.getRandomScore();
-                        HighScore hs = new HighScore( playerName, score );
-                        
-                        list.addHighScore(hs);
-                }
-
-                return null;
-        }
-
-        protected void onPostExecute(Void result) {
-
-        }
-}
-*/
 
 	/**
 	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
@@ -284,12 +256,11 @@ public class MainActivity extends FragmentActivity implements
 
 		@Override
 		public int getCount() {
-			// TODO Auto-generated method stub
-			
+			// Return the number of fragment pages in the application
 			return 4;
 		}
 		public String getPageTitle(int position) {
-			//Locale l = Locale.getDefault();
+			
 			switch (position) {
 			case 0:
 				return getString(R.string.title_section1);
@@ -305,128 +276,12 @@ public class MainActivity extends FragmentActivity implements
 		}
 		}
 
-	  /* private class AddHighScoreTask extends AsyncTask<Listing, Void, Void> {
-
-		   public SimpleDBData hs;
-           protected Void doInBackground(Listing... highScores) {
-        	   Listing dblisting = new BuyListing();
-        	   User my_user = new User("Eric");
-        	   Venue my_venue = new Venue("Hell");
-        	   dblisting.setVenue(my_venue);
-        	   dblisting.setUser(my_user);
-       		dblisting.setEndTime("END OF THE WORLD");
-       		dblisting.setStartTime("THE BEGINNING");
-       		dblisting.setSwipeCount(99);
-       		//dblisting.setTime(null);
-                  hs = new SimpleDBData();
-                  hs.addHighScore(dblisting);
-                   
-
-                   return null;
-           }
-       }
-	  /* 
-	   private class TestConnect extends AsyncTask<Listing, Void, Void> {
-
-			  public static final int USER_SORT = 1;
-		        
-		        public static final int VENUE_SORT  = 2;
-		        public static final int NO_SORT     = 0;
-		        
-		        private static final String LISTINGS_DOMAIN = "Listings";
-		        
-		        private static final String USER_ATTRIBUTE = "Name"; //Not sure what this might fuck up so Im not gonna change it to "users" as it should be
-		        private static final String VENUE_ATTRIBUTE = "Venue";
-		        
-		        private static final String USER_SORT_QUERY = "select player, score from HighScores where player > '' order by player asc";
-		        private static final String VENUE_SORT_QUERY = "select player, score from HighScores where score >= '0' order by score desc";
-		        private static final String NO_SORT_QUERY = "select player, score from HighScores";
-		        
-		        private static final String COUNT_QUERY = "select count(*) from HighScores";
-		                
-		        protected AmazonSimpleDBClient sdbClient;
-		        protected String nextToken;
-		        protected int sortMethod;
-		        protected int count;
-		        public String reg_key = "AKIAJWQU5ZV4ZEZHRDWA";
-		        public String sec_key = "cgwIKqYn1YoYDhnkqt4oPaizIXdWeHtgNlliBaND";
-		        @Override
-		        protected Void doInBackground(Listing... params) {
-		        	android.os.Debug.waitForDebugger();
-		            //for (int i = 0; i < 5; i++) {
-		                try {
-		                	AWSCredentials credentials = new BasicAWSCredentials( reg_key,sec_key );
-		                    this.sdbClient = new AmazonSimpleDBClient( credentials); 
-		                    sdbClient.setEndpoint("sdb.us-west-2.amazonaws.com");
-		                    this.sdbClient.setRegion(Region.getRegion(Regions.US_WEST_2));
-		                    String test = "Listings";
-		                    //sdbClient.
-		                    ListDomainsResult result = sdbClient.listDomains();
-		                    int x = result.getDomainNames().size();
-		                    Boolean found = false;
-		                    //while(x>0)
-		                    //{
-		                      //  if(result.getDomainNames().get(x) == test) 
-		                        	//found = true;
-		                    //} 
-		                    
-		                    Listing score = new BuyListing();
-		             	   User my_user = new User("Eric");
-		             	   Venue my_venue = new Venue("Hell");
-		             	  score.setVenue(my_venue);
-		             	   score.setUser(my_user);
-		            		score.setEndTime("END OF THE WORLD");
-		            		score.setStartTime("THE BEGINNING");
-		            		score.setSwipeCount(99);
-		            		//dblisting.setTime(null);
-		                       //hs = new SimpleDBData();
-		                      // hs.addHighScore(dblisting);
-		                    
-		                    ReplaceableAttribute playerAttribute = new ReplaceableAttribute( USER_ATTRIBUTE, score.getUser().getName(), Boolean.TRUE );
-		                    ReplaceableAttribute scoreAttribute = new ReplaceableAttribute( VENUE_ATTRIBUTE, score.getVenue().getName(), Boolean.TRUE );
-		                    
-		                    List<ReplaceableAttribute> attrs = new ArrayList<ReplaceableAttribute>(2);
-		                    attrs.add( playerAttribute );
-		                    attrs.add( scoreAttribute );
-		                    
-		                    PutAttributesRequest par = new PutAttributesRequest(LISTINGS_DOMAIN, score.getUser().getName(), attrs);                
-		                    try {
-		                    		//my_count++;
-		                    		
-		                            this.sdbClient.putAttributes( par );
-		                    }
-		                    catch ( Exception exception ) {
-		                    	
-		                            System.out.println( "EXCEPTION = " + exception );
-		                    }
-
-		                    //if(!found)
-		                    //{
-		                        //this.createHighScoresDomain(test);
-		                          
-		                    //}
-		                    //Thread.sleep(1000);
-		                } catch (Exception e) {
-		                    //e.printStackTrace();
-		                }
-		            //}
-		            return null;
-		        }
-		  }
-
-
-
 	
-	
-	*/
 	
 	
 }
 
-	/**
-	 * A dummy fragment representing a section of the app, but that simply
-	 * displays dummy text.
-	 */
+	
 	
 
 

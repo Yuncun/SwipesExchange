@@ -23,7 +23,7 @@ import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
-//import com.amazonaws.demo.highscores.AddScoreActivity.AddHighScoreTask;
+
 
 public class MyExpandableAdapter extends BaseExpandableListAdapter {
 

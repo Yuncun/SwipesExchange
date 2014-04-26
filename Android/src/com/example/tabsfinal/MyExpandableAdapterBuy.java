@@ -34,8 +34,19 @@ import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
-//import com.amazonaws.demo.highscores.AddScoreActivity.AddHighScoreTask;
 
+/**
+ * 
+ * MyExpandableAdapterBuy
+ * 
+ * Adapter for NewListingFragmentBuy.  Feeds data to the
+ * expandable list view. The expandable list view contains items
+ * that will modified by a user to allow for the submission of a BuyListing
+ * 
+ * 
+ * @author Kyle
+ *
+ */
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	private Activity activity;
@@ -57,11 +68,10 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	Button ok_button;
 	Dialog time_error_dialog;
 	
-	MainActivity mActivity;
 	private TestConnect tc;
 	
 
-	public MyExpandableAdapterBuy(ExpandableListView parent, ArrayList<String> parents, ArrayList<Object> childern, MainActivity my_activity) {
+	public MyExpandableAdapterBuy(ExpandableListView parent, ArrayList<String> parents, ArrayList<Object> childern) {
 		this.parentItems = parents;
 		this.childtems = childern;
 		
@@ -72,7 +82,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		hours_end = 12;
 		venue_name = "De Neve";
 		num_swipes=1;
-		mActivity = my_activity;
 		this.parent = parent;
 		
 		
@@ -89,6 +98,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		        
 		
 	 }
+	 
+	 // Data retrieval and data setting methods
 	 
 	 public int getNumSwipes()
 	 {
@@ -114,6 +125,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	 }
 	 //need to catch error if time hasn't been initialized/time
 	 //fields haven't been expanded and they try and submit
+	 //^wont happen because we set the time to an initial time
+	 
 	 public int getStartMinutes() {
 		return minutes_start;
 	 }
@@ -154,39 +167,9 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			 return hours_24;
 		 else
 		 {
-			 switch (hours_24)
-			 {
-			 case 13:
-				 return 1;
-			 case 14:
-				 return 2;
-			 case 15:
-				 return 3;
-			 case 16:
-				 return 4;
-			 case 17:
-				 return 5;
-			 case 18:
-				 return 6;
-			 case 19:
-				 return 7;
-			 case 20:
-				 return 8;
-			 case 21:
-				 return 9;
-			 case 22:
-				 return 10;
-			 case 23:
-				 return 11;
-			 case 24:
-				 return 12;
-			default:
-				break;
-					 
-			 }
+			return hours_24 - 12;
 			 
 		 }
-		 return hours_24;
 	 }
 	 
 	 public boolean isPM(int hours_24)
@@ -198,36 +181,28 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	 }
 	 
 
-
+//@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@@
+	 
 	@Override
 	public View getChildView(int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 
-		//if (convertView == null) {
+		
 			if(groupPosition == 0)
 				convertView = inflater.inflate(R.layout.group_ex, null);
-			//else if(groupPosition == 1)
-				//convertView = inflater.inflate(R.layout.group_ex2, null);
 			else if(groupPosition == 1)
 				convertView = inflater.inflate(R.layout.group_ex1, null);
-			//else if(groupPosition == 3)
-				//convertView = inflater.inflate(R.layout.group_ex2, null);
 			else if(groupPosition == 2)
 				convertView = inflater.inflate(R.layout.group_ex2, null);
-			//else if (groupPosition == 5)
-				//convertView = inflater.inflate(R.layout.group_ex2, null);
 			else if (groupPosition ==3)
 				convertView = inflater.inflate(R.layout.group_ex5, null);
-			//else if (groupPosition==7)
-				//convertView = inflater.inflate(R.layout.group_ex2, null);
 			else if (groupPosition == 4)
 				convertView = inflater.inflate(R.layout.group_ex2, null);
 			else if (groupPosition ==5)
 				convertView = inflater.inflate(R.layout.group_ex2, null);
-		//}
+		
 		if (groupPosition == 0)
 		{
 			this.tp_start = (TimePicker) convertView.findViewById(R.id.timePicker1);
-			
 			
 			//tp_start.setSaveEnabled(true);
 		}

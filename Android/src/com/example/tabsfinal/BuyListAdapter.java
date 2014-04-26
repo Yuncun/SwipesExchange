@@ -24,8 +24,10 @@ public class BuyListAdapter  extends BaseAdapter
     List<String> DescAmount;
     List<String> DescVenue;
     public int num_dividers;
-    //List<Boolean> HeaderPositions; //really janky way of doing this, there are some really nice classes out there that do stick/scrollable headers
-    //good enough for now
+    
+    //need to switch to some better method of adding dividers
+    //currently check for a change in venue in the sorted list 
+   
     
     public BuyListAdapter(Context context,List<BuyListing> list) 
     {
@@ -41,8 +43,7 @@ public class BuyListAdapter  extends BaseAdapter
             DescVenue = new ArrayList<String>();
             
             String[] divider_names = new String[20];
-            //HeaderPositions = new ArrayList<Boolean>();
-           // List<String> Prices = new ArrayList<String>();
+          
             
             if(myList.size()>0)
             {
@@ -50,10 +51,7 @@ public class BuyListAdapter  extends BaseAdapter
             String venueCheck = myList.get(0).getVenue().getName();
             num_dividers = 0;
             for (int i = 0; i < myList.size(); i++) {
-            	//if(myList.get(i).getVenue().getName() != venueCheck)
-            	//{
-            	//	HeaderPositions
-            	//}
+            
             		if(!(venueCheck.equals(myList.get(i).getVenue().getName())) || i==0)
             		{
             			
@@ -66,10 +64,10 @@ public class BuyListAdapter  extends BaseAdapter
                              VenueNames.add(null);
                      
                      UserNames.add(null);
-                    // UserNames.add(((sellEntries.get(i)).getUser()).getName());
+                   
                      DescStartTime.add(null);
                      DescEndTime.add(null);
-                     //DescTime.add((sellEntries.get(i)).getEndTime());
+                   
                      DescAmount.add(null);
                      DescVenue.add(null);
                      
@@ -78,19 +76,7 @@ public class BuyListAdapter  extends BaseAdapter
                      
                      num_dividers++;
             			
-                        //add the real one
-                        /*
-                        VenueNames.add(((myList.get(i+1)).getVenue()).getName());
-                        
-                        UserNames.add(((myList.get(i+1)).getUser()).getName());
-                       // UserNames.add(((sellEntries.get(i)).getUser()).getName());
-                        DescStartTime.add((myList.get(i+1)).getStartTime());
-                        DescEndTime.add((myList.get(i+1)).getEndTime());
-                        //DescTime.add((sellEntries.get(i)).getEndTime());
-                        DescAmount.add(String.valueOf((myList.get(i+1)).getSwipeCount()));
-                        DescVenue.add(myList.get(i+1).getVenue().getName());
-                        venueCheck = myList.get(i+1).getVenue().getName();
-                        */
+                   
             		}
             		else
             		{
@@ -98,14 +84,13 @@ public class BuyListAdapter  extends BaseAdapter
                     VenueNames.add(((myList.get(i)).getVenue()).getName());
                     
                     UserNames.add(((myList.get(i)).getUser()).getName());
-                   // UserNames.add(((sellEntries.get(i)).getUser()).getName());
+                  
                     DescStartTime.add((myList.get(i)).getStartTime());
                     DescEndTime.add((myList.get(i)).getEndTime());
-                    //DescTime.add((sellEntries.get(i)).getEndTime());
+                   
                     DescAmount.add(String.valueOf((myList.get(i)).getSwipeCount()));
                     DescVenue.add(myList.get(i).getVenue().getName());
-                    //DescAmount.add(String.valueOf((sellEntries.get(i)).getSwipeCount()));
-                    //Prices.add(String.valueOf((sellEntries.get(i)).getPrice()));
+              
             		}
             }
             }
@@ -130,18 +115,18 @@ public class BuyListAdapter  extends BaseAdapter
     	else
     	{
                     // inflate the layout for each item of listView
-                    //LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+                 
                     view = inflater.inflate(R.layout.buy_list_item, null);
             
                     TextView name = (TextView) view.findViewById(R.id.firstLine);
                     TextView numRequested = (TextView) view.findViewById(R.id.firstLineRight);
                     TextView time = (TextView) view.findViewById(R.id.secondLine);
-                   // TextView venue = (TextView) view.findViewById(R.id.thirdLine);
+                  
                     
                     name.setText(UserNames.get(position));
                     numRequested.setText(DescAmount.get(position));
                     time.setText(DescStartTime.get(position) + " - " + DescEndTime.get(position));
-                    //venue.setText(DescVenue.get(position));
+                   
                    
                     int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
                     
@@ -153,7 +138,7 @@ public class BuyListAdapter  extends BaseAdapter
                     	view.setBackgroundColor(my_color);
                     	
                     
-                    // Set the Sender number and smsBody to respective TextViews 
+                    
     	}   
     	
         
