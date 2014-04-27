@@ -15,6 +15,4 @@ public class Venue {
 		this.name = name;
 	}
 	
-	
-
 }
