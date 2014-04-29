@@ -485,7 +485,26 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	tc = new TestConnect();
 		                    	BuyListing bl = new BuyListing();
 		                    	tc.execute(bl);
-		                    	ConnectToServlet.talk("HELLO FROM NEW SWIPES");
+		                    	
+		                    	//Create a new sellListing for testing
+		                    	SellListing sl = new SellListing();
+		                    	sl.setEndTime("9:23");
+		                    	sl.setStartTime("9:20");
+		                    	sl.setPrice(5.00);
+		                    	sl.setSwipeCount(3);
+		                    	
+		                    	Venue ven = new Venue("De Neve");
+		                    	sl.setVenue(ven);
+		                    	User usr = new User("David Beckham"); 
+		                    	sl.setUser(usr);
+		                    	
+		                    	sl.setSection("Section?");
+		                    	
+		                    	ConnectToServlet.sendListing(sl);
+		                    	
+		                    	
+		                    	//Test after testing sendListing(SellListing sellList);
+		                    	//ConnectToServlet.talk("HELLO FROM NEW SWIPES");
 		                    	
 		                    	
 		                        submit_dialog.dismiss();

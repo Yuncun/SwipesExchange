@@ -7,6 +7,9 @@ import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
 
+import java.io.ObjectOutputStream;
+
+
 import android.util.Log;
 
  
@@ -15,6 +18,49 @@ public abstract class ConnectToServlet {
     String inputValue=null;
     static String doubledValue = "";
     
+    public static void sendListing(final Listing inputListing)
+    {
+    	new Thread(new Runnable() {
+    		public void run() {
+    			  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect with Listing support");
+    			  try{
+            	   URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
+                   URLConnection connection = url.openConnection();
+                   
+                   
+                   connection.setDoOutput(true);
+                   
+                   //Begin to open a new OutputObjectStream
+                  // OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+                   
+                   ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+                   objectOut.writeObject(inputListing);
+                   
+                   
+                  // out.write(inputString);
+                  // out.close();
+                   objectOut.close();
+ 
+                   BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+                   String returnString="";
+                   doubledValue = "";
+
+                            while ((returnString = in.readLine()) != null) 
+                            {
+                                doubledValue= returnString;
+                      		  Log.d("LOUD AND CLEAR", doubledValue);
+                                
+                            }
+                            in.close();
+ 
+                            }catch(Exception e)
+                            {
+                                Log.d("Exception",e.toString());
+                            }
+                    }
+                  }).start();
+            }
+
  
     public static void talk(final String inputMessage) {
     	new Thread(new Runnable() {
@@ -27,10 +73,13 @@ public abstract class ConnectToServlet {
                    
                    String inputString = inputMessage;
                    connection.setDoOutput(true);
+                   
+                   //Begin to open a new OutputObjectStream
                    OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+                          
                    out.write(inputString);
                    out.close();
- 
+
                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                    String returnString="";
                    doubledValue = "";
@@ -47,10 +96,8 @@ public abstract class ConnectToServlet {
                             {
                                 Log.d("Exception",e.toString());
                             }
- 
                     }
                   }).start();
- 
             }
         }
  
