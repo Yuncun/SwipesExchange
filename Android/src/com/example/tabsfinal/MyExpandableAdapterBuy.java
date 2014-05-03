@@ -487,10 +487,10 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	tc.execute(bl);
 		                    	
 		                    	//Create a new sellListing for testing
-		                    	SellListing sl = new SellListing();
+		                    	BuyListing sl = new BuyListing();
 		                    	sl.setEndTime("9:23");
 		                    	sl.setStartTime("9:20");
-		                    	sl.setPrice(5.00);
+		                    	//sl.setPrice(5.00);
 		                    	sl.setSwipeCount(3);
 		                    	
 		                    	Venue ven = new Venue("De Neve");
