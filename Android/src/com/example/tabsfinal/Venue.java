@@ -1,6 +1,8 @@
 package com.example.tabsfinal;
 
-public class Venue {
+import java.io.Serializable;
+
+public class Venue implements Serializable {
 	
 	private String name;
 
