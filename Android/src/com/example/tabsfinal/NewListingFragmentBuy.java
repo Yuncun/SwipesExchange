@@ -1,26 +1,15 @@
 package com.example.tabsfinal;
 
 import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.List;
 
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentTransaction;
-import android.support.v4.app.DialogFragment;
 import android.content.Context;
 import android.os.Bundle;
-import android.util.Log;
+import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
-import android.view.View.OnClickListener;
 import android.view.ViewGroup;
-import android.view.animation.Animation;
 import android.widget.Button;
 import android.widget.ExpandableListView;
-import android.widget.ExpandableListView.OnChildClickListener;
-import android.widget.ExpandableListView.OnGroupClickListener;
-import android.widget.TextView;
-import android.widget.TimePicker;
 
 public class NewListingFragmentBuy extends Fragment{
 

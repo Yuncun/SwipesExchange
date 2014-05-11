@@ -3,12 +3,14 @@ package com.example.tabsfinal;
 
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
+import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.List;
 
-import java.io.ObjectOutputStream;
-
+import sharedObjects.BuyListing;
+import sharedObjects.SellListing;
 
 import android.util.Log;
 
@@ -18,7 +20,7 @@ public abstract class ConnectToServlet {
     String inputValue=null;
     static String doubledValue = "";
     
-    public static void sendListing(final Listing inputListing)
+    public static void sendListing(final Object inputListing)
     {
     	new Thread(new Runnable() {
     		public void run() {
@@ -31,14 +33,15 @@ public abstract class ConnectToServlet {
                    connection.setDoOutput(true);
                    
                    //Begin to open a new OutputObjectStream
-                  // OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
+                 // OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
                    
                    ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
                    objectOut.writeObject(inputListing);
                    
-                   
+ 
                   // out.write(inputString);
                   // out.close();
+                   objectOut.flush();
                    objectOut.close();
  
                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
@@ -48,8 +51,7 @@ public abstract class ConnectToServlet {
                             while ((returnString = in.readLine()) != null) 
                             {
                                 doubledValue= returnString;
-                      		  Log.d("LOUD AND CLEAR", doubledValue);
-                                
+                      		  Log.d("LOUD AND CLEAR", doubledValue);  
                             }
                             in.close();
  

@@ -5,15 +5,7 @@ import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
-import com.amazonaws.services.simpledb.model.ListDomainsResult;
-import com.amazonaws.services.simpledb.model.PutAttributesRequest;
-import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
-
+import sharedObjects.*;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;
@@ -22,6 +14,7 @@ import android.os.AsyncTask;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,6 +28,14 @@ import android.widget.NumberPicker;
 import android.widget.TextView;
 import android.widget.TimePicker;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
+import com.amazonaws.services.simpledb.model.PutAttributesRequest;
+import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
+import com.google.gson.*;
 /**
  * 
  * MyExpandableAdapterBuy
@@ -500,7 +501,21 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	
 		                    	sl.setSection("Section?");
 		                    	
-		                    	ConnectToServlet.sendListing(sl);
+		                    	//
+		                    	Gson gson = new Gson();
+		                    	
+		                    	MsgStruct nMsg = new MsgStruct();
+		                    	nMsg.packeType = "bl"; //Identifies message as a sell listing
+		                    	nMsg.payload = sl;
+		                    	
+		                    	
+		                    	String json = gson.toJson(nMsg);
+		                    	
+		                    	
+		                    	//
+		                    	String slString = "******* Jose Mourinho **********";
+		                    	ConnectToServlet.sendListing(json);
+		                    	 Log.d("LOUD AND CLEAR", "ConnectToServlet.sendListing is reached in MyExpandableAdapterBuy");
 		                    	
 		                    	
 		                    	//Test after testing sendListing(SellListing sellList);

@@ -7,6 +7,7 @@ package com.example.tabsfinal;
 import java.util.ArrayList;
 import java.util.List;
 
+import sharedObjects.SellListing;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;

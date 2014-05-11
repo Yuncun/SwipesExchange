@@ -3,6 +3,7 @@ package com.example.tabsfinal;
 import java.util.ArrayList;
 import java.util.List;
 
+import sharedObjects.BuyListing;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;

@@ -3,6 +3,10 @@ package com.example.tabsfinal;
 
 import java.util.ArrayList;
 
+import sharedObjects.BuyListing;
+import sharedObjects.Listing;
+import sharedObjects.User;
+import sharedObjects.Venue;
 import android.app.Activity;
 import android.app.Dialog;
 import android.graphics.Color;

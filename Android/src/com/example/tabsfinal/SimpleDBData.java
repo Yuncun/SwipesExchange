@@ -29,16 +29,16 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.List;
 
-
-import android.os.AsyncTask;
+import sharedObjects.BuyListing;
+import sharedObjects.Listing;
+import sharedObjects.User;
+import sharedObjects.Venue;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Regions;
 import com.amazonaws.regions.Region;
-import com.amazonaws.services.simpledb.AmazonSimpleDBAsync;
+import com.amazonaws.regions.Regions;
 import com.amazonaws.services.simpledb.AmazonSimpleDBAsyncClient;
-import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
 import com.amazonaws.services.simpledb.model.Attribute;
 import com.amazonaws.services.simpledb.model.CreateDomainRequest;
 import com.amazonaws.services.simpledb.model.DeleteAttributesRequest;
@@ -46,13 +46,11 @@ import com.amazonaws.services.simpledb.model.DeleteDomainRequest;
 import com.amazonaws.services.simpledb.model.GetAttributesRequest;
 import com.amazonaws.services.simpledb.model.GetAttributesResult;
 import com.amazonaws.services.simpledb.model.Item;
-import com.amazonaws.services.simpledb.model.ListDomainsRequest;
 import com.amazonaws.services.simpledb.model.ListDomainsResult;
 import com.amazonaws.services.simpledb.model.PutAttributesRequest;
 import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
 import com.amazonaws.services.simpledb.model.SelectRequest;
 import com.amazonaws.services.simpledb.model.SelectResult;
-import com.amazonaws.services.simpledb.util.SimpleDBUtils;
 
 // ========================================================
 // This article provides more details on SimpleDB Queries.

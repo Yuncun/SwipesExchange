@@ -4,34 +4,14 @@ package com.example.tabsfinal;
 //WILL BE OBSOLETE ONCE BACKEND IS IMPLEMENTED FOR SELL LIST
 import java.util.ArrayList;
 import java.util.List;
-import java.util.concurrent.ExecutionException;
-import java.util.concurrent.TimeUnit;
-import java.util.concurrent.TimeoutException;
-import java.util.concurrent.locks.ReentrantLock;
 
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
-import com.amazonaws.services.simpledb.model.GetAttributesRequest;
-import com.amazonaws.services.simpledb.model.GetAttributesResult;
-import com.amazonaws.services.simpledb.model.Item;
-
-import com.amazonaws.services.simpledb.model.ListDomainsResult;
-import com.amazonaws.services.simpledb.model.PutAttributesRequest;
-import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
-import com.amazonaws.services.simpledb.model.RequestTimeoutException;
-import com.amazonaws.services.simpledb.model.SelectRequest;
-import com.amazonaws.services.simpledb.model.SelectResult;
-//import com.example.tabsfinal.TestTask.OnTaskCompleted;
-
-//import com.example.tabsfinal.MainActivity.TestConnect;
-
-import android.os.AsyncTask;
-import android.os.Build;
+import sharedObjects.BuyListing;
+import sharedObjects.SellListing;
+import sharedObjects.User;
+import sharedObjects.Venue;
 import android.util.Log;
-import android.widget.Toast;
+//import com.example.tabsfinal.TestTask.OnTaskCompleted;
+//import com.example.tabsfinal.MainActivity.TestConnect;
 
 
 
