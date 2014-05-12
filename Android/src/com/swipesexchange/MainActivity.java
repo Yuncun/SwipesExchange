@@ -9,11 +9,15 @@ import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
+import android.util.Log;
 import android.view.Menu;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.facebook.*;
+import com.facebook.model.*;
+import android.content.Intent;
 
 
 public class MainActivity extends FragmentActivity implements
@@ -35,18 +39,26 @@ public class MainActivity extends FragmentActivity implements
 	public BackendData l;
 	public String test = "fuck";
 	
+	//private static final int SETTINGS = 2;
+	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
 	//TimePicker tp;
 	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  super.onActivityResult(requestCode, resultCode, data);
+	  Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	}
 	
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_main);
+		
 		
 		
 		actionBar = getActionBar();
@@ -129,7 +141,29 @@ public class MainActivity extends FragmentActivity implements
 			.setTabListener(this).setCustomView(tabView));
 		}
 		
-		
+		// start Facebook Login
+	    Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+	      // callback when session changes state
+	      @Override
+	      public void call(Session session, SessionState state, Exception exception) {
+	        if (session.isOpened()) {
+
+	          // make request to the /me API
+	          Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+	            // callback after Graph API response with user object
+	            @Override
+	            public void onCompleted(GraphUser user, Response response) {
+	              if (user != null) {
+	                
+	                Log.d("facebook", user.getName());
+	              }
+	            }
+	          }).executeAsync();
+	        }
+	      }
+	    });
 		
 	}
 	
@@ -161,7 +195,20 @@ public class MainActivity extends FragmentActivity implements
 				
 			}
 		});
+		
+		inflatedView.findViewById(R.id.logout_button).setOnClickListener(new OnClickListener() {
+			 
+			@Override
+			public void onClick(View v) {
+					
+					Session.getActiveSession().closeAndClearTokenInformation();
+					
+					
+				
+			}
+		});
 		relativeLayout.addView(inflatedView);
+		
 		
 		return (super.onCreateOptionsMenu(menu));
 		

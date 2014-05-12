@@ -24,5 +24,18 @@ android:gravity="right" >
     android:textStyle="bold"
     android:text="NEW BUY" />
 
+<Button
+    android:id="@+id/logout_button"
+    android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
+ 
+    android:textColor="#FFFFFF"
+     android:layout_toLeftOf="@id/new_button"
+    android:textSize="12sp"
+    android:textStyle="bold"
+    android:text="LOGOUT" />
+
+
+
 
 </RelativeLayout>
