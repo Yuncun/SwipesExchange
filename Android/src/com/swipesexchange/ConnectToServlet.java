@@ -5,8 +5,14 @@ import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
+import java.io.StringReader;
 import java.net.URL;
 import java.net.URLConnection;
+
+import sharedObjects.MsgStruct;
+
+import com.google.gson.Gson;
+import com.google.gson.stream.JsonReader;
 
 import android.util.Log;
 
@@ -47,9 +53,30 @@ public abstract class ConnectToServlet {
                             while ((returnString = in.readLine()) != null) 
                             {
                                 doubledValue= returnString;
-                      		  Log.d("LOUD AND CLEAR", doubledValue);  
+                             
                             }
                             in.close();
+                            
+                            Gson gson = new Gson();
+                            
+                            
+                            
+                            JsonReader reader = new JsonReader(new StringReader(doubledValue));
+                            reader.setLenient(true);
+                          
+                    		MsgStruct packet = gson.fromJson(doubledValue, MsgStruct.class);
+                    		/*
+                    		if (packet.getHeader() == "bl")
+                    		{
+                    				BuyListing bl = gson.fromJson(packet.getPayload(), BuyListing.class);
+                    				doubledValue = "User " + bl.getUser().getName() + " and venue " + bl.getVenue().getName();
+                    		}
+                    		else doubledValue = "no bl";
+
+
+                            */
+                    		
+                  		  Log.d("LOUD AND CLEAR", doubledValue);  
  
                             }catch(Exception e)
                             {

@@ -17,6 +17,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.model.*;
+
+import android.content.Context;
 import android.content.Intent;
 
 
@@ -201,8 +203,7 @@ public class MainActivity extends FragmentActivity implements
 			@Override
 			public void onClick(View v) {
 					
-					Session.getActiveSession().closeAndClearTokenInformation();
-					
+					callFacebookLogout(v.getContext());
 					
 				
 			}
@@ -292,6 +293,52 @@ public class MainActivity extends FragmentActivity implements
 		}
 		}
 
+	public void callFacebookLogout(Context context) {
+	    Session session = Session.getActiveSession();
+	    if (session != null) {
+
+	        if (!session.isClosed()) {
+	            session.closeAndClearTokenInformation();
+	            
+	            Log.d("facebook", "Clearing tokens");
+	            
+	            //clear your preferences if saved
+	        }
+	   
+
+	        session = new Session(context);
+	        
+	        
+	       
+	        Session.setActiveSession(session);
+
+	      
+	        Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+	  	      // callback when session changes state
+	  	      @Override
+	  	      public void call(Session session, SessionState state, Exception exception) {
+	  	        if (session.isOpened()) {
+
+	  	          // make request to the /me API
+	  	          Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+	  	            // callback after Graph API response with user object
+	  	            @Override
+	  	            public void onCompleted(GraphUser user, Response response) {
+	  	              if (user != null) {
+	  	                
+	  	                Log.d("facebook", user.getName());
+	  	              }
+	  	            }
+	  	          }).executeAsync();
+	  	        }
+	  	      }
+	  	    });
+
+	    }
+
+	}
 	
 	
 	

@@ -497,28 +497,42 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	sl.setStartTime("9:20");
 		                    	//sl.setPrice(5.00);
 		                    	sl.setSwipeCount(3);
+		                    	sl.setSection(null);
+		                    	sl.setTime(null);
 		                    	
 		                    	Venue ven = new Venue("De Neve");
 		                    	sl.setVenue(ven);
 		                    	User usr = new User("David Beckham"); 
 		                    	sl.setUser(usr);
-		                    	
+		                    	sl.getUser().setIdNumber("123123");
+		                    	sl.getUser().setRating("Shit");
+		                    	sl.getUser().setConnections("Connections");
+		                    
 		                    	sl.setSection("Section?");
 		                    	
 		                    	//
 		                    	Gson gson = new Gson();
+		                    	String j0 = gson.toJson(sl);
 		                    	
 		                    	MsgStruct nMsg = new MsgStruct();
-		                    	nMsg.packeType = "bl"; //Identifies message as a sell listing
-		                    	nMsg.payload = sl;
+		                    	nMsg.setHeader("bl"); //Identifies message as a sell listing
+		                    	nMsg.setPayload(j0);
+
+		                    	String j1 = gson.toJson(nMsg);
+
+		                    	MsgStruct j2 = gson.fromJson(j1, MsgStruct.class);
+		                    	//BuyListing j2 = gson.fromJson(j1, BuyListing.class);
+		                    	
+		                    	String j3 = j2.getPayload();
+		                    	
+		                    	BuyListing j4 = gson.fromJson(j3, BuyListing.class);
 		                    	
 		                    	
-		                    	String json = gson.toJson(nMsg);
 		                    	
+		                    	String j5 = j4.getUser().getName();
+		                    
+		                    	ConnectToServlet.sendListing(j1);
 		                    	
-		                    	//
-		                    	String slString = "******* Jose Mourinho **********";
-		                    	ConnectToServlet.sendListing(json);
 		                    	 Log.d("LOUD AND CLEAR", "ConnectToServlet.sendListing is reached in MyExpandableAdapterBuy");
 		                    	
 		                    	

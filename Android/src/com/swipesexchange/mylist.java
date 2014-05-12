@@ -101,7 +101,8 @@ class MyList extends ListFragment
             	   tc = new TestConnectGet(getActivity());
        
             	   
-            		    tc.execute();
+            	   
+            		   // tc.execute();
             	   
             	   
           
