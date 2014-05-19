@@ -11,7 +11,9 @@
     <string name="submission"><b>Submit new listing?</b></string>
     <string name="time_error"><b>One does not finish eating until they\'ve begun...</b></string>
     <string name="random">Random</string>
+    <string name="settings">Settings</string>
   
+    <string name="get_started">To get started, log in using Facebook</string>
     
     <string name="select_time">Start Time</string>
     <string name="select_time2">End Time</string>

@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry excluding="com/example/tabsfinal/SectionListAdapter.java|com/example/tabsfinal/SectionListView.java|com/example/tabsfinal/SectionItem.java|com/example/tabsfinal/TestConnect.java|com/example/tabsfinal/TestTask.java|com/swipesexchange/TestTask.java" kind="src" path="src"/>
+	<classpathentry excluding="com/example/tabsfinal/SectionListAdapter.java|com/example/tabsfinal/SectionListView.java|com/example/tabsfinal/SectionItem.java|com/example/tabsfinal/TestConnect.java|com/example/tabsfinal/TestTask.java|com/swipesexchange/TestTask.java|com/swipesexchange/ActionBarFragment.java" kind="src" path="src"/>
 	<classpathentry kind="src" path="gen"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.LIBRARIES"/>
 	<classpathentry exported="true" kind="con" path="com.android.ide.eclipse.adt.DEPENDENCIES"/>

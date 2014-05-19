@@ -1,9 +1,9 @@
 package com.swipesexchange;
 
-import android.app.ActionBar;
-import android.app.FragmentTransaction;
+import android.support.v4.app.FragmentTransaction;
 import android.content.pm.ActivityInfo;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -11,19 +11,20 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
 import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import com.facebook.*;
+import com.facebook.android.Facebook;
 import com.facebook.model.*;
 
 import android.content.Context;
 import android.content.Intent;
 
 
-public class MainActivity extends FragmentActivity implements
-		ActionBar.TabListener {
+public class MainActivity extends FragmentActivity {
 
 	/**
 	 * The {@link android.support.v4.view.PagerAdapter} that will provide
@@ -34,70 +35,101 @@ public class MainActivity extends FragmentActivity implements
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
 	
-	
+	private LoginFragment login_fragment;
 	SectionsPagerAdapter mSectionsPagerAdapter;
-	ActionBar actionBar;
-	
 	public BackendData l;
-	public String test = "fuck";
+	private final String login_tag = "login_fragment";
+	private static final int LOGIN_SPLASH = 0;
+	private static final int TEST = 1;
+	private static final int SETTINGS = 2;
+	private MenuItem settings;
 	
-	//private static final int SETTINGS = 2;
+	private final Handler handler = new Handler();
+	private Runnable run_pager;
+	
+	private boolean is_resumed;
+	
+	private Fragment[] fragments = new Fragment[3];
 	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	//TimePicker tp;
 	
-	@Override
-	public void onActivityResult(int requestCode, int resultCode, Intent data) {
-	  super.onActivityResult(requestCode, resultCode, data);
-	  Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
-	}
+	private UiLifecycleHelper uiHelper;
 	
+	
+	private Session.StatusCallback callback = new Session.StatusCallback() {
+		@Override
+		public void call(Session session, SessionState state, Exception exception) {
+			onSessionStateChange(session, state, exception);
+		}
+	};
+	
+	
+	
+	/**
+	 * onCreate function for FragmentActivity
+	 * 
+	 */
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		uiHelper = new UiLifecycleHelper(this, callback);
+		uiHelper.onCreate(savedInstanceState);
+		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_main);
 		
+		FragmentManager fragment_manager = this.getSupportFragmentManager();
+		fragments[LOGIN_SPLASH] = fragment_manager.findFragmentById(R.id.splash_fragment);
+		fragments[TEST] = fragment_manager.findFragmentById(R.id.selection_fragment);
+		fragments[SETTINGS] = fragment_manager.findFragmentById(R.id.userSettingsFragment);
 		
+		FragmentTransaction transaction = fragment_manager.beginTransaction();
+		for(int i=0; i < fragments.length; i++)
+		{
+			transaction.hide(fragments[i]);
+		}
 		
-		actionBar = getActionBar();
+		transaction.commit();
+	        
+	    
+		/*
+		if(Session.getActiveSession().isOpened())
+		{
+		FragmentManager fragmentManager = this.getSupportFragmentManager();
+		android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
+		
+		transaction.hide(mainFragment);
+		transaction.commit();
+		}
+		*/
+		
 		 
 		
 		// Set up the action bar.
 		
 		//actionBar.setIcon(R.drawable.yes);
-		actionBar.setNavigationMode(ActionBar.NAVIGATION_MODE_TABS);
 		
 		//tp = (TimePicker) findViewById(R.id.timePicker1);
 		
 		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
+		/*
 		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);;
 
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) findViewById(R.id.pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
 		
-	
 
-		// When swiping between different sections, select the corresponding
-		// tab. We can also use ActionBar.Tab#select() to do this if we have
-		// a reference to the Tab.
-		mViewPager.setOnPageChangeListener(new ViewPager.SimpleOnPageChangeListener() {
-					@Override
-					public void onPageSelected(int position) {
-						actionBar.setSelectedNavigationItem(position);
-					}
-				});
-		
-		
-		
+		*/
 		
 		// For each of the sections in the app, add a tab to the action bar.
+		
+		/*
 		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
 			// Create a tab with text corresponding to the page title defined by
 			// the adapter. Also specify this Activity object, which implements
@@ -111,7 +143,7 @@ public class MainActivity extends FragmentActivity implements
 		
 			//the following commented code can be used to create unique images to display on each tab
 			
-		/*
+		
 			ImageView tabImage = (ImageView) tabView.findViewById(R.id.tabIcon);
 			
 			switch(i)
@@ -132,17 +164,19 @@ public class MainActivity extends FragmentActivity implements
 				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
 				break;
 			}
-			*/
+			
 			
 			
 			//Add the tabs to the action bar
-			actionBar.addTab(actionBar.newTab()
+
 					
 					
 			//Listen for clicks on the tabs
-			.setTabListener(this).setCustomView(tabView));
+			
 		}
+	*/
 		
+		/*
 		// start Facebook Login
 	    Session.openActiveSession(this, true, new Session.StatusCallback() {
 
@@ -160,18 +194,195 @@ public class MainActivity extends FragmentActivity implements
 	              if (user != null) {
 	                
 	                Log.d("facebook", user.getName());
+	                Log.d("facebook", user.getId());
 	              }
 	            }
 	          }).executeAsync();
 	        }
 	      }
 	    });
+	    */
+		
 		
 	}
 	
 	
 	
+	@Override
+	public boolean onPrepareOptionsMenu(Menu menu) {
+	    // only add the menu when the selection fragment is showing
+	    if (fragments[TEST].isVisible()) {
+	        if (menu.size() == 0) {
+	            settings = menu.add(R.string.settings);
+	        }
+	        return true;
+	    } else {
+	        menu.clear();
+	        settings = null;
+	    }
+	    return false;
+	}
+	
+	@Override
+	public boolean onOptionsItemSelected(MenuItem item) {
+	    if (item.equals(settings)) {
+	        showFragment(SETTINGS, true);
+	        return true;
+	    }
+	    return false;
+	}
+	
+	@Override
+	public void onActivityResult(int requestCode, int resultCode, Intent data) {
+	  super.onActivityResult(requestCode, resultCode, data);
+	  uiHelper.onActivityResult(requestCode, resultCode, data);
+	  //Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	}
+	
+	@Override
+	public void onPause() {
+		super.onPause();
+		is_resumed = false;
+		uiHelper.onPause();
+	}
+	
+	@Override
+	public void onDestroy() {
+		super.onDestroy();
+		uiHelper.onDestroy();
+	}
+	
+	@Override
+	public void onSaveInstanceState(Bundle outState) {
+		super.onSaveInstanceState(outState);
+		uiHelper.onSaveInstanceState(outState);
+	}
+	
+	private void showFragment(int fragmentIndex, boolean addToBackStack) {
+	    FragmentManager fm = getSupportFragmentManager();
+	    FragmentTransaction transaction = fm.beginTransaction();
+	    for (int i = 0; i < fragments.length; i++) {
+	        if (i == fragmentIndex) {
+	        	if(i==1)
+	        	{
+	        		getActionBar().show();
+	        	}
+	        	else
+	        		getActionBar().hide();
+	            transaction.show(fragments[i]);
+	        } else {
+	            transaction.hide(fragments[i]);
+	        }
+	    }
+	    if (addToBackStack) {
+	        transaction.addToBackStack(null);
+	    }
+	    transaction.commit();
+	}
+	/**
+	 * onSessionStateChange
+	 * Performs logout if sesion state changes (ie logged out of Facebook)
+	 */
+	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
+	    // Only make changes if the activity is visible
+	    if (is_resumed) {
+	        FragmentManager manager = getSupportFragmentManager();
+	        // Get the number of entries in the back stack
+	        int backStackSize = manager.getBackStackEntryCount();
+	        // Clear the back stack
+	        
+	    
+	        for (int i = 0; i < backStackSize; i++) {
+	            manager.popBackStack();
+	        }
+	        if (state.isOpened()) {
+	            // If the session state is open:
+	            // Show the authenticated fragment
+	            showFragment(TEST, false);
+	        } else if (state.isClosed()) {
+	            // If the session state is closed:
+	            // Show the login fragment
+	            showFragment(LOGIN_SPLASH, false);
+	        }
+	    }
+	}
+	
+	@Override
+	protected void onResumeFragments() {
+	    super.onResumeFragments();
+	    Session session = Session.getActiveSession();
 
+	    if (session != null && session.isOpened()) {
+	        // if the session is already open,
+	        // try to show the selection fragment
+	        showFragment(TEST, false);
+	    } else {
+	        // otherwise present the splash screen
+	        // and ask the person to login.
+	        showFragment(LOGIN_SPLASH, false);
+	    }
+	}
+	
+	
+	
+	@Override
+	public void onResume() {
+		super.onResume();
+		
+		Session session = Session.getActiveSession();
+		if(session != null && (session.isOpened() || session.isClosed()))
+		{
+			this.onSessionStateChange(session, session.getState(), null);
+		}
+		is_resumed = true;
+		uiHelper.onResume();
+	}
+	
+	public void callFacebookLogout(Context context) {
+	    Session session = Session.getActiveSession();
+	    if (session != null) {
+
+	       
+	           
+	            
+	            Log.d("facebook", "Clearing tokens");
+	            
+	            
+	   
+	   
+	        session = new Session(context);
+	        Session.setActiveSession(session);
+	        session.closeAndClearTokenInformation();
+	        
+	       
+	        Session.openActiveSession(this, true, new Session.StatusCallback() {
+
+	  	      // callback when session changes state
+	  	      @Override
+	  	      public void call(Session session, SessionState state, Exception exception) {
+	  	        if (session.isOpened()) {
+
+	  	          // make request to the /me API
+	  	          Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+	  	            // callback after Graph API response with user object
+	  	            @Override
+	  	            public void onCompleted(GraphUser user, Response response) {
+	  	              if (user != null) {
+	  	                
+	  	                Log.d("facebook", user.getName());
+	  	              }
+	  	            }
+	  	          }).executeAsync();
+	  	        }
+	  	      }
+	  	    });
+
+	    }
+
+	}
+	
+/*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
 		// Inflate the menu; this adds items to the action bar if it is present.
@@ -216,24 +427,7 @@ public class MainActivity extends FragmentActivity implements
 		
 	}
 
-	@Override
-	public void onTabSelected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		// When the given tab is selected, switch to the corresponding page in
-		// the ViewPager.
-		mViewPager.setCurrentItem(tab.getPosition());
-	}
-
-	@Override
-	public void onTabUnselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-	}
-
-	@Override
-	public void onTabReselected(ActionBar.Tab tab,
-			FragmentTransaction fragmentTransaction) {
-		
-	}
+*/
 	
 
 
@@ -293,52 +487,7 @@ public class MainActivity extends FragmentActivity implements
 		}
 		}
 
-	public void callFacebookLogout(Context context) {
-	    Session session = Session.getActiveSession();
-	    if (session != null) {
 
-	        if (!session.isClosed()) {
-	            session.closeAndClearTokenInformation();
-	            
-	            Log.d("facebook", "Clearing tokens");
-	            
-	            //clear your preferences if saved
-	        }
-	   
-
-	        session = new Session(context);
-	        
-	        
-	       
-	        Session.setActiveSession(session);
-
-	      
-	        Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-	  	      // callback when session changes state
-	  	      @Override
-	  	      public void call(Session session, SessionState state, Exception exception) {
-	  	        if (session.isOpened()) {
-
-	  	          // make request to the /me API
-	  	          Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-	  	            // callback after Graph API response with user object
-	  	            @Override
-	  	            public void onCompleted(GraphUser user, Response response) {
-	  	              if (user != null) {
-	  	                
-	  	                Log.d("facebook", user.getName());
-	  	              }
-	  	            }
-	  	          }).executeAsync();
-	  	        }
-	  	      }
-	  	    });
-
-	    }
-
-	}
 	
 	
 	
