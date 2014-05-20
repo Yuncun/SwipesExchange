@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+
+    <string name="app_name"><b>Bruin Swipes</b></string>
+    <string name="action_settings">Settings</string>
+    <string name="title_section1">BUYING</string>
+    <string name="title_section2">SELLING</string>
+    <string name="title_section3">MESSAGES</string>
+    <string name="title_section4">NEW BUY LISTING</string>
+    <string name="title_section5">NEW SELL LISTING</string>
+    <string name="submission"><b>Submit new listing?</b></string>
+    <string name="time_error"><b>One does not finish eating until they\'ve begun...</b></string>
+    <string name="random">Random</string>
+    <string name="settings">Settings</string>
+  
+    <string name="get_started">To get started, log in using Facebook</string>
+    
+    <string name="select_time">Start Time</string>
+    <string name="select_time2">End Time</string>
+    <string name="submit_listing">Submit</string>
+<color name="mycolor1">#59c3fa</color>
+<string name="app_id">767655446600637</string>
+    
+    
+      
+        
+        
+   
+</resources>

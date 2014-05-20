@@ -7,6 +7,11 @@
 	objects = {
 
 /* Begin PBXBuildFile section */
+		660541D11828740600F3E579 /* SEBuyersListingCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 660541D01828740600F3E579 /* SEBuyersListingCreationViewController.m */; };
+		66169B131824455C004499C7 /* SEUser.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B121824455C004499C7 /* SEUser.m */; };
+		66169B161824588A004499C7 /* SEHalls.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B151824588A004499C7 /* SEHalls.m */; };
+		66169B191824DD12004499C7 /* SEBuyListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B181824DD12004499C7 /* SEBuyListing.m */; };
+		66169B1C1824DD20004499C7 /* SESellListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 66169B1B1824DD20004499C7 /* SESellListing.m */; };
 		6626A40518242262000A15BB /* Foundation.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6626A40418242262000A15BB /* Foundation.framework */; };
 		6626A40718242262000A15BB /* CoreGraphics.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6626A40618242262000A15BB /* CoreGraphics.framework */; };
 		6626A40918242262000A15BB /* UIKit.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 6626A40818242262000A15BB /* UIKit.framework */; };
@@ -24,6 +29,22 @@
 		6626A4441824266B000A15BB /* SESellersViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6626A4431824266B000A15BB /* SESellersViewController.m */; };
 		6626A44718242677000A15BB /* SEConnectionsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 6626A44618242677000A15BB /* SEConnectionsViewController.m */; };
 		6626A44E18242783000A15BB /* SEListing.m in Sources */ = {isa = PBXBuildFile; fileRef = 6626A44D18242783000A15BB /* SEListing.m */; };
+		664B7F9E18307FE6003890B9 /* SEMeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664B7F9D18307FE6003890B9 /* SEMeViewController.m */; };
+		664B7FA11831E1C3003890B9 /* SEListingActionViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 664B7FA01831E1C3003890B9 /* SEListingActionViewController.m */; };
+		667EB7F118343D7200D966ED /* SESubmitCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 667EB7F018343D7200D966ED /* SESubmitCell.m */; };
+		6687746B1851C755009709F3 /* SEMessageCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 6687746A1851C755009709F3 /* SEMessageCell.m */; };
+		6687746E1851D153009709F3 /* SEConversation.m in Sources */ = {isa = PBXBuildFile; fileRef = 6687746D1851D153009709F3 /* SEConversation.m */; };
+		668774711851D25E009709F3 /* SEConversationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668774701851D25E009709F3 /* SEConversationViewController.m */; };
+		668774741851DCB1009709F3 /* SEConversationCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 668774731851DCB1009709F3 /* SEConversationCell.m */; };
+		668774771851E262009709F3 /* SESignInExampleViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668774761851E262009709F3 /* SESignInExampleViewController.m */; };
+		668C0C9518361BD800D520E5 /* SESIgnInViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 668C0C9418361BD800D520E5 /* SESIgnInViewController.m */; };
+		669646F618277C9D0023C782 /* SESendable.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F518277C9D0023C782 /* SESendable.m */; };
+		669646F918277CB60023C782 /* SEFeeler.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646F818277CB60023C782 /* SEFeeler.m */; };
+		669646FC18277CBF0023C782 /* SEMessage.m in Sources */ = {isa = PBXBuildFile; fileRef = 669646FB18277CBF0023C782 /* SEMessage.m */; };
+		66C9BCDE182B13DD003C0E6E /* SEReferences.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C9BCDD182B13DD003C0E6E /* SEReferences.m */; };
+		66C9BCE1182B1F59003C0E6E /* SESellersListingCreationViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */; };
+		66D9C1F8182D5EDD006D1D2E /* SESettingsViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C1F7182D5EDD006D1D2E /* SESettingsViewController.m */; };
+		66D9C1FC182D6270006D1D2E /* SEListingCell.m in Sources */ = {isa = PBXBuildFile; fileRef = 66D9C1FB182D6270006D1D2E /* SEListingCell.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -37,6 +58,16 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		660541CF1828740600F3E579 /* SEBuyersListingCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuyersListingCreationViewController.h; sourceTree = "<group>"; };
+		660541D01828740600F3E579 /* SEBuyersListingCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBuyersListingCreationViewController.m; sourceTree = "<group>"; };
+		66169B111824455C004499C7 /* SEUser.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEUser.h; sourceTree = "<group>"; };
+		66169B121824455C004499C7 /* SEUser.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEUser.m; sourceTree = "<group>"; };
+		66169B141824588A004499C7 /* SEHalls.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEHalls.h; sourceTree = "<group>"; };
+		66169B151824588A004499C7 /* SEHalls.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEHalls.m; sourceTree = "<group>"; };
+		66169B171824DD12004499C7 /* SEBuyListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEBuyListing.h; sourceTree = "<group>"; };
+		66169B181824DD12004499C7 /* SEBuyListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEBuyListing.m; sourceTree = "<group>"; };
+		66169B1A1824DD20004499C7 /* SESellListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESellListing.h; sourceTree = "<group>"; };
+		66169B1B1824DD20004499C7 /* SESellListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESellListing.m; sourceTree = "<group>"; };
 		6626A40118242262000A15BB /* Bruin Swipes.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = "Bruin Swipes.app"; sourceTree = BUILT_PRODUCTS_DIR; };
 		6626A40418242262000A15BB /* Foundation.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = Foundation.framework; path = System/Library/Frameworks/Foundation.framework; sourceTree = SDKROOT; };
 		6626A40618242262000A15BB /* CoreGraphics.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = CoreGraphics.framework; path = System/Library/Frameworks/CoreGraphics.framework; sourceTree = SDKROOT; };
@@ -62,6 +93,38 @@
 		6626A44618242677000A15BB /* SEConnectionsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConnectionsViewController.m; sourceTree = "<group>"; };
 		6626A44C18242783000A15BB /* SEListing.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEListing.h; sourceTree = "<group>"; };
 		6626A44D18242783000A15BB /* SEListing.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEListing.m; sourceTree = "<group>"; };
+		664B7F9C18307FE6003890B9 /* SEMeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEMeViewController.h; sourceTree = "<group>"; };
+		664B7F9D18307FE6003890B9 /* SEMeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEMeViewController.m; sourceTree = "<group>"; };
+		664B7F9F1831E1C3003890B9 /* SEListingActionViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEListingActionViewController.h; sourceTree = "<group>"; };
+		664B7FA01831E1C3003890B9 /* SEListingActionViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEListingActionViewController.m; sourceTree = "<group>"; };
+		667EB7EF18343D7200D966ED /* SESubmitCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESubmitCell.h; sourceTree = "<group>"; };
+		667EB7F018343D7200D966ED /* SESubmitCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESubmitCell.m; sourceTree = "<group>"; };
+		668774691851C755009709F3 /* SEMessageCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEMessageCell.h; sourceTree = "<group>"; };
+		6687746A1851C755009709F3 /* SEMessageCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEMessageCell.m; sourceTree = "<group>"; };
+		6687746C1851D153009709F3 /* SEConversation.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEConversation.h; sourceTree = "<group>"; };
+		6687746D1851D153009709F3 /* SEConversation.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConversation.m; sourceTree = "<group>"; };
+		6687746F1851D25E009709F3 /* SEConversationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEConversationViewController.h; sourceTree = "<group>"; };
+		668774701851D25E009709F3 /* SEConversationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConversationViewController.m; sourceTree = "<group>"; };
+		668774721851DCB1009709F3 /* SEConversationCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEConversationCell.h; sourceTree = "<group>"; };
+		668774731851DCB1009709F3 /* SEConversationCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEConversationCell.m; sourceTree = "<group>"; };
+		668774751851E262009709F3 /* SESignInExampleViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESignInExampleViewController.h; sourceTree = "<group>"; };
+		668774761851E262009709F3 /* SESignInExampleViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESignInExampleViewController.m; sourceTree = "<group>"; };
+		668C0C9318361BD800D520E5 /* SESIgnInViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESIgnInViewController.h; sourceTree = "<group>"; };
+		668C0C9418361BD800D520E5 /* SESIgnInViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESIgnInViewController.m; sourceTree = "<group>"; };
+		669646F418277C9D0023C782 /* SESendable.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESendable.h; sourceTree = "<group>"; };
+		669646F518277C9D0023C782 /* SESendable.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESendable.m; sourceTree = "<group>"; };
+		669646F718277CB60023C782 /* SEFeeler.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEFeeler.h; sourceTree = "<group>"; };
+		669646F818277CB60023C782 /* SEFeeler.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEFeeler.m; sourceTree = "<group>"; };
+		669646FA18277CBF0023C782 /* SEMessage.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEMessage.h; sourceTree = "<group>"; };
+		669646FB18277CBF0023C782 /* SEMessage.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEMessage.m; sourceTree = "<group>"; };
+		66C9BCDC182B13DD003C0E6E /* SEReferences.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEReferences.h; sourceTree = "<group>"; };
+		66C9BCDD182B13DD003C0E6E /* SEReferences.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEReferences.m; sourceTree = "<group>"; };
+		66C9BCDF182B1F59003C0E6E /* SESellersListingCreationViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESellersListingCreationViewController.h; sourceTree = "<group>"; };
+		66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESellersListingCreationViewController.m; sourceTree = "<group>"; };
+		66D9C1F6182D5EDD006D1D2E /* SESettingsViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SESettingsViewController.h; sourceTree = "<group>"; };
+		66D9C1F7182D5EDD006D1D2E /* SESettingsViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SESettingsViewController.m; sourceTree = "<group>"; };
+		66D9C1FA182D6270006D1D2E /* SEListingCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = SEListingCell.h; sourceTree = "<group>"; };
+		66D9C1FB182D6270006D1D2E /* SEListingCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = SEListingCell.m; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -88,6 +151,37 @@
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		66169B0D18244470004499C7 /* User */ = {
+			isa = PBXGroup;
+			children = (
+				66169B111824455C004499C7 /* SEUser.h */,
+				66169B121824455C004499C7 /* SEUser.m */,
+			);
+			name = User;
+			sourceTree = "<group>";
+		};
+		66169B0F18244484004499C7 /* Sendable */ = {
+			isa = PBXGroup;
+			children = (
+				669646F418277C9D0023C782 /* SESendable.h */,
+				669646F518277C9D0023C782 /* SESendable.m */,
+				669646F718277CB60023C782 /* SEFeeler.h */,
+				669646F818277CB60023C782 /* SEFeeler.m */,
+				669646FA18277CBF0023C782 /* SEMessage.h */,
+				669646FB18277CBF0023C782 /* SEMessage.m */,
+			);
+			name = Sendable;
+			sourceTree = "<group>";
+		};
+		66169B101824448F004499C7 /* Connection */ = {
+			isa = PBXGroup;
+			children = (
+				6687746C1851D153009709F3 /* SEConversation.h */,
+				6687746D1851D153009709F3 /* SEConversation.m */,
+			);
+			name = Connection;
+			sourceTree = "<group>";
+		};
 		6626A3F818242262000A15BB = {
 			isa = PBXGroup;
 			children = (
@@ -124,10 +218,8 @@
 				6626A41318242262000A15BB /* SEAppDelegate.h */,
 				6626A41418242262000A15BB /* SEAppDelegate.m */,
 				6626A41618242262000A15BB /* Main.storyboard */,
-				6626A44818242747000A15BB /* Buyers */,
-				6626A4491824275A000A15BB /* Sellers */,
-				6626A44A18242760000A15BB /* Connections */,
-				6626A44B18242766000A15BB /* Listings */,
+				66C9BCDB182B13B7003C0E6E /* Utility / Reference */,
+				66A8EB3E182DAA6800E479FE /* Tabs */,
 				6626A41F18242262000A15BB /* Images.xcassets */,
 				6626A40B18242262000A15BB /* Supporting Files */,
 			);
@@ -170,6 +262,10 @@
 			children = (
 				6626A43C1824236A000A15BB /* SEBuyersViewController.h */,
 				6626A43D1824236A000A15BB /* SEBuyersViewController.m */,
+				660541CF1828740600F3E579 /* SEBuyersListingCreationViewController.h */,
+				660541D01828740600F3E579 /* SEBuyersListingCreationViewController.m */,
+				664B7F9F1831E1C3003890B9 /* SEListingActionViewController.h */,
+				664B7FA01831E1C3003890B9 /* SEListingActionViewController.m */,
 			);
 			name = Buyers;
 			sourceTree = "<group>";
@@ -179,6 +275,8 @@
 			children = (
 				6626A4421824266B000A15BB /* SESellersViewController.h */,
 				6626A4431824266B000A15BB /* SESellersViewController.m */,
+				66C9BCDF182B1F59003C0E6E /* SESellersListingCreationViewController.h */,
+				66C9BCE0182B1F59003C0E6E /* SESellersListingCreationViewController.m */,
 			);
 			name = Sellers;
 			sourceTree = "<group>";
@@ -188,6 +286,8 @@
 			children = (
 				6626A44518242677000A15BB /* SEConnectionsViewController.h */,
 				6626A44618242677000A15BB /* SEConnectionsViewController.m */,
+				6687746F1851D25E009709F3 /* SEConversationViewController.h */,
+				668774701851D25E009709F3 /* SEConversationViewController.m */,
 			);
 			name = Connections;
 			sourceTree = "<group>";
@@ -197,8 +297,77 @@
 			children = (
 				6626A44C18242783000A15BB /* SEListing.h */,
 				6626A44D18242783000A15BB /* SEListing.m */,
+				66169B141824588A004499C7 /* SEHalls.h */,
+				66169B151824588A004499C7 /* SEHalls.m */,
+				66169B171824DD12004499C7 /* SEBuyListing.h */,
+				66169B181824DD12004499C7 /* SEBuyListing.m */,
+				66169B1A1824DD20004499C7 /* SESellListing.h */,
+				66169B1B1824DD20004499C7 /* SESellListing.m */,
 			);
 			name = Listings;
+			sourceTree = "<group>";
+		};
+		664B7F9B18307CF4003890B9 /* Me */ = {
+			isa = PBXGroup;
+			children = (
+				664B7F9C18307FE6003890B9 /* SEMeViewController.h */,
+				664B7F9D18307FE6003890B9 /* SEMeViewController.m */,
+			);
+			name = Me;
+			sourceTree = "<group>";
+		};
+		66A8EB3E182DAA6800E479FE /* Tabs */ = {
+			isa = PBXGroup;
+			children = (
+				6626A44818242747000A15BB /* Buyers */,
+				6626A4491824275A000A15BB /* Sellers */,
+				6626A44A18242760000A15BB /* Connections */,
+				66D9C1F5182D5EC5006D1D2E /* Settings */,
+				664B7F9B18307CF4003890B9 /* Me */,
+				668C0C9318361BD800D520E5 /* SESIgnInViewController.h */,
+				668C0C9418361BD800D520E5 /* SESIgnInViewController.m */,
+				668774751851E262009709F3 /* SESignInExampleViewController.h */,
+				668774761851E262009709F3 /* SESignInExampleViewController.m */,
+			);
+			name = Tabs;
+			sourceTree = "<group>";
+		};
+		66C9BCDB182B13B7003C0E6E /* Utility / Reference */ = {
+			isa = PBXGroup;
+			children = (
+				66C9BCDC182B13DD003C0E6E /* SEReferences.h */,
+				66C9BCDD182B13DD003C0E6E /* SEReferences.m */,
+				6626A44B18242766000A15BB /* Listings */,
+				66D9C1F9182D625E006D1D2E /* Table View Cells */,
+				66169B0D18244470004499C7 /* User */,
+				66169B0F18244484004499C7 /* Sendable */,
+				66169B101824448F004499C7 /* Connection */,
+			);
+			name = "Utility / Reference";
+			sourceTree = "<group>";
+		};
+		66D9C1F5182D5EC5006D1D2E /* Settings */ = {
+			isa = PBXGroup;
+			children = (
+				66D9C1F6182D5EDD006D1D2E /* SESettingsViewController.h */,
+				66D9C1F7182D5EDD006D1D2E /* SESettingsViewController.m */,
+			);
+			name = Settings;
+			sourceTree = "<group>";
+		};
+		66D9C1F9182D625E006D1D2E /* Table View Cells */ = {
+			isa = PBXGroup;
+			children = (
+				66D9C1FA182D6270006D1D2E /* SEListingCell.h */,
+				66D9C1FB182D6270006D1D2E /* SEListingCell.m */,
+				668774721851DCB1009709F3 /* SEConversationCell.h */,
+				668774731851DCB1009709F3 /* SEConversationCell.m */,
+				667EB7EF18343D7200D966ED /* SESubmitCell.h */,
+				667EB7F018343D7200D966ED /* SESubmitCell.m */,
+				668774691851C755009709F3 /* SEMessageCell.h */,
+				6687746A1851C755009709F3 /* SEMessageCell.m */,
+			);
+			name = "Table View Cells";
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -302,10 +471,31 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				668774771851E262009709F3 /* SESignInExampleViewController.m in Sources */,
+				669646F918277CB60023C782 /* SEFeeler.m in Sources */,
+				66D9C1F8182D5EDD006D1D2E /* SESettingsViewController.m in Sources */,
+				66169B161824588A004499C7 /* SEHalls.m in Sources */,
 				6626A41518242262000A15BB /* SEAppDelegate.m in Sources */,
+				6687746B1851C755009709F3 /* SEMessageCell.m in Sources */,
+				66C9BCE1182B1F59003C0E6E /* SESellersListingCreationViewController.m in Sources */,
+				66169B131824455C004499C7 /* SEUser.m in Sources */,
+				66169B191824DD12004499C7 /* SEBuyListing.m in Sources */,
+				664B7F9E18307FE6003890B9 /* SEMeViewController.m in Sources */,
+				669646F618277C9D0023C782 /* SESendable.m in Sources */,
+				66C9BCDE182B13DD003C0E6E /* SEReferences.m in Sources */,
+				668774711851D25E009709F3 /* SEConversationViewController.m in Sources */,
 				6626A4441824266B000A15BB /* SESellersViewController.m in Sources */,
+				669646FC18277CBF0023C782 /* SEMessage.m in Sources */,
+				660541D11828740600F3E579 /* SEBuyersListingCreationViewController.m in Sources */,
+				6687746E1851D153009709F3 /* SEConversation.m in Sources */,
 				6626A44E18242783000A15BB /* SEListing.m in Sources */,
+				66169B1C1824DD20004499C7 /* SESellListing.m in Sources */,
+				66D9C1FC182D6270006D1D2E /* SEListingCell.m in Sources */,
 				6626A41118242262000A15BB /* main.m in Sources */,
+				667EB7F118343D7200D966ED /* SESubmitCell.m in Sources */,
+				668C0C9518361BD800D520E5 /* SESIgnInViewController.m in Sources */,
+				668774741851DCB1009709F3 /* SEConversationCell.m in Sources */,
+				664B7FA11831E1C3003890B9 /* SEListingActionViewController.m in Sources */,
 				6626A44718242677000A15BB /* SEConnectionsViewController.m in Sources */,
 				6626A43E1824236A000A15BB /* SEBuyersViewController.m in Sources */,
 			);
@@ -522,6 +712,7 @@
 				6626A43818242262000A15BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 		6626A43918242262000A15BB /* Build configuration list for PBXNativeTarget "Bruin SwipesTests" */ = {
 			isa = XCConfigurationList;
@@ -530,6 +721,7 @@
 				6626A43B18242262000A15BB /* Release */,
 			);
 			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
 		};
 /* End XCConfigurationList section */
 	};
