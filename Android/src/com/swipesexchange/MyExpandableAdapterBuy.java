@@ -497,8 +497,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	sl.setStartTime("9:20");
 		                    	//sl.setPrice(5.00);
 		                    	sl.setSwipeCount(3);
-		                    	sl.setSection(null);
-		                    	sl.setTime(null);
+
+		                    	sl.setTime("9:30");
 		                    	
 		                    	Venue ven = new Venue("De Neve");
 		                    	sl.setVenue(ven);
@@ -507,15 +507,16 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    	sl.getUser().setIdNumber("123123");
 		                    	sl.getUser().setRating("Shit");
 		                    	sl.getUser().setConnections("Connections");
+		                    	sl.isSection = false;
 		                    
-		                    	sl.setSection("Section?");
+		                    	sl.setSection("random");
 		                    	
 		                    	//
 		                    	Gson gson = new Gson();
 		                    	String j0 = gson.toJson(sl);
 		                    	
 		                    	MsgStruct nMsg = new MsgStruct();
-		                    	nMsg.setHeader("bl"); //Identifies message as a sell listing
+		                    	nMsg.setHeader(1); //Identifies message as a sell listing
 		                    	nMsg.setPayload(j0);
 
 		                    	String j1 = gson.toJson(nMsg);
@@ -533,7 +534,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		                    
 		                    	ConnectToServlet.sendListing(j1);
 		                    	
-		                    	 Log.d("LOUD AND CLEAR", "ConnectToServlet.sendListing is reached in MyExpandableAdapterBuy");
+		                    	//ConnectToServlet.updateBList();
+		                    	 
 		                    	
 		                    	
 		                    	//Test after testing sendListing(SellListing sellList);

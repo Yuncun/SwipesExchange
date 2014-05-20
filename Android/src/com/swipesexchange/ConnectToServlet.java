@@ -6,22 +6,34 @@ import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
 import java.io.OutputStreamWriter;
 import java.io.StringReader;
+import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
+import java.util.ArrayList;
+import java.util.List;
 
-import sharedObjects.MsgStruct;
+import sharedObjects.*;
 
 import com.google.gson.Gson;
+import com.google.gson.reflect.TypeToken;
 import com.google.gson.stream.JsonReader;
 
 import android.util.Log;
 
  
-public abstract class ConnectToServlet {
+public class ConnectToServlet {
  
     String inputValue=null;
     static String doubledValue = "";
+    public static List<BuyListing> bls;
+    private List<SellListing> sls;
     
+    public ConnectToServlet()
+    {
+    	this.bls = new ArrayList<BuyListing>();
+    	this.sls = new ArrayList<SellListing>();
+    }
+
     public static void sendListing(final Object inputListing)
     {
     	new Thread(new Runnable() {
@@ -56,7 +68,7 @@ public abstract class ConnectToServlet {
                              
                             }
                             in.close();
-                            
+                            /*
                             Gson gson = new Gson();
                             
                             
@@ -65,18 +77,17 @@ public abstract class ConnectToServlet {
                             reader.setLenient(true);
                           
                     		MsgStruct packet = gson.fromJson(doubledValue, MsgStruct.class);
-                    		/*
+                    		
+                    		String doubledvalue2 = "no bl";
                     		if (packet.getHeader() == "bl")
                     		{
                     				BuyListing bl = gson.fromJson(packet.getPayload(), BuyListing.class);
-                    				doubledValue = "User " + bl.getUser().getName() + " and venue " + bl.getVenue().getName();
+                    				doubledvalue2 = "User " + bl.getUser().getName() + " and venue " + bl.getVenue().getName();
                     		}
-                    		else doubledValue = "no bl";
-
-
-                            */
+                    		*/
                     		
-                  		  Log.d("LOUD AND CLEAR", doubledValue);  
+                  		//  Log.d("LOUD AND CLEAR", doubledValue);  
+                  		//  Log.d("LOUD AND CLEAR", doubledvalue2);
  
                             }catch(Exception e)
                             {
@@ -87,42 +98,66 @@ public abstract class ConnectToServlet {
             }
 
  
-    public static void talk(final String inputMessage) {
-    	new Thread(new Runnable() {
-    		public void run() {
-    			  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect");
-    			  try{
+    public static List<BuyListing> updateBList() {
+    	
+    			  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull BUY LISTS");
+    			  List<BuyListing> nl = new ArrayList<BuyListing>();
+    			  
+    			  try {
             	   URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
                    URLConnection connection = url.openConnection();
+    			 
                    
                    
-                   String inputString = inputMessage;
+                   MsgStruct buyRequest = new MsgStruct();
+                   buyRequest.setHeader(Constants.BL_REQUEST);
+                   buyRequest.setPayload("0");
+                   //Create request
+                   Gson gson = new Gson();
+                   String blstring = gson.toJson(buyRequest);
+                   
                    connection.setDoOutput(true);
                    
                    //Begin to open a new OutputObjectStream
-                   OutputStreamWriter out = new OutputStreamWriter(connection.getOutputStream());
-                          
-                   out.write(inputString);
-                   out.close();
+                   ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+                   objectOut.writeObject(blstring);
+                   
+                   objectOut.flush();
+                   objectOut.close();
 
                    BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
                    String returnString="";
                    doubledValue = "";
  
-                            while ((returnString = in.readLine()) != null) 
-                            {
-                                doubledValue= returnString;
-                      		  Log.d("LOUD AND CLEAR", doubledValue);
-                                
-                            }
-                            in.close();
- 
-                            }catch(Exception e)
-                            {
-                                Log.d("Exception",e.toString());
-                            }
-                    }
-                  }).start();
-            }
+                   	while ((returnString = in.readLine()) != null) 
+                   	{
+                   		doubledValue= returnString;
+                   	}
+                   	in.close();
+                   	
+                   	MsgStruct dmsg = new MsgStruct();
+                   	try{
+                   		dmsg = gson.fromJson(doubledValue, MsgStruct.class);
+                   	}catch (Exception e) {  
+                   		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
+                   	
+
+	                   	Type listType = new TypeToken<ArrayList<BuyListing>>() {}.getType();
+	                    List<BuyListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
+	                    Log.d("LOUD AND CLEAR", "Server bl list deserialized, list has size" + rl.size()); 
+	                    Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
+	                    
+	                    
+	                    Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getStartTime() + " " + rl.get(0).getEndTime() + " " + 
+	                	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
+	                    return rl;
+    			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed"); }
+    			  
+    			  return nl;
+    			  
+    			  
+    			
+
+    	
         }
- 
+    }

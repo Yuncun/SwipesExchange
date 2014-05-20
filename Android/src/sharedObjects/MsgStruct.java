@@ -2,7 +2,7 @@ package sharedObjects;
 
 public class MsgStruct {
 	
-	private String header;
+	private int header;
 	private String payload;
 	
 	public MsgStruct()
@@ -27,14 +27,14 @@ public class MsgStruct {
 	/**
 	 * @return the header
 	 */
-	public String getHeader() {
+	public int getHeader() {
 		return header;
 	}
 
 	/**
 	 * @param header the header to set
 	 */
-	public void setHeader(String header) {
+	public void setHeader(int header) {
 		this.header = header;
 	}
 
