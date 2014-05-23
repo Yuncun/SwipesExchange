@@ -3,8 +3,11 @@ package com.swipesexchange;
 
 import java.util.ArrayList;
 
+import com.google.gson.Gson;
+
 import sharedObjects.BuyListing;
 import sharedObjects.Listing;
+import sharedObjects.MsgStruct;
 import sharedObjects.User;
 import sharedObjects.Venue;
 import android.app.Activity;
@@ -15,6 +18,7 @@ import android.os.AsyncTask;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
 import android.text.style.ForegroundColorSpan;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -705,7 +709,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	                    	newPost.setUser(newUser);
 	                    	newPost.setVenue(newVenue);
 	                    	
-	                    	new AddHighScoreTask().execute(newPost);
+	                    	new PopulateList().execute(newPost);
 	                        
 	                        //TODO: direct data to database
 	 
@@ -811,12 +815,23 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		return false;
 	}
     /**ADD LISTING**/
-    private class AddHighScoreTask extends AsyncTask<Listing, Void, Void> {
+    private class PopulateList extends AsyncTask<Listing, Void, Void> {
 
-            protected Void doInBackground(Listing... highScores) {
+            protected Void doInBackground(Listing... ls) {
 
-                    SimpleDBData hs = new SimpleDBData();
-                    hs.addHighScore(highScores[0]);
+            	Gson gson = new Gson();
+            	String j0 = gson.toJson(ls[0]);
+            	
+            	MsgStruct nMsg = new MsgStruct();
+            	nMsg.setHeader(Constants.SL_PUSH); //Identifies message as a sell listing
+            	nMsg.setPayload(j0);
+
+            	String j1 = gson.toJson(nMsg);
+            	Log.d("Panda", "Sending sell LISTING from button" + j1);
+            	ConnectToServlet.sendListing(j1);
+            	
+                    
+                    //TODO: Yeah
 
                     return null;
             }

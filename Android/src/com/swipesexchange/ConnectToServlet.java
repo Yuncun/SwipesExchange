@@ -36,14 +36,17 @@ public class ConnectToServlet {
 
     public static void sendListing(final Object inputListing)
     {
+    	/*
+    	 * Messages must already have correct Message heading and be GSON'd
+    	 */
+    	
     	new Thread(new Runnable() {
     		public void run() {
     			  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect with Listing support");
     			  try{
             	   URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
                    URLConnection connection = url.openConnection();
-                   
-                   
+
                    connection.setDoOutput(true);
                    
                    //Begin to open a new OutputObjectStream
@@ -51,8 +54,7 @@ public class ConnectToServlet {
                    
                    ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
                    objectOut.writeObject(inputListing);
-                   
- 
+
                   // out.write(inputString);
                   // out.close();
                    objectOut.flush();
@@ -154,10 +156,63 @@ public class ConnectToServlet {
     			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed"); }
     			  
     			  return nl;
-    			  
-    			  
-    			
-
-    	
         }
+
+    
+    
+	public static List<SellListing> updateSList() {
+		  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull SELL LISTS");
+		  List<SellListing> nl = new ArrayList<SellListing>();
+		  
+		  try {
+    	   URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
+           URLConnection connection = url.openConnection();
+
+           MsgStruct sellRequest = new MsgStruct();
+           sellRequest.setHeader(Constants.SL_REQUEST);
+           sellRequest.setPayload("0");
+           //Create request
+           Gson gson = new Gson();
+           String blstring = gson.toJson(sellRequest);
+           
+           connection.setDoOutput(true);
+           
+           //Begin to open a new OutputObjectStream
+           ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+           objectOut.writeObject(blstring);
+           
+           objectOut.flush();
+           objectOut.close();
+
+           BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+           String returnString="";
+           doubledValue = "";
+
+           	while ((returnString = in.readLine()) != null) 
+           	{
+           		doubledValue= returnString;
+           	}
+           	in.close();
+           	
+           	MsgStruct dmsg = new MsgStruct();
+           	try{
+           		dmsg = gson.fromJson(doubledValue, MsgStruct.class);
+           	}catch (Exception e) {  
+           		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
+           	
+
+               	Type listType = new TypeToken<ArrayList<BuyListing>>() {}.getType();
+                List<SellListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
+                Log.d("LOUD AND CLEAR", "Server sl list deserialized, list has size" + rl.size()); 
+                Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
+                
+                
+                Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getStartTime() + " " + rl.get(0).getEndTime() + " " + 
+            	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
+                return rl;
+		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed"); }
+		  
+		  return nl;
+		  
+	}
     }

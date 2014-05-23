@@ -204,6 +204,9 @@ public class SimpleDBData {
      * Creates a new item and adds it to the HighScores domain.
      */
         public void addHighScore( Listing score ) {
+        	/*
+        	 * TODO: This deprecated function will be moved to using ConnectToServlet.addListing();
+        	 */
                // String paddedScore = SimpleDBUtils.encodeZeroPadding( score.getUser().getName(), 10 );
                // String paddedScore = score.getUser().getName();
                 ReplaceableAttribute playerAttribute = new ReplaceableAttribute( USER_ATTRIBUTE, score.getUser().getName(), Boolean.TRUE );
