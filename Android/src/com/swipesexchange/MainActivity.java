@@ -19,6 +19,7 @@ import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.android.Facebook;
 import com.facebook.model.*;
+import com.swipesexchange.SelectionFragment.SectionsPagerAdapter;
 
 import android.content.Context;
 import android.content.Intent;
@@ -211,6 +212,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 	    // only add the menu when the selection fragment is showing
+		super.onCreateOptionsMenu(menu);
 	    if (fragments[TEST].isVisible()) {
 	        if (menu.size() == 0) {
 	            settings = menu.add(R.string.settings);
@@ -299,6 +301,26 @@ public class MainActivity extends FragmentActivity {
 	            // If the session state is open:
 	            // Show the authenticated fragment
 	            showFragment(TEST, false);
+	            // TEST: log the user ID and name
+	          
+	    	    if (session != null) {
+
+	    	       
+	    	           
+	    	    	 Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+	    	  	            // callback after Graph API response with user object
+	    	  	            @Override
+	    	  	            public void onCompleted(GraphUser user, Response response) {
+	    	  	              if (user != null) {
+	    	  	                
+	    	  	                Log.d("facebook", user.getName());
+	    	  	              }
+	    	  	            }
+	    	  	          }).executeAsync();
+	    	      	   
+	    	       
+	    	    }
 	        } else if (state.isClosed()) {
 	            // If the session state is closed:
 	            // Show the login fragment
@@ -429,63 +451,6 @@ public class MainActivity extends FragmentActivity {
 
 */
 	
-
-
-	/**
-	 * A {@link FragmentPagerAdapter} that returns a fragment corresponding to
-	 * one of the sections/tabs/pages.
-	 */
-	public class SectionsPagerAdapter extends FragmentPagerAdapter {
-		
-		MainActivity mActivity;
-
-		public SectionsPagerAdapter(FragmentManager fm, MainActivity my_activity) {
-			super(fm);
-			mActivity = my_activity;
-		}
-
-		@Override
-		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
-			switch(position)
-			{
-			case 0:
-				return MyList.newInstance(position, mActivity, l);
-			case 1:
-				return MyList.newInstance(position, mActivity, l);
-			case 2:
-				return NewListingFragmentBuy.newInstance(position, mActivity);
-			case 3:
-				return NewListingFragment.newInstance(position);
-		
-			
-			}
-				return null;
-			}
-
-		@Override
-		public int getCount() {
-			// Return the number of fragment pages in the application
-			return 4;
-		}
-		public String getPageTitle(int position) {
-			
-			switch (position) {
-			case 0:
-				return getString(R.string.title_section1);
-			case 1:
-				return getString(R.string.title_section2);
-			case 2:
-				return getString(R.string.title_section4);
-			case 3:
-				return getString(R.string.title_section5);
-			
-			}
-			return null;
-		}
-		}
 
 
 	

@@ -292,8 +292,8 @@ actionBar = getActivity().getActionBar();
 				return MyList.newInstance(position, mActivity, l);
 			case 2:
 				return NewListingFragmentBuy.newInstance(position, mActivity);
-			case 3:
-				return NewListingFragment.newInstance(position);
+			//case 3:
+				//return NewListingFragment.newInstance(position);
 		
 			
 			}
@@ -303,7 +303,9 @@ actionBar = getActivity().getActionBar();
 		@Override
 		public int getCount() {
 			// Return the number of fragment pages in the application
-			return 4;
+			
+			// TODO: Change back
+			return 3;
 		}
 		public String getPageTitle(int position) {
 			
@@ -314,8 +316,8 @@ actionBar = getActivity().getActionBar();
 				return getString(R.string.title_section2);
 			case 2:
 				return getString(R.string.title_section4);
-			case 3:
-				return getString(R.string.title_section5);
+			//case 3:
+				//return getString(R.string.title_section5);
 			
 			}
 			return null;
