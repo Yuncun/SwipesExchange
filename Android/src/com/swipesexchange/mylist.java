@@ -51,6 +51,7 @@ class MyList extends ListFragment
         MyList l = new MyList();
         l.v = my_activity;
         l.buyEntries = new ArrayList<BuyListing>();
+        l.sellEntries = new ArrayList<SellListing>();
         l.page_num = num;
    
         Bundle args = new Bundle();
@@ -89,6 +90,8 @@ class MyList extends ListFragment
          	   		}
      		   	});
      	   	}
+     	   SellListAdapter adapter= new SellListAdapter(getActivity(), sellEntries);
+           setListAdapter(adapter);
         }
         
           @Override
@@ -108,7 +111,7 @@ class MyList extends ListFragment
                if(this.page_num==0) //Buy Listings page
                {           	   
             	   bc = new BLConnectGet(getActivity());
-            	   bc.execute();  
+            	   //bc.execute();  
                }
                else if(this.page_num==1) //Sell Listings page
                {
@@ -116,7 +119,7 @@ class MyList extends ListFragment
             	    * TODO: Change this to use the tc.execute
             	    * 
             	    */
-            	
+            	   
             	   BackendData bd = new BackendData();
             	   bd.updateListings();
             	   List<SellListing> sellEntries = bd.getSellListings();

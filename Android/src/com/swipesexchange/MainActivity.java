@@ -315,6 +315,7 @@ public class MainActivity extends FragmentActivity {
 	    	  	              if (user != null) {
 	    	  	                
 	    	  	                Log.d("facebook", user.getName());
+	    	  	                
 	    	  	              }
 	    	  	            }
 	    	  	          }).executeAsync();

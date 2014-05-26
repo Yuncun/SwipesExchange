@@ -1,64 +1,35 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="35dp"
-    
     android:clickable="true"
     android:orientation="vertical"
     android:paddingLeft="40dp"
-     android:background="#CCFFFF"
+    android:background="#CCFFFF"
     tools:context=".MainActivity" >
 
-    <RelativeLayout
+    <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:gravity="center"
-        >
-        
+        android:layout_height="39dp"
+         
+        android:gravity="center_vertical">
+       
 
+        <TextView
+            android:id="@+id/textView1ex_2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginLeft="5dp"
+            android:focusable="true"
+            android:focusableInTouchMode="true"
+            android:clickable="false"
+            android:textColor="#000000"
+            android:textSize="14sp"
+            
+   
+  
     
-           <NumberPicker
-        android:id="@+id/numberPicker1"
-       
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        
-        
-       
-        
-        />
-           
-           <TextView
-               android:id="@+id/textViewDollars"
-               android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/numberPicker1"
-        android:text="dollars"
-        android:paddingTop="77dp"
-        android:textSize="16sp"
-               
-               />
-           
-           <NumberPicker
-                    android:id="@+id/numberPicker2"
-              android:layout_toRightOf="@id/textViewDollars"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-      
-               />
-              <TextView
-               android:id="@+id/textViewCents"
-               android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/numberPicker2"
-        android:text="cents"
-        android:paddingTop="77dp"
-        android:textSize="16sp"
-               
-               />
-           
-           
-           
-    </RelativeLayout>
+             />
+    </LinearLayout>
 
-</RelativeLayout>
+</LinearLayout>

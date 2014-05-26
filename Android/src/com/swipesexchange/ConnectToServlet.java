@@ -153,7 +153,8 @@ public class ConnectToServlet {
 	                    Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getStartTime() + " " + rl.get(0).getEndTime() + " " + 
 	                	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
 	                    return rl;
-    			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed"); }
+    			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");
+    			  }
     			  
     			  return nl;
         }

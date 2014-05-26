@@ -13,15 +13,13 @@ import android.widget.ExpandableListView;
 
 public class NewListingFragmentBuy extends Fragment{
 
-		Button time1;
-		/*
-		private ArrayList<String> parentItems = new ArrayList<String>();
-		private ArrayList<Object> childItems = new ArrayList<Object>();
-		*/
+	// member variables
+		private final int num_parents = 6;
 		private ArrayList<ParentRow> parents;
         static MainActivity mActivity;
         private ExpandableListView lv;
         private int page_num;
+        
         
        static NewListingFragmentBuy newInstance(int num, MainActivity my_activity) {
            
@@ -74,7 +72,7 @@ public class NewListingFragmentBuy extends Fragment{
         public void setGroupParents() {
         	this.parents.clear();
         	// there are 6 parent rows: StartTime, EndTime, Venue, Number of Swipes, (EMPTY), and Submit
-        	for(int i=0; i<3; i++)
+        	for(int i=0; i < this.num_parents; i++)
         	{
         		final ParentRow parent = new ParentRow();
         		// StartTime, i==0
@@ -151,8 +149,7 @@ public class NewListingFragmentBuy extends Fragment{
         			child7.setText("Rendezvous");
         			parent.getChildren().add(child7);
         		}
-        		/*
-        		else if(i==3) // Number of Swipes
+        	    else if(i==3) // Number of Swipes
         		{
         			parent.setName("NumSwipes");
         			parent.setTextLeft("Number of Swipes:");
@@ -164,15 +161,18 @@ public class NewListingFragmentBuy extends Fragment{
         			child.setName("NumSwipesPicker");
         			parent.getChildren().add(child);
         		}
-        		/*
         		else if(i==4) // Empty
         		{
         			parent.setName("Emtpy");
         			parent.setTextLeft("");
         			parent.setTextRight("");
+        			parent.setChildren(new ArrayList<ChildRow>());
+        			// create the Empty child
+        			TextRow child = new TextRow();
+        			child.setName("Empty");
+        			child.setText("");
         			
-        			// Empty ParentRow has no children
-        			parent.setChildren(null);
+        			parent.getChildren().add(child);
         		}
         		else if(i==5) // Submit
         		{
@@ -180,11 +180,19 @@ public class NewListingFragmentBuy extends Fragment{
         			parent.setTextLeft("Submit");
         			parent.setTextRight("");
         			
-        			// Submission row has no children
-        			parent.setChildren(null);
+        			
+        			parent.setChildren(new ArrayList<ChildRow>());
+        			// create the Empty child
+        			TextRow child = new TextRow();
+        			child.setName("Empty_Submit");
+        			child.setText("");
+        			
+        			parent.getChildren().add(child);
         		}
         		
-        		*/
+        		
+        		
+        		
         		this.parents.add(parent);
         	}
         	
