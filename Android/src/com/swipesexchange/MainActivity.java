@@ -35,7 +35,8 @@ public class MainActivity extends FragmentActivity {
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	
+	private boolean state_changed;
+	private boolean create;
 	private LoginFragment login_fragment;
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	public BackendData l;
@@ -44,6 +45,7 @@ public class MainActivity extends FragmentActivity {
 	private static final int TEST = 1;
 	private static final int SETTINGS = 2;
 	private MenuItem settings;
+	private Menu options_menu;
 	
 	private final Handler handler = new Handler();
 	private Runnable run_pager;
@@ -95,6 +97,8 @@ public class MainActivity extends FragmentActivity {
 		
 		transaction.commit();
 	        
+		this.state_changed = false;
+		this.create = false;
 	    
 		/*
 		if(Session.getActiveSession().isOpened())
@@ -212,14 +216,15 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 	    // only add the menu when the selection fragment is showing
-		super.onCreateOptionsMenu(menu);
-	    if (fragments[TEST].isVisible()) {
-	        if (menu.size() == 0) {
-	            settings = menu.add(R.string.settings);
+		this.options_menu = menu;
+		super.onCreateOptionsMenu(this.options_menu);
+	    if (fragments[TEST].isVisible() || create) {
+	        if (this.options_menu.size() == 0) {
+	            settings = this.options_menu.add(R.string.settings);
 	        }
 	        return true;
 	    } else {
-	        menu.clear();
+	        this.options_menu.clear();
 	        settings = null;
 	    }
 	    return false;
@@ -261,18 +266,24 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	private void showFragment(int fragmentIndex, boolean addToBackStack) {
-	    FragmentManager fm = getSupportFragmentManager();
+	    boolean update_menu = false;
+		FragmentManager fm = getSupportFragmentManager();
 	    FragmentTransaction transaction = fm.beginTransaction();
 	    for (int i = 0; i < fragments.length; i++) {
 	        if (i == fragmentIndex) {
 	        	if(i==1)
 	        	{
+	        		update_menu = true;
 	        		getActionBar().show();
 	        	}
 	        	else
 	        		getActionBar().hide();
-	            transaction.show(fragments[i]);
+	        
+	        	transaction.show(fragments[i]);
+	        
+	        	
 	        } else {
+	        	
 	            transaction.hide(fragments[i]);
 	        }
 	    }
@@ -280,6 +291,10 @@ public class MainActivity extends FragmentActivity {
 	        transaction.addToBackStack(null);
 	    }
 	    transaction.commit();
+	    this.create = true;
+	    if(update_menu)
+	    	this.onCreateOptionsMenu(this.options_menu);
+	    	
 	}
 	/**
 	 * onSessionStateChange
@@ -301,6 +316,8 @@ public class MainActivity extends FragmentActivity {
 	            // If the session state is open:
 	            // Show the authenticated fragment
 	            showFragment(TEST, false);
+	            this.create= true;
+	            this.onCreateOptionsMenu(this.options_menu);
 	            // TEST: log the user ID and name
 	          
 	    	    if (session != null) {
@@ -325,6 +342,15 @@ public class MainActivity extends FragmentActivity {
 	        } else if (state.isClosed()) {
 	            // If the session state is closed:
 	            // Show the login fragment
+	        	/*
+	        	this.state_changed = true;
+	        	 Fragment refresh_fragment = this.fragments[TEST];
+	        	    FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
+	        	    fragTransaction.detach(refresh_fragment);
+	        	    fragTransaction.attach(refresh_fragment);
+	        	    fragTransaction.commit();
+	        	    */
+	        	
 	            showFragment(LOGIN_SPLASH, false);
 	        }
 	    }
