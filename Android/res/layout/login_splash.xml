@@ -4,42 +4,44 @@
               android:layout_width="fill_parent"
               android:layout_height="fill_parent"
               android:orientation="vertical"
-              android:background="#303040" >
+              android:background="#FFFFFF"
+             >
 
-    <LinearLayout
+    <RelativeLayout
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="30dp"
+            android:layout_marginTop="50dp"
             android:gravity="center_horizontal"
-            android:orientation="horizontal" >
-        <ImageView
-                android:id="@+id/splash_icon"
+            android:orientation="vertical" >
+            <TextView
+            	android:id="@+id/splash_title"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:layout_gravity="center"
-                android:layout_marginLeft="10dp"
-                android:gravity="center"
-                android:src="@drawable/icon" />
-        <TextView
-                android:layout_width="wrap_content"
-                android:layout_height="wrap_content"
-                android:layout_gravity="center"
+                android:layout_centerHorizontal="true"
                 android:gravity="center"
                 android:textColor="#AFDEFE"
                 android:textSize="28sp"
-                android:typeface="serif"
-                android:textStyle="italic"
+                android:textStyle="bold"
                 android:text="@string/app_name" />
-    </LinearLayout>
+             <ImageView
+                android:id="@+id/splash_icon"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+               
+                android:layout_centerHorizontal="true"
+                android:layout_below="@id/splash_title"
+                
+                android:src="@drawable/bear_circle" />
+    </RelativeLayout>
 
 
     <TextView
             android:id="@+id/profile_name"
             android:layout_width="174dp"
             android:layout_height="wrap_content"
-            android:layout_marginTop="35dp"
+            android:layout_marginTop="50dp"
             android:lines="2"
-            android:textSize="17sp"
+            android:textSize="15sp"
             android:text="@string/get_started"
             android:layout_gravity="center_horizontal"
             android:gravity="center_horizontal"/>
