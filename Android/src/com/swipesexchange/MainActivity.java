@@ -63,6 +63,7 @@ public class MainActivity extends FragmentActivity {
 	private UiLifecycleHelper uiHelper;
 	
 	
+	
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 		@Override
 		public void call(Session session, SessionState state, Exception exception) {
