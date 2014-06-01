@@ -38,12 +38,14 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	ActionBar actionBar;
 	public BackendData l;
 	
+	private static final int NUM_FRAGMENTS = 5;
+	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
 	
-	private Fragment[] fragments = new Fragment[3];
+	private Fragment[] fragments = new Fragment[NUM_FRAGMENTS];
 	
 
 	
@@ -294,6 +296,8 @@ actionBar = getActivity().getActionBar();
 				return NewListingFragmentBuy.newInstance(position, mActivity);
 			case 3:
 				return NewListingFragment.newInstance(position, mActivity);
+			case 4:
+				return MessagesFragment.newInstance(position, mActivity);
 		
 			
 			}
@@ -305,7 +309,7 @@ actionBar = getActivity().getActionBar();
 			// Return the number of fragment pages in the application
 			
 			// TODO: Change back
-			return 4;
+			return NUM_FRAGMENTS;
 		}
 		public String getPageTitle(int position) {
 			
@@ -318,6 +322,8 @@ actionBar = getActivity().getActionBar();
 				return getString(R.string.title_section4);
 			case 3:
 				return getString(R.string.title_section5);
+			case 4:
+				return getString(R.string.title_section6);
 			
 			}
 			return null;

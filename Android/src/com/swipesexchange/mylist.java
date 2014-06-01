@@ -111,7 +111,7 @@ class MyList extends ListFragment
                if(this.page_num==0) //Buy Listings page
                {           	   
             	   bc = new BLConnectGet(getActivity());
-            	   //bc.execute();  
+            	   bc.execute();  
                }
                else if(this.page_num==1) //Sell Listings page
                {

@@ -14,18 +14,23 @@ import android.view.View;
 import android.view.ViewGroup;
 
 import com.facebook.Session;
+import com.facebook.SessionLoginBehavior;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 
 public class LoginFragment extends Fragment {
 
+
 	@Override
 	public View onCreateView(LayoutInflater inflater, 
 	        ViewGroup container, Bundle savedInstanceState) {
 	    View view = inflater.inflate(R.layout.login_splash, 
 	            container, false);
+	    /*LoginButton authButton = (LoginButton) view.findViewById(R.id.login_button);
+	    authButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);*/
 	    getActivity().getActionBar().hide();
+	    
 	    return view;
 	    
 	}

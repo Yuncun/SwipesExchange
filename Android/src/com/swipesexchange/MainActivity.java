@@ -42,10 +42,11 @@ public class MainActivity extends FragmentActivity {
 	public BackendData l;
 	private final String login_tag = "login_fragment";
 	private static final int LOGIN_SPLASH = 0;
-	private static final int TEST = 1;
+	private static final int MAIN = 1;
 	private static final int SETTINGS = 2;
 	private MenuItem settings;
 	private Menu options_menu;
+	private boolean first_login;
 	
 	private final Handler handler = new Handler();
 	private Runnable run_pager;
@@ -86,7 +87,7 @@ public class MainActivity extends FragmentActivity {
 		
 		FragmentManager fragment_manager = this.getSupportFragmentManager();
 		fragments[LOGIN_SPLASH] = fragment_manager.findFragmentById(R.id.splash_fragment);
-		fragments[TEST] = fragment_manager.findFragmentById(R.id.selection_fragment);
+		fragments[MAIN] = fragment_manager.findFragmentById(R.id.selection_fragment);
 		fragments[SETTINGS] = fragment_manager.findFragmentById(R.id.userSettingsFragment);
 		
 		FragmentTransaction transaction = fragment_manager.beginTransaction();
@@ -99,6 +100,7 @@ public class MainActivity extends FragmentActivity {
 	        
 		this.state_changed = false;
 		this.create = false;
+		//this.first_login = true;
 	    
 		/*
 		if(Session.getActiveSession().isOpened())
@@ -218,7 +220,7 @@ public class MainActivity extends FragmentActivity {
 	    // only add the menu when the selection fragment is showing
 		this.options_menu = menu;
 		super.onCreateOptionsMenu(this.options_menu);
-	    if (fragments[TEST].isVisible() || create) {
+	    if (fragments[MAIN].isVisible() || create) {
 	        if (this.options_menu.size() == 0) {
 	            settings = this.options_menu.add(R.string.settings);
 	        }
@@ -243,6 +245,7 @@ public class MainActivity extends FragmentActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	  super.onActivityResult(requestCode, resultCode, data);
 	  uiHelper.onActivityResult(requestCode, resultCode, data);
+	  
 	  //Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
 	}
 	
@@ -302,6 +305,8 @@ public class MainActivity extends FragmentActivity {
 	 */
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    // Only make changes if the activity is visible
+		
+		
 	    if (is_resumed) {
 	        FragmentManager manager = getSupportFragmentManager();
 	        // Get the number of entries in the back stack
@@ -315,10 +320,11 @@ public class MainActivity extends FragmentActivity {
 	        if (state.isOpened()) {
 	            // If the session state is open:
 	            // Show the authenticated fragment
-	            showFragment(TEST, false);
+	        	
+	            showFragment(MAIN, false);
 	            this.create= true;
 	            this.onCreateOptionsMenu(this.options_menu);
-	            // TEST: log the user ID and name
+	            // MAIN: log the user ID and name
 	          
 	    	    if (session != null) {
 
@@ -339,18 +345,19 @@ public class MainActivity extends FragmentActivity {
 	    	      	   
 	    	       
 	    	    }
-	        } else if (state.isClosed()) {
+	        } else {
 	            // If the session state is closed:
 	            // Show the login fragment
 	        	/*
 	        	this.state_changed = true;
-	        	 Fragment refresh_fragment = this.fragments[TEST];
+	        	 Fragment refresh_fragment = this.fragments[MAIN];
 	        	    FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
 	        	    fragTransaction.detach(refresh_fragment);
 	        	    fragTransaction.attach(refresh_fragment);
 	        	    fragTransaction.commit();
 	        	    */
 	        	
+	        	//this.first_login = false;
 	            showFragment(LOGIN_SPLASH, false);
 	        }
 	    }
@@ -364,10 +371,11 @@ public class MainActivity extends FragmentActivity {
 	    if (session != null && session.isOpened()) {
 	        // if the session is already open,
 	        // try to show the selection fragment
-	        showFragment(TEST, false);
+	        showFragment(MAIN, false);
 	    } else {
 	        // otherwise present the splash screen
 	        // and ask the person to login.
+	    	//this.first_login = false;
 	        showFragment(LOGIN_SPLASH, false);
 	    }
 	}
