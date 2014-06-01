@@ -9,6 +9,7 @@ import sharedObjects.BuyListing;
 import sharedObjects.SellListing;
 import sharedObjects.User;
 import sharedObjects.Venue;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
@@ -31,7 +32,7 @@ import com.amazonaws.services.simpledb.model.SelectRequest;
 import com.amazonaws.services.simpledb.model.SelectResult;
 //import com.swipesexchange.MyExpandableAdapterBuy.TestConnect;
 
-class MyList extends ListFragment
+public class ListingsList extends ListFragment
 {
 		//page_num 0 is Buy listings, 1 is Sell listings, 2 is Messages (can add more)
 		public int page_num;
@@ -46,9 +47,10 @@ class MyList extends ListFragment
         
         Button btnStartProgress;
 
-        static MyList newInstance(int num, MainActivity my_activity, BackendData bd) {
+        
+		static ListingsList newInstance(int num, MainActivity my_activity, BackendData bd) {
         	mActivity = my_activity;
-        MyList l = new MyList();
+        ListingsList l = new ListingsList();
         l.v = my_activity;
         l.buyEntries = new ArrayList<BuyListing>();
         l.sellEntries = new ArrayList<SellListing>();
@@ -115,27 +117,8 @@ class MyList extends ListFragment
                }
                else if(this.page_num==1) //Sell Listings page
                {
-            	   /*
-            	    * TODO: Change this to use the tc.execute
-            	    * 
-            	    */
-            	   
-            	   BackendData bd = new BackendData();
-            	   bd.updateListings();
-            	   List<SellListing> sellEntries = bd.getSellListings();
-            	   if(sellEntries.size()>1)
-            	   {
-            		   	Collections.sort(sellEntries, new Comparator<SellListing>()
-            		   	{
-	            		    public int compare(SellListing emp1, SellListing emp2) 
-	            	   		{
-	            		    	return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName());
-	            	   		}
-            		   	});
-            	  }
-             
-                   SellListAdapter adapter = new SellListAdapter(getActivity(), sellEntries);
-                   setListAdapter(adapter);
+            	 sc = new SLConnectGet(getActivity());
+            	 sc.execute();
                }
        
             }

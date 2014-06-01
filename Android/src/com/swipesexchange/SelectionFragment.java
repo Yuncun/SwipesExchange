@@ -289,9 +289,9 @@ actionBar = getActivity().getActionBar();
 			switch(position)
 			{
 			case 0:
-				return MyList.newInstance(position, mActivity, l);
+				return ListingsList.newInstance(position, mActivity, l);
 			case 1:
-				return MyList.newInstance(position, mActivity, l);
+				return ListingsList.newInstance(position, mActivity, l);
 			case 2:
 				return NewListingFragmentBuy.newInstance(position, mActivity);
 			case 3:
