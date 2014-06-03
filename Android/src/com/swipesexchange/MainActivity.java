@@ -1,7 +1,9 @@
 package com.swipesexchange;
 
+import sharedObjects.MsgStruct;
 import android.support.v4.app.FragmentTransaction;
 import android.content.pm.ActivityInfo;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -19,6 +21,7 @@ import android.widget.TextView;
 import com.facebook.*;
 import com.facebook.android.Facebook;
 import com.facebook.model.*;
+import com.google.gson.Gson;
 import com.swipesexchange.SelectionFragment.SectionsPagerAdapter;
 
 import android.content.Context;
@@ -35,6 +38,11 @@ public class MainActivity extends FragmentActivity {
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
+	private String fbid;
+	private String myID;
+	
+	private GetFbidAsync fg;
+	
 	private boolean state_changed;
 	private boolean create;
 	private LoginFragment login_fragment;
@@ -68,6 +76,28 @@ public class MainActivity extends FragmentActivity {
 		@Override
 		public void call(Session session, SessionState state, Exception exception) {
 			onSessionStateChange(session, state, exception);
+			if (session.isOpened())
+			{
+				//Check for UUID
+			 	 Request.newMeRequest(session, new Request.GraphUserCallback() {
+			 		
+ 	  	            @Override
+ 	  	            public void onCompleted(GraphUser user, Response response) {
+ 	  	              if (user != null) {
+ 	  	                Log.d("Users FB NAME is", user.getName());
+ 	  	                Log.d("Users FBID is", user.getId());
+ 	  	                fbid = user.getId();
+ 	  	              }
+ 	  	            }
+ 	  	          }).executeAsync();
+			 	 
+			 	 //Todo: Try to extract from sharedpreferences
+			 	 //
+			 	 fg.execute(fbid);
+
+			}
+			
+			
 		}
 	};
 	
@@ -91,6 +121,7 @@ public class MainActivity extends FragmentActivity {
 		fragments[MAIN] = fragment_manager.findFragmentById(R.id.selection_fragment);
 		fragments[SETTINGS] = fragment_manager.findFragmentById(R.id.userSettingsFragment);
 		
+		this.fg = new GetFbidAsync();
 		FragmentTransaction transaction = fragment_manager.beginTransaction();
 		for(int i=0; i < fragments.length; i++)
 		{
@@ -400,14 +431,8 @@ public class MainActivity extends FragmentActivity {
 	    Session session = Session.getActiveSession();
 	    if (session != null) {
 
-	       
+        Log.d("facebook", "Clearing tokens");
 	           
-	            
-	            Log.d("facebook", "Clearing tokens");
-	            
-	            
-	   
-	   
 	        session = new Session(context);
 	        Session.setActiveSession(session);
 	        session.closeAndClearTokenInformation();
@@ -487,12 +512,43 @@ public class MainActivity extends FragmentActivity {
 
 */
 	
+	private class GetFbidAsync extends AsyncTask<String, Void, String> {
 
+		@Override
+		protected String doInBackground(String... params) {
+        	
+        	Gson gson = new Gson();
+        	
+        	String fbid2 = params[0];
+        	
+        	MsgStruct nMsg = new MsgStruct();
+        	nMsg.setHeader(Constants.FBID_GET); //Identifies message as a sell listing
+        	nMsg.setPayload(fbid2);
+
+        	String j1 = gson.toJson(nMsg);
+        	Log.d("LOUD AND CLEAR", "fbid is" + fbid2);
+        	Log.d("LOUD AND CLEAR", "Sending FBID to server" + j1);
+        	String ourUUID = ConnectToServlet.getUIDfromFBID(j1);
+           return ourUUID;
+        }
+
+        protected void onPostExecute(String result) {
+        	myID = result;
+		 	Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: UUID IS NOW" + myID);
+              
+               
+        }
 
 	
-	
-	
+
+		}
 }
+
+
+	
+	
+	
+
 
 	
 	

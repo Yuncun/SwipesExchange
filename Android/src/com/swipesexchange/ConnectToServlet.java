@@ -99,7 +99,6 @@ public class ConnectToServlet {
                   }).start();
             }
 
- 
     public static List<BuyListing> updateBList() {
     	
     			  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull BUY LISTS");
@@ -159,8 +158,6 @@ public class ConnectToServlet {
     			  return nl;
         }
 
-    
-    
 	public static List<SellListing> updateSList() {
 		  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull SELL LISTS");
 		  List<SellListing> nl = new ArrayList<SellListing>();
@@ -202,7 +199,7 @@ public class ConnectToServlet {
            		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
            	
 
-               	Type listType = new TypeToken<ArrayList<BuyListing>>() {}.getType();
+               	Type listType = new TypeToken<ArrayList<SellListing>>() {}.getType();
                 List<SellListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
                 Log.d("LOUD AND CLEAR", "Server sl list deserialized, list has size" + rl.size()); 
                 Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
@@ -216,4 +213,57 @@ public class ConnectToServlet {
 		  return nl;
 		  
 	}
-    }
+
+	public static String getUIDfromFBID(String UID) {
+		
+		MsgStruct dmsg = new MsgStruct();
+		
+		 try {
+      	   	 URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
+             URLConnection connection = url.openConnection();
+			 
+             MsgStruct idreq = new MsgStruct();
+             idreq.setHeader(Constants.FBID_GET);
+             idreq.setPayload(UID);
+
+             Gson gson = new Gson();
+             String blstring = gson.toJson(idreq);
+             
+             connection.setDoOutput(true);
+             
+             //Begin to open a new OutputObjectStream
+             ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+             objectOut.writeObject(blstring);
+             
+             objectOut.flush();
+             objectOut.close();
+
+             BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+             String returnString="";
+             doubledValue = "";
+
+             	while ((returnString = in.readLine()) != null) 
+             	{
+             		doubledValue= returnString;
+             	}
+             	in.close();
+             	
+             	
+             	try{
+             		dmsg = gson.fromJson(doubledValue, MsgStruct.class);
+             		
+             	}catch (Exception e) {  
+             		Log.d("LOUD AND CLEAR", "No UUID retrieved from server");
+             		dmsg.setPayload("No UUID retrieved from server");
+             		}
+             	
+
+			  } catch(Exception e) { 
+				  Log.d("LOUD AND CLEAR", "url connection failed");
+				  dmsg.setPayload("URLConnectionFailedID");
+			  }
+			  
+		 Log.d("LOUD AND CLEAR", "dmsg.getPayload() is " + dmsg.getPayload());
+			  return dmsg.getPayload();
+	}
+}

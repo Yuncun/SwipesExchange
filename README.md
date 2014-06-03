@@ -1,41 +1,24 @@
-# SwipesExchange
+# SwipesExchange 
 ==============
+Updated 6/3/14
+Contact:
+[Eric](<yuncuns@gmail.com>) 
+[Kyle](<kplutchak@gmail.com>)
+
 
 ## Overview
 
+SwipesExchange (BruinSwipes) is an application that allows UCLA students to find people who want to buy or sell meal swipes. 
+
+Currently in development
+
 ### Version Branches
 
-We currently plan on having three major branches:
+1. V2.0 is default and working branch
+===============================
 
-<<<<<<< HEAD
-1. Master	– do not use
-=======
-1. Master	– only for merging with release code
->>>>>>> 07960145dec317559ab2fc4f7275e59684f13800
-2. v1.0		– version 1
-3. v2.0 – version 2
 
-### Class Hierarchy
+### Other Notes
 
-This is the general overview, not fine-grained:
+1. IOS code is written by [Matt Decoste](<mcdecoste@gmail.com>)
 
-![ClassHierarchy](http://i.imgur.com/On01aBC.png)
-
-<<<<<<< HEAD
-=======
-####Utility
-Reference classes (can contain system colors, for exmaple)
-
-####Listings
-
-####Connections
-
-####Listings
-
-####Cell subclasses
-Needed for preview and submit cells...?
-
->>>>>>> 07960145dec317559ab2fc4f7275e59684f13800
-## Other Notes
-
-Consult the class hiearchy and my code before writing any code. [Email me](<mcdecoste@gmail.com>) if you have any questions.
