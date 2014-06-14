@@ -22,7 +22,11 @@ import android.util.Log;
 
  
 public class ConnectToServlet {
- 
+	
+	/**
+	 * Handles all communication with Application Server
+	 */
+	public static String SERVERURL = "http://anotherservlet14-env.elasticbeanstalk.com/HelloWorld";
     String inputValue=null;
     static String doubledValue = "";
     public static List<BuyListing> bls;
@@ -44,7 +48,7 @@ public class ConnectToServlet {
     		public void run() {
     			  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect with Listing support");
     			  try{
-            	   URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
+            	   URL url = new URL(SERVERURL);
                    URLConnection connection = url.openConnection();
 
                    connection.setDoOutput(true);
@@ -105,7 +109,7 @@ public class ConnectToServlet {
     			  List<BuyListing> nl = new ArrayList<BuyListing>();
     			  
     			  try {
-            	   URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
+            	   URL url = new URL(SERVERURL);
                    URLConnection connection = url.openConnection();
     			 
                    
@@ -163,7 +167,7 @@ public class ConnectToServlet {
 		  List<SellListing> nl = new ArrayList<SellListing>();
 		  
 		  try {
-    	   URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
+    	   URL url = new URL(SERVERURL);
            URLConnection connection = url.openConnection();
 
            MsgStruct sellRequest = new MsgStruct();
@@ -217,50 +221,56 @@ public class ConnectToServlet {
 	public static String getUIDfromFBID(String UID) {
 		
 		MsgStruct dmsg = new MsgStruct();
+		dmsg.setPayload("");
 		
 		 try {
-      	   	 URL url = new URL("http://anotherservlet14env-jxfwis2wdy.elasticbeanstalk.com/HelloWorld");
+
+      	   	 URL url = new URL(SERVERURL);
              URLConnection connection = url.openConnection();
-			 
+			 /*
              MsgStruct idreq = new MsgStruct();
              idreq.setHeader(Constants.FBID_GET);
              idreq.setPayload(UID);
 
              Gson gson = new Gson();
              String blstring = gson.toJson(idreq);
-             
+             */
              connection.setDoOutput(true);
-             
+			 dmsg.setPayload("test");
              //Begin to open a new OutputObjectStream
              ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
-             objectOut.writeObject(blstring);
+             objectOut.writeObject(UID);
              
              objectOut.flush();
              objectOut.close();
 
+             dmsg.setPayload("test1");
+             
              BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
              String returnString="";
-             doubledValue = "";
+             String ret = "";
 
              	while ((returnString = in.readLine()) != null) 
              	{
-             		doubledValue= returnString;
+             		ret= returnString;
              	}
              	in.close();
              	
-             	
+             	 dmsg.setPayload(ret);
+             	/*
              	try{
              		dmsg = gson.fromJson(doubledValue, MsgStruct.class);
+             	//dmsg = gson.fromJson(dmsg.getPayload(), MsgStruct.class);
              		
              	}catch (Exception e) {  
              		Log.d("LOUD AND CLEAR", "No UUID retrieved from server");
              		dmsg.setPayload("No UUID retrieved from server");
              		}
-             	
+             	*/
 
 			  } catch(Exception e) { 
-				  Log.d("LOUD AND CLEAR", "url connection failed");
-				  dmsg.setPayload("URLConnectionFailedID");
+				  Log.d("LOUD AND CLEAR", "url connection failed at getFBID");
+				  //dmsg.setPayload("URLConnectionFailedID");
 			  }
 			  
 		 Log.d("LOUD AND CLEAR", "dmsg.getPayload() is " + dmsg.getPayload());
