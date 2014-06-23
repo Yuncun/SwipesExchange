@@ -50,10 +50,11 @@ public class MainActivity extends FragmentActivity {
 	 */
 	private String fbid;
 	private String myID;
+    String regid;
 	
 	protected Context context;
 	private Self self;
-	private GetFbidAsync fg;
+	//private GetFbidAsync fg;
 	
 	//***************************************************
 	//GCM Variables
@@ -65,7 +66,7 @@ public class MainActivity extends FragmentActivity {
     static final String TAG = "GCMDemo @eric";
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
-    String regid;
+
    //****************************************************
 
 	private boolean state_changed;
@@ -115,13 +116,14 @@ public class MainActivity extends FragmentActivity {
 		self = new Self();
 		context = getApplicationContext();
 		
+		/*
 		//@Eric -  shared preferences on machine are initialized here.
 		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
 		self.setSharedPref(sp);
 		String prefTest = self.getSharedPref().getString("myID", null);
 		Log.d("LOUD AND CLEAR", "Shared preference on initialization is" + prefTest);
-		
-		this.fg = new GetFbidAsync();
+		*/
+		//fg = new GetFbidAsync();
 		
 		//Initializing GCM Connection
 		//@Eric 
@@ -163,8 +165,6 @@ public class MainActivity extends FragmentActivity {
 		transaction.commit();
 		}
 		*/
-		
-		 
 		
 		// Set up the action bar.
 		
@@ -264,6 +264,17 @@ public class MainActivity extends FragmentActivity {
 		
 	}
 	
+	/**
+	 * Facebook Login State Change Callback
+	 * 
+	 * This function is called when facebook session status is changed - in other words, when the user logs in or out.
+	 * A user will "log in" (thereby activating this callback) on creation of the app, even if his info was previously saved
+	 * Therefore, we can use this callback as part of the oncreate process and use this function to prepare the GCM when
+	 * FBID login information can be retrieved.
+	 * 
+	 * 
+	 * 
+	 */
 	private Session.StatusCallback callback = new Session.StatusCallback() {
 		@Override
 		public void call(Session session, SessionState state, Exception exception) {
@@ -279,18 +290,30 @@ public class MainActivity extends FragmentActivity {
 
  	  	            	  
  	  	                fbid = user.getId();
- 	  	                Log.d("LOUD AND CLEAR", "fbname: " + user.getName());
+ 	  	                myID = fbid;
+ 	  	                Log.d("LOUD AND CLEAR", "****** SESSION STATE CHANGE ****** fbname: " + user.getName());
  	  	                Log.d("LOUD AND CLEAR", "fbid " + user.getId());
- 	  	                fg.execute(fbid);
+ 	  	                
+ 	  	             if (checkPlayServices()) {
+ 	  	    			Log.d("LOUD AND CLEAR", "Creating GCM");
+ 	  	                gcm = GoogleCloudMessaging.getInstance(context);
+ 	  	                regid = getRegistrationId(getApplicationContext());
+ 	  	                handleIDsAsync(myID, regid);
+ 	  	                if (regid.isEmpty()) {
+ 	  	                    registerInBackground();
+ 	  	                }   
+ 	  	            } else {
+ 	  	                Log.i("LOUD AND CLEAR", "No valid Google Play Services APK found.");
+ 	  	            }
+ 	  	                
+ 	  	               
+ 	  	               // fg.execute(fbid);
+ 	  	                
  	  	              }
  	  	            }
  	  	          }).executeAsync();
-			 	 
 			 	 //Todo: Try to extract from sharedpreferences
-
 			}
-			
-			
 		}
 	};
 	
@@ -431,7 +454,7 @@ public class MainActivity extends FragmentActivity {
 	    new AsyncTask<Void, Void, String>() {
 	        @Override
 	        protected String doInBackground(Void... params) {
-	            String msg = "";
+	            String msg = null;
 	            try {
 	                if (gcm == null) {
 	                    gcm = GoogleCloudMessaging.getInstance(context);
@@ -452,7 +475,8 @@ public class MainActivity extends FragmentActivity {
 	                // Persist the regID - no need to register again.
 	                storeRegistrationId(context, regid);
 	            } catch (IOException ex) {
-	                msg = "Error :" + ex.getMessage();
+	                msg = null;
+	                Log.d("LOUD AND CLEAR", "Error in registerinbackround() IO exception");
 	                // If there is an error, don't just keep trying to register.
 	                // Require the user to click a button again, or perform
 	                // exponential back-off.
@@ -463,6 +487,10 @@ public class MainActivity extends FragmentActivity {
 	        @Override
 	        protected void onPostExecute(String msg) {
 	           Log.d("LOUD AND CLEAR", "GCM register in background msg: " + msg);
+	           Log.d("LOUD AND CLEAR", "After register in background, REGID is set to be " + regid);
+	           if (msg!=null){
+	           handleIDsAsync(myID, msg);
+	           }
 	        }
 	    }.execute(null, null, null);
 	    
@@ -538,45 +566,32 @@ public class MainActivity extends FragmentActivity {
 	 */
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    // Only make changes if the activity is visible
-		
-		
 	    if (is_resumed) {
 	        FragmentManager manager = getSupportFragmentManager();
 	        // Get the number of entries in the back stack
 	        int backStackSize = manager.getBackStackEntryCount();
 	        // Clear the back stack
 	        
-	    
 	        for (int i = 0; i < backStackSize; i++) {
 	            manager.popBackStack();
 	        }
 	        if (state.isOpened()) {
 	            // If the session state is open:
 	            // Show the authenticated fragment
-	        	
 	            showFragment(MAIN, false);
 	            this.create= true;
 	            this.onCreateOptionsMenu(this.options_menu);
 	            // MAIN: log the user ID and name
-	          
 	    	    if (session != null) {
-
-	    	       
-	    	           
 	    	    	 Request.newMeRequest(session, new Request.GraphUserCallback() {
-
 	    	  	            // callback after Graph API response with user object
 	    	  	            @Override
 	    	  	            public void onCompleted(GraphUser user, Response response) {
 	    	  	              if (user != null) {
-	    	  	                
 	    	  	                Log.d("facebook", user.getName());
-	    	  	                
 	    	  	              }
 	    	  	            }
 	    	  	          }).executeAsync();
-	    	      	   
-	    	       
 	    	    }
 	        } else {
 	            // If the session state is closed:
@@ -671,6 +686,31 @@ public class MainActivity extends FragmentActivity {
 
 	}
 	
+    private void handleIDsAsync(String UID, String RegID) {
+	    new AsyncTask<String, Void, String>() {
+	        @Override
+	        protected String doInBackground(String... params) {
+	            String msg = "";
+	            try {
+	            	
+	            	int me = 1+1;
+	            	Log.d("LOUD AND CLEAR", "**** HandleIDASync doinbackground is reached and our IDs are" + params[0] + "*** and *****" + params[1]);
+	            	ConnectToServlet.sendIDPair(params[0],  params[1]);
+	            } catch (Exception ex) {
+	                msg = "Error :" + ex.getMessage();
+	                Log.d("LOUD AND CLEAR", "**** handleIDAsync error **** " + msg);
+	              
+	            }
+	            return msg;
+	        }
+
+	        @Override
+	        protected void onPostExecute(String msg) {
+	           Log.d("LOUD AND CLEAR", "GCM register in background msg: " + msg);
+	        }
+	    }.execute(UID, RegID, null);
+	    
+	}
 /*
 	@Override
 	public boolean onCreateOptionsMenu(Menu menu) {
@@ -733,11 +773,25 @@ public class MainActivity extends FragmentActivity {
         	String j1 = gson.toJson(nMsg);
         	Log.d("LOUD AND CLEAR", "fbid is" + fbid2);
         	Log.d("LOUD AND CLEAR", "Sending FBID to server" + j1);
-        	String ourUUID = ConnectToServlet.getUIDfromFBID(j1);
+        	String ourUUID = ConnectToServlet.sendIDPair(j1, "fs");
            return ourUUID;
         }
 
         protected void onPostExecute(String result) {
+        	
+        	if (checkPlayServices()) {
+    			Log.d("LOUD AND CLEAR", "Creating GCM");
+                gcm = GoogleCloudMessaging.getInstance(context);
+                regid = getRegistrationId(getApplicationContext());
+
+                if (regid.isEmpty()) {
+                    registerInBackground();
+                }
+                
+            } else {
+                Log.i(TAG, "No valid Google Play Services APK found.");
+            }
+        	
         	self.setUID(result);
         	myID = result; //deprecated
 		 	Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: UUID IS NOW" + myID);

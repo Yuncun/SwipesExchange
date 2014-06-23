@@ -6,16 +6,17 @@ import java.io.Serializable;
 public class User implements Serializable{
 	
 	private String name;
-	private String idNumber;
+	private String uid;
+	private String regid;
 	private String connections;
 //	private List<Listing> listings;
 	private String rating;
 	
 	public User(String name){
 		this.name = name;
-		this.idNumber = "undefined";
-		this.connections = "undefined";
-		this.rating = "undefined";
+		this.uid = null;
+		this.connections = null;
+		this.rating = null;
 		
 		
 	}
@@ -26,10 +27,10 @@ public class User implements Serializable{
 		this.name = name;
 	}
 	public String getIdNumber() {
-		return idNumber;
+		return uid;
 	}
 	public void setIdNumber(String idNumber) {
-		this.idNumber = idNumber;
+		this.uid = idNumber;
 	}
 	public String getConnections() {
 		return connections;
@@ -50,6 +51,18 @@ public class User implements Serializable{
 	}
 	public void setRating(String rating) {
 		this.rating = rating;
+	}
+	/**
+	 * @return the regid
+	 */
+	public String getRegid() {
+		return regid;
+	}
+	/**
+	 * @param regid the regid to set
+	 */
+	public void setRegid(String regid) {
+		this.regid = regid;
 	}
 
 	

@@ -18,7 +18,7 @@ public class MessageAdapter extends BaseAdapter {
 	  private Context myContext;
 	  private ArrayList<Conversation> my_list;
 	  private List<String> sender_names;
-	  private List<Long> sender_ids;
+	  private List<String> sender_ids;
 	  private List<String> message_texts;
 
     public MessageAdapter(Context context, ArrayList<Conversation> list) 
@@ -28,7 +28,7 @@ public class MessageAdapter extends BaseAdapter {
             my_list = list;
             
             sender_names = new ArrayList<String>();
-            sender_ids = new ArrayList<Long>();
+            sender_ids = new ArrayList<String>();
             message_texts = new ArrayList<String>();
             
     
@@ -61,7 +61,7 @@ public class MessageAdapter extends BaseAdapter {
       
         
         sender_name.setText(sender_names.get(position));
-        sender_id.setText(Long.toString(sender_ids.get(position)));
+        sender_id.setText(sender_ids.get(position));
         text.setText(message_texts.get(position));
        
         return view;

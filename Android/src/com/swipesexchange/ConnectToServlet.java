@@ -38,6 +38,61 @@ public class ConnectToServlet {
     	this.sls = new ArrayList<SellListing>();
     }
 
+    
+    public static void sendMessage(Message msg)
+    {
+    	/*
+    	 * Sends the already-composed message to server
+    	 * 
+    	 * Message target should be account ID, not phone ID (RegID). Server will decide what regIDs are associated with each recipient
+    	 * 
+    	 * @Eric
+    	 */
+    	 Log.d("LOUD AND CLEAR", "Atempting to send message ");
+		  
+		  try {
+			  URL url = new URL(SERVERURL);
+			  URLConnection connection = url.openConnection();
+		 
+			  Gson gson = new Gson();
+			  String msgpayload = gson.toJson(msg);
+          
+	          MsgStruct msgReq = new MsgStruct();
+	          msgReq.setHeader(Constants.SEND_MSG);
+	          msgReq.setPayload(msgpayload);
+	          //Create request
+	          
+	          String blstring = gson.toJson(msgReq);
+	          
+	          connection.setDoOutput(true);
+	          
+	          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+	          objectOut.writeObject(blstring);
+	          
+	          objectOut.flush();
+	          objectOut.close();
+	
+	          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+	          String returnString="";
+	          doubledValue = "";
+
+          	while ((returnString = in.readLine()) != null) 
+          	{
+          		doubledValue= returnString;
+          	}
+          	in.close();
+          	
+          	MsgStruct dmsg = new MsgStruct();
+          	try{
+          		dmsg = gson.fromJson(doubledValue, MsgStruct.class);
+          	}catch (Exception e) {  
+          		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
+
+		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");}
+		  
+		  return;
+    }
+    
     public static void sendListing(final Object inputListing)
     {
     	/*
@@ -74,26 +129,7 @@ public class ConnectToServlet {
                              
                             }
                             in.close();
-                            /*
-                            Gson gson = new Gson();
-                            
-                            
-                            
-                            JsonReader reader = new JsonReader(new StringReader(doubledValue));
-                            reader.setLenient(true);
-                          
-                    		MsgStruct packet = gson.fromJson(doubledValue, MsgStruct.class);
-                    		
-                    		String doubledvalue2 = "no bl";
-                    		if (packet.getHeader() == "bl")
-                    		{
-                    				BuyListing bl = gson.fromJson(packet.getPayload(), BuyListing.class);
-                    				doubledvalue2 = "User " + bl.getUser().getName() + " and venue " + bl.getVenue().getName();
-                    		}
-                    		*/
-                    		
-                  		//  Log.d("LOUD AND CLEAR", doubledValue);  
-                  		//  Log.d("LOUD AND CLEAR", doubledvalue2);
+
  
                             }catch(Exception e)
                             {
@@ -218,34 +254,31 @@ public class ConnectToServlet {
 		  
 	}
 
-	public static String getUIDfromFBID(String UID) {
+	public static String sendIDPair(String UID, String RegID) {
 		
 		MsgStruct dmsg = new MsgStruct();
 		dmsg.setPayload("");
+		dmsg.setHeader(Constants.FBID_GET);
 		
 		 try {
 
       	   	 URL url = new URL(SERVERURL);
              URLConnection connection = url.openConnection();
-			 /*
-             MsgStruct idreq = new MsgStruct();
-             idreq.setHeader(Constants.FBID_GET);
-             idreq.setPayload(UID);
 
-             Gson gson = new Gson();
-             String blstring = gson.toJson(idreq);
-             */
              connection.setDoOutput(true);
-			 dmsg.setPayload("test");
+			 dmsg.setPayload(UID+","+RegID);
+			 
+			  Gson gson = new Gson();
+			  String gmsg = gson.toJson(dmsg);
+          
+			  Log.d("LOUD AND CLEAR", "SendIDPair reached, sending the string:" + gmsg);
              //Begin to open a new OutputObjectStream
              ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
-             objectOut.writeObject(UID);
+             objectOut.writeObject(gmsg);
              
              objectOut.flush();
              objectOut.close();
 
-             dmsg.setPayload("test1");
-             
              BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
              String returnString="";
              String ret = "";

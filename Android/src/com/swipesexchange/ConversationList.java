@@ -3,6 +3,10 @@ package com.swipesexchange;
 import java.util.ArrayList;
 
 import sharedObjects.Message;
+import sharedObjects.User;
+import android.content.Context;
+
+import com.swipesexchange.MainActivity;
 
 public class ConversationList {
 	
@@ -32,11 +36,11 @@ public class ConversationList {
 	}
 	
 	public void addMessage(Message msg) {
-		long lid = msg.getLID();
+		String lid = msg.getListing_id();
 		int conversation_index = this.findConversationIndexByListingID(lid);
 		if(conversation_index == -1)
 		{
-			Conversation c = new Conversation(msg.getSID(), msg.getRID(), msg.getLID(), msg.getSName(), msg.getRName());
+			Conversation c = new Conversation(msg.getSender_uid(), msg.getReceiver_uid(), msg.getListing_id(), msg.getSender_name(), msg.getReceiver_name());
 			c.addMessageToConversation(msg);
 			this.addConversation(c);
 		}
@@ -51,11 +55,11 @@ public class ConversationList {
 		
 	}
 	
-	public int findConversationIndexByListingID(long lid) {
+	public int findConversationIndexByListingID(String lid) {
 		ArrayList<Conversation> l = ConversationList.getConversations();
 		for(int i=0; i<l.size(); i++)
 		{
-			if(l.get(i).getLID() == lid)
+			if(l.get(i).getLID().equals(lid))
 			{
 				return i;
 			}
@@ -76,36 +80,51 @@ public class ConversationList {
 	
 	// TO BE PHASED OUT: a sample message creator. This is NOT how messages/conversations should be added
 	public void addFakeMessages() {
+		
+
 		// Conversation 1
-		long m1_SID = 100;
-		long m1_RID= 200;
-		long m1_LID = 300;
+		String m1_SID = "100";
+		String m1_RID= "200";
+		String m1_LID = "300";
 		String m1_rname = "Legolas";
 		String m1_sname = "Strider";
 		String m1_text = "Hello, I saw your listing and" +
 				"I want to buy your swipes. Where can you meet?";
-		Message m1 = new Message(m1_SID, m1_RID, m1_LID, m1_sname, m1_rname, m1_text);
-		long m2_SID = 101;
-		long m2_RID= 201;
-		long m2_LID = 303;
+		User tu = new User("Legolas");
+		tu.setIdNumber(m1_SID);
+		tu.setRegid("bullshit");
+		tu.setConnections("1");
+		tu.setRating("none");
+		
+		User tv = new User("Strider");
+		tu.setIdNumber(m1_SID);
+		tu.setRegid("bullshit");
+		tu.setConnections("1");
+		tu.setRating("none");
+		
+		
+		Message m1 = new Message(tu, tv, m1_LID, m1_text);
+		String m2_SID = "101";
+		String m2_RID= "201";
+		String m2_LID = "303";
 		String m2_rname = "Gimli";
 		String m2_sname = "Galadriel";
 		String m2_text = "Sup, looking to buy your swipes -" +
 				" meet up in Rivendell?";
-		Message m2 = new Message(m2_SID, m2_RID, m2_LID, m2_sname, m2_rname, m2_text);
-		Conversation c1 = new Conversation(m1.getSID(), m1.getRID(), m1.getLID(), m1.getSName(), m1.getRName());
+		Message m2 = new Message(tu, tv, m2_LID, m2_text);
+		Conversation c1 = new Conversation(m1.getSender_uid(), m1.getSender_regid(), m1.getListing_id(), m1.getSender_name(), m1.getReceiver_name());
 		c1.addMessageToConversation(m1);
 		c1.addMessageToConversation(m2);
 		
 		// Conversation 2
 		long m3_SID = 102;
 		long m3_RID= 202;
-		long m3_LID = 302;
+		String m3_LID = "302";
 		String m3_rname = "Witch King";
 		String m3_sname = "Saruman";
 		String m3_text = "Give me your swipes for free wizard.";
-		Message m3 = new Message(m3_SID, m3_RID, m3_LID, m3_sname, m3_rname, m3_text);
-		Conversation c2 = new Conversation(m3.getSID(), m3.getRID(), m3.getLID(), m3.getSName(), m3.getRName());
+		Message m3 = new Message(tu, tv, m3_LID, m3_text);
+		Conversation c2 = new Conversation(m3.getSender_uid(), m3.getSender_regid(), m3.getListing_id(), m3.getSender_name(), m3.getReceiver_name());
 		c2.addMessageToConversation(m3);
 		
 		this.addConversation(c1);
