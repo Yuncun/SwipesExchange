@@ -40,7 +40,7 @@ public class ConversationList {
 		int conversation_index = this.findConversationIndexByListingID(lid);
 		if(conversation_index == -1)
 		{
-			Conversation c = new Conversation(msg.getSender_uid(), msg.getReceiver_uid(), msg.getListing_id(), msg.getSender_name(), msg.getReceiver_name());
+			Conversation c = new Conversation(msg.getSender().getUID(), msg.getSender().getRegid(), msg.getListing_id(), msg.getSender().getName(), msg.getReceiver().getName());
 			c.addMessageToConversation(msg);
 			this.addConversation(c);
 		}
@@ -91,16 +91,16 @@ public class ConversationList {
 		String m1_text = "Hello, I saw your listing and" +
 				"I want to buy your swipes. Where can you meet?";
 		User tu = new User("Legolas");
-		tu.setIdNumber(m1_SID);
+		tu.setUID(m1_SID);
 		tu.setRegid("bullshit");
 		tu.setConnections("1");
 		tu.setRating("none");
 		
 		User tv = new User("Strider");
-		tu.setIdNumber(m1_SID);
-		tu.setRegid("bullshit");
-		tu.setConnections("1");
-		tu.setRating("none");
+		tv.setUID(m1_SID);
+		tv.setRegid("bullshit");
+		tv.setConnections("1");
+		tv.setRating("none");
 		
 		
 		Message m1 = new Message(tu, tv, m1_LID, m1_text);
@@ -112,7 +112,7 @@ public class ConversationList {
 		String m2_text = "Sup, looking to buy your swipes -" +
 				" meet up in Rivendell?";
 		Message m2 = new Message(tu, tv, m2_LID, m2_text);
-		Conversation c1 = new Conversation(m1.getSender_uid(), m1.getSender_regid(), m1.getListing_id(), m1.getSender_name(), m1.getReceiver_name());
+		Conversation c1 = new Conversation(m1.getSender().getUID(), m1.getSender().getRegid(), m1.getListing_id(), m1.getSender().getName(), m1.getReceiver().getName());
 		c1.addMessageToConversation(m1);
 		c1.addMessageToConversation(m2);
 		
@@ -124,7 +124,7 @@ public class ConversationList {
 		String m3_sname = "Saruman";
 		String m3_text = "Give me your swipes for free wizard.";
 		Message m3 = new Message(tu, tv, m3_LID, m3_text);
-		Conversation c2 = new Conversation(m3.getSender_uid(), m3.getSender_regid(), m3.getListing_id(), m3.getSender_name(), m3.getReceiver_name());
+		Conversation c2 = new Conversation(m3.getSender().getUID(), m3.getSender().getRegid(), m3.getListing_id(), m3.getSender().getName(), m3.getReceiver().getName());
 		c2.addMessageToConversation(m3);
 		
 		this.addConversation(c1);

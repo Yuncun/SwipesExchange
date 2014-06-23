@@ -26,10 +26,10 @@ public class User implements Serializable{
 	public void setName(String name) {
 		this.name = name;
 	}
-	public String getIdNumber() {
+	public String getUID() {
 		return uid;
 	}
-	public void setIdNumber(String idNumber) {
+	public void setUID(String idNumber) {
 		this.uid = idNumber;
 	}
 	public String getConnections() {

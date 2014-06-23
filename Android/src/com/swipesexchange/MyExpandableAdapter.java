@@ -442,7 +442,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			                    	sl.setVenue(ven);
 			                    	User usr = new User("David Beckham"); 
 			                    	sl.setUser(usr);
-			                    	sl.getUser().setIdNumber("123123");
+			                    	sl.getUser().setUID("123123");
 			                    	sl.getUser().setRating("Shit");
 			                    	sl.getUser().setConnections("Connections");
 			                    	sl.isSection = false;
