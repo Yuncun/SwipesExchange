@@ -5,16 +5,16 @@ import java.util.LinkedList;
 import java.util.List;
 
 import sharedObjects.Message;
+import sharedObjects.User;
 
 public class Conversation {
 	
 	// list of Messages
 	private LinkedList<Message> message_list;
-	private String sender_id;
-	private String receiver_id;
+	private User sender;
+	private User receiver;
 	private String listing_id;
-	private String sender_name;
-	private String receiver_name;
+
 	
 	/** Conversation constructor
 	 * 
@@ -24,31 +24,15 @@ public class Conversation {
 	 * @param rname: the receiver name of the conversation
 	 * @param lid: the listing id of the listing associated with this conversation
 	 */
-	public Conversation(String sid, String rid, String lid, String sname, String rname) {
-		this.sender_id = sid;
-		this.receiver_id = rid;
+	public Conversation(User conversationStarter, User secondUser, String lid) {
+		setSender(conversationStarter);
+		setReceiver(secondUser);
 		this.listing_id = lid;
-		this.sender_name = sname;
-		this.receiver_name = rname;
+
 		
 		this.message_list = new LinkedList<Message>();
 	}
 	
-	public String getSID() {
-		return this.sender_id;
-	}
-	
-	public String getRID() {
-		return this.receiver_id;
-	}
-	
-	public String getSName() {
-		return this.sender_name;
-	}
-	
-	public String getRNFame() {
-		return this.receiver_name;
-	}
 	
 	public String getLID() {
 		return this.listing_id;
@@ -66,6 +50,38 @@ public class Conversation {
 	
 	public void addMessageToConversation(Message msg) {
 		this.message_list.add(msg);
+	}
+
+
+	/**
+	 * @return the sender
+	 */
+	public User getSender() {
+		return sender;
+	}
+
+
+	/**
+	 * @param sender the sender to set
+	 */
+	public void setSender(User sender) {
+		this.sender = sender;
+	}
+
+
+	/**
+	 * @return the receiver
+	 */
+	public User getReceiver() {
+		return receiver;
+	}
+
+
+	/**
+	 * @param receiver the receiver to set
+	 */
+	public void setReceiver(User receiver) {
+		this.receiver = receiver;
 	}
 	
 }

@@ -36,8 +36,8 @@ public class MessageAdapter extends BaseAdapter {
             {
             	    for (int i = 0; i < my_list.size(); i++) 
       	            {
-	            		sender_names.add(my_list.get(i).getSName());
-	            		sender_ids.add(my_list.get(i).getSID());
+	            		sender_names.add(my_list.get(i).getSender().getName());
+	            		sender_ids.add(my_list.get(i).getSender().getUID());
 	                    message_texts.add(my_list.get(i).getNextMessage().getText());
 	            	}
             }

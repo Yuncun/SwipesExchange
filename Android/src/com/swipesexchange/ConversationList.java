@@ -40,7 +40,7 @@ public class ConversationList {
 		int conversation_index = this.findConversationIndexByListingID(lid);
 		if(conversation_index == -1)
 		{
-			Conversation c = new Conversation(msg.getSender().getUID(), msg.getSender().getRegid(), msg.getListing_id(), msg.getSender().getName(), msg.getReceiver().getName());
+			Conversation c = new Conversation(msg.getSender(), msg.getReceiver(), msg.getListing_id());
 			c.addMessageToConversation(msg);
 			this.addConversation(c);
 		}
@@ -112,7 +112,7 @@ public class ConversationList {
 		String m2_text = "Sup, looking to buy your swipes -" +
 				" meet up in Rivendell?";
 		Message m2 = new Message(tu, tv, m2_LID, m2_text);
-		Conversation c1 = new Conversation(m1.getSender().getUID(), m1.getSender().getRegid(), m1.getListing_id(), m1.getSender().getName(), m1.getReceiver().getName());
+		Conversation c1 = new Conversation(m1.getSender(), m1.getReceiver(), m1.getListing_id());
 		c1.addMessageToConversation(m1);
 		c1.addMessageToConversation(m2);
 		
@@ -124,7 +124,7 @@ public class ConversationList {
 		String m3_sname = "Saruman";
 		String m3_text = "Give me your swipes for free wizard.";
 		Message m3 = new Message(tu, tv, m3_LID, m3_text);
-		Conversation c2 = new Conversation(m3.getSender().getUID(), m3.getSender().getRegid(), m3.getListing_id(), m3.getSender().getName(), m3.getReceiver().getName());
+		Conversation c2 = new Conversation(m3.getSender(), m3.getReceiver(), m3.getListing_id());
 		c2.addMessageToConversation(m3);
 		
 		this.addConversation(c1);
