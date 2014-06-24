@@ -405,7 +405,7 @@ public class MainActivity extends FragmentActivity {
 	    final SharedPreferences prefs = getGCMPreferences(context);
 	    String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 	    if (registrationId.isEmpty()) {
-	        Log.i(TAG, "Registration not found.");
+	        Log.i("LOUD AND CLEAR", "Registration not found.");
 	        return "";
 	    }
 	    // Check if app was updated; if so, it must clear the registration ID
@@ -414,7 +414,7 @@ public class MainActivity extends FragmentActivity {
 	    int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 	    int currentVersion = getAppVersion(context);
 	    if (registeredVersion != currentVersion) {
-	        Log.i(TAG, "App version changed.");
+	        Log.i("LOUD AND CLEAR", "App version changed.");
 	        return "";
 	    }
 	    return registrationId;
@@ -706,7 +706,7 @@ public class MainActivity extends FragmentActivity {
 
 	        @Override
 	        protected void onPostExecute(String msg) {
-	           Log.d("LOUD AND CLEAR", "GCM register in background msg: " + msg);
+	           Log.d("LOUD AND CLEAR", "GCM register in background msg: (Nothing is good)" + msg);
 	        }
 	    }.execute(UID, RegID, null);
 	    

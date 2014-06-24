@@ -259,7 +259,7 @@ public class ConnectToServlet {
 		  List<Message> nl = new ArrayList<Message>();
 		  
 		  try {
-   	   URL url = new URL(SERVERURL);
+			  URL url = new URL(SERVERURL);
           URLConnection connection = url.openConnection();
 
           MsgStruct msgRequest = new MsgStruct();
@@ -288,7 +288,7 @@ public class ConnectToServlet {
           	try{
           		dmsg = gson.fromJson(finalString, MsgStruct.class);
           	}catch (Exception e) {  
-          		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
+          		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct:   "+finalString + " and request.header is: " + msgRequest.getHeader());  }
           	
 
                Type listType = new TypeToken<ArrayList<Message>>() {}.getType();
