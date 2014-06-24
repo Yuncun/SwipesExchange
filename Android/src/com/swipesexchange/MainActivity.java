@@ -298,10 +298,10 @@ public class MainActivity extends FragmentActivity {
  	  	    			Log.d("LOUD AND CLEAR", "Creating GCM");
  	  	                gcm = GoogleCloudMessaging.getInstance(context);
  	  	                regid = getRegistrationId(getApplicationContext());
- 	  	                handleIDsAsync(myID, regid);
  	  	                if (regid.isEmpty()) {
  	  	                    registerInBackground();
  	  	                }   
+ 	  	             handleIDsAsync(myID, regid);
  	  	            } else {
  	  	                Log.i("LOUD AND CLEAR", "No valid Google Play Services APK found.");
  	  	            }

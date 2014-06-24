@@ -36,7 +36,7 @@ public class MessagesFragment extends ListFragment {
         mActivity = my_activity;
         myFrag.setArguments(args);
         //myFrag.c_list = new ConversationList();
-        myFrag.c_list.addFakeMessages();
+        myFrag.c_list.updateEverything();
         
         return myFrag;
 

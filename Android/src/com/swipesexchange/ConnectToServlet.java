@@ -254,6 +254,55 @@ public class ConnectToServlet {
 		  
 	}
 
+	public static List<Message> requestAllMsgs(String myID){
+		 Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull ALL MESSAGES");
+		  List<Message> nl = new ArrayList<Message>();
+		  
+		  try {
+   	   URL url = new URL(SERVERURL);
+          URLConnection connection = url.openConnection();
+
+          MsgStruct msgRequest = new MsgStruct();
+          msgRequest.setHeader(Constants.GETALL_MSG);
+          msgRequest.setPayload(myID);
+          //Create request
+          Gson gson = new Gson();
+          String blstring = gson.toJson(msgRequest);
+          
+          connection.setDoOutput(true);
+          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+          objectOut.writeObject(blstring);
+          objectOut.flush();
+          objectOut.close();
+
+          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+          String returnString="";
+          String finalString ="";
+          	while ((returnString = in.readLine()) != null) 
+          	{
+          		finalString = returnString;
+          	}
+          	in.close();
+          	
+          	MsgStruct dmsg = new MsgStruct();
+          	try{
+          		dmsg = gson.fromJson(finalString, MsgStruct.class);
+          	}catch (Exception e) {  
+          		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
+          	
+
+               Type listType = new TypeToken<ArrayList<Message>>() {}.getType();
+               List<Message> rl = new Gson().fromJson(dmsg.getPayload(), listType);
+               Log.d("LOUD AND CLEAR", "Server MESSAGE list deserialized with size" + rl.size()); 
+
+               return rl;
+		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");
+		  }
+		  
+		  return nl;
+		
+	}
+	
 	public static String sendIDPair(String UID, String RegID) {
 		
 		MsgStruct dmsg = new MsgStruct();
