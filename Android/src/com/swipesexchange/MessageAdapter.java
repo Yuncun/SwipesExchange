@@ -7,11 +7,15 @@ import sharedObjects.BuyListing;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.support.v4.app.Fragment;
+import android.support.v4.app.FragmentManager;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
 import android.widget.TextView;
+import android.widget.Toast;
 
 public class MessageAdapter extends BaseAdapter {
 
@@ -36,9 +40,21 @@ public class MessageAdapter extends BaseAdapter {
             {
             	    for (int i = 0; i < my_list.size(); i++) 
       	            {
-	            		sender_names.add(my_list.get(i).getSender().getName());
-	            		sender_ids.add(my_list.get(i).getSender().getUID());
-	                    message_texts.add(my_list.get(i).getNextMessage().getText());
+            	    	if(Self.getUID() == my_list.get(i).getSender().getUID())
+	            			sender_names.add(my_list.get(i).getSender().getName());
+	            		else
+	            			sender_names.add(my_list.get(i).getReceiver().getName());
+	            		
+	            		//Log.d("pig", Self.getUID());
+	            		if(Self.getUID() == my_list.get(i).getSender().getUID())
+	            			sender_ids.add(my_list.get(i).getSender().getUID());
+	            		else
+	            			sender_ids.add(my_list.get(i).getReceiver().getUID());
+	            		
+	            		
+	            			
+	            		//sender_ids.add(my_list.get(i).getSender().getUID());
+	                    message_texts.add(my_list.get(i).getMostRecentMessage().getText());
 	            	}
             }
            
@@ -54,17 +70,36 @@ public class MessageAdapter extends BaseAdapter {
     	
         // inflate the layout for each item of listView  
         view = inflater.inflate(R.layout.message_item, null);
+        
+        /*
+        view.setOnClickListener(new View.OnClickListener() {
+			
+			@Override
+			public void onClick(View v) {
+				// TODO Auto-generated method stub
+				String test_msg = "Clicked on Message!";
+				Toast.makeText(v.getContext(), test_msg, Toast.LENGTH_SHORT).show();
+				
+			}
+        });
+        */
 
         TextView sender_name = (TextView) view.findViewById(R.id.sender_name);
-        TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
+        //TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
         TextView text = (TextView) view.findViewById(R.id.message_text);
       
         
         sender_name.setText(sender_names.get(position));
-        sender_id.setText(sender_ids.get(position));
+        //sender_id.setText(sender_ids.get(position));
         text.setText(message_texts.get(position));
        
+        
         return view;
+    }
+    
+    public void switchToConversationFrag() {
+    	  
+       
     }
 
     public Object getItem(int position) {

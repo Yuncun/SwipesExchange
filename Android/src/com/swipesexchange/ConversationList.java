@@ -5,9 +5,11 @@ import java.util.List;
 
 import sharedObjects.Message;
 import sharedObjects.User;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
 
 
 import com.swipesexchange.MainActivity;
@@ -32,28 +34,16 @@ public class ConversationList {
 		return conversation_list;
 	}
 	
-	  void updateEverything() {
-		    new AsyncTask<Void, Void, List<Message>>() {
-		        @Override
-		        protected List<Message> doInBackground(Void... params) {
-		        	Log.d("LOUD AND CLEAR", "Attempting to update messages list");
-		    		List<Message> newConversations = new ArrayList<Message>();
-		    		newConversations = ConnectToServlet.requestAllMsgs("CorrectID");
-		    		Log.d("LOUD AND CLEAR", "Message list returned from server with size" + newConversations.size());
-		    		return newConversations;
-		        }
-
-		        @Override
-		        protected void onPostExecute(List<Message> msgs) {
-		        	conversation_list.clear();
-		        	for (int i=0; i<msgs.size(); i++)
-		        	{
-		        		addMessage(msgs.get(i));
-		        	}
-		        }
-		    }.execute(null, null, null);
-		    
-		}
+ 	public void addMessageList(List<Message> msgs) {
+		
+		conversation_list.clear();
+		for(int i=0; i<msgs.size(); i++)
+			addMessage(msgs.get(i));
+	
+}
+	
+	
+	  
 	  
 	
 	// for adding conversations to the conversation list

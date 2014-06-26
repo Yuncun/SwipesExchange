@@ -5,10 +5,12 @@ import java.lang.reflect.Field;
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
+
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
+import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -25,6 +27,7 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
 import android.widget.ImageButton;
+import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -55,10 +58,21 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	        ViewGroup container, Bundle savedInstanceState) {
 	    super.onCreateView(inflater, container, savedInstanceState);
 	    View view = inflater.inflate(R.layout.nested_fragment, container, false);
-	    /*Fragment new_listing_fragment = new NewListingFragment();
-	    Fragment new_listing_fragment_buy = new NewListingFragmentBuy();
+	    
+	    
+	  
+	    
+	    /*LinearLayout ll = new LinearLayout(getActivity());
+	    
+	    
+	    
+	    Fragment new_listing_fragment = new NewListingFragment();
 	    FragmentTransaction transaction = getChildFragmentManager().beginTransaction();
-	    transaction.add(R.id.new_listing_fragment, new_listing_fragment);
+	    transaction.add(R.id.new_listing_fragment, new_listing_fragment);*/
+	    
+	    /*Fragment new_listing_fragment_buy = new NewListingFragmentBuy();
+	   
+	   
 	    transaction.add(R.id.new_listing_fragment_buy, new_listing_fragment_buy);
 	    
 	    */
@@ -88,8 +102,7 @@ actionBar = getActivity().getActionBar();
 		//actionBar.show();
 		//tp = (TimePicker) findViewById(R.id.timePicker1);
 		
-		
-		
+		actionBar.setStackedBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.light_grey)));
 		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -98,6 +111,7 @@ actionBar = getActivity().getActionBar();
 		// Set up the ViewPager with the sections adapter.
 		mViewPager = (ViewPager) view.findViewById(R.id.v_pager);
 		mViewPager.setAdapter(mSectionsPagerAdapter);
+		mViewPager.setOffscreenPageLimit(5);
 		
 		//if(Session.getActiveSession().isOpened())
 		//{
@@ -280,12 +294,17 @@ actionBar = getActivity().getActionBar();
 			super(fm);
 			mActivity = my_activity;
 		}
+		
+		@Override
+		public void destroyItem(ViewGroup container, int position, Object object) {
+		    Log.d("LOUD AND CLEAR", "destroy!");
+		    
+		}
 
 		@Override
 		public Fragment getItem(int position) {
-			// getItem is called to instantiate the fragment for the given page.
-			// Return a DummySectionFragment (defined as a static inner class
-			// below) with the page number as its lone argument.
+			// getItem is called to instantiate the fragment for the given page
+		
 			switch(position)
 			{
 			case 0:
@@ -352,6 +371,8 @@ actionBar = getActivity().getActionBar();
 		// TODO Auto-generated method stub
 		
 	}
+	
+	
 	
 	 @Override
 	    public void onDetach() {

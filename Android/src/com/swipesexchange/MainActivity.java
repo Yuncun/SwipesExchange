@@ -24,6 +24,7 @@ import android.view.View;
 import android.view.View.OnClickListener;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.facebook.*;
 import com.facebook.android.Facebook;
 import com.facebook.model.*;
@@ -32,6 +33,7 @@ import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.swipesexchange.SelectionFragment.SectionsPagerAdapter;
+
 import android.location.*;
 import android.content.Context;
 import android.content.Intent;
@@ -53,7 +55,7 @@ public class MainActivity extends FragmentActivity {
     String regid;
 	
 	protected Context context;
-	private Self self;
+	
 	//private GetFbidAsync fg;
 	
 	//***************************************************
@@ -113,7 +115,7 @@ public class MainActivity extends FragmentActivity {
 		
 		
 		//Create self
-		self = new Self();
+		//self = new Self();
 		context = getApplicationContext();
 		
 		/*
@@ -405,7 +407,7 @@ public class MainActivity extends FragmentActivity {
 	    final SharedPreferences prefs = getGCMPreferences(context);
 	    String registrationId = prefs.getString(PROPERTY_REG_ID, "");
 	    if (registrationId.isEmpty()) {
-	        Log.i("LOUD AND CLEAR", "Registration not found.");
+	    	Log.i("LOUD AND CLEAR", "Registration not found.");
 	        return "";
 	    }
 	    // Check if app was updated; if so, it must clear the registration ID
@@ -414,7 +416,7 @@ public class MainActivity extends FragmentActivity {
 	    int registeredVersion = prefs.getInt(PROPERTY_APP_VERSION, Integer.MIN_VALUE);
 	    int currentVersion = getAppVersion(context);
 	    if (registeredVersion != currentVersion) {
-	        Log.i("LOUD AND CLEAR", "App version changed.");
+	    	Log.i("LOUD AND CLEAR", "App version changed.");
 	        return "";
 	    }
 	    return registrationId;
@@ -486,7 +488,7 @@ public class MainActivity extends FragmentActivity {
 
 	        @Override
 	        protected void onPostExecute(String msg) {
-	           Log.d("LOUD AND CLEAR", "GCM register in background msg: " + msg);
+	        	  Log.d("LOUD AND CLEAR", "GCM register in background msg: (Nothing is good)" + msg);
 	           Log.d("LOUD AND CLEAR", "After register in background, REGID is set to be " + regid);
 	           if (msg!=null){
 	           handleIDsAsync(myID, msg);
@@ -706,7 +708,7 @@ public class MainActivity extends FragmentActivity {
 
 	        @Override
 	        protected void onPostExecute(String msg) {
-	           Log.d("LOUD AND CLEAR", "GCM register in background msg: (Nothing is good)" + msg);
+	           Log.d("LOUD AND CLEAR", "GCM register in background msg: " + msg);
 	        }
 	    }.execute(UID, RegID, null);
 	    
@@ -792,13 +794,13 @@ public class MainActivity extends FragmentActivity {
                 Log.i(TAG, "No valid Google Play Services APK found.");
             }
         	
-        	self.setUID(result);
+        	Self.setUID(result);
         	myID = result; //deprecated
 		 	Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: UUID IS NOW" + myID);
-		 	SharedPreferences.Editor editor = self.getSharedPref().edit();
+		 	SharedPreferences.Editor editor = Self.getSharedPref().edit();
 		 	editor.putString("uid", result); // value to store
 		 	editor.commit();
-            Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: SHARED PREF IS NOW " + self.getSharedPref().getString("uid", null));
+            Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: SHARED PREF IS NOW " + Self.getSharedPref().getString("uid", null));
                
         }
 

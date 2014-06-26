@@ -14,10 +14,12 @@
     <style name="MyActionBar" parent="@android:style/Widget.Holo.Light.ActionBar">
         <item name="android:background">#FFFFFFFF</item>
         
+        
     </style>
     
     <style name="Theme.MyAppTheme.ActionBar.TitleTextStyle" parent="android:style/TextAppearance.Holo.Widget.ActionBar.Title">
     <item name="android:textColor">#00000000</item>
+   
     </style>    
     
     <style name="cust_dialog" parent="@android:style/Theme.Dialog">

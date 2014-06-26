@@ -22,7 +22,7 @@ import android.util.Log;
 
  
 public class ConnectToServlet {
-	
+
 	/**
 	 * Handles all communication with Application Server
 	 */
@@ -49,11 +49,11 @@ public class ConnectToServlet {
     	 * @Eric
     	 */
     	 Log.d("LOUD AND CLEAR", "Atempting to send message ");
-		  
+
 		  try {
 			  URL url = new URL(SERVERURL);
 			  URLConnection connection = url.openConnection();
-		 
+
 			  Gson gson = new Gson();
 			  String msgpayload = gson.toJson(msg);
           
@@ -61,17 +61,17 @@ public class ConnectToServlet {
 	          msgReq.setHeader(Constants.SEND_MSG);
 	          msgReq.setPayload(msgpayload);
 	          //Create request
-	          
+
 	          String blstring = gson.toJson(msgReq);
-	          
+
 	          connection.setDoOutput(true);
-	          
+
 	          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
 	          objectOut.writeObject(blstring);
-	          
+
 	          objectOut.flush();
 	          objectOut.close();
-	
+
 	          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
 	          String returnString="";
 	          doubledValue = "";
@@ -89,7 +89,7 @@ public class ConnectToServlet {
           		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
 
 		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");}
-		  
+
 		  return;
     }
     
@@ -187,8 +187,8 @@ public class ConnectToServlet {
 	                    List<BuyListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
 	                    Log.d("LOUD AND CLEAR", "Server bl list deserialized, list has size" + rl.size()); 
 	                    Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
-	                    
-	                    
+
+
 	                    Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getStartTime() + " " + rl.get(0).getEndTime() + " " + 
 	                	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
 	                    return rl;
@@ -201,7 +201,7 @@ public class ConnectToServlet {
 	public static List<SellListing> updateSList() {
 		  Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull SELL LISTS");
 		  List<SellListing> nl = new ArrayList<SellListing>();
-		  
+
 		  try {
     	   URL url = new URL(SERVERURL);
            URLConnection connection = url.openConnection();
@@ -232,6 +232,7 @@ public class ConnectToServlet {
            	}
            	in.close();
            	
+           	
            	MsgStruct dmsg = new MsgStruct();
            	try{
            		dmsg = gson.fromJson(doubledValue, MsgStruct.class);
@@ -249,15 +250,15 @@ public class ConnectToServlet {
             	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
                 return rl;
 		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed"); }
-		  
+
 		  return nl;
-		  
+
 	}
 
 	public static List<Message> requestAllMsgs(String myID){
 		 Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull ALL MESSAGES");
 		  List<Message> nl = new ArrayList<Message>();
-		  
+
 		  try {
 			  URL url = new URL(SERVERURL);
           URLConnection connection = url.openConnection();
@@ -298,17 +299,17 @@ public class ConnectToServlet {
                return rl;
 		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");
 		  }
-		  
+
 		  return nl;
-		
+
 	}
-	
+
 	public static String sendIDPair(String UID, String RegID) {
-		
+
 		MsgStruct dmsg = new MsgStruct();
 		dmsg.setPayload("");
 		dmsg.setHeader(Constants.FBID_GET);
-		
+
 		 try {
 
       	   	 URL url = new URL(SERVERURL);
@@ -316,7 +317,7 @@ public class ConnectToServlet {
 
              connection.setDoOutput(true);
 			 dmsg.setPayload(UID+","+RegID);
-			 
+
 			  Gson gson = new Gson();
 			  String gmsg = gson.toJson(dmsg);
           
@@ -354,7 +355,7 @@ public class ConnectToServlet {
 				  Log.d("LOUD AND CLEAR", "url connection failed at getFBID");
 				  //dmsg.setPayload("URLConnectionFailedID");
 			  }
-			  
+
 		 Log.d("LOUD AND CLEAR", "dmsg.getPayload() is " + dmsg.getPayload());
 			  return dmsg.getPayload();
 	}

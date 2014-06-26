@@ -51,6 +51,14 @@ public class Conversation {
 	public void addMessageToConversation(Message msg) {
 		this.message_list.add(msg);
 	}
+	
+	public Message getMessage(int index) {
+		return this.message_list.get(index);
+	}
+	
+	public Message getMostRecentMessage() {
+		return this.message_list.getLast();
+	}
 
 
 	/**
