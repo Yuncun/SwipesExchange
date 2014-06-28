@@ -41,6 +41,7 @@ public class ConversationActivity extends FragmentActivity {
 				
 				@Override
 				public void onClick(View v) {
+					ClosedInfo.setMinimized(false);
 					finish();
 					overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
 					

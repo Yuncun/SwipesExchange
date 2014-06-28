@@ -53,6 +53,8 @@ public class MainActivity extends FragmentActivity {
 	private String fbid;
 	private String myID;
     String regid;
+    
+    private boolean minimized;
 	
 	protected Context context;
 	
@@ -83,7 +85,6 @@ public class MainActivity extends FragmentActivity {
 	private MenuItem settings;
 	private Menu options_menu;
 	private boolean first_login;
-	
 	private final Handler handler = new Handler();
 	private Runnable run_pager;
 	
@@ -104,6 +105,13 @@ public class MainActivity extends FragmentActivity {
 		super.onCreate(savedInstanceState);
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
+		
+		minimized = false;
+		
+		Session session = Session.getActiveSession();
+		session.closeAndClearTokenInformation();
+		
+		ClosedInfo.setMinimized(true);
 		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_main);
@@ -309,6 +317,7 @@ public class MainActivity extends FragmentActivity {
  	  	            }
  	  	                
  	  	               
+ 	  	             
  	  	               // fg.execute(fbid);
  	  	                
  	  	              }
@@ -537,8 +546,14 @@ public class MainActivity extends FragmentActivity {
 	    FragmentTransaction transaction = fm.beginTransaction();
 	    for (int i = 0; i < fragments.length; i++) {
 	        if (i == fragmentIndex) {
-	        	if(i==1)
+	        	if(i==0)
 	        	{
+	        		ClosedInfo.setMinimized(false);
+	        		getActionBar().hide();
+	        	}
+	        	else if(i==1)
+	        	{
+	        		ClosedInfo.setMinimized(true);
 	        		update_menu = true;
 	        		getActionBar().show();
 	        	}
@@ -568,7 +583,8 @@ public class MainActivity extends FragmentActivity {
 	 */
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    // Only make changes if the activity is visible
-	    if (is_resumed) {
+		
+	    if(is_resumed) {
 	        FragmentManager manager = getSupportFragmentManager();
 	        // Get the number of entries in the back stack
 	        int backStackSize = manager.getBackStackEntryCount();
@@ -611,11 +627,14 @@ public class MainActivity extends FragmentActivity {
 	            showFragment(LOGIN_SPLASH, false);
 	        }
 	    }
+	    	
+	    
 	}
 	
 	@Override
 	protected void onResumeFragments() {
 	    super.onResumeFragments();
+	    
 	    checkPlayServices();
 	    Session session = Session.getActiveSession();
 
@@ -628,7 +647,71 @@ public class MainActivity extends FragmentActivity {
 	        // and ask the person to login.
 	    	//this.first_login = false;
 	        showFragment(LOGIN_SPLASH, false);
+	        
 	    }
+	}
+	
+
+	
+	
+        
+         /*
+        
+              Log.d("pig","BACK FROM BACKGROUND");
+              Session session = Session.getActiveSession();
+              
+              /*Request.newMeRequest(session, new Request.GraphUserCallback() {
+
+	  	            // callback after Graph API response with user object
+	  	            @Override
+	  	            public void onCompleted(GraphUser user, Response response) {
+	  	              if (user != null) {
+	  	                
+	  	                Log.d("pig", user.getName());
+	  	              }
+	  	            }
+	  	          }).executeAsync();
+              
+              if (session != null && session.isOpened()) {
+      	        // if the session is already open,
+      	        // try to show the selection fragment
+      	        showFragment(MAIN, false);
+      	    } else {
+      	        // otherwise present the splash screen
+      	        // and ask the person to login.
+      	    	//this.first_login = false;
+      	        showFragment(LOGIN_SPLASH, false);
+      	    }
+*/
+      	 
+	@Override
+	public void onUserLeaveHint() {
+
+	    super.onUserLeaveHint();
+	    this.minimized = true;
+	     
+	}
+	
+	
+   
+	@Override
+	protected void onRestart() {
+		super.onRestart();
+		
+		if(ClosedInfo.wasMinimized())
+		{
+			ClosedInfo.setMinimized(true);
+			Session session = Session.getActiveSession();
+			session.closeAndClearTokenInformation();
+		
+			
+			if(session != null && (session.isOpened() || session.isClosed()))
+			{
+				this.onSessionStateChange(session, session.getState(), null);
+			}
+			is_resumed = true;
+		}
+		
 	}
 
 	/**
@@ -642,6 +725,7 @@ public class MainActivity extends FragmentActivity {
 		super.onResume();
 		
 		Session session = Session.getActiveSession();
+		
 		if(session != null && (session.isOpened() || session.isClosed()))
 		{
 			this.onSessionStateChange(session, session.getState(), null);

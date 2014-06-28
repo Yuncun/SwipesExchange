@@ -31,8 +31,12 @@ public class LoginFragment extends Fragment {
 	    authButton.setLoginBehavior(SessionLoginBehavior.SUPPRESS_SSO);*/
 	    getActivity().getActionBar().hide();
 	    
+	    ClosedInfo.setMinimized(false);
+	    
 	    return view;
 	    
 	}
+	
+
 	
 }
