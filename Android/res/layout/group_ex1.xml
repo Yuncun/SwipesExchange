@@ -2,26 +2,21 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="35dp"
-    
+    android:background="#CCFFFF"
     android:clickable="true"
     android:orientation="vertical"
     android:paddingLeft="40dp"
-    android:background="#CCFFFF"
     tools:context=".MainActivity" >
 
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical">
+        android:gravity="center_vertical" >
 
-    
-           <TimePicker
-        android:id="@+id/timePicker2"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        
-        />
+        <TimePicker
+            android:id="@+id/timePicker2"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content" />
     </LinearLayout>
 
 </LinearLayout>
-

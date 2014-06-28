@@ -2,6 +2,7 @@ package com.swipesexchange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import sharedObjects.BuyListing;
 import android.content.Context;
@@ -20,12 +21,12 @@ import android.widget.Toast;
 public class MessageAdapter extends BaseAdapter {
 
 	  private Context myContext;
-	  private ArrayList<Conversation> my_list;
+	  private Stack<Conversation> my_list;
 	  private List<String> sender_names;
 	  private List<String> sender_ids;
 	  private List<String> message_texts;
 
-    public MessageAdapter(Context context, ArrayList<Conversation> list) 
+    public MessageAdapter(Context context, Stack<Conversation> list) 
     {
             super();
             myContext=context;

@@ -10,7 +10,7 @@ import sharedObjects.User;
 public class Conversation {
 	
 	// list of Messages
-	private LinkedList<Message> message_list;
+	private ArrayList<Message> message_list;
 	private User sender;
 	private User receiver;
 	private String listing_id;
@@ -30,7 +30,7 @@ public class Conversation {
 		this.listing_id = lid;
 
 		
-		this.message_list = new LinkedList<Message>();
+		this.message_list = new ArrayList<Message>();
 	}
 	
 	
@@ -40,6 +40,10 @@ public class Conversation {
 	
 	public int getNumMessages() {
 		return this.message_list.size();
+	}
+	
+	public List<Message> getAllMessages() {
+		return this.message_list;
 	}
 	
 	public Message getNextMessage() {
@@ -57,7 +61,7 @@ public class Conversation {
 	}
 	
 	public Message getMostRecentMessage() {
-		return this.message_list.getLast();
+		return this.message_list.get(this.message_list.size() - 1);
 	}
 
 

@@ -1,33 +1,24 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_height="wrap_content"
     android:layout_width="wrap_content"
+    android:layout_height="wrap_content"
     android:clickable="false" >
-       <CheckedTextView
-        android:gravity="center_vertical"
-  
+
+    <CheckedTextView
         android:id="@+id/group5_text_left"
+        android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
         android:layout_alignParentLeft="true"
-        android:layout_height="fill_parent"
-        android:layout_width="wrap_content"
         android:clickable="false"
-    
-   
-
-   
-    android:textSize="15sp"/>
-    <TextView
         android:gravity="center_vertical"
-  
+        android:textSize="15sp" />
+
+    <TextView
         android:id="@+id/group5_text_right"
-        android:layout_alignParentRight="true"
-        android:layout_height="fill_parent"
         android:layout_width="wrap_content"
+        android:layout_height="fill_parent"
+        android:layout_alignParentRight="true"
         android:clickable="false"
-	 
-   
+        android:gravity="center_vertical"
+        android:textSize="15sp" />
 
-   
-    android:textSize="15sp" />
-
-  
 </RelativeLayout>

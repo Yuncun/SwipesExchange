@@ -2,11 +2,9 @@
 <TextView xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/test_inflate"
     android:layout_width="match_parent"
-    android:layout_height="match_parent" 
-    android:text="hi"
+    android:layout_height="match_parent"
     android:paddingLeft="2dp"
-    android:textColor="@android:color/white"
-    >
-    
+    android:text="hi"
+    android:textColor="@android:color/white" >
 
 </TextView>

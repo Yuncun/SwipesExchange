@@ -1,41 +1,37 @@
 <?xml version="1.0" encoding="utf-8"?>
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
-android:layout_width="fill_parent"
-android:layout_height="wrap_content"
-android:gravity="right" >
+    android:layout_width="fill_parent"
+    android:layout_height="wrap_content"
+    android:gravity="right" >
 
     <Button
-    android:id="@+id/new_button2"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
-      android:layout_alignParentRight="true"
-    android:textColor="#FFFFFF"
-    android:textSize="12sp"
-    android:textStyle="bold"
-    android:text="NEW SELL" />
-<Button
-    android:id="@+id/new_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
- 
-    android:textColor="#FFFFFF"
-     android:layout_toLeftOf="@id/new_button2"
-    android:textSize="12sp"
-    android:textStyle="bold"
-    android:text="NEW BUY" />
+        android:id="@+id/new_button2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:text="NEW SELL"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
-<Button
-    android:id="@+id/logout_button"
-    android:layout_width="wrap_content"
-    android:layout_height="wrap_content"
- 
-    android:textColor="#FFFFFF"
-     android:layout_toLeftOf="@id/new_button"
-    android:textSize="12sp"
-    android:textStyle="bold"
-    android:text="LOGOUT" />
+    <Button
+        android:id="@+id/new_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/new_button2"
+        android:text="NEW BUY"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
-
-
+    <Button
+        android:id="@+id/logout_button"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toLeftOf="@id/new_button"
+        android:text="LOGOUT"
+        android:textColor="#FFFFFF"
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
 </RelativeLayout>

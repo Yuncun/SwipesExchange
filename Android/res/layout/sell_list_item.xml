@@ -3,95 +3,70 @@
     android:layout_height="50dip"
     android:padding="5dip" >
 
-     <TextView
+    <TextView
         android:id="@+id/firstLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-       
-      
-       	android:paddingTop="0dp"
-       	android:paddingLeft="5dp"
-       	android:textSize="16sp"
-       	android:textStyle="bold" 
-       	
-       
-        
         android:gravity="center_vertical"
+        android:paddingLeft="5dp"
+        android:paddingTop="0dp"
         android:text="Example application"
-        />
+        android:textSize="16sp"
+        android:textStyle="bold" />
 
-     <ImageView
-	     android:id="@+id/forward"
+    <ImageView
+        android:id="@+id/forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:src="@drawable/ic_action_next_item"
-        android:layout_centerVertical="true"
         android:layout_alignParentRight="true"
-       
-	    />
-     
+        android:layout_centerVertical="true"
+        android:src="@drawable/ic_action_next_item" />
+
     <TextView
         android:id="@+id/secondLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-  		android:paddingLeft="5dp"
         android:layout_below="@id/firstLine"
-        
-       android:textColor="#808080"
+        android:paddingLeft="5dp"
         android:text="Description"
+        android:textColor="#808080"
         android:textSize="12sp" />
-    
-         <TextView
+
+    <TextView
         android:id="@+id/thirdLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-  		android:paddingLeft="2dp"
         android:layout_toRightOf="@id/secondLine"
-        
-       android:textColor="#808080"
-        
+        android:paddingLeft="2dp"
+        android:textColor="#808080"
         android:textSize="12sp" />
 
-     <LinearLayout
-         android:layout_width="30dp"
-        android:layout_height="30dp"
-         android:layout_toLeftOf="@id/forward"
-       
-        android:paddingTop="0dp"
-        android:background="@drawable/rectangle"
+    <LinearLayout
         android:id="@+id/boxSell"
-        
-        >
-        
-    	<TextView
-        android:id="@+id/firstLineRight"
-         android:layout_width="fill_parent" 
-   		 android:layout_height="fill_parent"
-        android:gravity="center"
-      
-        android:text="Number requested"
-        android:textSize="14sp"
-        android:textStyle="bold"
-        />
-    
-    
-    
-    	</LinearLayout>
+        android:layout_width="30dp"
+        android:layout_height="30dp"
+        android:layout_toLeftOf="@id/forward"
+        android:background="@drawable/rectangle"
+        android:paddingTop="0dp" >
 
-    
-  
-    
-    	<TextView
-	    android:id="@+id/secondLineRight"
-	    android:layout_width="wrap_content"
-	    android:layout_height="wrap_content"
-	    
-	    
-	    android:layout_below="@id/boxSell"
-	    android:textColor="#808080"
-	    android:textSize="12sp"
-	    android:layout_alignParentRight="true"
-	    android:paddingRight="25dp"
-	    />
+        <TextView
+            android:id="@+id/firstLineRight"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            android:gravity="center"
+            android:text="Number requested"
+            android:textSize="14sp"
+            android:textStyle="bold" />
+    </LinearLayout>
 
-</RelativeLayout> 
+    <TextView
+        android:id="@+id/secondLineRight"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_below="@id/boxSell"
+        android:paddingRight="25dp"
+        android:textColor="#808080"
+        android:textSize="12sp" />
+
+</RelativeLayout>

@@ -3,12 +3,5 @@
     android:id="@+id/dialogTitle1"
     android:layout_width="wrap_content"
     android:layout_height="wrap_content"
-  
-
-   
-
-   android:text="@string/submission"
-    android:textSize="12sp"
-    
-   
-    />
+    android:text="@string/submission"
+    android:textSize="12sp" />

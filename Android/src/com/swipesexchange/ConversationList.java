@@ -2,6 +2,7 @@ package com.swipesexchange;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Stack;
 
 import sharedObjects.Message;
 import sharedObjects.User;
@@ -12,25 +13,26 @@ import android.util.Log;
 
 
 
+
 import com.swipesexchange.MainActivity;
 import com.swipesexchange.ConnectToServlet;
 
 public class ConversationList {
 	
-	private static ArrayList<Conversation> conversation_list;
+	private static Stack<Conversation> conversation_list;
 	
 	// boolean to check if the Messages tab needs an update
 	private boolean needs_update;
 	
 	public ConversationList() {
 		
-		ConversationList.conversation_list = new ArrayList<Conversation>();
+		ConversationList.conversation_list = new Stack<Conversation>();
 		this.needs_update = false;
 	}
 	
 
 	// accessing the conversation list in fragments
-	public static ArrayList<Conversation> getConversations() {
+	public static Stack<Conversation> getConversations() {
 		return conversation_list;
 	}
 	
@@ -48,7 +50,7 @@ public class ConversationList {
 	
 	// for adding conversations to the conversation list
 	public void addConversation(Conversation c) {
-		ConversationList.conversation_list.add(c);
+		ConversationList.conversation_list.push(c);
 		if(!needs_update)
 		{
 			this.needs_update = true;
@@ -76,7 +78,7 @@ public class ConversationList {
 	}
 	
 	public int findConversationIndexByListingID(String lid) {
-		ArrayList<Conversation> l = ConversationList.getConversations();
+		Stack<Conversation> l = ConversationList.getConversations();
 		for(int i=0; i<l.size(); i++)
 		{
 			if(l.get(i).getLID().equals(lid))
@@ -122,8 +124,9 @@ public class ConversationList {
 		tv.setConnections("1");
 		tv.setRating("none");
 		
+		String time = "1:01 PM";
 		
-		Message m1 = new Message(tu, tv, m1_LID, m1_text);
+		Message m1 = new Message(tu, tv, m1_LID, time, m1_text);
 		String m2_SID = "101";
 		String m2_RID= "201";
 		String m2_LID = "303";
@@ -131,7 +134,7 @@ public class ConversationList {
 		String m2_sname = "Galadriel";
 		String m2_text = "Sup, looking to buy your swipes -" +
 				" meet up in Rivendell?";
-		Message m2 = new Message(tu, tv, m2_LID, m2_text);
+		Message m2 = new Message(tu, tv, m2_LID, time, m2_text);
 		Conversation c1 = new Conversation(m1.getSender(), m1.getReceiver(), m1.getListing_id());
 		c1.addMessageToConversation(m1);
 		c1.addMessageToConversation(m2);
@@ -143,7 +146,7 @@ public class ConversationList {
 		String m3_rname = "Witch King";
 		String m3_sname = "Saruman";
 		String m3_text = "Give me your swipes for free wizard.";
-		Message m3 = new Message(tu, tv, m3_LID, m3_text);
+		Message m3 = new Message(tu, tv, m3_LID, time, m3_text);
 		Conversation c2 = new Conversation(m3.getSender(), m3.getReceiver(), m3.getListing_id());
 		c2.addMessageToConversation(m3);
 		

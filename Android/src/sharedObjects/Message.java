@@ -10,6 +10,7 @@ public class Message implements Serializable {
 	
 	private String listing_id;
 	private String text;
+	private String time;
 	
 	/** Message constructor for creating a new message to be stored in a Conversation
 	 * 
@@ -18,7 +19,7 @@ public class Message implements Serializable {
 	 *@param: listing_id: ID of listing
 	 *@param: text: Body of message
 	 */
-	public Message(User Sender_, User Receiver_, String listid, String payload) {
+	public Message(User Sender_, User Receiver_, String listid, String time, String payload) {
 		setSender(Sender_);
 		setReceiver(Receiver_);
 		setListing_id(listid);
@@ -80,6 +81,14 @@ public class Message implements Serializable {
 	 */
 	public void setListing_id(String listing_id) {
 		this.listing_id = listing_id;
+	}
+	
+	public String getTime() {
+		return this.time;
+	}
+	
+	public void setTime(String t) {
+		this.time = t;
 	}
 
 	

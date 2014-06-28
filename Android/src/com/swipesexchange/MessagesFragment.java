@@ -83,10 +83,15 @@ public class MessagesFragment extends ListFragment {
        Log.d("pig", "[onListItemClick] Selected Position "+ position);
       // Fragment conv_list = new MessageListFragment();
        
-       Intent nextScreen = new Intent(getActivity(), ExtraActivity.class);
-       
+       Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
+       ArrayList<Message> clicked_messages = (ArrayList<Message>) ConversationList.getConversations().get(position).getAllMessages();
+       Log.d("pig", Integer.toString(clicked_messages.size()));
+       nextScreen.putExtra("clicked_messages", clicked_messages);
 
        startActivity(nextScreen);
+       getActivity().overridePendingTransition(R.anim.slide_in_from_right,
+               R.anim.slide_out_to_left);
+       
        
    }
    
