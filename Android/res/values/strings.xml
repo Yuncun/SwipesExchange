@@ -22,6 +22,10 @@
 <color name="mycolor1">#59c3fa</color>
 <color name="light_grey">#dbdbdb</color>
 <string name="app_id">767655446600637</string>
+<string name="dialog_string">Guest</string>
+<string name="dialog_cancel">Cancel</string>
+<string name="dialog_login">Login</string>
+<string name="guesttext">Guest</string>
     
     
       
