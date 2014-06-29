@@ -134,7 +134,7 @@ public class MainActivity extends FragmentActivity {
 		
 		
 		//Create self
-		//self = new Self();
+		self = new User(null);
 		context = getApplicationContext();
 		
 		/*
