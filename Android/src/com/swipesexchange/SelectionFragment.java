@@ -19,6 +19,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -50,7 +51,6 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	
 	private Fragment[] fragments = new Fragment[NUM_FRAGMENTS];
 	
-
 	
 	
 	@Override

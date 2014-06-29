@@ -1,6 +1,7 @@
 package com.swipesexchange;
 
 import java.io.IOException;
+import java.util.List;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import sharedObjects.MsgStruct;
@@ -334,6 +335,15 @@ public class MainActivity extends FragmentActivity {
 		}
 	};
 	
+	public int getVisibleFragment(){
+	    FragmentManager fragmentManager = this.getSupportFragmentManager();
+	    List<Fragment> fragments = fragmentManager.getFragments();
+	    for(int i = 0; i < fragments.size(); i++){
+	        if(fragments.get(i) != null && fragments.get(i).isVisible())
+	            return i;
+	    }
+	    return -1;
+	}
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
@@ -545,6 +555,23 @@ public class MainActivity extends FragmentActivity {
 	
 	//End GCM Functions
 	//***************************************************************
+	
+	  @Override
+      public void onBackPressed() {
+               
+               Log.d("pig", "back pressed!");
+               int frag_num = this.getVisibleFragment();
+               if(frag_num == SETTINGS)
+               {
+            	   this.showFragment(MAIN, false);
+               }
+               else
+            	   super.onBackPressed();
+
+               
+            	   
+               
+          }
 	
 	private void showFragment(int fragmentIndex, boolean addToBackStack) {
 	    boolean update_menu = false;
@@ -851,7 +878,6 @@ public class MainActivity extends FragmentActivity {
 	  	    });
 
 	    }
-
 	}
 	
     private void handleIDsAsync(String UID, String RegID) {
@@ -887,6 +913,7 @@ public class MainActivity extends FragmentActivity {
 		RelativeLayout relativeLayout = (RelativeLayout) menu.findItem(R.id.layout_item).getActionView();
 		View inflatedView = getLayoutInflater().inflate(R.layout.actionbar_top, null);
 		inflatedView.findViewById(R.id.new_button).setOnClickListener(new OnClickListener() {
+ 
  
 			@Override
 			public void onClick(View v) {

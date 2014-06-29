@@ -40,15 +40,39 @@
     </LinearLayout>
 
     
-
-    <fragment
+<fragment
         android:id="@+id/conversation_view"
-        android:layout_width="match_parent"
+        android:layout_width="fill_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonbar"
         android:name="com.swipesexchange.ConversationFragment" />
-
+  
     
-   
+    <Button
+            android:id="@+id/chatSendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            
+            android:text="Send"
+          />
+    
+        <EditText
+            android:id="@+id/messageEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:maxHeight="140dp"
+            android:scrollbars="vertical"
+            android:layout_alignParentBottom="true"
+            android:textSize="14sp"
+            android:layout_marginBottom="2dp"
+            android:layout_toLeftOf="@+id/chatSendButton"
+            android:background="@drawable/message_input_box"
+            android:inputType="textMultiLine"
+            android:maxLength="2000"
+            android:minLines="2"
+             />
 
 </RelativeLayout>

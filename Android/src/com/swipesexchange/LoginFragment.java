@@ -33,6 +33,7 @@ public class LoginFragment extends Fragment {
 	    
 	    ClosedInfo.setMinimized(false);
 	    
+	    
 	    return view;
 	    
 	}
