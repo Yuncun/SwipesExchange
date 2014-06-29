@@ -26,7 +26,9 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.facebook.*;
+import com.facebook.android.DialogError;
 import com.facebook.android.Facebook;
+import com.facebook.android.FacebookError;
 import com.facebook.model.*;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
@@ -55,6 +57,7 @@ public class MainActivity extends FragmentActivity {
     String regid;
     
     private boolean minimized;
+    private int logged_in;
 	
 	protected Context context;
 	
@@ -89,6 +92,7 @@ public class MainActivity extends FragmentActivity {
 	private Runnable run_pager;
 	
 	private boolean is_resumed;
+	private Session session;
 	
 	private Fragment[] fragments = new Fragment[3];
 
@@ -108,7 +112,9 @@ public class MainActivity extends FragmentActivity {
 		
 		minimized = false;
 		
-		Session session = Session.getActiveSession();
+		this.logged_in = 0;
+		
+		session = Session.getActiveSession();
 		session.closeAndClearTokenInformation();
 		
 		ClosedInfo.setMinimized(true);
@@ -606,7 +612,7 @@ public class MainActivity extends FragmentActivity {
 	    	  	            @Override
 	    	  	            public void onCompleted(GraphUser user, Response response) {
 	    	  	              if (user != null) {
-	    	  	                Log.d("facebook", user.getName());
+	    	  	                Log.d("facebook", user.getName() + "normal");
 	    	  	              }
 	    	  	            }
 	    	  	          }).executeAsync();
@@ -636,7 +642,7 @@ public class MainActivity extends FragmentActivity {
 	    super.onResumeFragments();
 	    
 	    checkPlayServices();
-	    Session session = Session.getActiveSession();
+	    session = Session.getActiveSession();
 
 	    if (session != null && session.isOpened()) {
 	        // if the session is already open,
@@ -692,27 +698,103 @@ public class MainActivity extends FragmentActivity {
 	     
 	}
 	
+	public void setLoggedIn (int l) {
+		this.logged_in = l;
+		session = Session.getActiveSession();
+		SessionState state = session.getState();
+		Exception e = null;
+		if(l==2)
+		{
+			 FragmentManager manager = getSupportFragmentManager();
+        // Get the number of entries in the back stack
+        int backStackSize = manager.getBackStackEntryCount();
+        // Clear the back stack
+        
+        for (int i = 0; i < backStackSize; i++) {
+            manager.popBackStack();
+        }
+        this.logged_in=0;
+        this.showFragment(LOGIN_SPLASH, false);
+		}
+		else if(l==1)
+		{
+			this.logged_in=0;
+			FragmentManager manager = getSupportFragmentManager();
+	        // Get the number of entries in the back stack
+	        int backStackSize = manager.getBackStackEntryCount();
+	        // Clear the back stack
+	        
+	        for (int i = 0; i < backStackSize; i++) {
+	            manager.popBackStack();
+	        }
+	        this.logged_in=0;
+	        this.showFragment(MAIN, false);
+		}
+	}
 	
-   
+	
+   /*
 	@Override
 	protected void onRestart() {
 		super.onRestart();
 		
 		if(ClosedInfo.wasMinimized())
 		{
-			ClosedInfo.setMinimized(true);
-			Session session = Session.getActiveSession();
-			session.closeAndClearTokenInformation();
+			
+			
+			
+			
+			SessionState state = session.getState();
+			
+			
 		
 			
-			if(session != null && (session.isOpened() || session.isClosed()))
-			{
-				this.onSessionStateChange(session, session.getState(), null);
-			}
-			is_resumed = true;
+			
+			
+			Request.GraphUserCallback callback = new Request.GraphUserCallback() {
+				
+			
+					  // callback after Graph API response with user object
+	  	            @Override
+	  	            public void onCompleted(GraphUser user, Response response) {
+	  	              if (response.getError() == null) {
+	  	                
+	  	                Log.d("facebook", user.getName() + "abnormal");
+	  	                setLoggedIn(1);
+	  	                
+	  	                
+	  	              }
+	  	              else
+		  	          {
+	                        // Handle error
+		  	        	  setLoggedIn(2);
+		  	        	  Log.d("facebook", "bullshit");
+	                  }
+	  	            }
+	  	            
+
+	              
+					
+				
+			};
+			
+			
+			Exception e = null;
+			
+			 Request.newMeRequest(session, callback).executeAsync();
+			 
+			
+		
+			 
+			 
+		
+	
+		
+			
 		}
 		
 	}
+	*/
 
 	/**
 	 * Check the device to make sure it has the Google Play Services APK. If
@@ -724,7 +806,7 @@ public class MainActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 		
-		Session session = Session.getActiveSession();
+		session = Session.getActiveSession();
 		
 		if(session != null && (session.isOpened() || session.isClosed()))
 		{
@@ -760,7 +842,7 @@ public class MainActivity extends FragmentActivity {
 	  	            public void onCompleted(GraphUser user, Response response) {
 	  	              if (user != null) {
 	  	                
-	  	                Log.d("facebook", user.getName());
+	  	                Log.d("facebook", user.getName() + "Normal");
 	  	              }
 	  	            }
 	  	          }).executeAsync();
