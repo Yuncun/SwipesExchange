@@ -565,11 +565,16 @@ public class MainActivity extends FragmentActivity {
 	
 	public void handleNewGuest(String username)
 	{
-		Log.d("LOUD AND CLEAR", "Accepting guest login with username: " + username);
-    	myID= UUID.randomUUID().toString();
-    	self.setUID(myID);
+		final SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+		String registrationId = prefs.getString(PROPERTY_UID, "");
+		if (registrationId.isEmpty()) {
+		    	Log.i("LOUD AND CLEAR", "Registration not found.");
+		    	registrationId = UUID.randomUUID().toString();
+			}
+    	self.setUID(registrationId);
     	self.setName(username);
-    	
+		Log.d("LOUD AND CLEAR", "Accepting guest login with username: " + username);
+
         if (checkPlayServices()) {
    			Log.d("LOUD AND CLEAR", "Creating GCM");
                gcm = GoogleCloudMessaging.getInstance(context);
@@ -584,6 +589,7 @@ public class MainActivity extends FragmentActivity {
 	            }
         Log.d("LOUD AND CLEAR", "Guest Login accepted with stats: " + self.getUID() + " and " + self.getRegid());
 		loggedInAsGuest = true;
+		storeUID(context, self.getUID());
 		//Store UID info
     	
 	}
