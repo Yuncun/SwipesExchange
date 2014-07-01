@@ -57,6 +57,13 @@ public class ConversationAdapter extends BaseAdapter {
     }
 
     @Override
+    public boolean isEnabled(int position) {
+        // TODO Auto-generated method stub
+
+       return false;
+    }
+    
+    @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
         boolean is_incoming;

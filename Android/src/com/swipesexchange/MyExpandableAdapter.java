@@ -471,6 +471,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			                    	String j5 = j4.getUser().getName();
 
 			                    	ConnectToServlet.sendListing(j1);
+			                    	
 
 			                    	//ConnectToServlet.updateBList();
 

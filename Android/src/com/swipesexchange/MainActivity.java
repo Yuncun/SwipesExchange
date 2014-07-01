@@ -57,10 +57,11 @@ public class MainActivity extends FragmentActivity {
 	 */
 	private String fbid;
 	private String myID;
-    private String regid;
-    private User self;
+	private String regid;
+	private User self;
 	public static final String PROPERTY_UID = "user_id";
-    public boolean loggedInAsGuest = false;
+	public boolean loggedInAsGuest = false;
+    
     private boolean minimized;
     private int logged_in;
 	
@@ -80,7 +81,7 @@ public class MainActivity extends FragmentActivity {
     AtomicInteger msgId = new AtomicInteger();
 
    //****************************************************
-    
+
 	private boolean state_changed;
 	private boolean create;
 	private LoginFragment login_fragment;
@@ -522,7 +523,7 @@ public class MainActivity extends FragmentActivity {
 	        	  Log.d("LOUD AND CLEAR", "GCM register in background msg: (Nothing is good)" + msg);
 	           Log.d("LOUD AND CLEAR", "After register in background, REGID is set to be " + regid);
 	           if (msg!=null){
-	           handleIDsAsync(self.getUID(), msg);
+	           handleIDsAsync(myID, msg);
 	           }
 	        }
 	    }.execute(null, null, null);
@@ -562,7 +563,7 @@ public class MainActivity extends FragmentActivity {
 	//End GCM Functions
 	//***************************************************************
 	
-	
+
 	public void handleNewGuest(String username)
 	{
 		final SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
@@ -594,6 +595,7 @@ public class MainActivity extends FragmentActivity {
     	
 	}
 	
+	
 		private void storeUID(Context context, String regID){
 		 final SharedPreferences prefs = getGCMPreferences(context);
 		    int appVersion = getAppVersion(context);
@@ -602,7 +604,7 @@ public class MainActivity extends FragmentActivity {
 		    editor.putString(PROPERTY_UID, self.getUID());
 		    editor.commit();
 	}
-		
+	
 	  @Override
       public void onBackPressed() {
                

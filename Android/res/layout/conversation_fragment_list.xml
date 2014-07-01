@@ -11,6 +11,7 @@
             
               android:listSelector="@android:color/transparent"
             android:transcriptMode="alwaysScroll"
+            
             android:divider="@null"
             
             
