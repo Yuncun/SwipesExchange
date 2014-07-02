@@ -8,6 +8,7 @@ import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.FragmentManager;
 import android.view.LayoutInflater;
+import android.view.View;
 import android.widget.EditText;
 
 import com.swipesexchange.MainActivity;
@@ -20,8 +21,14 @@ public class GuestLoginFragment extends DialogFragment {
     public Dialog onCreateDialog(Bundle savedInstanceState) {
         AlertDialog.Builder builder = new AlertDialog.Builder(getActivity());
         // Get the layout inflater
+        MainActivity mactivity = (MainActivity) getActivity();
         LayoutInflater inflater = getActivity().getLayoutInflater();
+        //final EditText mEdit = EditText ;
+        View myView = inflater.inflate(R.layout.dialog_signin, null);
+        final EditText mEdit = (EditText) myView.findViewById(R.id.username);
+        mEdit.setText(mactivity.retrieveSavedGuestName());
         
+   
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
         builder.setView(inflater.inflate(R.layout.dialog_signin, null))
@@ -29,9 +36,9 @@ public class GuestLoginFragment extends DialogFragment {
                .setPositiveButton(R.string.dialog_login, new DialogInterface.OnClickListener() {
                    @Override
                    public void onClick(DialogInterface dialog, int id) {
-                	   Dialog f = (Dialog) dialog;
-                       mEdit = (EditText) f.findViewById(R.id.username);
-                       
+                	   //Dialog f = (Dialog) dialog;
+                       //mEdit = (EditText) f.findViewById(R.id.username);
+
                        // sign in the user ...              	   
                 	   String username = mEdit.getText().toString().trim();
                 	   MainActivity mactivity = (MainActivity) getActivity();

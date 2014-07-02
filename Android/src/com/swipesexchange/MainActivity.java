@@ -60,6 +60,7 @@ public class MainActivity extends FragmentActivity {
 	private String regid;
 	private User self;
 	public static final String PROPERTY_UID = "user_id";
+	public static final String PROPERTY_GUESTNAME = "guest_name";
 	public boolean loggedInAsGuest = false;
     
     private boolean minimized;
@@ -591,19 +592,44 @@ public class MainActivity extends FragmentActivity {
         Log.d("LOUD AND CLEAR", "Guest Login accepted with stats: " + self.getUID() + " and " + self.getRegid());
 		loggedInAsGuest = true;
 		storeUID(context, self.getUID());
+		storeGuestName(context, self.getName());
 		//Store UID info
     	
 	}
 	
 	
-		private void storeUID(Context context, String regID){
-		 final SharedPreferences prefs = getGCMPreferences(context);
+	private void storeUID(Context context, String regID){
+		final SharedPreferences prefs = getGCMPreferences(context);
 		    int appVersion = getAppVersion(context);
 		    Log.i(TAG, "Saving uidId on app version " + appVersion);
 		    SharedPreferences.Editor editor = prefs.edit();
 		    editor.putString(PROPERTY_UID, self.getUID());
 		    editor.commit();
 	}
+	
+	private void storeGuestName(Context context, String guestName){
+		final SharedPreferences prefs = getGCMPreferences(context);
+		    int appVersion = getAppVersion(context);
+		    Log.i(TAG, "Saving guestName on app version " + appVersion);
+		    SharedPreferences.Editor editor = prefs.edit();
+		    editor.putString(PROPERTY_GUESTNAME, guestName);
+		    editor.commit();
+	}
+		
+	public String retrieveSavedGuestName()
+	{
+		String guestName = null;
+		final SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
+		String registrationGuest = prefs.getString(PROPERTY_GUESTNAME, "");
+		if (registrationGuest.isEmpty()) {
+		    	Log.i("LOUD AND CLEAR", "No previous guest name registered.");
+		    	guestName = "Guest";
+			}
+		else{ guestName = registrationGuest; }
+
+		return guestName;
+	}
+		
 	
 	  @Override
       public void onBackPressed() {

@@ -39,7 +39,7 @@ public class ConnectToServlet {
     }
 
     
-    public static void sendMessage(Message msg)
+    public static void sendMessage(final Message msg)
     {
     	/*
     	 * Sends the already-composed message to server
@@ -48,49 +48,51 @@ public class ConnectToServlet {
     	 * 
     	 * @Eric
     	 */
-    	 Log.d("LOUD AND CLEAR", "Atempting to send message ");
-
-		  try {
-			  URL url = new URL(SERVERURL);
-			  URLConnection connection = url.openConnection();
-
-			  Gson gson = new Gson();
-			  String msgpayload = gson.toJson(msg);
-          
-	          MsgStruct msgReq = new MsgStruct();
-	          msgReq.setHeader(Constants.SEND_MSG);
-	          msgReq.setPayload(msgpayload);
-	          //Create request
-
-	          String blstring = gson.toJson(msgReq);
-
-	          connection.setDoOutput(true);
-
-	          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
-	          objectOut.writeObject(blstring);
-
-	          objectOut.flush();
-	          objectOut.close();
-
-	          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
-	          String returnString="";
-	          doubledValue = "";
-
-          	while ((returnString = in.readLine()) != null) 
-          	{
-          		doubledValue= returnString;
-          	}
-          	in.close();
-          	
-          	MsgStruct dmsg = new MsgStruct();
-          	try{
-          		dmsg = gson.fromJson(doubledValue, MsgStruct.class);
-          	}catch (Exception e) {  
-          		Log.d("LOUD AND CLEAR", "Could not do first level of deserialization into MsgStruct");  }
-
-		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");}
-
-		  return;
+    	 Log.d("LOUD AND CLEAR", "Attempting to send message ");
+    	 new Thread(new Runnable() {
+     		public void run() {
+			  try {
+				  URL url = new URL(SERVERURL);
+				  URLConnection connection = url.openConnection();
+	
+				  Gson gson = new Gson();
+				  String msgpayload = gson.toJson(msg);
+	          
+		          MsgStruct msgReq = new MsgStruct();
+		          msgReq.setHeader(Constants.SEND_MSG);
+		          msgReq.setPayload(msgpayload);
+		          //Create request
+	
+		          String blstring = gson.toJson(msgReq);
+		          
+		          Log.d("LOUD AND CLEAR", "Breakpoint"); 
+		          
+		          connection.setDoOutput(true);
+	
+		          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+		          objectOut.writeObject(blstring);
+	
+		          objectOut.flush();
+		          objectOut.close();
+	
+		          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		          String returnString="";
+		          doubledValue = "";
+	
+	          	while ((returnString = in.readLine()) != null) 
+	          	{
+	          		doubledValue= returnString;
+	          	}
+	          	in.close();
+	          	
+	          	
+	          		Log.d("LOUD AND CLEAR", "Send Message GCM responded with " + doubledValue); 
+	
+			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed with exception " + e.toString());}
+	
+			  return;
+     		}
+     		}).start();
     }
     
     public static void sendListing(final Object inputListing)

@@ -64,12 +64,14 @@ public class ConversationActivity extends FragmentActivity {
 	                String message_contents = message_content_holder.getText().toString();
 	                // create the message to be sent
 	                // TODO: make this accurate, check if EditText view is null
-	                User sender = new User("Martin the Warrior");
+	                
+	                //These IDs have to be real now - @ES
+	                User sender = new User("Eric Shen");
 	                sender.setRegid("10001");
-	                sender.setUID("80001");
+	                sender.setUID("10152153150921342");
 	                User receiver = new User("Lord Brocktree");
 	                receiver.setRegid("10002");
-	                receiver.setUID("80002");
+	                receiver.setUID("10152153150921342");
 	                String lid = passed_messages.get(0).getListing_id();
 	                now.setToNow();
 	                String time = String.format("%d:%02d", fixHours(now.hour), now.minute);
