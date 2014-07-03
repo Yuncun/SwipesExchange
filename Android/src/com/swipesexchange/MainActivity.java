@@ -955,6 +955,11 @@ public class MainActivity extends FragmentActivity {
 	    }
 	}
 	
+	public String getUID()
+	{
+		return self.getUID();
+	}
+	
     private void handleIDsAsync(String UID, String RegID) {
 	    new AsyncTask<String, Void, String>() {
 	        @Override

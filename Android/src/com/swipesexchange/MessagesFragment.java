@@ -118,6 +118,21 @@ public class MessagesFragment extends ListFragment {
  	
      @Override
      protected List<Message> doInBackground(Void... params) {
+    	 //Block this until UID is successfully retrieved
+    	 Log.d("waitForvalues", "Checking that UID is safely retrieved");
+    	 while (((MainActivity) context).getUID() != null) {
+             Log.d("waitForvalues", "Waiting - getUID yields " + ((MainActivity) context).getUID());
+             		
+             try {
+                 Thread.sleep(100);
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+                 Log.d("waitForvalues", e.toString());
+             }
+         
+  		 }
+    	 
+    	 
      	//Log.d("LOUD AND CLEAR", "Attempting to update messages list");
  		List<Message> newConversations = new ArrayList<Message>();
  		newConversations = ConnectToServlet.requestAllMsgs("CorrectID");

@@ -4,10 +4,14 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.Stack;
 
+import com.amazonaws.services.simpledb.model.RequestTimeoutException;
+
 import sharedObjects.BuyListing;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.os.AsyncTask;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.util.Log;
@@ -119,5 +123,56 @@ public class MessageAdapter extends BaseAdapter {
 		
 		return my_list.size();
 	}
+	
+	//This class will allow us to safely "block" until all necessary values (like UID) have been accounted for by the initialization code
+    private class WaitForKeyValues extends AsyncTask<Void, Void, String> {
+
+		   private Context context;
+		   private ProgressDialog progressBar;
+		   boolean status = false;
+	  
+	        public WaitForKeyValues(Context context) {
+	        	this.context = context;
+	        }
+	        
+	        @Override
+	        protected void onPreExecute() {
+	           // super.onPreExecute();
+	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Messages are loading...", true);
+	        }
+	        
+	      @Override
+	        protected void onPostExecute(String input) {
+	    	  Log.d("waitForvalues", "PostExecute " + input);
+	    	  progressBar.dismiss();
+
+	        }
+	      
+	      	public void UIDisRetrieved()
+	      	{
+	      		status = true;
+	      	}
+	    
+	      	@Override
+	        protected String doInBackground(Void... params) {
+	        	
+	      		 while (!status) {
+	                 Log.d("waitForvalues", "Waiting");
+	                 		
+	                 try {
+	                     Thread.sleep(100);
+	                 } catch (InterruptedException e) {
+	                     e.printStackTrace();
+	                     Log.d("waitForvalues", e.toString());
+	                 }
+	             
+	      		 }
+				return "success";
+				
+	        } 
+	      
+	  }         
+    
+    
 
 }
