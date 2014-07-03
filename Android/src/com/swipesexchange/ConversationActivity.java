@@ -8,11 +8,13 @@ import android.app.ActionBar;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
+import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
@@ -62,9 +64,10 @@ public class ConversationActivity extends FragmentActivity {
 	            public void onClick(View view) {
 	            	// get the contents of the EditText field holding the message string to be sent
 	                String message_contents = message_content_holder.getText().toString();
+	                if(message_contents == null || (message_contents.length() == 0))
+	                	return;
 	                // create the message to be sent
 	                // TODO: make this accurate, check if EditText view is null
-	                
 	                //These IDs have to be real now - @ES
 	                User sender = new User("Eric Shen");
 	                sender.setRegid("10001");
@@ -83,6 +86,8 @@ public class ConversationActivity extends FragmentActivity {
 	                
 	                Message msg = new Message(sender, receiver, lid, time_plus, message_contents);
 	                ConnectToServlet.sendMessage(msg);
+	                
+	                refreshConversationFragment();
 
 	            }
 	        });
@@ -111,6 +116,16 @@ public class ConversationActivity extends FragmentActivity {
 	        */
 	 
 	    }
+	   
+	   public void refreshConversationFragment() {
+		   Fragment fragment = this.getSupportFragmentManager().findFragmentById(R.id.conversation_view);
+		   if(fragment != null)
+		   {
+			   ConversationFragment c_frag = (ConversationFragment) fragment;
+			   ((BaseAdapter) c_frag.getListAdapter()).notifyDataSetChanged();
+			  
+		   }
+	   }
 	   
 		 public int fixHours(int hours_24)
 		 {

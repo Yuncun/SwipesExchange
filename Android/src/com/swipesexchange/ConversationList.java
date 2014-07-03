@@ -45,9 +45,6 @@ public class ConversationList {
 }
 	
 	
-	  
-	  
-	
 	// for adding conversations to the conversation list
 	public void addConversation(Conversation c) {
 		ConversationList.conversation_list.push(c);

@@ -53,6 +53,7 @@ public class NewListingFragment extends Fragment{
                 
             super.onActivityCreated(savedInstanceState);
             
+            
             // find the ELV
             this.lv = (ExpandableListView) getActivity().findViewById(R.id.exlist);
          

@@ -135,7 +135,7 @@ public class MessagesFragment extends ListFragment {
     	 
      	//Log.d("LOUD AND CLEAR", "Attempting to update messages list");
  		List<Message> newConversations = new ArrayList<Message>();
- 		newConversations = ConnectToServlet.requestAllMsgs("CorrectID");
+ 		newConversations = ConnectToServlet.requestAllMsgs("10");
  		//Log.d("LOUD AND CLEAR", "Message list returned from server with size " + newConversations.size());
  		return newConversations;
      }

@@ -14,7 +14,7 @@
             android:id="@+id/txtInfo"
             android:layout_width="wrap_content"
             android:layout_height="20sp"
-            android:layout_gravity="right"
+            android:layout_margin="2dp"
             android:textColor="@android:color/secondary_text_dark"
             android:textSize="10sp" />
 
@@ -23,7 +23,7 @@
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_gravity="right"
-            android:background="@drawable/incoming_message_bg"
+            android:background="@drawable/outgoing_message_bg"
             android:orientation="vertical"
             android:paddingBottom="10dp"
             android:paddingLeft="10dp" >

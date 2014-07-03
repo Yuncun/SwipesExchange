@@ -58,8 +58,8 @@ public class ConversationAdapter extends BaseAdapter {
 
     @Override
     public boolean isEnabled(int position) {
-        // TODO Auto-generated method stub
-
+       
+       // always return false, can't click on messages in a conversation
        return false;
     }
     
@@ -78,7 +78,7 @@ public class ConversationAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         
-        if(chatMessage.getReceiver().getUID() == Self.getUID())
+        if(chatMessage.getReceiver().getUID().equals("10"))
         	is_incoming = true;
         else
         	is_incoming = false;
