@@ -101,6 +101,11 @@ public class ConversationAdapter extends BaseAdapter {
     public void add(ArrayList<Message> messages) {
         chatMessages.addAll(messages);
     }
+    
+    public void addAndUpdate(Message message) {
+    	chatMessages.add(message);
+    	this.notifyDataSetChanged();
+    }
 
     private void setAlignment(ViewHolder holder, boolean isIncoming) {
     	

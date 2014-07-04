@@ -120,7 +120,7 @@ public class MessagesFragment extends ListFragment {
      protected List<Message> doInBackground(Void... params) {
     	 //Block this until UID is successfully retrieved
     	 Log.d("waitForvalues", "Checking that UID is safely retrieved");
-    	 while (((MainActivity) context).getUID() != null) {
+    	 while (((MainActivity) context).getUID() == null) {
              Log.d("waitForvalues", "Waiting - getUID yields " + ((MainActivity) context).getUID());
              		
              try {

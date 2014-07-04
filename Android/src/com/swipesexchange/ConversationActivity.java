@@ -6,6 +6,7 @@ import sharedObjects.Message;
 import sharedObjects.User;
 import android.app.ActionBar;
 import android.app.Activity;
+import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
@@ -14,6 +15,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
@@ -69,6 +71,7 @@ public class ConversationActivity extends FragmentActivity {
 	                // create the message to be sent
 	                // TODO: make this accurate, check if EditText view is null
 	                //These IDs have to be real now - @ES
+	                
 	                User sender = new User("Eric Shen");
 	                sender.setRegid("10001");
 	                sender.setUID("10152153150921342");
@@ -86,8 +89,16 @@ public class ConversationActivity extends FragmentActivity {
 	                
 	                Message msg = new Message(sender, receiver, lid, time_plus, message_contents);
 	                ConnectToServlet.sendMessage(msg);
+	                // clear the edittext
+	                message_content_holder.getText().clear();
 	                
-	                refreshConversationFragment();
+	                // hide the keyboard
+	                InputMethodManager imm = (InputMethodManager)getSystemService(
+	                	      Context.INPUT_METHOD_SERVICE);
+	                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
+	                
+	                refreshConversationFragment(msg);
+	                
 
 	            }
 	        });
@@ -102,27 +113,14 @@ public class ConversationActivity extends FragmentActivity {
 	       
 	        action_bar.show();
 	        
-	        
-	        
-	        
-	    /*
-	        btnClose.setOnClickListener(new View.OnClickListener() {
-	 
-	            public void onClick(View arg0) {
-	                //Closing SecondScreen Activity
-	                finish();
-	            }
-	        });
-	        */
-	 
 	    }
 	   
-	   public void refreshConversationFragment() {
+	   public void refreshConversationFragment(Message m) {
 		   Fragment fragment = this.getSupportFragmentManager().findFragmentById(R.id.conversation_view);
 		   if(fragment != null)
 		   {
 			   ConversationFragment c_frag = (ConversationFragment) fragment;
-			   ((BaseAdapter) c_frag.getListAdapter()).notifyDataSetChanged();
+			   c_frag.updateFragmentWithMessage(m);
 			  
 		   }
 	   }

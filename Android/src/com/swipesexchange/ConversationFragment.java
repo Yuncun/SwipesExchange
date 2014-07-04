@@ -28,6 +28,7 @@ import android.widget.EditText;
 public class ConversationFragment extends ListFragment {
 
 	private ArrayList<Message> passed_messages;
+	ConversationAdapter adapter;
 	
 	public ConversationFragment() {
 		this.passed_messages = null;
@@ -77,13 +78,18 @@ public class ConversationFragment extends ListFragment {
 	     	}
 	 }
 	 
+	 public void updateFragmentWithMessage(Message m) {
+		 if(this.adapter != null)
+			 this.adapter.addAndUpdate(m);
+	 }
+	 
 
      @Override
      public void onActivityCreated(Bundle savedInstanceState) {
          super.onActivityCreated(savedInstanceState);
    
          this.sortConversationByDate();
-         ConversationAdapter adapter = new ConversationAdapter(this.getActivity(), this.passed_messages);
+         adapter = new ConversationAdapter(this.getActivity(), this.passed_messages);
          setListAdapter(adapter);
 
      }
