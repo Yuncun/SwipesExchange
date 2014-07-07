@@ -11,6 +11,7 @@ import java.util.List;
 
 import sharedObjects.Message;
 import sharedObjects.SellListing;
+import sharedObjects.User;
 
 
 import android.support.v4.app.FragmentTransaction;
@@ -82,11 +83,13 @@ public class MessagesFragment extends ListFragment {
        super.onListItemClick(l, v, position, id);
        Log.d("pig", "[onListItemClick] Selected Position "+ position);
       // Fragment conv_list = new MessageListFragment();
-       
+       this.pullAndAddMessages();
        Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
        ArrayList<Message> clicked_messages = (ArrayList<Message>) ConversationList.getConversations().get(position).getAllMessages();
        Log.d("pig", Integer.toString(clicked_messages.size()));
+       User myUser = ((MainActivity) mActivity).getSelf();
        nextScreen.putExtra("clicked_messages", clicked_messages);
+       nextScreen.putExtra("myUser", myUser);
 
        startActivity(nextScreen);
        getActivity().overridePendingTransition(R.anim.slide_in_from_right,
@@ -135,7 +138,7 @@ public class MessagesFragment extends ListFragment {
     	 
      	//Log.d("LOUD AND CLEAR", "Attempting to update messages list");
  		List<Message> newConversations = new ArrayList<Message>();
- 		newConversations = ConnectToServlet.requestAllMsgs("10");
+ 		newConversations = ConnectToServlet.requestAllMsgs(((MainActivity) context).getUID());
  		//Log.d("LOUD AND CLEAR", "Message list returned from server with size " + newConversations.size());
  		return newConversations;
      }

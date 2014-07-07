@@ -125,6 +125,7 @@ public class MessageAdapter extends BaseAdapter {
 	}
 	
 	//This class will allow us to safely "block" until all necessary values (like UID) have been accounted for by the initialization code
+	//DEPRECATED @Eric 7/5/14
     private class WaitForKeyValues extends AsyncTask<Void, Void, String> {
 
 		   private Context context;

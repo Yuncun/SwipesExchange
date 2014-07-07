@@ -25,7 +25,7 @@ import android.widget.TextView;
 
 public class ConversationActivity extends FragmentActivity {
 	
-	
+	private User self;
 	ActionBar action_bar;
 	private Button submit_message;
 	private Time now;
@@ -38,10 +38,12 @@ public class ConversationActivity extends FragmentActivity {
 	        now = new Time();
 	 
 	        Intent i = getIntent();
-	         this.passed_messages = (ArrayList<Message>) i.getSerializableExtra("clicked_messages");
-	         Log.d("pig", Integer.toString(this.passed_messages.size()));
-	         for(int j=0; j< this.passed_messages.size(); j++) 
-	        	 Log.d("pig", this.passed_messages.get(j).getText());
+	        
+	        this.passed_messages = (ArrayList<Message>) i.getSerializableExtra("clicked_messages");
+	        this.self = (User) i.getSerializableExtra("myUser");
+	        Log.d("pig", Integer.toString(this.passed_messages.size()));
+	        for(int j=0; j< this.passed_messages.size(); j++) 
+	        	Log.d("pig", this.passed_messages.get(j).getText());
 	     
 	        
 	        RelativeLayout close = (RelativeLayout) findViewById(R.id.go_back);
@@ -72,20 +74,23 @@ public class ConversationActivity extends FragmentActivity {
 	                // TODO: make this accurate, check if EditText view is null
 	                //These IDs have to be real now - @ES
 	                
-	                User sender = new User("Eric Shen");
-	                sender.setRegid("10001");
-	                sender.setUID("10152153150921342");
-	                User receiver = new User("Lord Brocktree");
-	                receiver.setRegid("10002");
-	                receiver.setUID("10152153150921342");
+	                User sender = self;
+	                //sender.setRegid("10001");
+	                //sender.setUID("10152153150921342");
+	                User receiver = self;
+	                //receiver.setRegid("10002");
+	                //receiver.setUID("10152153150921342");
 	                String lid = passed_messages.get(0).getListing_id();
 	                now.setToNow();
 	                String time = String.format("%d:%02d", fixHours(now.hour), now.minute);
 	                String time_plus;
+	               
 	                if(isPM(now.hour))
 	                	time_plus = time + "PM";
 	                else
 	                	time_plus = time + "AM";
+	                
+	                Log.d("TIME", "Time_plus at ConversationActivity is " + time_plus);
 	                
 	                Message msg = new Message(sender, receiver, lid, time_plus, message_contents);
 	                ConnectToServlet.sendMessage(msg);

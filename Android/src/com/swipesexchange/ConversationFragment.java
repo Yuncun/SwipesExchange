@@ -88,7 +88,7 @@ public class ConversationFragment extends ListFragment {
      public void onActivityCreated(Bundle savedInstanceState) {
          super.onActivityCreated(savedInstanceState);
    
-         this.sortConversationByDate();
+         //this.sortConversationByDate();
          adapter = new ConversationAdapter(this.getActivity(), this.passed_messages);
          setListAdapter(adapter);
 

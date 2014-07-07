@@ -1,6 +1,10 @@
 package com.swipesexchange;
 
+import sharedObjects.Message;
+import sharedObjects.MsgStruct;
+
 import com.google.android.gms.gcm.GoogleCloudMessaging;
+import com.google.gson.Gson;
 
 import android.app.IntentService;
 import android.app.NotificationManager;
@@ -10,15 +14,22 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
+import android.support.v4.app.TaskStackBuilder;
 import android.util.Log;
 
 	public class GcmIntentService extends IntentService {
 	    public static final int NOTIFICATION_ID = 1;
+	    private Context mContext; 
 	    private NotificationManager mNotificationManager;
 	    NotificationCompat.Builder builder;
 
 	    public GcmIntentService() {
 	        super("GcmIntentService");
+	    }
+	    
+	    public void setContext(Context context)
+	    {
+	    	mContext = context;
 	    }
 
 	    @Override
@@ -28,7 +39,6 @@ import android.util.Log;
 	        // The getMessageType() intent parameter must be the intent you received
 	        // in your BroadcastReceiver.
 	        String messageType = gcm.getMessageType(intent);
-
 	        if (!extras.isEmpty()) {  // has effect of unparcelling Bundle
 	            /*
 	             * Filter messages based on message type. Since it is likely that GCM
@@ -57,8 +67,8 @@ import android.util.Log;
 	                }
 	                Log.i("LOUD AND CLEAR", "Completed work @ " + SystemClock.elapsedRealtime());
 	                // Post notification of received message.
-	                sendNotification("Received: " + extras.toString());
-	                Log.i("LOUD AND CLEAR", "Received: " + extras.toString());
+	                sendNotification(extras.getString("message"));
+	                Log.i("LOUD AND CLEAR", "Received: " + extras.getString("message"));
 	            }
 	        }
 	        // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -70,9 +80,11 @@ import android.util.Log;
 	    // a GCM message.
 	    private void sendNotification(String msg) {
 	    	Log.d("LOUD AND CLEAR", "**NEW MESSAGE RECEIVED FROM GCM** " + msg);
+	    	Gson gson = new Gson();
+	    	Message received = gson.fromJson(msg, Message.class);
+	    	String payload = received.getText();
+	    	String senderName = received.getSender().getName();
 	    	/*
-	    	 * DO SHIT HERE
-	    
 	        mNotificationManager = (NotificationManager)
 	                this.getSystemService(Context.NOTIFICATION_SERVICE);
 
@@ -81,7 +93,7 @@ import android.util.Log;
 
 	        NotificationCompat.Builder mBuilder =
 	                new NotificationCompat.Builder(this)
-	        .setSmallIcon(R.drawable.ic_stat_gcm)
+	        .setSmallIcon(R.drawable.icon)
 	        .setContentTitle("GCM Notification")
 	        .setStyle(new NotificationCompat.BigTextStyle()
 	        .bigText(msg))
@@ -90,6 +102,33 @@ import android.util.Log;
 	        mBuilder.setContentIntent(contentIntent);
 	        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
 	        */
+	    	NotificationCompat.Builder mBuilder =
+	    	        new NotificationCompat.Builder(this)
+	    	        .setSmallIcon(R.drawable.icon)
+	    	        .setContentTitle(payload)
+	    	        .setContentText("New Message from " + senderName);
+	    	// Creates an explicit intent for an Activity in your app
+	    	Intent resultIntent = new Intent(this, MainActivity.class);
+
+	    	// The stack builder object will contain an artificial back stack for the
+	    	// started Activity.
+	    	// This ensures that navigating backward from the Activity leads out of
+	    	// your application to the Home screen.
+	    	//TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
+	    	//stackBuilder.addParentStack(MainActivity.class);
+	    	//stackBuilder.addNextIntent(resultIntent);
+	    	PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+	    	/*PendingIntent resultPendingIntent =
+	    	        stackBuilder.getPendingIntent(
+	    	            0,
+	    	            PendingIntent.FLAG_UPDATE_CURRENT
+	    	        );*/
+	    	mBuilder.setContentIntent(resultPendingIntent);
+	    	NotificationManager mNotificationManager =
+	    	    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
+	    	// mId allows you to update the notification later on.
+	    	int mId = 0;
+	    	mNotificationManager.notify(mId, mBuilder.build());
 	    }
 }
 

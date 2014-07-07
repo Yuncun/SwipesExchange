@@ -58,7 +58,7 @@ public class MainActivity extends FragmentActivity {
 	private String fbid;
 	private String myID;
 	private String regid;
-	private User self;
+	private static User self;
 	public static final String PROPERTY_UID = "user_id";
 	public static final String PROPERTY_GUESTNAME = "guest_name";
 	public boolean loggedInAsGuest = false;
@@ -313,8 +313,10 @@ public class MainActivity extends FragmentActivity {
 
  	  	            	  
  	  	                fbid = user.getId();
+ 	  	                
  	  	                myID = fbid;
  	  	                self.setUID(fbid);
+ 	  	                self.setName(user.getName());
  	  	                Log.d("LOUD AND CLEAR", "****** SESSION STATE CHANGE ****** fbname: " + user.getName());
  	  	                Log.d("LOUD AND CLEAR", "fbid " + user.getId());
  	  	                
@@ -530,6 +532,8 @@ public class MainActivity extends FragmentActivity {
 	    }.execute(null, null, null);
 	    
 	}
+	
+	
 	
 	/**
 	 * Sends the registration ID to your server over HTTP, so it can use GCM/HTTP
@@ -955,6 +959,10 @@ public class MainActivity extends FragmentActivity {
 	    }
 	}
 	
+	public User getSelf(){
+		return self;
+	}
+	
 	public String getUID()
 	{
 		return self.getUID();
@@ -1031,7 +1039,7 @@ public class MainActivity extends FragmentActivity {
 	}
 
 */
-	
+	/*
 	private class GetFbidAsync extends AsyncTask<String, Void, String> {
 
 		@Override
@@ -1066,7 +1074,7 @@ public class MainActivity extends FragmentActivity {
             } else {
                 Log.i(TAG, "No valid Google Play Services APK found.");
             }
-        	
+ 
         	Self.setUID(result);
         	myID = result; //deprecated
 		 	Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: UUID IS NOW" + myID);
@@ -1079,7 +1087,7 @@ public class MainActivity extends FragmentActivity {
 
 	
 
-		}
+		}*/
 }
 
 

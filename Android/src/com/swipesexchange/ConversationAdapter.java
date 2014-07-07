@@ -78,7 +78,7 @@ public class ConversationAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         
-        if(chatMessage.getReceiver().getUID().equals("10"))
+        if(chatMessage.getReceiver().getUID().equals("10")) //TODO: Change to self.
         	is_incoming = true;
         else
         	is_incoming = false;
@@ -104,6 +104,7 @@ public class ConversationAdapter extends BaseAdapter {
     
     public void addAndUpdate(Message message) {
     	chatMessages.add(message);
+    	//ConversationList.addMessage();
     	this.notifyDataSetChanged();
     }
 
