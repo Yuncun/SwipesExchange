@@ -57,7 +57,7 @@ public class ConversationFragment extends ListFragment {
 	     	   Collections.sort(this.passed_messages, new Comparator<Message>(){
 	     		   public int compare(Message emp1, Message emp2) 
 	     		   {
-	     			 SimpleDateFormat df = new SimpleDateFormat("EEE, d MMM yyyy HH:mm:ss Z");
+	     			 SimpleDateFormat df = new SimpleDateFormat("yy.MM.dd.HH.mm.ss.Z");
 	     			 Date date1 = null;
 					try {
 						date1 = df.parse(emp1.getTime());

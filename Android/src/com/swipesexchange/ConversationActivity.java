@@ -38,8 +38,9 @@ public class ConversationActivity extends FragmentActivity {
 	        now = new Time();
 	 
 	        Intent i = getIntent();
-	        
-	        this.passed_messages = (ArrayList<Message>) i.getSerializableExtra("clicked_messages");
+	
+	        int pos = i.getIntExtra("clicked_messages_position", 0);
+	        this.passed_messages = (ArrayList<Message>) ConversationList.getConversations().get(pos).getAllMessages();
 	        this.self = (User) i.getSerializableExtra("myUser");
 	        Log.d("pig", Integer.toString(this.passed_messages.size()));
 	        for(int j=0; j< this.passed_messages.size(); j++) 
@@ -53,6 +54,9 @@ public class ConversationActivity extends FragmentActivity {
 				@Override
 				public void onClick(View v) {
 					ClosedInfo.setMinimized(false);
+					Intent intent = new Intent(ConversationActivity.this, MainActivity.class);
+					//startActivityForResult(intent, RESULT_OK);
+					setResult(RESULT_OK, intent); 
 					finish();
 					overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
 					
@@ -61,6 +65,8 @@ public class ConversationActivity extends FragmentActivity {
 	        
 	        final EditText message_content_holder = (EditText) findViewById(R.id.messageEdit);
 	     	submit_message = (Button) findViewById(R.id.chatSendButton);
+	     	
+	     	
 	     	
 			submit_message.setOnClickListener(new View.OnClickListener() {
 				 
@@ -82,17 +88,12 @@ public class ConversationActivity extends FragmentActivity {
 	                //receiver.setUID("10152153150921342");
 	                String lid = passed_messages.get(0).getListing_id();
 	                now.setToNow();
-	                String time = String.format("%d:%02d", fixHours(now.hour), now.minute);
-	                String time_plus;
-	               
-	                if(isPM(now.hour))
-	                	time_plus = time + "PM";
-	                else
-	                	time_plus = time + "AM";
+
+	                String time = now.format2445();
 	                
-	                Log.d("TIME", "Time_plus at ConversationActivity is " + time_plus);
+	                Log.d("TIME", "Time_plus at ConversationActivity is " + time);
 	                
-	                Message msg = new Message(sender, receiver, lid, time_plus, message_contents);
+	                Message msg = new Message(sender, receiver, lid, time, message_contents);
 	                ConnectToServlet.sendMessage(msg);
 	                // clear the edittext
 	                message_content_holder.getText().clear();

@@ -10,8 +10,10 @@ public abstract class Listing implements Serializable{
         private String time;
         private String startTime;
         private String endTime;
+        private String time_created;
         public String section;
         public Boolean isSection;
+        private String id;
         
         
         
@@ -65,6 +67,22 @@ public abstract class Listing implements Serializable{
         }
         public void setEndTime(String endTime) {
                 this.endTime = endTime;
+        }
+        
+        public String getListingID() {
+        	return this.id;
+        }
+        
+        public void setListingID(String l_id) {
+        	this.id = l_id;
+        }
+        
+        public String getTimeCreated() {
+        	return this.time_created;
+        }
+        
+        public void setTimeCreated(String time) {
+        	this.time_created = time;
         }
         
         

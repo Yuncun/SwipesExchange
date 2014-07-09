@@ -7,6 +7,7 @@ import java.util.Stack;
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 
 import sharedObjects.BuyListing;
+import sharedObjects.Message;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -35,20 +36,14 @@ public class MessageAdapter extends BaseAdapter {
             super();
             myContext=context;
             my_list = list;
-            
-            sender_names = new ArrayList<String>();
+
             sender_ids = new ArrayList<String>();
-            message_texts = new ArrayList<String>();
-            
-    
+
             if(my_list.size()>0)
             {
             	    for (int i = 0; i < my_list.size(); i++) 
       	            {
-            	    	if(Self.getUID() == my_list.get(i).getSender().getUID())
-	            			sender_names.add(my_list.get(i).getSender().getName());
-	            		else
-	            			sender_names.add(my_list.get(i).getReceiver().getName());
+            	   
 	            		
 	            		//Log.d("pig", Self.getUID());
 	            		if(Self.getUID() == my_list.get(i).getSender().getUID())
@@ -58,8 +53,7 @@ public class MessageAdapter extends BaseAdapter {
 	            		
 	            		
 	            			
-	            		//sender_ids.add(my_list.get(i).getSender().getUID());
-	                    message_texts.add(my_list.get(i).getMostRecentMessage().getText());
+	            		
 	            	}
             }
            
@@ -93,10 +87,18 @@ public class MessageAdapter extends BaseAdapter {
         //TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
         TextView text = (TextView) view.findViewById(R.id.message_text);
       
-        
-        sender_name.setText(sender_names.get(position));
+        String sender_string = "";
+        if(Self.getUID() == my_list.get(position).getSender().getUID())
+			sender_string = my_list.get(position).getSender().getName();
+		else
+			sender_string = my_list.get(position).getReceiver().getName();
+        sender_name.setText(sender_string);
         //sender_id.setText(sender_ids.get(position));
-        text.setText(message_texts.get(position));
+        
+        String message_string = "";
+        message_string = my_list.get(position).getMostRecentMessage().getText();
+        
+        text.setText(message_string);
        
         
         return view;
@@ -105,6 +107,16 @@ public class MessageAdapter extends BaseAdapter {
     public void switchToConversationFrag() {
     	  
        
+    }
+    
+    public void addAndUpdate() {
+    	//this.my_list.clear();
+    	this.my_list = ConversationList.getConversations();
+    	for(int i=0; i < ConversationList.getConversations().size(); i++)
+    	{
+    		Log.d("zebra", "Conversation " + i);
+    	}
+    	this.notifyDataSetChanged();
     }
 
     public Object getItem(int position) {

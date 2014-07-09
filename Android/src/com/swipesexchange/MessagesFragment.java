@@ -37,6 +37,7 @@ public class MessagesFragment extends ListFragment {
 	//private ArrayList<ParentRow> parents;
     static Context mActivity;
     private final ConversationList c_list;
+    MessageAdapter adapter;
     private int page_num;
     
     
@@ -62,6 +63,20 @@ public class MessagesFragment extends ListFragment {
    }
    
    @Override
+   public void onResume() {
+	   super.onResume();
+	   this.updateFragmentWithMessage();
+   }
+   
+   @Override
+   public void onActivityResult(int requestCode, int resultCode, Intent data) {
+       super.onActivityResult(requestCode, resultCode, data);
+       // refresh
+       this.updateFragmentWithMessage();
+   }
+   
+   
+   @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
            Bundle savedInstanceState) {
 
@@ -78,17 +93,22 @@ public class MessagesFragment extends ListFragment {
 		    
 	}
    
+   public void updateFragmentWithMessage() {
+		 if(this.adapter != null)
+			 this.adapter.addAndUpdate();
+	 }
+   
    @Override
    public void onListItemClick(ListView l, View v, int position, long id) {
        super.onListItemClick(l, v, position, id);
        Log.d("pig", "[onListItemClick] Selected Position "+ position);
       // Fragment conv_list = new MessageListFragment();
-       this.pullAndAddMessages();
+       //this.pullAndAddMessages();
        Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
        ArrayList<Message> clicked_messages = (ArrayList<Message>) ConversationList.getConversations().get(position).getAllMessages();
        Log.d("pig", Integer.toString(clicked_messages.size()));
        User myUser = ((MainActivity) mActivity).getSelf();
-       nextScreen.putExtra("clicked_messages", clicked_messages);
+       nextScreen.putExtra("clicked_messages_position", position);
        nextScreen.putExtra("myUser", myUser);
 
        startActivity(nextScreen);
@@ -99,8 +119,8 @@ public class MessagesFragment extends ListFragment {
    }
    
    public void setMessageAdapter() {
-	   MessageAdapter adapter = new MessageAdapter(getActivity(),ConversationList.getConversations());
-	      setListAdapter(adapter);
+	   adapter = new MessageAdapter(getActivity(),ConversationList.getConversations());
+	   setListAdapter(adapter);
    }
 
 	private class MessageTask extends AsyncTask<Void, Void, List<Message>> {
@@ -162,6 +182,8 @@ public class MessagesFragment extends ListFragment {
       this.pullAndAddMessages();
      
      }
+   
+   
 
    
        

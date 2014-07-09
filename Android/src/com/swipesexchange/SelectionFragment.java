@@ -2,6 +2,8 @@ package com.swipesexchange;
 
 import java.lang.reflect.Field;
 
+import sharedObjects.Message;
+
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
@@ -40,6 +42,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	private LoginFragment loginFragment;
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ActionBar actionBar;
+	private static MessagesFragment m_frag;
 	public BackendData l;
 	
 	private static final int NUM_FRAGMENTS = 5;
@@ -277,6 +280,16 @@ actionBar = getActivity().getActionBar();
 		
 		
 	}
+	
+	   public void refreshConversationFragment() {
+		   Fragment fragment = m_frag;
+		   if(fragment != null)
+		   {
+			   MessagesFragment m_frag = (MessagesFragment) fragment;
+			   m_frag.updateFragmentWithMessage();
+			  
+		   }
+	   }
 
 
 	
@@ -316,7 +329,8 @@ actionBar = getActivity().getActionBar();
 			case 3:
 				return NewListingFragment.newInstance(position, mActivity);
 			case 4:
-				return MessagesFragment.newInstance(position, mActivity);
+				m_frag = MessagesFragment.newInstance(position, mActivity);
+				return m_frag;
 		
 			
 			}

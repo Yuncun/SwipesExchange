@@ -9,6 +9,8 @@
         android:layout_width="match_parent"
         android:layout_height="45dp"
         android:background="#dbdbdb"
+        android:focusable="true" 
+            android:focusableInTouchMode="true" 
         
         android:orientation="horizontal" >
 
@@ -69,7 +71,8 @@
             android:maxLength="2000"
             android:minLines="2"
             android:scrollbars="vertical"
-            android:textSize="14sp" />
+            android:textSize="14sp"
+            />
      
    
         

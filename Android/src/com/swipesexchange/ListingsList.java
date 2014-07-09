@@ -58,8 +58,7 @@ public class ListingsList extends ListFragment
    
         Bundle args = new Bundle();
         args.putInt("num", num);
-
-       l.setArguments(args);
+        l.setArguments(args);
 
         return l;
     }

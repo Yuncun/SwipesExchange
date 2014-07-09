@@ -22,12 +22,12 @@ public class ConversationList {
 	private static Stack<Conversation> conversation_list;
 	
 	// boolean to check if the Messages tab needs an update
-	private boolean needs_update;
+	private static boolean needs_update;
 	
 	public ConversationList() {
 		
 		ConversationList.conversation_list = new Stack<Conversation>();
-		this.needs_update = false;
+		needs_update = false;
 	}
 	
 
@@ -46,35 +46,35 @@ public class ConversationList {
 	
 	
 	// for adding conversations to the conversation list
-	public void addConversation(Conversation c) {
+	public static void addConversation(Conversation c) {
 		ConversationList.conversation_list.push(c);
 		if(!needs_update)
 		{
-			this.needs_update = true;
+			needs_update = true;
 		}
 	}
 	
-	public void addMessage(Message msg) {
+	public static void addMessage(Message msg) {
 		String lid = msg.getListing_id();
-		int conversation_index = this.findConversationIndexByListingID(lid);
+		int conversation_index = findConversationIndexByListingID(lid);
 		if(conversation_index == -1)
 		{
 			Conversation c = new Conversation(msg.getSender(), msg.getReceiver(), msg.getListing_id());
 			c.addMessageToConversation(msg);
-			this.addConversation(c);
+			addConversation(c);
 		}
 		else
 		{
 			ConversationList.conversation_list.get(conversation_index).addMessageToConversation(msg);
 			if(!needs_update)
 			{
-				this.needs_update = true;
+				needs_update = true;
 			}
 		}
 		
 	}
 	
-	public int findConversationIndexByListingID(String lid) {
+	public static int findConversationIndexByListingID(String lid) {
 		Stack<Conversation> l = ConversationList.getConversations();
 		for(int i=0; i<l.size(); i++)
 		{
