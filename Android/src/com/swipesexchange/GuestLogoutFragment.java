@@ -1,5 +1,6 @@
 package com.swipesexchange;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
 import android.support.v4.app.Fragment;
@@ -36,6 +37,10 @@ public class GuestLogoutFragment extends Fragment {
 	
 	  public void performlogout() {
 		  Log.d("Guest Logout ", "Log out button activated");
+		  Intent i = getActivity().getBaseContext().getPackageManager()
+		             .getLaunchIntentForPackage( getActivity().getBaseContext().getPackageName() );
+		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		startActivity(i);
 		  
 	      //  DialogFragment newFragment = new GuestLoginFragment();
 	      //  newFragment.show(getFragmentManager(), "GuestLogin");

@@ -120,7 +120,7 @@ public class MainActivity extends FragmentActivity {
 		uiHelper.onCreate(savedInstanceState);
 		
 		minimized = false;
-		
+		Self.setUser(new User("Guest"));
 		this.logged_in = 0;
 		
 		session = Session.getActiveSession();
