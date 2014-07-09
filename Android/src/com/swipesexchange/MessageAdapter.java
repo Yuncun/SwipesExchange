@@ -8,6 +8,7 @@ import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 
 import sharedObjects.BuyListing;
 import sharedObjects.Message;
+import sharedObjects.Self;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -46,7 +47,7 @@ public class MessageAdapter extends BaseAdapter {
             	   
 	            		
 	            		//Log.d("pig", Self.getUID());
-	            		if(Self.getUID() == my_list.get(i).getSender().getUID())
+	            		if(Self.getUser().getUID() == my_list.get(i).getSender().getUID())
 	            			sender_ids.add(my_list.get(i).getSender().getUID());
 	            		else
 	            			sender_ids.add(my_list.get(i).getReceiver().getUID());
@@ -88,7 +89,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView text = (TextView) view.findViewById(R.id.message_text);
       
         String sender_string = "";
-        if(Self.getUID() == my_list.get(position).getSender().getUID())
+        if(Self.getUser().getUID() == my_list.get(position).getSender().getUID())
 			sender_string = my_list.get(position).getSender().getName();
 		else
 			sender_string = my_list.get(position).getReceiver().getName();

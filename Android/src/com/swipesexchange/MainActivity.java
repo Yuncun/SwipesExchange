@@ -6,6 +6,7 @@ import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
 import sharedObjects.MsgStruct;
+import sharedObjects.Self;
 import sharedObjects.User;
 import android.support.v4.app.FragmentTransaction;
 import android.content.pm.ActivityInfo;
@@ -55,10 +56,10 @@ public class MainActivity extends FragmentActivity {
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	private String fbid;
-	private String myID;
-	private String regid;
-	private static User self;
+	//private String fbid;
+	//private String myID;
+	//private String regid;
+	//private static User self;
 	public static final String PROPERTY_UID = "user_id";
 	public static final String PROPERTY_GUESTNAME = "guest_name";
 	public boolean loggedInAsGuest = false;
@@ -138,7 +139,7 @@ public class MainActivity extends FragmentActivity {
 		
 		
 		//Create self
-		self = new User(null);
+		//self = new User(null);
 		context = getApplicationContext();
 		
 		FragmentTransaction transaction = fragment_manager.beginTransaction();
@@ -181,23 +182,19 @@ public class MainActivity extends FragmentActivity {
  	  	              if (user != null) {
 
  	  	            	  
- 	  	                fbid = user.getId();
- 	  	                
- 	  	                myID = fbid;
- 	  	                self.setUID(fbid);
- 	  	                self.setName(user.getName());
+ 	  	                Self.getUser().setUID(user.getId());
+ 	  	                Self.getUser().setName(user.getName());
  	  	                Log.d("LOUD AND CLEAR", "****** SESSION STATE CHANGE ****** fbname: " + user.getName());
  	  	                Log.d("LOUD AND CLEAR", "fbid " + user.getId());
  	  	                
  	  	             if (checkPlayServices()) {
  	  	    			Log.d("LOUD AND CLEAR", "Creating GCM");
  	  	                gcm = GoogleCloudMessaging.getInstance(context);
- 	  	                self.setRegid(getRegistrationId(getApplicationContext()));
- 	  	                regid = getRegistrationId(getApplicationContext());
- 	  	                if (regid.isEmpty()) {
+ 	  	                Self.getUser().setRegid(getRegistrationId(getApplicationContext()));
+ 	  	                if (getRegistrationId(getApplicationContext()).isEmpty()) {
  	  	                    registerInBackground();
  	  	                }   
- 	  	             handleIDsAsync(self.getUID(), self.getRegid());
+ 	  	             handleIDsAsync(Self.getUser().getUID(), Self.getUser().getRegid());
  	  	            } else {
  	  	                Log.i("LOUD AND CLEAR", "No valid Google Play Services APK found.");
  	  	            }
@@ -367,8 +364,8 @@ public class MainActivity extends FragmentActivity {
 	                if (gcm == null) {
 	                    gcm = GoogleCloudMessaging.getInstance(context);
 	                }
-	                regid = gcm.register(SENDER_ID);
-	                msg = "Device registered, registration ID=" + regid;
+	                Self.getUser().setRegid(gcm.register(SENDER_ID));
+	                msg = "Device registered, registration ID=" + Self.getUser().getRegid();
 
 	                // You should send the registration ID to your server over HTTP,
 	                // so it can use GCM/HTTP or CCS to send messages to your app.
@@ -381,7 +378,7 @@ public class MainActivity extends FragmentActivity {
 	                // message using the 'from' address in the message.
 
 	                // Persist the regID - no need to register again.
-	                storeRegistrationId(context, regid);
+	                storeRegistrationId(context, Self.getUser().getRegid());
 	            } catch (IOException ex) {
 	                msg = null;
 	                Log.d("LOUD AND CLEAR", "Error in registerinbackround() IO exception");
@@ -395,9 +392,8 @@ public class MainActivity extends FragmentActivity {
 	        @Override
 	        protected void onPostExecute(String msg) {
 	        	  Log.d("LOUD AND CLEAR", "GCM register in background msg: (Nothing is good)" + msg);
-	           Log.d("LOUD AND CLEAR", "After register in background, REGID is set to be " + regid);
 	           if (msg!=null){
-	           handleIDsAsync(myID, msg);
+	           handleIDsAsync(Self.getUser().getUID(), msg);
 	           }
 	        }
 	    }.execute(null, null, null);
@@ -448,26 +444,25 @@ public class MainActivity extends FragmentActivity {
 		    	Log.i("LOUD AND CLEAR", "Registration not found.");
 		    	registrationId = UUID.randomUUID().toString();
 			}
-    	self.setUID(registrationId);
-    	self.setName(username);
+    	Self.getUser().setUID(registrationId);
+    	Self.getUser().setName(username);
 		Log.d("LOUD AND CLEAR", "Accepting guest login with username: " + username);
 
         if (checkPlayServices()) {
    			Log.d("LOUD AND CLEAR", "Creating GCM");
                gcm = GoogleCloudMessaging.getInstance(context);
-               regid = getRegistrationId(getApplicationContext());
-               self.setRegid(regid);
-               if (self.getRegid().isEmpty()) {
+               Self.getUser().setRegid(getRegistrationId(getApplicationContext()));
+               if (Self.getUser().getRegid().isEmpty()) {
                    registerInBackground();
                }   
-	           handleIDsAsync(self.getUID(), self.getRegid());
+	           handleIDsAsync(Self.getUser().getUID(), Self.getUser().getRegid());
 	            } else {
 	                Log.i("LOUD AND CLEAR", "No valid Google Play Services APK found.");
 	            }
-        Log.d("LOUD AND CLEAR", "Guest Login accepted with stats: " + self.getUID() + " and " + self.getRegid());
+        Log.d("LOUD AND CLEAR", "Guest Login accepted with stats: " + Self.getUser().getUID() + " and " + Self.getUser().getRegid());
 		loggedInAsGuest = true;
-		storeUID(context, self.getUID());
-		storeGuestName(context, self.getName());
+		storeUID(context, Self.getUser().getUID());
+		storeGuestName(context, Self.getUser().getName());
 		//Store UID info
     	
 	}
@@ -478,7 +473,7 @@ public class MainActivity extends FragmentActivity {
 		    int appVersion = getAppVersion(context);
 		    Log.i(TAG, "Saving uidId on app version " + appVersion);
 		    SharedPreferences.Editor editor = prefs.edit();
-		    editor.putString(PROPERTY_UID, self.getUID());
+		    editor.putString(PROPERTY_UID, Self.getUser().getUID());
 		    editor.commit();
 	}
 	
@@ -808,12 +803,12 @@ public class MainActivity extends FragmentActivity {
 	}
 	
 	public static User getSelf(){
-		return self;
+		return Self.getUser();
 	}
 	
 	public String getUID()
 	{
-		return self.getUID();
+		return Self.getUser().getUID();
 	}
 	
     private void handleIDsAsync(String UID, String RegID) {

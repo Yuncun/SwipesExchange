@@ -3,6 +3,7 @@ package com.swipesexchange;
 import java.util.ArrayList;
 
 import sharedObjects.Message;
+import sharedObjects.Self;
 import sharedObjects.User;
 import android.app.ActionBar;
 import android.app.Activity;
@@ -25,7 +26,7 @@ import android.widget.TextView;
 
 public class ConversationActivity extends FragmentActivity {
 	
-	private User self;
+	//private User self;
 	ActionBar action_bar;
 	private Button submit_message;
 	private Time now;
@@ -41,7 +42,7 @@ public class ConversationActivity extends FragmentActivity {
 	
 	        int pos = i.getIntExtra("clicked_messages_position", 0);
 	        this.passed_messages = (ArrayList<Message>) ConversationList.getConversations().get(pos).getAllMessages();
-	        this.self = (User) i.getSerializableExtra("myUser");
+	       // this.self = (User) i.getSerializableExtra("myUser");
 	        Log.d("pig", Integer.toString(this.passed_messages.size()));
 	        for(int j=0; j< this.passed_messages.size(); j++) 
 	        	Log.d("pig", this.passed_messages.get(j).getText());
@@ -80,10 +81,10 @@ public class ConversationActivity extends FragmentActivity {
 	                // TODO: make this accurate, check if EditText view is null
 	                //These IDs have to be real now - @ES
 	                
-	                User sender = self;
+	                User sender = Self.getUser();
 	                //sender.setRegid("10001");
 	                //sender.setUID("10152153150921342");
-	                User receiver = self;
+	                User receiver = Self.getUser(); //TODO: resolve target
 	                //receiver.setRegid("10002");
 	                //receiver.setUID("10152153150921342");
 	                String lid = passed_messages.get(0).getListing_id();

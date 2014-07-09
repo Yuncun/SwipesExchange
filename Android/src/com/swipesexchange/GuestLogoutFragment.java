@@ -36,6 +36,7 @@ public class GuestLogoutFragment extends Fragment {
 	
 	  public void performlogout() {
 		  Log.d("Guest Logout ", "Log out button activated");
+		  
 	      //  DialogFragment newFragment = new GuestLoginFragment();
 	      //  newFragment.show(getFragmentManager(), "GuestLogin");
 	    }
