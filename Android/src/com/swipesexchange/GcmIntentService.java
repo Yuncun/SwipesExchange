@@ -67,19 +67,31 @@ import android.util.Log;
 	                }
 	                Log.i("LOUD AND CLEAR", "Completed work @ " + SystemClock.elapsedRealtime());
 	                // Post notification of received message.
-	                sendNotification(extras.getString("message"));
-	                Log.i("LOUD AND CLEAR", "Received: " + extras.getString("message"));
+	                String gsondMessage = extras.getString("message");
+	                sendNotification(gsondMessage);
+	                updateLocal(gsondMessage);
 	            }
 	        }
 	        // Release the wake lock provided by the WakefulBroadcastReceiver.
 	        GcmBroadcastReceiver.completeWakefulIntent(intent);
+	    }
+	    
+	    private void updateLocal(String msg)
+	    {
+	    	
+	    	Gson gson = new Gson();
+	    	Message received = gson.fromJson(msg, Message.class);
+	    	String payload = received.getText();
+	    	String senderName = received.getSender().getName();
+	    	Log.d("GCM", "Updating local message lists with message " + payload + "from user" + senderName);
+	    	ConversationList.addMessage(received);
 	    }
 
 	    // Put the message into a notification and post it.
 	    // This is just one simple example of what you might choose to do with
 	    // a GCM message.
 	    private void sendNotification(String msg) {
-	    	Log.d("LOUD AND CLEAR", "**NEW MESSAGE RECEIVED FROM GCM** " + msg);
+	    	Log.d("GCM", "Sending a new notification");
 	    	Gson gson = new Gson();
 	    	Message received = gson.fromJson(msg, Message.class);
 	    	String payload = received.getText();

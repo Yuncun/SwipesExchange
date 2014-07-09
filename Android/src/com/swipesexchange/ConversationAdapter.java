@@ -104,7 +104,7 @@ public class ConversationAdapter extends BaseAdapter {
     
     public void addAndUpdate(Message message) {
     	// TODO: remove this??
-    	//chatMessages.add(message);
+    	chatMessages.add(message);
     	ConversationList.addMessage(message);
     	this.notifyDataSetChanged();
     }
