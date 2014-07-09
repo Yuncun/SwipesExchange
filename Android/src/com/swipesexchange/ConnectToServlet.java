@@ -65,7 +65,7 @@ public class ConnectToServlet {
 	
 		          String blstring = gson.toJson(msgReq);
 		          
-		          Log.d("LOUD AND CLEAR", "Breakpoint"); 
+		          Log.d("LOUD AND CLEAR", "Breakpoint " + blstring); 
 		          
 		          connection.setDoOutput(true);
 	

@@ -24,6 +24,7 @@ public class Message implements Serializable {
 		setReceiver(Receiver_);
 		setListing_id(listid);
 		text = payload;
+		this.time = time;
 		
 	}
 

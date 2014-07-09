@@ -92,6 +92,7 @@ public class MainActivity extends FragmentActivity {
 	private static final int LOGIN_SPLASH = 0;
 	static final int MAIN = 1;
 	private static final int SETTINGS = 2;
+	private static final int GUESTLOGOUT = 3;
 	private MenuItem settings;
 	private Menu options_menu;
 	private boolean first_login;
@@ -101,7 +102,7 @@ public class MainActivity extends FragmentActivity {
 	private boolean is_resumed;
 	private Session session;
 	
-	private Fragment[] fragments = new Fragment[3];
+	private Fragment[] fragments = new Fragment[4];
 
 	ViewPager mViewPager;
 	
@@ -133,38 +134,12 @@ public class MainActivity extends FragmentActivity {
 		fragments[LOGIN_SPLASH] = fragment_manager.findFragmentById(R.id.splash_fragment);
 		fragments[MAIN] = fragment_manager.findFragmentById(R.id.selection_fragment);
 		fragments[SETTINGS] = fragment_manager.findFragmentById(R.id.userSettingsFragment);
+		fragments[GUESTLOGOUT] = fragment_manager.findFragmentById(R.id.guestlogoutfragment);
 		
 		
 		//Create self
 		self = new User(null);
 		context = getApplicationContext();
-		
-		/*
-		//@Eric -  shared preferences on machine are initialized here.
-		SharedPreferences sp = PreferenceManager.getDefaultSharedPreferences(getApplicationContext());
-		self.setSharedPref(sp);
-		String prefTest = self.getSharedPref().getString("myID", null);
-		Log.d("LOUD AND CLEAR", "Shared preference on initialization is" + prefTest);
-		*/
-		//fg = new GetFbidAsync();
-		
-		//Initializing GCM Connection
-		//@Eric 
-		/*
-		if (checkPlayServices()) {
-			Log.d("LOUD AND CLEAR", "Creating GCM");
-            gcm = GoogleCloudMessaging.getInstance(this);
-            regid = getRegistrationId(getApplicationContext());
-
-            if (regid.isEmpty()) {
-                registerInBackground();
-                
-            }
-        } else {
-            Log.i(TAG, "No valid Google Play Services APK found.");
-        }
-		//End GCM Connetion inti
-		*/
 		
 		FragmentTransaction transaction = fragment_manager.beginTransaction();
 		for(int i=0; i < fragments.length; i++)
@@ -176,113 +151,7 @@ public class MainActivity extends FragmentActivity {
 	        
 		this.state_changed = false;
 		this.create = false;
-		//this.first_login = true;
-	    
-		/*
-		if(Session.getActiveSession().isOpened())
-		{
-		FragmentManager fragmentManager = this.getSupportFragmentManager();
-		android.support.v4.app.FragmentTransaction transaction = fragmentManager.beginTransaction();
 		
-		transaction.hide(mainFragment);
-		transaction.commit();
-		}
-		*/
-		
-		// Set up the action bar.
-		
-		//actionBar.setIcon(R.drawable.yes);
-		
-		//tp = (TimePicker) findViewById(R.id.timePicker1);
-		
-		
-		// Create the adapter that will return a fragment for each of the three
-		// primary sections of the app.
-		/*
-		mSectionsPagerAdapter = new SectionsPagerAdapter(getSupportFragmentManager(), this);;
-
-		// Set up the ViewPager with the sections adapter.
-		mViewPager = (ViewPager) findViewById(R.id.pager);
-		mViewPager.setAdapter(mSectionsPagerAdapter);
-		
-
-		*/
-		
-		// For each of the sections in the app, add a tab to the action bar.
-		
-		/*
-		for (int i = 0; i < mSectionsPagerAdapter.getCount(); i++) {
-			// Create a tab with text corresponding to the page title defined by
-			// the adapter. Also specify this Activity object, which implements
-			// the TabListener interface, as the callback (listener) for when
-			// this tab is selected.
-			View tabView = this.getLayoutInflater().inflate(R.layout.tab_layout, null);
-			
-			TextView tabText = (TextView) tabView.findViewById(R.id.tabText);
-			tabText.setText(mSectionsPagerAdapter.getPageTitle(i));
-			
-		
-			//the following commented code can be used to create unique images to display on each tab
-			
-		
-			ImageView tabImage = (ImageView) tabView.findViewById(R.id.tabIcon);
-			
-			switch(i)
-			{
-			case 0:
-				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.shopping_basket_checkmark));
-				break;
-			case 1:
-				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.currency_sign_dollar_add));
-				break;
-			case 2:
-				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
-				break;
-			case 3:
-				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
-				break;
-			case 4:
-				tabImage.setImageDrawable(this.getResources().getDrawable(R.drawable.hand_handshake_checkmark));
-				break;
-			}
-			
-			
-			
-			//Add the tabs to the action bar
-
-					
-					
-			//Listen for clicks on the tabs
-			
-		}
-	*/
-		
-		/*
-		// start Facebook Login
-	    Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-	      // callback when session changes state
-	      @Override
-	      public void call(Session session, SessionState state, Exception exception) {
-	        if (session.isOpened()) {
-
-	          // make request to the /me API
-	          Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-	            // callback after Graph API response with user object
-	            @Override
-	            public void onCompleted(GraphUser user, Response response) {
-	              if (user != null) {
-	                
-	                Log.d("facebook", user.getName());
-	                Log.d("facebook", user.getId());
-	              }
-	            }
-	          }).executeAsync();
-	        }
-	      }
-	    });
-	    */
 		
 		
 	}
@@ -375,8 +244,11 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public boolean onOptionsItemSelected(MenuItem item) {
 	    if (item.equals(settings)) {
-	        showFragment(SETTINGS, true);
-	        return true;
+	    	if (Session.getActiveSession().isOpened() )
+		        showFragment(SETTINGS, true);
+	    	else
+	    		showFragment(GUESTLOGOUT, true);
+		        return true;
 	    }
 	    return false;
 	}
@@ -385,8 +257,7 @@ public class MainActivity extends FragmentActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	  super.onActivityResult(requestCode, resultCode, data);
 	  uiHelper.onActivityResult(requestCode, resultCode, data);
-	  
-	  //Session.getActiveSession().onActivityResult(this, requestCode, resultCode, data);
+	
 	}
 	
 	@Override
@@ -640,7 +511,7 @@ public class MainActivity extends FragmentActivity {
                
                Log.d("pig", "back pressed!");
                int frag_num = this.getVisibleFragment();
-               if(frag_num == SETTINGS)
+               if(frag_num == SETTINGS || frag_num == GUESTLOGOUT)
                {
             	   this.showFragment(MAIN, false);
                }
@@ -762,11 +633,7 @@ public class MainActivity extends FragmentActivity {
 	        
 	    }
 	}
-	
 
-	
-	
-        
          /*
         
               Log.d("pig","BACK FROM BACKGROUND");
@@ -846,17 +713,9 @@ public class MainActivity extends FragmentActivity {
 		
 		if(ClosedInfo.wasMinimized())
 		{
-			
-			
-			
-			
-			SessionState state = session.getState();
-			
-			
 		
-			
-			
-			
+			SessionState state = session.getState();
+	
 			Request.GraphUserCallback callback = new Request.GraphUserCallback() {
 				
 			
@@ -877,10 +736,7 @@ public class MainActivity extends FragmentActivity {
 		  	        	  Log.d("facebook", "bullshit");
 	                  }
 	  	            }
-	  	            
-
-	              
-					
+	
 				
 			};
 			
@@ -888,15 +744,7 @@ public class MainActivity extends FragmentActivity {
 			Exception e = null;
 			
 			 Request.newMeRequest(session, callback).executeAsync();
-			 
-			
-		
-			 
-			 
-		
-	
-		
-			
+			 	
 		}
 		
 	}
@@ -959,7 +807,7 @@ public class MainActivity extends FragmentActivity {
 	    }
 	}
 	
-	public User getSelf(){
+	public static User getSelf(){
 		return self;
 	}
 	
@@ -993,101 +841,7 @@ public class MainActivity extends FragmentActivity {
 	    }.execute(UID, RegID, null);
 	    
 	}
-/*
-	@Override
-	public boolean onCreateOptionsMenu(Menu menu) {
-		// Inflate the menu; this adds items to the action bar if it is present.
-		getMenuInflater().inflate(R.menu.main, menu);
-		RelativeLayout relativeLayout = (RelativeLayout) menu.findItem(R.id.layout_item).getActionView();
-		View inflatedView = getLayoutInflater().inflate(R.layout.actionbar_top, null);
-		inflatedView.findViewById(R.id.new_button).setOnClickListener(new OnClickListener() {
- 
- 
-			@Override
-			public void onClick(View v) {
-					
-					actionBar.setSelectedNavigationItem(2);
-				
-			}
-		});
-		
-		inflatedView.findViewById(R.id.new_button2).setOnClickListener(new OnClickListener() {
-			 
-			@Override
-			public void onClick(View v) {
-					
-					actionBar.setSelectedNavigationItem(3);
-				
-			}
-		});
-		
-		inflatedView.findViewById(R.id.logout_button).setOnClickListener(new OnClickListener() {
-			 
-			@Override
-			public void onClick(View v) {
-					
-					callFacebookLogout(v.getContext());
-					
-				
-			}
-		});
-		relativeLayout.addView(inflatedView);
-		
-		
-		return (super.onCreateOptionsMenu(menu));
 
-	}
-
-*/
-	/*
-	private class GetFbidAsync extends AsyncTask<String, Void, String> {
-
-		@Override
-		protected String doInBackground(String... params) {
-        	
-        	Gson gson = new Gson();
-        	
-        	String fbid2 = params[0];
-        	
-        	MsgStruct nMsg = new MsgStruct();
-        	nMsg.setHeader(Constants.FBID_GET); //Identifies message as a sell listing
-        	nMsg.setPayload(fbid2);
-
-        	String j1 = gson.toJson(nMsg);
-        	Log.d("LOUD AND CLEAR", "fbid is" + fbid2);
-        	Log.d("LOUD AND CLEAR", "Sending FBID to server" + j1);
-        	String ourUUID = ConnectToServlet.sendIDPair(j1, "fs");
-           return ourUUID;
-        }
-
-        protected void onPostExecute(String result) {
-        	
-        	if (checkPlayServices()) {
-    			Log.d("LOUD AND CLEAR", "Creating GCM");
-                gcm = GoogleCloudMessaging.getInstance(context);
-                regid = getRegistrationId(getApplicationContext());
-
-                if (regid.isEmpty()) {
-                    registerInBackground();
-                }
-                
-            } else {
-                Log.i(TAG, "No valid Google Play Services APK found.");
-            }
- 
-        	Self.setUID(result);
-        	myID = result; //deprecated
-		 	Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: UUID IS NOW" + myID);
-		 	SharedPreferences.Editor editor = Self.getSharedPref().edit();
-		 	editor.putString("uid", result); // value to store
-		 	editor.commit();
-            Log.d("LOUD AND CLEAR", "FB LOGIN COMPLETED: SHARED PREF IS NOW " + Self.getSharedPref().getString("uid", null));
-               
-        }
-
-	
-
-		}*/
 }
 
 

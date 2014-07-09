@@ -21,5 +21,11 @@
         android:name="com.facebook.widget.UserSettingsFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
+    
+   <fragment
+        android:id="@+id/guestlogoutfragment"
+        android:name="com.swipesexchange.GuestLogoutFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
 
 </LinearLayout>
