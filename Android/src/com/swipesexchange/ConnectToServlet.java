@@ -256,7 +256,74 @@ public class ConnectToServlet {
 		  return nl;
 
 	}
-
+	
+	public static void deleteConvesationLocally(Conversation conversation)
+	{
+		final List<String> messageID_comma_flagCode = new ArrayList<String>();
+		for (int i = 0; i < conversation.getAllMessages().size(); i++)
+		{
+			String mcf_entry = conversation.getAllMessages().get(i).getMessageID() + ",";
+			if(Self.getUser().getUID() == conversation.getAllMessages().get(i).getSender().getUID()){
+				mcf_entry += Constants.DELETED_BY_SENDER;
+			}
+			else if (Self.getUser().getUID() == conversation.getAllMessages().get(i).getReceiver().getUID()){
+				mcf_entry += Constants.DELETED_BY_RECEIVER;
+			}
+			else {
+				Log.d("deleteConvesationLocally", "User does not have permission to delete this message " + conversation.getAllMessages().get(i).getText());
+				break;
+			}
+			messageID_comma_flagCode.add(mcf_entry);
+		}
+		
+		//Send request to server
+		 Log.d("LOUD AND CLEAR", "Attempting to send message ");
+    	 new Thread(new Runnable() {
+     		public void run() {
+			  try {
+				  URL url = new URL(SERVERURL);
+				  URLConnection connection = url.openConnection();
+	
+				  Gson gson = new Gson();
+				  String msgpayload = gson.toJson(messageID_comma_flagCode);
+	          
+		          MsgStruct msgReq = new MsgStruct();
+		          msgReq.setHeader(Constants.DELETE_CONVERSATION);
+		          msgReq.setPayload(msgpayload);
+		          //Create request
+	
+		          String blstring = gson.toJson(msgReq);
+		          
+		          Log.d("LOUD AND CLEAR", "Breakpoint " + blstring); 
+		          
+		          connection.setDoOutput(true);
+	
+		          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+		          objectOut.writeObject(blstring);
+	
+		          objectOut.flush();
+		          objectOut.close();
+	
+		          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		          String returnString="";
+		          doubledValue = "";
+	
+	          	while ((returnString = in.readLine()) != null) 
+	          	{
+	          		doubledValue= returnString;
+	          	}
+	          	in.close();
+	          	
+	          	
+	          		Log.d("LOUD AND CLEAR", "DeleteConversation GCM responded with " + doubledValue); 
+	
+			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed with exception " + e.toString());}
+	
+			  return;
+     		}
+     		}).start();
+	
+	}
 	public static List<Message> requestAllMsgs(String myID){
 		 Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull ALL MESSAGES");
 		  List<Message> nl = new ArrayList<Message>();
