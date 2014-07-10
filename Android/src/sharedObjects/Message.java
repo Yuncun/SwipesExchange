@@ -1,16 +1,23 @@
 package sharedObjects;
 
 import java.io.Serializable;
+import java.util.UUID;
+
+import com.swipesexchange.Constants;
 
 
 public class Message implements Serializable {
 	
+	private String MessageID;
 	private User Sender;
 	private User Receiver;
 	
 	private String listing_id;
 	private String text;
 	private String time;
+	
+	private String savedFlag;
+	private String deletedFlag;
 	
 	/** Message constructor for creating a new message to be stored in a Conversation
 	 * 
@@ -25,6 +32,10 @@ public class Message implements Serializable {
 		setListing_id(listid);
 		text = payload;
 		this.time = time;
+		setSavedFlag(Constants.NO_FLAG);
+		setDeletedFlag(Constants.NO_FLAG);
+		setMessageID(null);
+		MessageID = UUID.randomUUID().toString();
 		
 	}
 
@@ -90,6 +101,48 @@ public class Message implements Serializable {
 	
 	public void setTime(String t) {
 		this.time = t;
+	}
+
+	/**
+	 * @return the savedFlag
+	 */
+	public String getSavedFlag() {
+		return savedFlag;
+	}
+
+	/**
+	 * @param savedFlag the savedFlag to set
+	 */
+	public void setSavedFlag(String savedFlag) {
+		this.savedFlag = savedFlag;
+	}
+
+	/**
+	 * @return the deletedFlag
+	 */
+	public String getDeletedFlag() {
+		return deletedFlag;
+	}
+
+	/**
+	 * @param deletedFlag the deletedFlag to set
+	 */
+	public void setDeletedFlag(String deletedFlag) {
+		this.deletedFlag = deletedFlag;
+	}
+
+	/**
+	 * @return the messageID
+	 */
+	public String getMessageID() {
+		return MessageID;
+	}
+
+	/**
+	 * @param messageID the messageID to set
+	 */
+	public void setMessageID(String messageID) {
+		MessageID = messageID;
 	}
 
 	

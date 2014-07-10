@@ -299,11 +299,65 @@ public class ConnectToServlet {
                Log.d("LOUD AND CLEAR", "Server MESSAGE list deserialized with size" + rl.size()); 
 
                return rl;
-		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");
+		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed " + e.toString());
 		  }
 
 		  return nl;
 
+	}
+	
+	public static void deleteMessageLocally(final String msg)
+	{
+		/**
+		 * Makes a serverside flag for this message so that it is not included in future pulls by this user
+		 * 
+		 */
+		Log.d("LOUD AND CLEAR", "Attempting to send message ");
+   	 new Thread(new Runnable() {
+    		public void run() {
+			  try {
+				  URL url = new URL(SERVERURL);
+				  URLConnection connection = url.openConnection();
+	
+				  Gson gson = new Gson();
+				  String msgpayload = gson.toJson(msg);
+	          
+		          MsgStruct msgReq = new MsgStruct();
+		          msgReq.setHeader(Constants.DELETE_MSG);
+		          msgReq.setPayload(msgpayload);
+		          //Create request
+	
+		          String blstring = gson.toJson(msgReq);
+		          
+		          Log.d("LOUD AND CLEAR", "Breakpoint " + blstring); 
+		          
+		          connection.setDoOutput(true);
+	
+		          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+		          objectOut.writeObject(blstring);
+	
+		          objectOut.flush();
+		          objectOut.close();
+	
+		          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		          String returnString="";
+		          doubledValue = "";
+	
+	          	while ((returnString = in.readLine()) != null) 
+	          	{
+	          		doubledValue= returnString;
+	          	}
+	          	in.close();
+	          	
+	          	
+	          		Log.d("LOUD AND CLEAR", "Delete message responded with" + doubledValue); 
+	
+			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed with exception " + e.toString());}
+	
+			  return;
+    		}
+    		}).start();
+		
 	}
 
 	public static String sendIDPair(String UID, String RegID) {
