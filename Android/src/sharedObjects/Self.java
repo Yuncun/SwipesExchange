@@ -6,6 +6,7 @@ public class Self {
 	/**
 	 * @return the myuser
 	 */
+	
 	public static User getUser() {
 		return user;
 	}

@@ -208,6 +208,13 @@ public class MainActivity extends FragmentActivity {
  	  	          }).executeAsync();
 			 	 //Todo: Try to extract from sharedpreferences
 			}
+			else if (session.isClosed()){
+				 Log.d("Guest Logout ", "Log out button activated");
+				  Intent i = getBaseContext().getPackageManager()
+				             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
+				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+				startActivity(i);
+			}
 		}
 	};
 	
