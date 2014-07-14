@@ -13,9 +13,13 @@ import sharedObjects.BuyListing;
 import sharedObjects.Message;
 import sharedObjects.User;
 import android.annotation.SuppressLint;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -39,6 +43,15 @@ public class ConversationFragment extends ListFragment {
 	
 	}
 	
+	  private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+		   @Override
+		   public void onReceive(Context context, Intent intent) {
+		     // Get extra data included in the Intent
+		     String message = intent.getStringExtra("message");
+		     updateFragmentWithNoMessage();
+		     Log.d("zebra", "Got message: " + message);
+		   }
+		 };
 
 	 @Override
      public View onCreateView(LayoutInflater inflater, ViewGroup container,
@@ -46,6 +59,8 @@ public class ConversationFragment extends ListFragment {
 
          View view = inflater.inflate(R.layout.conversation_fragment_list, container, false);
          getActivity().getActionBar().show();
+         LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+   		      new IntentFilter("message_received"));
 
          return view;
      }
@@ -81,6 +96,11 @@ public class ConversationFragment extends ListFragment {
 	 public void updateFragmentWithMessage(Message m) {
 		 if(this.adapter != null)
 			 this.adapter.addAndUpdate(m);
+	 }
+	 
+	 public void updateFragmentWithNoMessage() {
+		 if(this.adapter != null)
+			 this.adapter.addAndUpdateNoMsg();
 	 }
 	 
 

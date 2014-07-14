@@ -9,6 +9,9 @@ import java.util.List;
 
 
 
+
+
+
 import sharedObjects.Message;
 import sharedObjects.SellListing;
 import sharedObjects.User;
@@ -16,12 +19,15 @@ import sharedObjects.User;
 
 import android.support.v4.app.FragmentTransaction;
 import android.app.ProgressDialog;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,13 +81,24 @@ public class MessagesFragment extends ListFragment {
        this.updateFragmentWithMessage();
    }
    
+   private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
+	   @Override
+	   public void onReceive(Context context, Intent intent) {
+	     // Get extra data included in the Intent
+	     String message = intent.getStringExtra("message");
+	     updateFragmentWithMessage();
+	     Log.d("zebra", "Got message: " + message);
+	   }
+	 };
+   
    
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
            Bundle savedInstanceState) {
 
        View view = inflater.inflate(R.layout.message_overview, container, false);
-
+       LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
+    		      new IntentFilter("message_received"));
        return view;
    }
    

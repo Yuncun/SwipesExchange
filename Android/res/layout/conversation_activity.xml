@@ -7,10 +7,10 @@
         android:id="@+id/buttonbar"
         style="@android:style/ButtonBar"
         android:layout_width="match_parent"
-        android:layout_height="45dp"
-        android:background="#dbdbdb"
+        android:layout_height="47dp"
+        android:background="@color/holo_light_background"
         android:focusable="true" 
-            android:focusableInTouchMode="true" 
+        android:focusableInTouchMode="true" 
         
         android:orientation="horizontal" >
 
@@ -33,11 +33,12 @@
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_toRightOf="@+id/back_arrow_conversation"
-                android:background="#dbdbdb"
-                android:paddingTop="3.5dp"
-                android:text="Messages"
+                android:background="@android:color/transparent"
+                android:paddingTop="3.9dp"
+                android:textStyle="bold"
+                android:text="Back"
                 android:textColor="@color/mycolor1"
-                android:textSize="18sp" />
+                android:textSize="14sp" />
         </RelativeLayout>
     </LinearLayout>
 
@@ -48,7 +49,7 @@
             android:layout_marginBottom="5dp"
             android:layout_alignParentBottom="true"
             android:layout_alignParentRight="true"
-            android:textSize="15sp"
+            android:textSize="14sp"
             android:textStyle="bold"
             android:textColor="@color/mycolor1"
             android:background="@android:color/transparent"
@@ -71,7 +72,7 @@
             android:maxLength="2000"
             android:minLines="2"
             android:scrollbars="vertical"
-            android:textSize="14sp"
+            android:textSize="12sp"
             />
      
    
@@ -91,7 +92,9 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonbar"
         android:layout_above="@id/message_edit_bar"
-        android:name="com.swipesexchange.ConversationFragment" />
+        android:name="com.swipesexchange.ConversationFragment"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp" />
   
 
 

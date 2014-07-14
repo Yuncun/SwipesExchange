@@ -15,11 +15,17 @@ import android.widget.TextView;
 
 
 
+
+
+
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
 
 import sharedObjects.Message;
+import sharedObjects.Self;
 
 public class ConversationAdapter extends BaseAdapter {
 
@@ -66,7 +72,7 @@ public class ConversationAdapter extends BaseAdapter {
     @Override
     public View getView(final int position, View convertView, ViewGroup parent) {
         ViewHolder holder;
-        boolean is_incoming;
+        boolean is_outoing;
         Message chatMessage = getItem(position);
         LayoutInflater vi = (LayoutInflater) context.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
 
@@ -78,15 +84,20 @@ public class ConversationAdapter extends BaseAdapter {
             holder = (ViewHolder) convertView.getTag();
         }
         
-        if(chatMessage.getReceiver().getUID().equals("10")) //TODO: Change to self.
-        	is_incoming = true;
+        if(chatMessage.getReceiver().getUID().equals(Self.getUser().getUID()))
+        	is_outoing = true;
         else
-        	is_incoming = false;
+        	is_outoing = false;
         
-        setAlignment(holder, is_incoming);
+        
+        
+        setAlignment(holder, is_outoing);
         holder.txtMessage.setText(chatMessage.getText());
         if (chatMessage.getSender() != null) {
-            holder.txtInfo.setText(chatMessage.getSender().getName() + ": " + chatMessage.getTime());
+        	if(is_outoing)
+        		holder.txtInfo.setText(this.getTimeText(chatMessage.getTime()));
+        	else
+        		holder.txtInfo.setText(chatMessage.getSender().getName() + ": " + this.getTimeText(chatMessage.getTime()));
         } else {
             holder.txtInfo.setText(chatMessage.getTime());
         }
@@ -104,8 +115,14 @@ public class ConversationAdapter extends BaseAdapter {
     
     public void addAndUpdate(Message message) {
     	// TODO: remove this??
-    	chatMessages.add(message);
+    	//chatMessages.add(message);
     	ConversationList.addMessage(message);
+    	this.notifyDataSetChanged();
+    }
+    
+    public void addAndUpdateNoMsg() {
+    	// TODO: remove this??
+    	//chatMessages.add(message);
     	this.notifyDataSetChanged();
     }
 
@@ -160,9 +177,51 @@ public class ConversationAdapter extends BaseAdapter {
         return holder;
     }
 
-    private String getTimeText(Date date) {
-        return DateFormat.format(DATE_FORMAT, date).toString();
+    private String getTimeText(String date_str) {
+    	
+    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+    	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
+
+    	String oldDateString = date_str;
+    	String newDateString;
+
+    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+    	Date d = null;
+		try {
+			d = sdf.parse(oldDateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return date_str;
+		}
+    	sdf.applyPattern(NEW_FORMAT);
+    	newDateString = sdf.format(d);
+    	
+        return newDateString;
     }
+    
+	 public int fixHours(int hours_24)
+	 {
+		 if (hours_24 == 0)
+			 return 12;
+		 else if(hours_24 <= 12)
+			 return hours_24;
+		 else
+		 {
+			return hours_24 - 12;
+			 
+		 }
+	 }
+	 
+	
+	 
+	 public boolean isPM(int hours_24)
+	 {
+		 if (hours_24>=12)
+			 return true;
+		 
+		 return false;
+	 }
 
     private static class ViewHolder {
         public TextView txtMessage;

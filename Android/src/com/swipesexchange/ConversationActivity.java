@@ -42,7 +42,7 @@ public class ConversationActivity extends FragmentActivity {
 	
 	        int pos = i.getIntExtra("clicked_messages_position", 0);
 	        this.passed_messages = (ArrayList<Message>) ConversationList.getConversations().get(pos).getAllMessages();
-	       // this.self = (User) i.getSerializableExtra("myUser");
+	       
 	        Log.d("pig", Integer.toString(this.passed_messages.size()));
 	        for(int j=0; j< this.passed_messages.size(); j++) 
 	        	Log.d("pig", this.passed_messages.get(j).getText());
@@ -90,6 +90,7 @@ public class ConversationActivity extends FragmentActivity {
 	                String lid = passed_messages.get(0).getListing_id();
 	                now.setToNow();
 
+	                
 	                String time = now.format2445();
 	                
 	                Log.d("TIME", "Time_plus at ConversationActivity is " + time);
@@ -128,6 +129,16 @@ public class ConversationActivity extends FragmentActivity {
 		   {
 			   ConversationFragment c_frag = (ConversationFragment) fragment;
 			   c_frag.updateFragmentWithMessage(m);
+			  
+		   }
+	   }
+	   
+	   public void refreshConversationFragmentNoMsg() {
+		   Fragment fragment = this.getSupportFragmentManager().findFragmentById(R.id.conversation_view);
+		   if(fragment != null)
+		   {
+			   ConversationFragment c_frag = (ConversationFragment) fragment;
+			   c_frag.updateFragmentWithNoMessage();
 			  
 		   }
 	   }

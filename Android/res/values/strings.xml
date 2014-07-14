@@ -26,6 +26,7 @@
  <string name="guesttext">Guest</string>
  
  
+ <color name="holo_light_background">#E1E1E1</color>
 <color name="mycolor1">#59c3fa</color>
 <color name="light_grey">#dbdbdb</color>
 <color name="White">#FFFFFF</color>

@@ -11,6 +11,7 @@
         android:layout_height="wrap_content"
         android:gravity="center_horizontal"
         android:textAlignment="center"
+        android:textSize="14sp"
         android:textColor="@color/mycolor1"
         android:textStyle="bold" />
 

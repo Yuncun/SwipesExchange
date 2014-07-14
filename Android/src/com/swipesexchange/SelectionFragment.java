@@ -13,6 +13,7 @@ import android.app.ActionBar.Tab;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -168,6 +169,13 @@ actionBar = getActivity().getActionBar();
 				break;
 			}
 			*/
+			
+			int imageResource = R.drawable.actionbar_tab_indicator;
+			Drawable image = getResources().getDrawable(imageResource);
+			//actionBar.setBackgroundDrawable(image);
+			//actionBar.setSplitBackgroundDrawable(image);
+			actionBar.setStackedBackgroundDrawable(image);
+			
 			
 			
 			//Add the tabs to the action bar

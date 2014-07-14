@@ -15,6 +15,7 @@ import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
 import android.support.v4.app.TaskStackBuilder;
+import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 	public class GcmIntentService extends IntentService {
@@ -85,7 +86,16 @@ import android.util.Log;
 	    	String senderName = received.getSender().getName();
 	    	Log.d("GCM", "Updating local message lists with message " + payload + "from user" + senderName);
 	    	ConversationList.addMessage(received);
+    	    Intent bIntent = new Intent("message_received");
+    	    // You can also include some extra data.
+    	    bIntent.putExtra("message", received.getText());
+    	    LocalBroadcastManager.getInstance(mContext).sendBroadcast(bIntent);
+	    	
 	    }
+	    
+	    
+	    
+	    
 
 	    // Put the message into a notification and post it.
 	    // This is just one simple example of what you might choose to do with
