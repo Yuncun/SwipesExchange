@@ -9,6 +9,7 @@ import java.util.List;
 import sharedObjects.BuyListing;
 import sharedObjects.Listing;
 import sharedObjects.MsgStruct;
+import sharedObjects.Self;
 import sharedObjects.User;
 import sharedObjects.Venue;
 import android.app.Activity;
@@ -58,7 +59,7 @@ import com.google.gson.Gson;
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	private Activity activity;
-	private  LayoutInflater inflater;
+	private LayoutInflater inflater;
 	private int minutes_start, minutes_end, hours_start, hours_end;
 	private TimePicker tp_start, tp_end;
 	private int num_swipes;
@@ -66,8 +67,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	private Venue venue;
 	private String venue_name;
 	private ExpandableListView parent_list_view;
-	//private EditText enterMessage;
-	//private Button submitButton;
+	private EditText enterMessage;
 	private String messageFromEditText = "";
 	
 	
@@ -97,6 +97,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		this.venue_name = "Any";
 		this.num_swipes=1;
 		this.parent_list_view = parent;
+		
 		
 		// Update the parent rows with information about default values to be shown in groupViews
 		for(int i=0; i<4; i++)
@@ -195,12 +196,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	@SuppressWarnings("unchecked")
 	@Override
 	public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
-		
-	
 		// TODO: recycle views instead of always inflating
-		
-		
+
 		convertView = null;
 		if(convertView==null)
 		{
@@ -210,18 +207,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				convertView = inflater.inflate(R.layout.group_ex, null);
 				// Initialize the TimePicker
 				final EditText myedittext = (EditText) convertView.findViewById(R.id.timePicker1);
-				final Button mysubmitbutton = (Button) convertView.findViewById(R.id.newBuyListingSubmitButton);
-
-				mysubmitbutton.setOnClickListener(
-		        new View.OnClickListener()
-			        {
-			            public void onClick(View view)
-			            {
-			            	String receivedString = myedittext.getText().toString();	               
-			                messageFromEditText = receivedString;
-			                Log.v("myExpandableAdapterBuy", messageFromEditText);
-			            }
-			        });
+				enterMessage = (EditText) convertView.findViewById(R.id.timePicker1);
 				// TODO: Change to current time
 				//tp_start.setCurrentMinute(minutes_start);
 				//tp_start.setCurrentHour(hours_start);
@@ -298,24 +284,16 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			{
 				// inflate the view
 				convertView = inflater.inflate(R.layout.row_ex, parent, false);
-			
 				((CheckedTextView) convertView.findViewById(R.id.group1_text_left)).setText(parents.get(groupPosition).getTextLeft());
 				((TextView) convertView.findViewById(R.id.group1_text_right)).setText("");
-				
-				
-			
-				
 			}
 			else if(groupPosition==1)
 			{
 				// inflate the view
 				convertView = inflater.inflate(R.layout.row_ex2, parent, false);
-			
-				
 				((CheckedTextView) convertView.findViewById(R.id.group2_text_left)).setText(parents.get(groupPosition).getTextLeft());
 				((TextView) convertView.findViewById(R.id.group2_text_right)).setText(parents.get(groupPosition).getTextRight());
-			
-				
+
 			}
 			else if(groupPosition==2)
 			{
@@ -341,22 +319,15 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			{
 				// inflate the view
 				convertView = inflater.inflate(R.layout.row_ex5, parent, false);
-				
 				((CheckedTextView) convertView.findViewById(R.id.group5_text_left)).setText(parents.get(groupPosition).getTextLeft());
 				((TextView) convertView.findViewById(R.id.group5_text_right)).setText(parents.get(groupPosition).getTextRight());
-				
-			
-				
-				convertView.setOnClickListener(new OnClickListener() {
-					
+				convertView.setOnClickListener(new OnClickListener() {		
 					@Override
-					public void onClick(View view) {
-						
+					public void onClick(View view) {	
 						getParent().collapseGroup(4);
 					}
 				});
-		
-				
+
 			}
 			else if(groupPosition==5)
 			{
@@ -401,6 +372,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				
 						if(!cancel)
 						{
+							
+
 							submit_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
 							submit_dialog.setContentView(R.layout.dialog_submit);
 							cancel_button = (Button) submit_dialog.findViewById(R.id.Cancel_Button);
@@ -424,24 +397,31 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			                    @Override
 			                    public void onClick(View view) {
 			                    	
+			                    	String receivedString = enterMessage.getText().toString();	               
+					                messageFromEditText = receivedString;
+					                Log.v("myExpandableAdapterBuy", messageFromEditText);
+					                
 			                    	//Create a new sellListing for testing
 			                    	BuyListing sl = new BuyListing();
+			                    	sl.setMessageBody(messageFromEditText);
 			                    	sl.setEndTime("9:23");
-			                    	sl.setStartTime("9:20");
+			                    	
+			                    	 Time now = new Time();
+			                    	 now.setToNow();
+			                    	 String time = now.format2445();
+
+			                    	sl.setTimeCreated(time);
 			                    	//sl.setPrice(5.00);
 			                    	sl.setSwipeCount(3);
-
-			                    	sl.setTime("9:30");
-
+			                    	sl.setStartTime("9:30");
 			                    	Venue ven = new Venue("De Neve");
 			                    	sl.setVenue(ven);
-			                    	User usr = new User("David Beckham"); 
+			                    	User usr = new User(Self.getUser().getName()); 
 			                    	sl.setUser(usr);
-			                    	sl.getUser().setUID("123123");
-			                    	sl.getUser().setRating("Shit");
+			                    	sl.getUser().setUID(Self.getUser().getUID());
+			                    	sl.getUser().setRating("No Rating");
 			                    	sl.getUser().setConnections("Connections");
 			                    	sl.isSection = false;
-
 			                    	sl.setSection("random");
 
 			                    	//
@@ -449,31 +429,11 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			                    	String j0 = gson.toJson(sl);
 
 			                    	MsgStruct nMsg = new MsgStruct();
-			                    	nMsg.setHeader(1); //Identifies message as a sell listing
+			                    	nMsg.setHeader(Constants.BL_PUSH); //Identifies message as a sell listing
 			                    	nMsg.setPayload(j0);
-
 			                    	String j1 = gson.toJson(nMsg);
-
-			                    	MsgStruct j2 = gson.fromJson(j1, MsgStruct.class);
-			                    	//BuyListing j2 = gson.fromJson(j1, BuyListing.class);
-
-			                    	String j3 = j2.getPayload();
-
-			                    	BuyListing j4 = gson.fromJson(j3, BuyListing.class);
-
-
-
-			                    	String j5 = j4.getUser().getName();
-
 			                    	ConnectToServlet.sendListing(j1);
 
-			                    	//ConnectToServlet.updateBList();
-
-
-
-			                    	//Test after testing sendListing(SellListing sellList);
-			                    	//ConnectToServlet.talk("HELLO FROM NEW SWIPES");
-									
 
 			                        submit_dialog.dismiss();
 			                    }
@@ -489,7 +449,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			}
 	
 		}
-		
+		if (groupPosition == 0){
+			getParent().expandGroup(groupPosition);}
 		return convertView;
 	}
 
@@ -560,8 +521,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		super.onGroupCollapsed(groupPosition);
 		if(groupPosition == 0)
 		{
-			this.minutes_start = tp_start.getCurrentMinute();
-			this.hours_start = tp_start.getCurrentHour();
+			//this.minutes_start = tp_start.getCurrentMinute();
+			//this.hours_start = tp_start.getCurrentHour();
 			this.updateParentsRightViews(groupPosition);
 		}
 		if (groupPosition == 1)

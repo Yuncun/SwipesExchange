@@ -79,7 +79,7 @@ public class NewListingFragmentBuy extends Fragment{
         		if(i==0)
         		{
         			parent.setName("StartTime");
-        			parent.setTextLeft("Start Time:");
+        			parent.setTextLeft("Create your Listing");
         			parent.setTextRight("");
         			parent.setChildren(new ArrayList<ChildRow>());
         			

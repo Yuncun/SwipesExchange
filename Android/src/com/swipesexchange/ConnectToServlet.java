@@ -131,8 +131,8 @@ public class ConnectToServlet {
                              
                             }
                             in.close();
-
- 
+                            Log.d("ConnectToServlet.sendListing()", doubledValue);
+                        	    
                             }catch(Exception e)
                             {
                                 Log.d("Exception",e.toString());
