@@ -28,6 +28,7 @@ import android.view.ViewGroup;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
+import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
@@ -65,6 +66,10 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	private Venue venue;
 	private String venue_name;
 	private ExpandableListView parent_list_view;
+	//private EditText enterMessage;
+	//private Button submitButton;
+	private String messageFromEditText = "";
+	
 	
 	
 	// ParentRows passed in from NewListingFragmentBuy
@@ -108,6 +113,11 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	 public int getNumSwipes()
 	 {
 		 return this.num_swipes;
+	 }
+	 
+	 public void setMessageFromEditText(String text)
+	 {
+		 messageFromEditText = text;
 	 }
 	 
 	 public void setNumSwipes(int num)
@@ -199,11 +209,22 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				// Inflate the view
 				convertView = inflater.inflate(R.layout.group_ex, null);
 				// Initialize the TimePicker
-				this.tp_start = (TimePicker) convertView.findViewById(R.id.timePicker1);
-				
+				final EditText myedittext = (EditText) convertView.findViewById(R.id.timePicker1);
+				final Button mysubmitbutton = (Button) convertView.findViewById(R.id.newBuyListingSubmitButton);
+
+				mysubmitbutton.setOnClickListener(
+		        new View.OnClickListener()
+			        {
+			            public void onClick(View view)
+			            {
+			            	String receivedString = myedittext.getText().toString();	               
+			                messageFromEditText = receivedString;
+			                Log.v("myExpandableAdapterBuy", messageFromEditText);
+			            }
+			        });
 				// TODO: Change to current time
-				tp_start.setCurrentMinute(minutes_start);
-				tp_start.setCurrentHour(hours_start);
+				//tp_start.setCurrentMinute(minutes_start);
+				//tp_start.setCurrentHour(hours_start);
 			}
 			else if (groupPosition == 1) // Picking the end time
 			{
@@ -279,7 +300,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				convertView = inflater.inflate(R.layout.row_ex, parent, false);
 			
 				((CheckedTextView) convertView.findViewById(R.id.group1_text_left)).setText(parents.get(groupPosition).getTextLeft());
-				((TextView) convertView.findViewById(R.id.group1_text_right)).setText(parents.get(groupPosition).getTextRight());
+				((TextView) convertView.findViewById(R.id.group1_text_right)).setText("");
+				
 				
 			
 				

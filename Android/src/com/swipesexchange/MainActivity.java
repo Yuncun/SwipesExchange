@@ -56,58 +56,51 @@ public class MainActivity extends FragmentActivity {
 	 * intensive, it may be best to switch to a
 	 * {@link android.support.v4.app.FragmentStatePagerAdapter}.
 	 */
-	//private String fbid;
-	//private String myID;
-	//private String regid;
-	//private static User self;
+
+	//Constants
 	public static final String PROPERTY_UID = "user_id";
 	public static final String PROPERTY_GUESTNAME = "guest_name";
-	public boolean loggedInAsGuest = false;
-    
-    private boolean minimized;
-    private int logged_in;
-	
-	protected Context context;
-	
-	//private GetFbidAsync fg;
-	
-	//***************************************************
-	//GCM Variables
+	public static final int LOGIN_SPLASH = 0;
+	public static final int MAIN = 1;
+	public static final int SETTINGS = 2;
+	public static final int GUESTLOGOUT = 3;
+	//GCM Constants
 	public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
-    private static final String PROPERTY_APP_VERSION = "appVersion";
-    private final static int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    public static final String PROPERTY_APP_VERSION = "appVersion";
+    public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    
+	
+	//GCM Variables
     String SENDER_ID = "59031275379";
     static final String TAG = "GCMDemo @eric";
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
 
-   //****************************************************
-
+    //Client State Variables
 	private boolean state_changed;
 	private boolean create;
-	private LoginFragment login_fragment;
+	private boolean is_resumed;
+	public boolean loggedInAsGuest = false;
+    private boolean minimized;
+    private int logged_in;
+	
+    //Member Instances
+    protected Context context;
 	SectionsPagerAdapter mSectionsPagerAdapter;
-	public BackendData l;
-	private final String login_tag = "login_fragment";
-	private static final int LOGIN_SPLASH = 0;
-	static final int MAIN = 1;
-	private static final int SETTINGS = 2;
-	private static final int GUESTLOGOUT = 3;
 	private MenuItem settings;
 	private Menu options_menu;
-	private boolean first_login;
-	private final Handler handler = new Handler();
-	private Runnable run_pager;
-	
-	private boolean is_resumed;
 	private Session session;
-	
 	private Fragment[] fragments = new Fragment[4];
-
 	ViewPager mViewPager;
-	
 	private UiLifecycleHelper uiHelper;
+	
+	//Deprecated
+	//private boolean first_login;
+	//private final Handler handler = new Handler();
+	//private Runnable run_pager;
+	//private LoginFragment login_fragment;
+	//public BackendData l;
 	
 	/**
 	 * onCreate function for FragmentActivity
@@ -152,9 +145,7 @@ public class MainActivity extends FragmentActivity {
 	        
 		this.state_changed = false;
 		this.create = false;
-		
-		
-		
+
 	}
 	
 	/**
@@ -636,35 +627,7 @@ public class MainActivity extends FragmentActivity {
 	    }
 	}
 
-         /*
-        
-              Log.d("pig","BACK FROM BACKGROUND");
-              Session session = Session.getActiveSession();
-              
-              /*Request.newMeRequest(session, new Request.GraphUserCallback() {
 
-	  	            // callback after Graph API response with user object
-	  	            @Override
-	  	            public void onCompleted(GraphUser user, Response response) {
-	  	              if (user != null) {
-	  	                
-	  	                Log.d("pig", user.getName());
-	  	              }
-	  	            }
-	  	          }).executeAsync();
-              
-              if (session != null && session.isOpened()) {
-      	        // if the session is already open,
-      	        // try to show the selection fragment
-      	        showFragment(MAIN, false);
-      	    } else {
-      	        // otherwise present the splash screen
-      	        // and ask the person to login.
-      	    	//this.first_login = false;
-      	        showFragment(LOGIN_SPLASH, false);
-      	    }
-*/
-      	 
 	@Override
 	public void onUserLeaveHint() {
 
@@ -707,50 +670,6 @@ public class MainActivity extends FragmentActivity {
 		}
 	}
 	
-	
-   /*
-	@Override
-	protected void onRestart() {
-		super.onRestart();
-		
-		if(ClosedInfo.wasMinimized())
-		{
-		
-			SessionState state = session.getState();
-	
-			Request.GraphUserCallback callback = new Request.GraphUserCallback() {
-				
-			
-					  // callback after Graph API response with user object
-	  	            @Override
-	  	            public void onCompleted(GraphUser user, Response response) {
-	  	              if (response.getError() == null) {
-	  	                
-	  	                Log.d("facebook", user.getName() + "abnormal");
-	  	                setLoggedIn(1);
-	  	                
-	  	                
-	  	              }
-	  	              else
-		  	          {
-	                        // Handle error
-		  	        	  setLoggedIn(2);
-		  	        	  Log.d("facebook", "bullshit");
-	                  }
-	  	            }
-	
-				
-			};
-			
-			
-			Exception e = null;
-			
-			 Request.newMeRequest(session, callback).executeAsync();
-			 	
-		}
-		
-	}
-	*/
 
 	/**
 	 * Check the device to make sure it has the Google Play Services APK. If
