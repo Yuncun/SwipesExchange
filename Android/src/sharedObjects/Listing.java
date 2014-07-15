@@ -13,6 +13,7 @@ public abstract class Listing implements Serializable{
         private String time_created;
         public String section;
         public Boolean isSection;
+        private String messageBody;
         private String id;
         
         
@@ -84,6 +85,20 @@ public abstract class Listing implements Serializable{
         public void setTimeCreated(String time) {
         	this.time_created = time;
         }
+
+		/**
+		 * @return the messageBody
+		 */
+		public String getMessageBody() {
+			return messageBody;
+		}
+
+		/**
+		 * @param messageBody the messageBody to set
+		 */
+		public void setMessageBody(String messageBody) {
+			this.messageBody = messageBody;
+		}
         
         
         
