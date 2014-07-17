@@ -1115,6 +1115,7 @@ containing a value of this type.
         public static final int get_finished=0x7f08004f;
         public static final int get_started=0x7f080046;
         public static final int guesttext=0x7f08004d;
+        public static final int newListingEditTextHint=0x7f080050;
         public static final int random=0x7f080044;
         public static final int select_time=0x7f080047;
         public static final int select_time2=0x7f080048;

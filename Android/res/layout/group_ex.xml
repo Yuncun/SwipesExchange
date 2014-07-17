@@ -17,6 +17,7 @@
 
         <EditText
             android:id="@+id/timePicker1"
+            android:hint="@string/newListingEditTextHint"
             android:gravity="top|left"
             android:layout_width="match_parent"
             android:layout_height="140dp"

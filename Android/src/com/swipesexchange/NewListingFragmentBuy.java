@@ -14,7 +14,7 @@ import android.widget.ExpandableListView;
 public class NewListingFragmentBuy extends Fragment{
 
 	// member variables
-		private final int num_parents = 6;
+		private final int num_parents = 4;
 		private ArrayList<ParentRow> parents;
         static MainActivity mActivity;
         private ExpandableListView lv;
@@ -148,7 +148,7 @@ public class NewListingFragmentBuy extends Fragment{
         			child7.setName("V7");
         			child7.setText("Rendezvous");
         			parent.getChildren().add(child7);
-        		}
+        		}/*
         	    else if(i==3) // Number of Swipes
         		{
         			parent.setName("NumSwipes");
@@ -160,8 +160,8 @@ public class NewListingFragmentBuy extends Fragment{
         			NumberPickerRow child = new NumberPickerRow();
         			child.setName("NumSwipesPicker");
         			parent.getChildren().add(child);
-        		}
-        		else if(i==4) // Empty
+        		}*//*
+        		else if(i==3) // Empty
         		{
         			parent.setName("Emtpy");
         			parent.setTextLeft("");
@@ -173,8 +173,8 @@ public class NewListingFragmentBuy extends Fragment{
         			child.setText("");
         			
         			parent.getChildren().add(child);
-        		}
-        		else if(i==5) // Submit
+        		}*/
+        		else if(i==3) // Submit
         		{
         			parent.setName("Submit");
         			parent.setTextLeft("Submit");

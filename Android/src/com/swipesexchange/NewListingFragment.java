@@ -14,7 +14,7 @@ import android.widget.ExpandableListView;
 public class NewListingFragment extends Fragment{
 
 	// member variables
-		private final int num_parents = 7;
+		private final int num_parents = 5;
 		private ArrayList<ParentRow> parents;
         static MainActivity mActivity;
         private ExpandableListView lv;
@@ -79,7 +79,7 @@ public class NewListingFragment extends Fragment{
         		if(i==0)
         		{
         			parent.setName("StartTime");
-        			parent.setTextLeft("Start Time:");
+        			parent.setTextLeft("Create a Sell Listing");
         			parent.setTextRight("");
         			parent.setChildren(new ArrayList<ChildRow>());
         			
@@ -149,21 +149,9 @@ public class NewListingFragment extends Fragment{
         			child7.setText("Rendezvous");
         			parent.getChildren().add(child7);
         		}
-        	    else if(i==3) // Number of Swipes
+        	    else if(i==3) //price
         		{
-        			parent.setName("NumSwipes");
-        			parent.setTextLeft("Number of Swipes:");
-        			parent.setTextRight("");
-        			parent.setChildren(new ArrayList<ChildRow>());
-        			
-        			// create the NumberPickerRow and add it
-        			NumberPickerRow child = new NumberPickerRow();
-        			child.setName("NumSwipesPicker");
-        			parent.getChildren().add(child);
-        		}
-        	    else if(i==4) // Price
-        		{
-        			parent.setName("Price");
+        	    	parent.setName("Price");
         			parent.setTextLeft("Set Price:");
         			parent.setTextRight("");
         			parent.setChildren(new ArrayList<ChildRow>());
@@ -173,9 +161,10 @@ public class NewListingFragment extends Fragment{
         			child.setName("PricePicker");
         			parent.getChildren().add(child);
         		}
-        		else if(i==5) // Empty
+        		/*
+        	    else if(i==4) // empty
         		{
-        			parent.setName("Emtpy");
+        	    	parent.setName("Emtpy");
         			parent.setTextLeft("");
         			parent.setTextRight("");
         			parent.setChildren(new ArrayList<ChildRow>());
@@ -185,8 +174,8 @@ public class NewListingFragment extends Fragment{
         			child.setText("");
         			
         			parent.getChildren().add(child);
-        		}
-        		else if(i==6) // Submit
+        		}*/
+        		else if(i==4) //submit
         		{
         			parent.setName("Submit");
         			parent.setTextLeft("Submit");
@@ -201,10 +190,8 @@ public class NewListingFragment extends Fragment{
         			
         			parent.getChildren().add(child);
         		}
-        		
-        		
-        		
-        		
+        	
+
         		this.parents.add(parent);
         	}
         	

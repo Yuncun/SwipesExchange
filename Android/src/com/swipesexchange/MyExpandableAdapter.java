@@ -1,6 +1,7 @@
 package com.swipesexchange;
 
 
+import java.sql.Date;
 import java.util.ArrayList;
 import android.text.format.Time;
 import java.util.Calendar;
@@ -9,6 +10,7 @@ import java.util.List;
 import sharedObjects.BuyListing;
 import sharedObjects.Listing;
 import sharedObjects.MsgStruct;
+import sharedObjects.Self;
 import sharedObjects.User;
 import sharedObjects.Venue;
 import android.app.Activity;
@@ -69,7 +71,8 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	private int num_dollars, num_cents;
 	private String message;
 	private EditText enterMessage;
-	
+	private String messageFromEditText;
+	private List<String> selectedVenues;
 	// ParentRows passed in from NewListingFragmentBuy
 	final private ArrayList<ParentRow> parents;
 	 
@@ -87,7 +90,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		// set the default times in the TimePickers based off of current time
 		Time now = new Time();
 		now.setToNow();
-		
+		selectedVenues = new ArrayList<String>();
 		this.minutes_start = now.minute;
 		this.minutes_end = now.minute;
 		this.hours_start = now.hour;
@@ -190,12 +193,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	@SuppressWarnings("unchecked")
 	@Override
 	public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
-
-		
-	
 		// TODO: recycle views instead of always inflating
-		
-		
 		convertView = null;
 		if(convertView==null)
 		{
@@ -205,8 +203,8 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				// Inflate the view
 				convertView = inflater.inflate(R.layout.group_ex, null);
 				// Initialize the TimePicker
-				this.enterMessage = (EditText) convertView.findViewById(R.id.timePicker1);
-				
+				final EditText myedittext = (EditText) convertView.findViewById(R.id.timePicker1);
+				enterMessage = (EditText) convertView.findViewById(R.id.timePicker1);
 				// TODO: Change to current time
 				//tp_start.setCurrentMinute(minutes_start);
 				//tp_start.setCurrentHour(hours_start);
@@ -236,8 +234,17 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	
 					@Override
 					public void onClick(View view) {
-						setVenueName(child_text);
-						getParent().collapseGroup(2);
+						if (selectedVenues.contains(child_text))
+						{
+							selectedVenues.remove(child_text);
+							view.setBackgroundColor(Color.GREEN);
+							Log.d("Color", "Venue toggled, color should change off");
+						}
+						else selectedVenues.add(child_text);
+						view.setBackgroundColor(Color.YELLOW);
+						Log.d("Color", "Venue toggled, color should change on");
+						
+						//getParent().collapseGroup(2);
 					}
 				});
 				
@@ -245,15 +252,14 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			}
 			else if(groupPosition == 3) // Picking the number of swipes
 			{
-				convertView = inflater.inflate(R.layout.group_ex3, null);
+				/*
+				convertView = inflater.inflate(R.layout.group_ex5, null);
+				/*
 				// Initialize the NumberPicker
 				this.swipes = (NumberPicker) convertView.findViewById(R.id.numberPickerSwipes);
 				this.swipes.setMinValue(1);
 				this.swipes.setMaxValue(9);
-				this.swipes.setValue(num_swipes);
-			}
-			else if(groupPosition == 4)
-			{
+				this.swipes.setValue(num_swipes);*/
 				convertView = inflater.inflate(R.layout.group_ex6, null);
 				// Initialize the NumberPickers
 				this.cents = (NumberPicker) convertView.findViewById(R.id.numberPicker2);
@@ -265,13 +271,29 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				this.cents.setValue(this.num_cents);
 				this.dollars.setValue(this.num_dollars);
 				
-			}
-			else if(groupPosition == 5)
+			}/*(groupPosition == 4)
+			{
+				convertView = inflater.inflate(R.layout.group_ex4, null);
+				// Initialize the NumberPickers
+				/*
+				this.cents = (NumberPicker) convertView.findViewById(R.id.numberPicker2);
+				this.dollars = (NumberPicker) convertView.findViewById(R.id.numberPicker1);
+				this.cents.setMinValue(0);
+				this.cents.setMaxValue(59);
+				this.dollars.setMinValue(0);
+				this.dollars.setMaxValue(20);
+				this.cents.setValue(this.num_cents);
+				this.dollars.setValue(this.num_dollars);
+				
+			}*/
+			/*
+			else if(groupPosition == 4) //Empty
 			{
 				convertView = inflater.inflate(R.layout.group_ex4, null);
 				
-			}
-			else if(groupPosition == 6)
+				
+			}*/
+			else if(groupPosition == 4)
 			{
 				convertView = inflater.inflate(R.layout.group_ex5, null);
 				
@@ -299,8 +321,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				convertView = inflater.inflate(R.layout.row_ex, parent, false);
 			
 				((CheckedTextView) convertView.findViewById(R.id.group1_text_left)).setText(parents.get(groupPosition).getTextLeft());
-				((TextView) convertView.findViewById(R.id.group1_text_right)).setText(parents.get(groupPosition).getTextRight());
-				
+				((TextView) convertView.findViewById(R.id.group1_text_right)).setText("");
 			
 				
 			}
@@ -335,6 +356,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			
 				
 			}
+			/*
 			else if(groupPosition==4)
 			{
 				// inflate the view
@@ -342,9 +364,14 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			
 				((CheckedTextView) convertView.findViewById(R.id.group7_text_left)).setText(parents.get(groupPosition).getTextLeft());
 				((TextView) convertView.findViewById(R.id.group7_text_right)).setText(parents.get(groupPosition).getTextRight());
-			
+				convertView.setOnClickListener(new OnClickListener() {		
+					@Override
+					public void onClick(View view) {	
+						getParent().collapseGroup(4);
+					}
+				});
 				
-			}
+			}/*
 			else if(groupPosition==5)
 			{
 				// inflate the view
@@ -365,8 +392,8 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				});
 		
 				
-			}
-			else if(groupPosition==6)
+			}*/
+			else if(groupPosition==4)
 			{
 				// inflate the view
 				convertView = inflater.inflate(R.layout.row_ex6, parent, false);
@@ -431,21 +458,59 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 								 
 			                    @Override
 			                    public void onClick(View view) {
+			                    	String receivedString = enterMessage.getText().toString();	               
+					                messageFromEditText = receivedString;
+					                Log.v("myExpandableAdapterBuy", messageFromEditText);
+					                
 			                    	//TODO: modify to submit sell listing
 			                    	//Create a new sellListing for testing
 			                    	BuyListing sl = new BuyListing();
-			                    	sl.setEndTime("9:23");
-			                    	sl.setStartTime("9:20");
+			                    	sl.setMessageBody(messageFromEditText);
+			                    	//String sel_end_minutes = Integer.toString(minutes_end);
+			                    	//String sel_end_hours = Integer.toString(hours_end);
+			                    	
+			                    	
+			                    	sl.setStartTime("Deprecated");
 			                    	//sl.setPrice(5.00);
 			                    	sl.setSwipeCount(3);
 
-			                    	sl.setTime("9:30");
-
-			                    	Venue ven = new Venue("De Neve");
+			                    	sl.setTime("Deprecated");
+			                    	
+			                    	
+			                    	//Set and calculate endtime
+			                    	 Time now = new Time();
+			                    	 
+			                    	 Calendar myCal = Calendar.getInstance();
+			                    	 myCal.add(Calendar.HOUR,hours_end);
+			                    	 myCal.add(Calendar.MINUTE,minutes_end);
+			                    	 now.set(myCal.getTimeInMillis());
+			                    	 
+			                    	 String time = now.format2445();
+			                    	 sl.setEndTime(time);
+			                    	 
+			                    	 now.setToNow();
+			                    	 time = now.format2445();
+			                    	 sl.setTimeCreated(time);
+			                    	 
+			                    	//Set listing with all selected inputs, passed as a string seperated by commas 
+			                    	Venue ven = new Venue("");
+			                    	String commaSeperatedVenueList = "";
+			                    	for (int i = 0; i < selectedVenues.size(); i++){
+			                    		commaSeperatedVenueList += selectedVenues.get(i) + ",";
+			                    	}
+			                    	if (commaSeperatedVenueList.equals(""))
+			                    	{
+			                    		commaSeperatedVenueList = "Any";
+			                    	}
+			                    	else if (Character.toString((commaSeperatedVenueList.charAt(commaSeperatedVenueList.length() - 1))) == ","){
+			                    		commaSeperatedVenueList.substring(0, commaSeperatedVenueList.length()-1); //remove trailing comma
+			                    		}
+			                    	ven.setName(commaSeperatedVenueList);
 			                    	sl.setVenue(ven);
-			                    	User usr = new User("David Beckham"); 
+			                    	
+			                    	User usr = new User(Self.getUser().getName()); 
 			                    	sl.setUser(usr);
-			                    	sl.getUser().setUID("123123");
+			                    	sl.getUser().setUID(Self.getUser().getUID());
 			                    	sl.getUser().setRating("Shit");
 			                    	sl.getUser().setConnections("Connections");
 			                    	sl.isSection = false;
@@ -457,33 +522,14 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			                    	String j0 = gson.toJson(sl);
 
 			                    	MsgStruct nMsg = new MsgStruct();
-			                    	nMsg.setHeader(1); //Identifies message as a sell listing
+			                    	nMsg.setHeader(Constants.SL_PUSH); //Identifies message as a sell listing
 			                    	nMsg.setPayload(j0);
 
 			                    	String j1 = gson.toJson(nMsg);
 
-			                    	MsgStruct j2 = gson.fromJson(j1, MsgStruct.class);
-			                    	//BuyListing j2 = gson.fromJson(j1, BuyListing.class);
-
-			                    	String j3 = j2.getPayload();
-
-			                    	BuyListing j4 = gson.fromJson(j3, BuyListing.class);
-
-
-
-			                    	String j5 = j4.getUser().getName();
 
 			                    	ConnectToServlet.sendListing(j1);
 			                    	
-
-			                    	//ConnectToServlet.updateBList();
-
-
-
-			                    	//Test after testing sendListing(SellListing sellList);
-			                    	//ConnectToServlet.talk("HELLO FROM NEW SWIPES");
-									
-
 			                        submit_dialog.dismiss();
 			                    }
 			                });
@@ -498,21 +544,23 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			}
 	
 		}
-		
+		if (groupPosition == 0){
+			getParent().expandGroup(groupPosition);}
 		return convertView;
 	}
 
 	public void updateParentsRightViews(int groupPosition) {
 		if(groupPosition==0)
 		{
+			/*
 			String start_time = String.format("%d:%02d", fixHours(this.hours_start), this.minutes_start);
 			// add PM/AM
 			if(this.isPM(this.hours_start))
 				start_time = start_time + "PM";
 			else
 				start_time = start_time + "AM";
-			// set the text field
-			this.parents.get(groupPosition).setTextRight(start_time);
+			// set the text field*/
+			this.parents.get(groupPosition).setTextRight("");
 		}
 		else if(groupPosition==1)
 		{
@@ -532,13 +580,14 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		}
 		else if(groupPosition==3)
 		{
-			String swipes_req = Integer.toString(this.getNumSwipes());
-			this.parents.get(groupPosition).setTextRight(swipes_req);
+			///String swipes_req = Integer.toString(this.getNumSwipes());
+			String price_str = "$" + String.format("%d.%02d", this.num_dollars, this.num_cents);
+			this.parents.get(groupPosition).setTextRight(price_str);
 		}
 		else if(groupPosition==4)
 		{
-			String price_str = "$" + String.format("%d.%02d", this.num_dollars, this.num_cents);
-			this.parents.get(groupPosition).setTextRight(price_str);
+			//String price_str = "$" + String.format("%d.%02d", this.num_dollars, this.num_cents);
+			this.parents.get(groupPosition).setTextRight("");
 		}
 	}
 	
@@ -574,8 +623,8 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		super.onGroupCollapsed(groupPosition);
 		if(groupPosition == 0)
 		{
-			this.minutes_start = tp_start.getCurrentMinute();
-			this.hours_start = tp_start.getCurrentHour();
+			//this.minutes_start = tp_start.getCurrentMinute();
+			//this.hours_start = tp_start.getCurrentHour();
 			this.updateParentsRightViews(groupPosition);
 		}
 		if (groupPosition == 1)
@@ -591,13 +640,13 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		}
 		if(groupPosition==3)
 		{
-			this.num_swipes = swipes.getValue();
+			//this.num_swipes = swipes.getValue();
 			this.updateParentsRightViews(groupPosition);
 		}
 		if(groupPosition==4)
 		{
-			this.num_dollars = this.dollars.getValue();
-			this.num_cents = this.cents.getValue();
+			//this.num_dollars = this.dollars.getValue();
+			//this.num_cents = this.cents.getValue();
 			this.updateParentsRightViews(groupPosition);
 		}
 		

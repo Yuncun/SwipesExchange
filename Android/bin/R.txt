@@ -603,6 +603,7 @@ int string dialog_string 0x7f08004a
 int string get_finished 0x7f08004f
 int string get_started 0x7f080046
 int string guesttext 0x7f08004d
+int string newListingEditTextHint 0x7f080050
 int string random 0x7f080044
 int string select_time 0x7f080047
 int string select_time2 0x7f080048
