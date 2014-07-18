@@ -10,8 +10,6 @@ import java.util.List;
 
 
 
-
-
 import sharedObjects.Message;
 import sharedObjects.SellListing;
 import sharedObjects.User;
@@ -42,7 +40,7 @@ public class MessagesFragment extends ListFragment {
 	private final int num_parents = 7;
 	//private ArrayList<ParentRow> parents;
     static Context mActivity;
-    private final ConversationList c_list;
+    private ConversationList c_list;
     MessageAdapter adapter;
     private int page_num;
     
@@ -102,6 +100,7 @@ public class MessagesFragment extends ListFragment {
        return view;
    }
    
+   /*
    public void pullAndAddMessages() {
 	   
 		  MessageTask m_task = new MessageTask(getActivity());
@@ -109,7 +108,7 @@ public class MessagesFragment extends ListFragment {
 		  
 		    
 	}
-   
+   */
    public void updateFragmentWithMessage() {
 		 if(this.adapter != null)
 			 this.adapter.addAndUpdate();
@@ -125,7 +124,8 @@ public class MessagesFragment extends ListFragment {
        ArrayList<Message> clicked_messages = (ArrayList<Message>) ConversationList.getConversations().get(position).getAllMessages();
        Log.d("pig", Integer.toString(clicked_messages.size()));
        User myUser = ((MainActivity) mActivity).getSelf();
-       nextScreen.putExtra("clicked_messages_position", position);
+       nextScreen.putExtra("is_new", false);
+       nextScreen.putExtra("listing_id", clicked_messages.get(0).getListing_id());
        nextScreen.putExtra("myUser", myUser);
 
        startActivity(nextScreen);
@@ -136,16 +136,29 @@ public class MessagesFragment extends ListFragment {
    }
    
    public void setMessageAdapter() {
+	  
+	   
 	   adapter = new MessageAdapter(getActivity(),ConversationList.getConversations());
 	   setListAdapter(adapter);
    }
+   
+   
+   public void waitForValues() {
+ 	   
+		  WaitTask m_task = new WaitTask(getActivity());
+		  m_task.execute();
+		  
+		    
+	}
+	
+	
 
-	private class MessageTask extends AsyncTask<Void, Void, List<Message>> {
+	private class WaitTask extends AsyncTask<Void, Void, List<Message>> {
  	
  	private ProgressDialog progressBar;
  	private Context context;
  	
- 	 public MessageTask(Context context) {
+ 	 public WaitTask(Context context) {
 	        	this.context = context;
 	        }
  	
@@ -153,7 +166,7 @@ public class MessagesFragment extends ListFragment {
  	@Override
 	        protected void onPreExecute() {
 	           // super.onPreExecute();
-	        	progressBar = ProgressDialog.show(context, "Loading...", "Messages are loading...", true);
+	        	progressBar = ProgressDialog.show(context, "Loading...", "Finishing up...", true);
 	        }
  	
      @Override
@@ -161,7 +174,7 @@ public class MessagesFragment extends ListFragment {
     	 //Block this until UID is successfully retrieved
     	 Log.d("waitForvalues", "Checking that UID is safely retrieved");
     	 while (((MainActivity) context).getUID() == null) {
-             Log.d("waitForvalues", "Waiting - getUID yields " + ((MainActivity) context).getUID());
+             Log.d("porcupine", "Waiting - getUID yields " + ((MainActivity) context).getUID());
              		
              try {
                  Thread.sleep(100);
@@ -171,6 +184,20 @@ public class MessagesFragment extends ListFragment {
              }
          
   		 }
+    	 
+    	 while (ConversationList.is_set == false) {
+             Log.d("porcupine", "Waiting for conversations to be loaded!!");
+             		
+             try {
+                 Thread.sleep(100);
+             } catch (InterruptedException e) {
+                 e.printStackTrace();
+                 Log.d("waitForvalues", e.toString());
+             }
+         
+  		 }
+    	 
+    	 
     	 
     	 
      	//Log.d("LOUD AND CLEAR", "Attempting to update messages list");
@@ -183,20 +210,21 @@ public class MessagesFragment extends ListFragment {
      @Override
      protected void onPostExecute(List<Message> msgs) {
      	
-     	Log.d("LOUD AND CLEAR", "Adding messages...");
+     	Log.d("porcupine", "Dandelions");
      	progressBar.dismiss();
-     	c_list.addMessageList(msgs);
      	setMessageAdapter();
+     	
      	
      }
 	}
   
    
+   
    @Override
    public void onActivityCreated(Bundle savedInstanceState) {
        super.onActivityCreated(savedInstanceState);
-     
-      this.pullAndAddMessages();
+       
+       this.waitForValues();
      
      }
    

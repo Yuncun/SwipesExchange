@@ -7,6 +7,7 @@ import sharedObjects.SellListing;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -172,6 +173,9 @@ public class SellListAdapter  extends BaseAdapter
         // TODO Auto-generated method stub
         return position;
     }
+    
+  
+
 
 
 	@Override

@@ -112,6 +112,7 @@ public class MainActivity extends FragmentActivity {
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		
+		
 		minimized = false;
 		Self.setUser(new User("Guest"));
 		this.logged_in = 0;

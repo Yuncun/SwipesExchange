@@ -31,17 +31,43 @@ public class ConversationActivity extends FragmentActivity {
 	private Button submit_message;
 	private Time now;
 	private ArrayList<Message> passed_messages;
+	private String lid;
+	private boolean is_empty;
 	   @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        setContentView(R.layout.conversation_activity);
 	 
 	        now = new Time();
-	 
+	        final EditText message_content_holder = (EditText) findViewById(R.id.messageEdit);
 	        Intent i = getIntent();
-	
-	        int pos = i.getIntExtra("clicked_messages_position", 0);
-	        this.passed_messages = (ArrayList<Message>) ConversationList.getConversations().get(pos).getAllMessages();
+	        int pos = 0;
+	        this.is_empty = i.getBooleanExtra("is_new", false);
+	        if(!this.is_empty)
+	        {
+	        	this.lid = i.getStringExtra("listing_id");
+	        	pos = ConversationList.findConversationIndexByListingID(this.lid);
+	        	this.passed_messages = (ArrayList<Message>) ConversationList.getConversations().get(pos).getAllMessages();
+	        }
+	        else
+	        {
+	        	this.passed_messages = new ArrayList<Message>();
+	        	this.lid = i.getStringExtra("listing_id");
+	        	message_content_holder.requestFocus();
+
+	        	 final InputMethodManager imm = (InputMethodManager)getSystemService(
+               	      Context.INPUT_METHOD_SERVICE);
+	        	 message_content_holder.postDelayed(new Runnable()
+	        	 {
+	        	     @Override
+	        	     public void run()
+	        	     {
+	        	         message_content_holder.requestFocus();
+	        	         imm.showSoftInput(message_content_holder, 0);
+	        	     }
+	        	 }, 100);
+	            
+	        }
 	       
 	        Log.d("pig", Integer.toString(this.passed_messages.size()));
 	        for(int j=0; j< this.passed_messages.size(); j++) 
@@ -64,7 +90,7 @@ public class ConversationActivity extends FragmentActivity {
 				}
 			});
 	        
-	        final EditText message_content_holder = (EditText) findViewById(R.id.messageEdit);
+	        
 	     	submit_message = (Button) findViewById(R.id.chatSendButton);
 	     	
 	     	
@@ -87,8 +113,10 @@ public class ConversationActivity extends FragmentActivity {
 	                User receiver = Self.getUser(); //TODO: resolve target
 	                //receiver.setRegid("10002");
 	                //receiver.setUID("10152153150921342");
-	                String lid = passed_messages.get(0).getListing_id();
+	                
 	                now.setToNow();
+	                
+	               
 
 	                
 	                String time = now.format2445();
@@ -96,6 +124,7 @@ public class ConversationActivity extends FragmentActivity {
 	                Log.d("TIME", "Time_plus at ConversationActivity is " + time);
 	                
 	                Message msg = new Message(sender, receiver, lid, time, message_contents);
+	                
 	                ConnectToServlet.sendMessage(msg);
 	                // clear the edittext
 	                message_content_holder.getText().clear();
@@ -104,8 +133,15 @@ public class ConversationActivity extends FragmentActivity {
 	                InputMethodManager imm = (InputMethodManager)getSystemService(
 	                	      Context.INPUT_METHOD_SERVICE);
 	                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
-	                
-	                refreshConversationFragment(msg);
+	                if(is_empty)
+	                {
+		                is_empty = false;
+		                refreshConversationFragment(msg, true);
+	                }
+	                else
+	                {
+	                	refreshConversationFragment(msg, false);
+	                }
 	                
 
 	            }
@@ -123,12 +159,12 @@ public class ConversationActivity extends FragmentActivity {
 	        
 	    }
 	   
-	   public void refreshConversationFragment(Message m) {
+	   public void refreshConversationFragment(Message m, boolean update_list) {
 		   Fragment fragment = this.getSupportFragmentManager().findFragmentById(R.id.conversation_view);
 		   if(fragment != null)
 		   {
 			   ConversationFragment c_frag = (ConversationFragment) fragment;
-			   c_frag.updateFragmentWithMessage(m);
+			   c_frag.updateFragmentWithMessage(m, update_list);
 			  
 		   }
 	   }

@@ -1,17 +1,22 @@
 package com.swipesexchange;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
 import java.util.List;
 
 import sharedObjects.BuyListing;
+import sharedObjects.Message;
 import sharedObjects.SellListing;
 import sharedObjects.User;
 import sharedObjects.Venue;
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -20,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
+import android.widget.ListView;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -30,21 +36,24 @@ import com.amazonaws.services.simpledb.model.Item;
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 import com.amazonaws.services.simpledb.model.SelectRequest;
 import com.amazonaws.services.simpledb.model.SelectResult;
-//import com.swipesexchange.MyExpandableAdapterBuy.TestConnect;
+
+
 
 public class ListingsList extends ListFragment
 {
-		//page_num 0 is Buy listings, 1 is Sell listings, 2 is Messages (can add more)
+		//page_num 0 is Buy listings, 1 is Sell listings
 		public int page_num;
 		public BackendData data;
 		static MainActivity mActivity;
         public List<BuyListing> buyEntries;
         public List<SellListing> sellEntries;
+        private boolean first_time = true;
         
         private BLConnectGet bc;
         private SLConnectGet sc;
         private Context v;
-        
+        private BuyListAdapter b_adapter;
+        private SellListAdapter s_adapter;
         Button btnStartProgress;
 
         
@@ -62,7 +71,68 @@ public class ListingsList extends ListFragment
 
         return l;
     }
-        
+		
+		private Date getTimeText(String date_str) {
+	    	
+	    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+
+	    	String oldDateString = date_str;
+	    	
+
+	    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+	    	Date d = null;
+			try {
+				d = sdf.parse(oldDateString);
+			} catch (ParseException e) {
+				// TODO Auto-generated catch block
+				e.printStackTrace();
+				return null;
+			}
+	    	
+	    	return d;
+	    }
+		
+	   @Override
+	   public void onListItemClick(ListView l, View v, int position, long id) {
+	       super.onListItemClick(l, v, position, id);
+	       Log.d("pig", "[onListItemClick] Selected Position "+ position);
+	       
+	       String current_lid;
+	       if(this.page_num == 0)
+	    	    current_lid = this.buyEntries.get(position).getListingID();
+	       else
+	    	    current_lid = this.sellEntries.get(position).getListingID();
+	    		   
+	       
+	       Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
+	       
+	       
+	       User myUser = MainActivity.getSelf();
+	     
+	       if(ConversationList.doesConversationExist(current_lid))
+	       {
+	    	   nextScreen.putExtra("is_new", false);
+	    	   //nextScreen.putExtra("clicked_messages_lid", current_lid);
+	       }
+	       else
+	       {
+	    	   nextScreen.putExtra("is_new", true);
+	       }
+	       
+	       
+	       nextScreen.putExtra("listing_id", current_lid);
+	       
+	       nextScreen.putExtra("myUser", myUser);
+
+	       startActivity(nextScreen);
+	       getActivity().overridePendingTransition(R.anim.slide_in_from_right,
+	               R.anim.slide_out_to_left);
+	       
+	       
+	   }
+	   
+
+    
         
         public void setBLAdapter()
         {	
@@ -71,13 +141,15 @@ public class ListingsList extends ListFragment
          	   Collections.sort(buyEntries, new Comparator<BuyListing>(){
          		   public int compare(BuyListing emp1, BuyListing emp2) 
          		   {
-         		     return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName()); 		     
+         			   Long l1 = getTimeText(emp1.getTimeCreated()).getTime();
+         			   Long l2 = getTimeText(emp2.getTimeCreated()).getTime();
+         			   return l1.compareTo(l2); 		     
          		   }	   
          	   });
          	}
     
-         	   BuyListAdapter adapter= new BuyListAdapter(getActivity(), buyEntries);
-                setListAdapter(adapter);
+         	   b_adapter= new BuyListAdapter(getActivity(), buyEntries);
+                setListAdapter(b_adapter);
         }
         
         public void setSLAdapter()
@@ -87,12 +159,14 @@ public class ListingsList extends ListFragment
      	   		Collections.sort(sellEntries, new Comparator<SellListing>(){
          		    public int compare(SellListing emp1, SellListing emp2) 
          	   		{
-         		    	return emp1.getVenue().getName().compareToIgnoreCase(emp2.getVenue().getName());
+         		    	 Long l1 = getTimeText(emp1.getTimeCreated()).getTime();
+           			     Long l2 = getTimeText(emp2.getTimeCreated()).getTime();
+           			     return l1.compareTo(l2); 	
          	   		}
      		   	});
      	   	}
-     	   SellListAdapter adapter= new SellListAdapter(getActivity(), sellEntries);
-           setListAdapter(adapter);
+     	   s_adapter= new SellListAdapter(getActivity(), sellEntries);
+           setListAdapter(s_adapter);
         }
         
           @Override
@@ -100,6 +174,7 @@ public class ListingsList extends ListFragment
                     Bundle savedInstanceState) {
 
                 View view = inflater.inflate(R.layout.mylist, container, false);
+                
 
                 return view;
             }
@@ -108,11 +183,15 @@ public class ListingsList extends ListFragment
             public void onActivityCreated(Bundle savedInstanceState) {
                 super.onActivityCreated(savedInstanceState);
                 
+                this.first_time = false;
+                
       
                if(this.page_num==0) //Buy Listings page
-               {           	   
+               {   
+            	   this.pullAndAddMessages();
             	   bc = new BLConnectGet(getActivity());
-            	   bc.execute();  
+            	   bc.execute();
+            	   
                }
                else if(this.page_num==1) //Sell Listings page
                {
@@ -121,6 +200,42 @@ public class ListingsList extends ListFragment
                }
        
             }
+            
+
+        
+        public void pullAndAddMessages() {
+      	   
+  		  MessageTask m_task = new MessageTask(getActivity());
+  		  m_task.execute();
+  		  
+  		    
+        }
+        
+        @Override
+        public void setUserVisibleHint(boolean isVisibleToUser) {
+            super.setUserVisibleHint(isVisibleToUser);
+            if (isVisibleToUser) 
+            { 
+            	if(page_num==0 && !first_time)
+            	{
+            		Log.d("frag visibility", "Buy frag visible..."); 
+               	 	bc = new BLConnectGet(getActivity());
+             	   	bc.execute();
+             	   	this.b_adapter.notifyDataSetChanged();
+            	}
+            	else if(page_num==1 && !first_time)
+            	{
+            		Log.d("frag visibility", "List frag visible..."); 
+               	 	sc = new SLConnectGet(getActivity());
+             	   	sc.execute();
+             	   	this.s_adapter.notifyDataSetChanged();
+            	}
+            	
+            }
+            else {}
+        }
+            
+   
             
             //ASYNC TASK for BUY LISTINGS
             private class BLConnectGet extends AsyncTask<Void, Void, List<BuyListing>> {
@@ -207,5 +322,60 @@ public class ListingsList extends ListFragment
      	            }
      	            return updatedSellList;
      	        }     
-     	  }    
+     	  } 
+            
+    	private class MessageTask extends AsyncTask<Void, Void, List<Message>> {
+    	 	
+    	 	private ProgressDialog progressBar;
+    	 	private Context context;
+    	 	
+    	 	 public MessageTask(Context context) {
+    		        	this.context = context;
+    		        }
+    	 	
+
+    	 	@Override
+    		        protected void onPreExecute() {
+    		           // super.onPreExecute();
+    		        	progressBar = ProgressDialog.show(context, "Loading...", "Messages are loading...", true);
+    		        }
+    	 	
+    	     @Override
+    	     protected List<Message> doInBackground(Void... params) {
+    	    	 //Block this until UID is successfully retrieved
+    	    	 Log.d("waitForvalues", "Checking that UID is safely retrieved");
+    	    	 while (((MainActivity) context).getUID() == null) {
+    	             Log.d("waitForvalues", "Waiting - getUID yields " + ((MainActivity) context).getUID());
+    	             		
+    	             try {
+    	                 Thread.sleep(100);
+    	             } catch (InterruptedException e) {
+    	                 e.printStackTrace();
+    	                 Log.d("waitForvalues", e.toString());
+    	             }
+    	         
+    	  		 }
+    	    	 
+    	    	 
+    	     	//Log.d("LOUD AND CLEAR", "Attempting to update messages list");
+    	 		List<Message> newConversations = new ArrayList<Message>();
+    	 		newConversations = ConnectToServlet.requestAllMsgs(((MainActivity) context).getUID());
+    	 		
+    	 		//Log.d("LOUD AND CLEAR", "Message list returned from server with size " + newConversations.size());
+    	 		return newConversations;
+    	     }
+
+    	     @Override
+    	     protected void onPostExecute(List<Message> msgs) {
+    	     	
+    	     	Log.d("LOUD AND CLEAR", "Adding messages...");
+    	     	ConversationList.addMessageList(msgs);
+    	     	ConversationList.is_set = true;
+    	     	progressBar.dismiss();
+    	     	
+    	     	
+    	     }
+    		}
+    
+            
 }

@@ -19,14 +19,14 @@ import com.swipesexchange.ConnectToServlet;
 
 public class ConversationList {
 	
-	private static Stack<Conversation> conversation_list;
+	private static Stack<Conversation> conversation_list = new Stack<Conversation>();
 	
 	// boolean to check if the Messages tab needs an update
 	private static boolean needs_update;
+	public static boolean is_set = false;
 	
 	public ConversationList() {
 		
-		ConversationList.conversation_list = new Stack<Conversation>();
 		needs_update = false;
 	}
 	
@@ -36,8 +36,8 @@ public class ConversationList {
 		return conversation_list;
 	}
 	
- 	public void addMessageList(List<Message> msgs) {
-		
+ 	public static void addMessageList(List<Message> msgs) {
+		Log.d("porcupine", "Adding message list with size " + msgs.size());
 		conversation_list.clear();
 		for(int i=0; i<msgs.size(); i++)
 			addMessage(msgs.get(i));
@@ -86,6 +86,13 @@ public class ConversationList {
 		
 		return -1;
 			
+	}
+	
+	public static boolean doesConversationExist(String lid) {
+		if(findConversationIndexByListingID(lid) == -1)
+			return false;
+		else
+			return true;
 	}
 	
 	// for removing conversations from the conversation list, e.g. b/c of a button press on the view

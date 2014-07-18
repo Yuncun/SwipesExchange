@@ -1,6 +1,8 @@
 package com.swipesexchange;
 
 import java.lang.reflect.Field;
+import java.util.ArrayList;
+import java.util.List;
 
 import sharedObjects.Message;
 
@@ -9,11 +11,14 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 
 import android.app.ActionBar;
+import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
+import android.content.Context;
 import android.content.Intent;
 import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
+import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
 import android.support.v4.app.Fragment;
@@ -22,6 +27,7 @@ import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
 import android.util.Log;
+import android.util.SparseArray;
 import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
@@ -37,13 +43,13 @@ import android.widget.TextView;
 
 public class SelectionFragment extends Fragment implements ActionBar.TabListener {
 
-	private static final int NEW_LISTING_FRAGMENT = 0;
-	private static final int NEW_LISTING_BUY_FRAGMENT = 1;
 
 	private LoginFragment loginFragment;
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ActionBar actionBar;
 	private static MessagesFragment m_frag;
+	private static ListingsList b_frag;
+	private static ListingsList l_frag;
 	public BackendData l;
 	
 	private static final int NUM_FRAGMENTS = 5;
@@ -310,6 +316,7 @@ actionBar = getActivity().getActionBar();
 	public class SectionsPagerAdapter extends FragmentPagerAdapter {
 		
 		MainActivity mActivity;
+		SparseArray<Fragment> registeredFragments = new SparseArray<Fragment>();
 
 		public SectionsPagerAdapter(FragmentManager fm, MainActivity my_activity) {
 			super(fm);
@@ -317,10 +324,23 @@ actionBar = getActivity().getActionBar();
 		}
 		
 		@Override
-		public void destroyItem(ViewGroup container, int position, Object object) {
-		    Log.d("LOUD AND CLEAR", "destroy!");
-		    
-		}
+	    public Object instantiateItem(ViewGroup container, int position) {
+	        Fragment fragment = (Fragment) super.instantiateItem(container, position);
+	        registeredFragments.put(position, fragment);
+	        return fragment;
+	    }
+
+	    @Override
+	    public void destroyItem(ViewGroup container, int position, Object object) {
+	        registeredFragments.remove(position);
+	        super.destroyItem(container, position, object);
+	    }
+
+	    public Fragment getRegisteredFragment(int position) {
+	        return registeredFragments.get(position);
+	    }
+	    
+	    
 
 		@Override
 		public Fragment getItem(int position) {
@@ -329,9 +349,11 @@ actionBar = getActivity().getActionBar();
 			switch(position)
 			{
 			case 0:
-				return ListingsList.newInstance(position, mActivity, l);
+				b_frag = ListingsList.newInstance(position, mActivity, l);
+				return b_frag;
 			case 1:
-				return ListingsList.newInstance(position, mActivity, l);
+				l_frag = ListingsList.newInstance(position, mActivity, l);
+				return l_frag;
 			case 2:
 				return NewListingFragmentBuy.newInstance(position, mActivity);
 			case 3:
@@ -378,13 +400,26 @@ actionBar = getActivity().getActionBar();
 		// TODO Auto-generated method stub
 		
 	}
+	
+	public void recreateListingsList(int pos) {
+		  FragmentManager fragmentManager = getChildFragmentManager();
+	        FragmentTransaction transaction = fragmentManager.beginTransaction();
+		b_frag = ListingsList.newInstance(pos, (MainActivity) getActivity(), l);
+		Fragment frag = b_frag;
+	        transaction.replace(R.id.v_pager, frag);
+	        transaction.commit();
+	}
 
 	@Override
 	public void onTabSelected(Tab tab, android.app.FragmentTransaction ft) {
 		// TODO Auto-generated method stub
 		// When the given tab is selected, switch to the corresponding page in
 				// the ViewPager.
-				mViewPager.setCurrentItem(tab.getPosition());
+		
+		
+		mViewPager.setCurrentItem(tab.getPosition());
+				
+				
 		
 	}
 
@@ -410,6 +445,8 @@ actionBar = getActivity().getActionBar();
 	            throw new RuntimeException(e);
 	        }
 	    }
+	 
+
 	
 	
 

@@ -10,8 +10,8 @@
         android:gravity="center_vertical"
         android:paddingLeft="5dp"
         android:paddingTop="0dp"
-        android:text="Example application"
-        android:textSize="16sp"
+        android:text="Venue"
+        android:textSize="14sp"
         android:textStyle="bold" 
         />
 
@@ -19,9 +19,10 @@
         android:id="@+id/secondLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_below="@id/firstLine"
-        android:paddingLeft="5dp"
-        android:text="Description"
+        android:layout_toRightOf="@id/firstLine"
+        android:paddingLeft="20dp"
+        android:paddingTop="2dp"
+        android:text="Expiration Time"
         android:textColor="#808080"
         android:textSize="12sp" />
 
@@ -29,9 +30,11 @@
         android:id="@+id/thirdLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/secondLine"
-        android:paddingLeft="2dp"
+        android:layout_below="@id/firstLine"
+        android:paddingLeft="5dp"
+       
         android:textColor="#808080"
+        android:text="Description"
         android:textSize="12sp" />
 
     <ImageView

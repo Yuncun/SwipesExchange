@@ -93,9 +93,9 @@ public class ConversationFragment extends ListFragment {
 	     	}
 	 }
 	 
-	 public void updateFragmentWithMessage(Message m) {
+	 public void updateFragmentWithMessage(Message m, boolean update_locally) {
 		 if(this.adapter != null)
-			 this.adapter.addAndUpdate(m);
+			 this.adapter.addAndUpdate(m, update_locally);
 	 }
 	 
 	 public void updateFragmentWithNoMessage() {

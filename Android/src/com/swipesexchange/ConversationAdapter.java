@@ -113,9 +113,10 @@ public class ConversationAdapter extends BaseAdapter {
         chatMessages.addAll(messages);
     }
     
-    public void addAndUpdate(Message message) {
+    public void addAndUpdate(Message message, boolean update_locally) {
     	// TODO: remove this??
-    	//chatMessages.add(message);
+    	if(update_locally)
+    		chatMessages.add(message);
     	ConversationList.addMessage(message);
     	this.notifyDataSetChanged();
     }

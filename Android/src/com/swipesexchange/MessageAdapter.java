@@ -1,6 +1,9 @@
 package com.swipesexchange;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 import java.util.Stack;
 
@@ -87,6 +90,7 @@ public class MessageAdapter extends BaseAdapter {
         TextView sender_name = (TextView) view.findViewById(R.id.sender_name);
         //TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
         TextView text = (TextView) view.findViewById(R.id.message_text);
+        TextView time = (TextView) view.findViewById(R.id.message_time);
       
         String sender_string = "";
         if(Self.getUser().getUID() == my_list.get(position).getSender().getUID())
@@ -100,6 +104,8 @@ public class MessageAdapter extends BaseAdapter {
         message_string = my_list.get(position).getMostRecentMessage().getText();
         
         text.setText(message_string);
+        
+        time.setText(this.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
        
         
         return view;
@@ -136,6 +142,29 @@ public class MessageAdapter extends BaseAdapter {
 		
 		return my_list.size();
 	}
+
+   private String getTimeText(String date_str) {
+    	
+    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+    	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
+
+    	String oldDateString = date_str;
+    	String newDateString;
+
+    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+    	Date d = null;
+		try {
+			d = sdf.parse(oldDateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return date_str;
+		}
+    	sdf.applyPattern(NEW_FORMAT);
+    	newDateString = sdf.format(d);
+    	
+        return newDateString;
+    }
 	
 	//This class will allow us to safely "block" until all necessary values (like UID) have been accounted for by the initialization code
 	//DEPRECATED @Eric 7/5/14
