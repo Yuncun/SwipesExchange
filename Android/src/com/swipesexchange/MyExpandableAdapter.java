@@ -410,6 +410,29 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 					public void onClick(View view) {
 						
 						boolean cancel = false;
+						
+						if (enterMessage.getText().toString() == null || enterMessage.getText().toString() == "")
+						{
+							cancel = true;
+							time_error_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
+							time_error_dialog.setContentView(R.layout.dialog_time_error);
+							ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
+							time_error_dialog.setTitle("Please enter something for message body");
+							
+							
+							ok_button.setOnClickListener(new View.OnClickListener() {
+								 
+			                    @Override
+			                    public void onClick(View view) {
+			                        
+			                        time_error_dialog.dismiss();
+			 
+			                    }
+			                });
+							
+							time_error_dialog.show();	
+						}
+						/*
 						if((getStartHours()>getEndHours()) || (getStartHours()==getEndHours() && getStartMinutes()>getEndMinutes()))
 						{
 							cancel = true;
@@ -433,7 +456,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 							
 							
 						}
-				
+						*/
 						if(!cancel)
 						{
 							submit_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
@@ -526,7 +549,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			                    	nMsg.setPayload(j0);
 
 			                    	String j1 = gson.toJson(nMsg);
-
+			                    	ListingsUpdateTimer.toggleJustSubmittedListing();
 
 			                    	ConnectToServlet.sendListing(j1);
 			                    	

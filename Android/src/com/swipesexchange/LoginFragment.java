@@ -23,7 +23,8 @@ import com.facebook.widget.LoginButton;
 import com.swipesexchange.MainActivity;
 public class LoginFragment extends Fragment {
 
-DialogFragment newFragment = null;
+
+public static boolean dialogOpened= false;
 
 	@Override
 	public View onCreateView(LayoutInflater inflater, 
@@ -50,8 +51,8 @@ DialogFragment newFragment = null;
 	}
 	
 	  public void openGuestLogin() {
-		  if (newFragment == null){
-			  newFragment = new GuestLoginFragment();
+		  if (!dialogOpened){
+			  DialogFragment newFragment = new GuestLoginFragment();
 		      newFragment.show(getFragmentManager(), "GuestLogin"); 
 		  }
 	    }

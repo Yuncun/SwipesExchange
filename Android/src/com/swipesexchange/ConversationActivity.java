@@ -33,6 +33,7 @@ public class ConversationActivity extends FragmentActivity {
 	private ArrayList<Message> passed_messages;
 	private String lid;
 	private boolean is_empty;
+	private User otherGuy = new User("Empty User");
 	   @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -51,8 +52,10 @@ public class ConversationActivity extends FragmentActivity {
 	        }
 	        else
 	        {
+	        	
 	        	this.passed_messages = new ArrayList<Message>();
 	        	this.lid = i.getStringExtra("listing_id");
+
 	        	message_content_holder.requestFocus();
 
 	        	 final InputMethodManager imm = (InputMethodManager)getSystemService(
@@ -77,7 +80,7 @@ public class ConversationActivity extends FragmentActivity {
 	        RelativeLayout close = (RelativeLayout) findViewById(R.id.go_back);
 	        
 	        close.setOnClickListener(new View.OnClickListener() {
-				
+
 				@Override
 				public void onClick(View v) {
 					ClosedInfo.setMinimized(false);
@@ -99,6 +102,17 @@ public class ConversationActivity extends FragmentActivity {
 				 
 	            @Override
 	            public void onClick(View view) {
+	            	
+	            	//Determine which one is the other conversationalist by checking against yourself
+	            	User uSender = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid)).getSender();
+	            	User uReceiver = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid)).getReceiver();
+	            
+	            	if (uSender.getUID() == Self.getUser().getUID()){
+	            		otherGuy = uReceiver;
+	            	}
+	            	if (uReceiver.getUID() == Self.getUser().getUID()){
+	            		otherGuy = uSender;
+	            	}
 	            	// get the contents of the EditText field holding the message string to be sent
 	                String message_contents = message_content_holder.getText().toString();
 	                if(message_contents == null || (message_contents.length() == 0))
@@ -110,9 +124,11 @@ public class ConversationActivity extends FragmentActivity {
 	                User sender = Self.getUser();
 	                //sender.setRegid("10001");
 	                //sender.setUID("10152153150921342");
-	                User receiver = Self.getUser(); //TODO: resolve target
+	                
+	                User receiver = otherGuy; //TODO: resolve target
 	                //receiver.setRegid("10002");
 	                //receiver.setUID("10152153150921342");
+	                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
 	                
 	                now.setToNow();
 	                

@@ -48,6 +48,7 @@ public class GuestLoginFragment extends DialogFragment {
                })
                .setNegativeButton(R.string.dialog_cancel, new DialogInterface.OnClickListener() {
                    public void onClick(DialogInterface dialog, int id) {
+                	   LoginFragment.dialogOpened = false;
                        GuestLoginFragment.this.getDialog().cancel();
                    }
                });      
