@@ -1,41 +1,168 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="50dip"
-    android:padding="5dip" >
+    android:layout_height="wrap_content"
+     >
 
-    <TextView
+    <ImageView
+        android:id="@+id/fb_pic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+        android:scaleType="centerCrop"
+         />
+    
+    <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/fb_pic"
+        android:layout_marginTop="4dp"
+        android:paddingBottom="4dp"
+        android:layout_marginLeft="20dp"
+        
+      >
+        
+        <LinearLayout
+        android:id="@+id/box_1"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/rectangle"
+        android:paddingTop="0dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_1_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:gravity="center"
+                  android:paddingTop="4dp"
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/box_2"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:paddingTop="0dp"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@id/box_1"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_2_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:gravity="center"
+                  android:paddingTop="4dp"
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+      <LinearLayout
+        android:id="@+id/box_3"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/rectangle"
+        android:paddingTop="0dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_3_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:gravity="center"
+                  android:paddingTop="4dp"
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/box_4"
+        android:layout_width="wrap_content"
+        android:layout_height="30dp"
+        android:background="@drawable/rectangle"
+        android:paddingTop="0dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_4_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="fill_parent"
+                  android:gravity="center"
+                  android:paddingTop="4dp"
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+    
+        
+        
+        
+        
+    </RelativeLayout>
+
+
+    <RelativeLayout
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_toRightOf="@id/fb_pic">
+         <TextView
+        android:id="@+id/expiration_time"
+        android:layout_width="35dp"
+        android:layout_height="20dp"
+        android:text=">4.5h"
+        
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:padding="1dp"
+        android:gravity="center"
+        android:background="@drawable/rectange_bottom_right" />
+             <TextView
         android:id="@+id/firstLine"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
-        android:paddingTop="0dp"
-        android:text="Venue"
-        android:textSize="14sp"
-        android:textStyle="bold" 
-        />
-
-    <TextView
-        android:id="@+id/secondLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/firstLine"
-        android:paddingLeft="20dp"
-        android:paddingTop="2dp"
-        android:text="Expiration Time"
-        android:textColor="#808080"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/thirdLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/firstLine"
-        android:paddingLeft="5dp"
-       
-        android:textColor="#808080"
+        android:lineSpacingExtra="2dp"
+        android:padding="1dp"
+        android:singleLine="false"
         android:text="Description"
         android:textSize="12sp" />
+        
+        
+        
+        
+        
+    </RelativeLayout>
+     
+      
+     
+          
+        <RelativeLayout
+         android:layout_width="match_parent"
+         android:layout_height="40dp"
+         android:layout_toRightOf="@id/fb_pic">
+            
+               <View android:layout_width="fill_parent"
+   	 	android:layout_height="1dp"
+   	 	
+   	 	android:layout_alignParentBottom="true"
+		android:background="@color/light_grey" />
+            
+            
+        </RelativeLayout>
+          
+     
+          
+
 
     <ImageView
         android:id="@+id/forward"
@@ -45,22 +172,8 @@
         android:layout_centerVertical="true"
         android:src="@drawable/ic_action_next_item" />
 
-    <LinearLayout
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_centerVertical="true"
-        android:layout_toLeftOf="@id/forward"
-        android:background="@drawable/rectangle"
-        android:paddingTop="0dp" >
+  
 
-        <TextView
-            android:id="@+id/firstLineRight"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:text="Number requested"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
+
 
 </RelativeLayout>

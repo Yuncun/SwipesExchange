@@ -1,12 +1,17 @@
 package com.swipesexchange;
 
+import java.io.IOException;
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 
 import sharedObjects.BuyListing;
 import sharedObjects.Message;
@@ -17,6 +22,8 @@ import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -48,6 +55,7 @@ public class ListingsList extends ListFragment
         public List<BuyListing> buyEntries;
         public List<SellListing> sellEntries;
         private boolean first_time = true;
+        private boolean buy_entries_init = false;
         
         private BLConnectGet bc;
         private SLConnectGet sc;
@@ -189,15 +197,16 @@ public class ListingsList extends ListFragment
                if(this.page_num==0) //Buy Listings page
                {   
             	   this.pullAndAddMessages();
-            	   bc = new BLConnectGet(getActivity());
+            	   bc = new BLConnectGet(getActivity(), true);
             	   bc.execute();
-            	   
                }
                else if(this.page_num==1) //Sell Listings page
                {
             	 sc = new SLConnectGet(getActivity());
             	 sc.execute();
                }
+               
+               
        
             }
             
@@ -219,8 +228,9 @@ public class ListingsList extends ListFragment
             	if(page_num==0 && !first_time)
             	{
             		Log.d("frag visibility", "Buy frag visible..."); 
-               	 	bc = new BLConnectGet(getActivity());
+               	 	bc = new BLConnectGet(getActivity(), false);
              	   	bc.execute();
+             	    setBLAdapter();
              	   	this.b_adapter.notifyDataSetChanged();
             	}
             	else if(page_num==1 && !first_time)
@@ -234,6 +244,78 @@ public class ListingsList extends ListFragment
             }
             else {}
         }
+        
+        public void getPictures() {
+        	PictureTaskBuy pb_task = new PictureTaskBuy(getActivity());
+      	   	pb_task.execute();
+        }
+        
+        private class PictureTaskBuy extends AsyncTask<Void, Void, Map<String, Bitmap>> {
+
+        	Map<String, Bitmap> map = new HashMap<String, Bitmap>();
+        	private ProgressDialog progressBar;
+        	private Context context;
+        	
+        	public PictureTaskBuy(Context context) {
+        		this.context = context;
+        	}
+        	
+            @Override
+	        protected void onPreExecute() {
+	           // super.onPreExecute();
+	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Finishing up...", true);
+	        }
+        	
+            @Override
+            public Map<String, Bitmap> doInBackground(Void... params) {
+                URL url = null;
+                Bitmap pic_bitmap = null;
+                //BitmapFactory.Options options;
+                
+                while (((MainActivity) context).getUID() == null && buy_entries_init == false) {
+   	             Log.d("waitForvalues", "Waiting - getUID yields " + ((MainActivity) context).getUID());
+   	             		
+   	             try {
+   	                 Thread.sleep(100);
+   	             } catch (InterruptedException e) {
+   	                 e.printStackTrace();
+   	                 Log.d("waitForvalues", e.toString());
+   	             }
+   	         
+   	  		 }
+                Log.d("picture", Integer.toString(buyEntries.size()));
+                for(int i=0; i < buyEntries.size(); i++)
+                {
+	                try {
+	                	//options = new BitmapFactory.Options();
+	                	//options.inSampleSize = 2;
+	                	
+	                	// TODO: get the FBUID
+	                	url = new URL("https://graph.facebook.com/10152153150921342/picture?type=large");
+	                    //Log.d("picture", "URL is: " + url.toString());
+	                    pic_bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+	                    map.put("10152153150921342", pic_bitmap);
+	                } catch (MalformedURLException e) {
+	                    e.printStackTrace();
+	                    Log.d("picture", "Malformed URL!");
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    Log.d("picture", "IO Exception!");
+	                }
+                }
+                
+                return map;
+            }
+
+            @Override
+            protected void onPostExecute(Map<String, Bitmap> map) {
+            	progressBar.dismiss();
+                PictureCache.cachePicMapBuy(map);
+                Log.d("picture", "Map size is: " + Integer.toString(map.size()));
+                setBLAdapter();
+            }
+
+        }
             
    
             
@@ -243,9 +325,11 @@ public class ListingsList extends ListFragment
         		   private Context context;
         		   private ProgressDialog progressBar;
         	       int count;
+        	       boolean get_pics;
         	  
-        	        public BLConnectGet(Context context) {
+        	        public BLConnectGet(Context context, boolean get_pics) {
         	        	this.context = context;
+        	        	this.get_pics = get_pics;
         	        }
         	        
         	        @Override
@@ -259,7 +343,10 @@ public class ListingsList extends ListFragment
         	    	  Log.d("test", "PostExecute1");
         	    	  progressBar.dismiss();
         	    	  buyEntries = result;
-        	    	  setBLAdapter();
+        	    	  buy_entries_init = true;
+        	    	  if(this.get_pics)
+        	    		  getPictures();
+        	    	  
         	        }
         	    
         	      	@Override

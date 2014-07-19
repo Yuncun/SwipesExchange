@@ -166,7 +166,7 @@ public class MessagesFragment extends ListFragment {
  	@Override
 	        protected void onPreExecute() {
 	           // super.onPreExecute();
-	        	progressBar = ProgressDialog.show(context, "Loading...", "Finishing up...", true);
+	        	progressBar = ProgressDialog.show(context, "Loading...", "Doing some work...", true);
 	        }
  	
      @Override
