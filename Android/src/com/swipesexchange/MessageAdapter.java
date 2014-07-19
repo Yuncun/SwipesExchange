@@ -143,7 +143,7 @@ public class MessageAdapter extends BaseAdapter {
 		return my_list.size();
 	}
 
-   private String getTimeText(String date_str) {
+   public static String getTimeText(String date_str) {
     	
     	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
     	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
