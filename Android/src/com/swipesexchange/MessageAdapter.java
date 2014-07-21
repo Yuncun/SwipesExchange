@@ -73,19 +73,6 @@ public class MessageAdapter extends BaseAdapter {
     	
         // inflate the layout for each item of listView  
         view = inflater.inflate(R.layout.message_item, null);
-        
-        /*
-        view.setOnClickListener(new View.OnClickListener() {
-			
-			@Override
-			public void onClick(View v) {
-				// TODO Auto-generated method stub
-				String test_msg = "Clicked on Message!";
-				Toast.makeText(v.getContext(), test_msg, Toast.LENGTH_SHORT).show();
-				
-			}
-        });
-        */
 
         TextView sender_name = (TextView) view.findViewById(R.id.sender_name);
         //TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
@@ -105,7 +92,7 @@ public class MessageAdapter extends BaseAdapter {
         
         text.setText(message_string);
         
-        time.setText(this.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
+        time.setText(StaticHelpers.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
        
         
         return view;
@@ -143,29 +130,7 @@ public class MessageAdapter extends BaseAdapter {
 		return my_list.size();
 	}
 
-   public static String getTimeText(String date_str) {
-    	
-    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
-    	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
 
-    	String oldDateString = date_str;
-    	String newDateString;
-
-    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-    	Date d = null;
-		try {
-			d = sdf.parse(oldDateString);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return date_str;
-		}
-    	sdf.applyPattern(NEW_FORMAT);
-    	newDateString = sdf.format(d);
-    	
-        return newDateString;
-    }
-	
 	//This class will allow us to safely "block" until all necessary values (like UID) have been accounted for by the initialization code
 	//DEPRECATED @Eric 7/5/14
     private class WaitForKeyValues extends AsyncTask<Void, Void, String> {

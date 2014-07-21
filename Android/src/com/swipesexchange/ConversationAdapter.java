@@ -95,9 +95,9 @@ public class ConversationAdapter extends BaseAdapter {
         holder.txtMessage.setText(chatMessage.getText());
         if (chatMessage.getSender() != null) {
         	if(is_outoing)
-        		holder.txtInfo.setText(this.getTimeText(chatMessage.getTime()));
+        		holder.txtInfo.setText(StaticHelpers.getTimeText(chatMessage.getTime()));
         	else
-        		holder.txtInfo.setText(chatMessage.getSender().getName() + ": " + this.getTimeText(chatMessage.getTime()));
+        		holder.txtInfo.setText(chatMessage.getSender().getName() + ": " + StaticHelpers.getTimeText(chatMessage.getTime()));
         } else {
             holder.txtInfo.setText(chatMessage.getTime());
         }
@@ -130,7 +130,7 @@ public class ConversationAdapter extends BaseAdapter {
     private void setAlignment(ViewHolder holder, boolean isIncoming) {
     	
     	
-        if (isIncoming) {
+        if (!isIncoming) {
             holder.contentWithBG.setBackgroundResource(R.drawable.incoming_message_bg);
 
             LinearLayout.LayoutParams layoutParams = (LinearLayout.LayoutParams) holder.contentWithBG.getLayoutParams();
@@ -178,29 +178,6 @@ public class ConversationAdapter extends BaseAdapter {
         return holder;
     }
 
-    private String getTimeText(String date_str) {
-    	
-    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
-    	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
-
-    	String oldDateString = date_str;
-    	String newDateString;
-
-    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-    	Date d = null;
-		try {
-			d = sdf.parse(oldDateString);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return date_str;
-		}
-    	sdf.applyPattern(NEW_FORMAT);
-    	newDateString = sdf.format(d);
-    	
-        return newDateString;
-    }
-    
 	 public int fixHours(int hours_24)
 	 {
 		 if (hours_24 == 0)

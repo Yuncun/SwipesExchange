@@ -95,9 +95,7 @@ public class ConversationActivity extends FragmentActivity {
 	        
 	        
 	     	submit_message = (Button) findViewById(R.id.chatSendButton);
-	     	
-	     	
-	     	
+
 			submit_message.setOnClickListener(new View.OnClickListener() {
 				 
 	            @Override

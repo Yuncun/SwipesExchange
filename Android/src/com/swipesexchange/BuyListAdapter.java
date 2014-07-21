@@ -57,7 +57,7 @@ public class BuyListAdapter  extends BaseAdapter
 {
     
     private Context myContext;
-    private List<BuyListing> myList;
+    public List<BuyListing> myList;
     List<String> VenueNames;
     List<String> UserNames;
     List<String> DescStartTime;
@@ -139,45 +139,27 @@ public class BuyListAdapter  extends BaseAdapter
     public View getView(final int position,  View view, ViewGroup parent) 
     {
     	LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	/*if (myList.get(position).isSection)
-    	{
-    		
-    		view= inflater.inflate(R.layout.test_text, null);
-    		TextView divider_name = (TextView) view.findViewById(R.id.test_inflate);
-    		divider_name.setText(myList.get(position).getSection());
-    		divider_name.setTypeface(null, Typeface.BOLD);
-    		view.setBackgroundColor(Color.BLACK);
-    	}
-    	else
-    	{
-    	*/
-                    // inflate the layout for each item of listView
-    	
-    	
-   
-                 
+
                 view = inflater.inflate(R.layout.buy_list_item, null);
         
                 TextView description = (TextView) view.findViewById(R.id.firstLine);
-                //TextView numRequested = (TextView) view.findViewById(R.id.firstLineRight);
-               // TextView time = (TextView) view.findViewById(R.id.secondLine);
-                //TextView desc = (TextView) view.findViewById(R.id.thirdLine);
+              
                 ImageView fb_pic = (ImageView) view.findViewById(R.id.fb_pic);
                 TextView exp_time = (TextView) view.findViewById(R.id.expiration_time);
                 TextView v1 = (TextView) view.findViewById(R.id.box_1_text);
                 TextView v2 = (TextView) view.findViewById(R.id.box_2_text);
                 TextView v3 = (TextView) view.findViewById(R.id.box_3_text);
                 TextView v4 = (TextView) view.findViewById(R.id.box_4_text);
-                //Display display = ((Activity) this.myContext).getWindowManager().getDefaultDisplay();
-               // FlowTextHelper.tryFlowText(this.myContext, this.myList.get(position).getMessageBody(), exp_time, description, display, 4);
+                TextView time_created = (TextView) view.findViewById(R.id.buy_listing_time_created);
+                TextView name = (TextView) view.findViewById(R.id.buy_listing_name);
                 
                 description.setText("\t\t\t  " + this.myList.get(position).getMessageBody());
-                
+                time_created.setText(StaticHelpers.getTimeText(this.myList.get(position).getTimeCreated()));
+                name.setText(this.myList.get(position).getUser().getName());
                 fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
-                //description.setText(this.myList.get(position).getMessageBody());
-                //numRequested.setText(Integer.toString(this.myList.get(position).getSwipeCount()));
-                String s_string = this.getTimeText(this.myList.get(position).getStartTime());
-                String e_string = this.getTimeText(this.myList.get(position).getEndTime());
+           
+                String s_string = StaticHelpers.getTimeText(this.myList.get(position).getStartTime());
+                String e_string = StaticHelpers.getTimeText(this.myList.get(position).getEndTime());
                 exp_time.setText(">2h");
                 
                 // set the venue boxes
@@ -223,9 +205,9 @@ public class BuyListAdapter  extends BaseAdapter
                 Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
                
                 
-                if(ConversationList.doesConversationExist(this.myList.get(position).getListingID()))
-                	view.setBackgroundColor(my_color);
-                else
+               // if(ConversationList.doesConversationExist(this.myList.get(position).getListingID()))
+                	//view.setBackgroundColor(my_color);
+               // else
                 	view.setBackgroundColor(my_color_white);
        	
                return view;
@@ -248,30 +230,6 @@ public class BuyListAdapter  extends BaseAdapter
 		
 		return myList.size();
 	}
-	
-   private String getTimeText(String date_str) {
-    	
-    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
-    	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
-
-    	String oldDateString = date_str;
-    	String newDateString;
-
-    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-    	Date d = null;
-		try {
-			d = sdf.parse(oldDateString);
-		} catch (ParseException e) {
-			// TODO Auto-generated catch block
-			//e.printStackTrace();
-			return date_str;
-		}
-    	sdf.applyPattern(NEW_FORMAT);
-    	newDateString = sdf.format(d);
-    	
-        return newDateString;
-    }
-
 
 	
 }

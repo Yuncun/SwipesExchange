@@ -102,7 +102,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		*/
 		//transaction.commit();
 	    
-actionBar = getActivity().getActionBar();
+	    actionBar = getActivity().getActionBar();
 		 
 
 		// Set up the action bar.
@@ -295,7 +295,7 @@ actionBar = getActivity().getActionBar();
 		
 	}
 	
-	   public void refreshConversationFragment() {
+	public void refreshConversationFragment() {
 		   Fragment fragment = m_frag;
 		   if(fragment != null)
 		   {

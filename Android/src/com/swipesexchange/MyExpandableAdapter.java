@@ -414,7 +414,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 						if (enterMessage.getText().toString() == null || enterMessage.getText().toString() == "")
 						{
 							cancel = true;
-							time_error_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
+							time_error_dialog = new Dialog(inflater.getContext(), R.style.CustomDialogTheme);
 							time_error_dialog.setContentView(R.layout.dialog_time_error);
 							ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
 							time_error_dialog.setTitle("Please enter something for message body");
@@ -459,7 +459,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 						*/
 						if(!cancel)
 						{
-							submit_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
+							submit_dialog = new Dialog(inflater.getContext(), R.style.CustomDialogTheme);
 							submit_dialog.setContentView(R.layout.dialog_submit);
 							cancel_button = (Button) submit_dialog.findViewById(R.id.Cancel_Button);
 					 		yes_button = (Button) submit_dialog.findViewById(R.id.Yes_Button);

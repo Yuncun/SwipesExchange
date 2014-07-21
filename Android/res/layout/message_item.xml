@@ -10,7 +10,6 @@
         android:layout_alignParentTop="true"
         android:paddingLeft="5dp"
         android:paddingTop="0dp"
-        android:text="Aragorn"
         android:textSize="14sp"
         android:textStyle="bold" />
 

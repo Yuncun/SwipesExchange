@@ -2,11 +2,55 @@
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
      >
+     
+    <RelativeLayout
+        android:id="@+id/buy_listing_top_bar"
+        android:layout_width="match_parent"
+        android:layout_height="20dp"
+        android:background="@color/light_grey"
+        
+        >
+        
+        <TextView
+        android:id="@+id/buy_listing_name"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="[Default Name]"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="5dp"
+        android:padding="2dp"
+        android:gravity="center"/>
+            
+        <TextView
+        android:id="@+id/buy_listing_time_created"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Time Created"
+        
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:padding="2dp"
+        android:gravity="center" />
+        
+        
+            
+        <View android:layout_width="fill_parent"
+   	 	android:layout_height="1dp"
+   	 	
+   	 	android:layout_alignParentBottom="true"
+		android:background="@color/light_grey" />
+        
+        
+    </RelativeLayout>
 
     <ImageView
         android:id="@+id/fb_pic"
         android:layout_width="40dp"
         android:layout_height="40dp"
+        android:layout_below="@id/buy_listing_top_bar"
         android:scaleType="centerCrop"
          />
     
@@ -23,17 +67,17 @@
         <LinearLayout
         android:id="@+id/box_1"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rectangle"
-        android:paddingTop="0dp"
+        android:padding="2dp"
         android:visibility="gone" >
 
               <TextView
                   android:id="@+id/box_1_text"
                   android:layout_width="wrap_content"
-                  android:layout_height="fill_parent"
+                  android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:paddingTop="4dp"
+                 
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
@@ -43,8 +87,8 @@
         <LinearLayout
         android:id="@+id/box_2"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
-        android:paddingTop="0dp"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
         android:background="@drawable/rectangle"
         android:layout_toRightOf="@id/box_1"
         android:layout_marginLeft="10dp"
@@ -53,9 +97,8 @@
               <TextView
                   android:id="@+id/box_2_text"
                   android:layout_width="wrap_content"
-                  android:layout_height="fill_parent"
+                  android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:paddingTop="4dp"
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
@@ -65,18 +108,18 @@
       <LinearLayout
         android:id="@+id/box_3"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
         android:background="@drawable/rectangle"
-        android:paddingTop="0dp"
+        android:layout_toRightOf="@id/box_2"
+        android:padding="2dp"
         android:layout_marginLeft="10dp"
         android:visibility="gone" >
 
               <TextView
                   android:id="@+id/box_3_text"
                   android:layout_width="wrap_content"
-                  android:layout_height="fill_parent"
+                  android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:paddingTop="4dp"
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
@@ -86,35 +129,33 @@
         <LinearLayout
         android:id="@+id/box_4"
         android:layout_width="wrap_content"
-        android:layout_height="30dp"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/box_3"
         android:background="@drawable/rectangle"
-        android:paddingTop="0dp"
+        android:padding="2dp"
         android:layout_marginLeft="10dp"
         android:visibility="gone" >
 
               <TextView
                   android:id="@+id/box_4_text"
                   android:layout_width="wrap_content"
-                  android:layout_height="fill_parent"
+                  android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:paddingTop="4dp"
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
 
     </LinearLayout>
     
-    
-        
-        
-        
-        
+ 
+
     </RelativeLayout>
 
 
     <RelativeLayout
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
+        android:layout_below="@id/buy_listing_top_bar"
         android:layout_toRightOf="@id/fb_pic">
          <TextView
         android:id="@+id/expiration_time"
@@ -134,21 +175,19 @@
         android:lineSpacingExtra="2dp"
         android:padding="1dp"
         android:singleLine="false"
+         android:maxLines="2"
+          android:ellipsize="end"
         android:text="Description"
         android:textSize="12sp" />
-        
-        
-        
-        
-        
+
     </RelativeLayout>
      
-      
-     
-          
+
         <RelativeLayout
          android:layout_width="match_parent"
          android:layout_height="40dp"
+          android:ellipsize="end"
+          android:layout_below="@id/buy_listing_top_bar"
          android:layout_toRightOf="@id/fb_pic">
             
                <View android:layout_width="fill_parent"
@@ -159,12 +198,8 @@
             
             
         </RelativeLayout>
-          
-     
-          
-
-
-    <ImageView
+        
+                 <ImageView
         android:id="@+id/forward"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
@@ -173,7 +208,6 @@
         android:src="@drawable/ic_action_next_item" />
 
   
-
 
 
 </RelativeLayout>

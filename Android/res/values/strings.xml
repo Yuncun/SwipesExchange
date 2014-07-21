@@ -25,6 +25,7 @@
  <string name="dialog_login">Login</string>
  <string name="guesttext">Log in as Guest</string>
  
+ <color name="theme_black">#313131</color>
  
  <color name="holo_light_background">#E1E1E1</color>
 <color name="mycolor1">#59c3fa</color>

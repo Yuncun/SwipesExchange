@@ -62,5 +62,28 @@ public class StaticHelpers {
 		}*/
 
 	}
+	
+   public static String getTimeText(String date_str) {
+    	
+    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+    	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
+
+    	String oldDateString = date_str;
+    	String newDateString;
+
+    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+    	Date d = null;
+		try {
+			d = sdf.parse(oldDateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			//e.printStackTrace();
+			return date_str;
+		}
+    	sdf.applyPattern(NEW_FORMAT);
+    	newDateString = sdf.format(d);
+    	
+        return newDateString;
+    }
 
 }

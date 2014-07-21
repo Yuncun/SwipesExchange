@@ -6,6 +6,7 @@ import java.net.URL;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
@@ -15,10 +16,12 @@ import java.util.Map;
 
 import sharedObjects.BuyListing;
 import sharedObjects.Message;
+import sharedObjects.Self;
 import sharedObjects.SellListing;
 import sharedObjects.User;
 import sharedObjects.Venue;
 import android.annotation.SuppressLint;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.Intent;
@@ -27,12 +30,19 @@ import android.graphics.BitmapFactory;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
+import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
+import android.widget.EditText;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.TextView;
 
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
@@ -80,7 +90,7 @@ public class ListingsList extends ListFragment
         return l;
     }
 		
-		private Date getTimeText(String date_str) {
+		private Date getTimeDate(String date_str) {
 	    	
 	    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
 
@@ -105,37 +115,121 @@ public class ListingsList extends ListFragment
 	       super.onListItemClick(l, v, position, id);
 	       Log.d("pig", "[onListItemClick] Selected Position "+ position);
 	       
-	       String current_lid;
-	       if(this.page_num == 0)
-	    	    current_lid = this.buyEntries.get(position).getListingID();
-	       else
-	    	    current_lid = this.sellEntries.get(position).getListingID();
-	    		   
 	       
-	       Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
-	       
-	       
-	       User myUser = MainActivity.getSelf();
-	     
-	       if(ConversationList.doesConversationExist(current_lid))
+	       final Dialog dialog = new Dialog(getActivity());
+	       if(this.page_num==0)
 	       {
-	    	   nextScreen.putExtra("is_new", false);
-	    	   //nextScreen.putExtra("clicked_messages_lid", current_lid);
-	       }
-	       else
-	       {
-	    	   nextScreen.putExtra("is_new", true);
-	       }
-	       
-	       
-	       nextScreen.putExtra("listing_id", current_lid);
-	       
-	       nextScreen.putExtra("myUser", myUser);
+	    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	    	   dialog.setContentView(R.layout.buy_list_dialog);
 
-	       startActivity(nextScreen);
-	       getActivity().overridePendingTransition(R.anim.slide_in_from_right,
-	               R.anim.slide_out_to_left);
+		       
+		       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d);
+	           
+	           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_d);
+	           TextView exp_time = (TextView) dialog.findViewById(R.id.expiration_time_d);
+	           TextView v1 = (TextView) dialog.findViewById(R.id.box_1_text_d);
+	           TextView v2 = (TextView) dialog.findViewById(R.id.box_2_text_d);
+	           TextView v3 = (TextView) dialog.findViewById(R.id.box_3_text_d);
+	           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_d);
+	           TextView time_created = (TextView) dialog.findViewById(R.id.buy_listing_time_created_d);
+	           TextView name = (TextView) dialog.findViewById(R.id.buy_listing_name_d);
+	           
+	           description.setText("\t\t\t  " + this.b_adapter.myList.get(position).getMessageBody());
+	           time_created.setText(StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getTimeCreated())));
+	           name.setText(this.b_adapter.myList.get(position).getUser().getName());
+	           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+	      
+	           String s_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getStartTime()));
+	           String e_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getEndTime()));
+	           exp_time.setText(">2h");
+	           
+	           // set the venue boxes
+	           String venue_string = this.b_adapter.myList.get(position).getVenue().getName();
+	           List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
+	           
+	           LinearLayout b1 = (LinearLayout) dialog.findViewById(R.id.box_1_d);
+	           LinearLayout b2 = (LinearLayout) dialog.findViewById(R.id.box_2_d);
+	           LinearLayout b3 = (LinearLayout) dialog.findViewById(R.id.box_3_d);
+	           LinearLayout b4 = (LinearLayout) dialog.findViewById(R.id.box_4_d);
+	           
+	           for(int i = 0; i<items.size(); i++)
+	           {
+	           	if(i==0)
+	           	{
+	           		b1.setVisibility(View.VISIBLE);
+	           		v1.setText(items.get(i));
+	           	}
+	           	else if(i==1)
+	           	{
+	           		b2.setVisibility(View.VISIBLE);
+	           		v2.setText(items.get(i));
+	           	}
+	           	else if(i==2)
+	           	{
+	           		b3.setVisibility(View.VISIBLE);
+	           		v3.setText(items.get(i));
+	           	}
+	           	else if(i==3)
+	           	{
+	           		b4.setVisibility(View.VISIBLE);
+	           		v4.setText(items.get(i));
+	           	}
+	           }
+	       }
 	       
+	       // get the submit button and the edittext
+	       Button submit_message = (Button) dialog.findViewById(R.id.chatSendButton_d);
+	       final EditText message_content_holder = (EditText) dialog.findViewById(R.id.messageEdit_d);
+	       final int pos = position;
+	       
+	       // override the onClick method
+		   submit_message.setOnClickListener(new View.OnClickListener() {
+				 
+	            @Override
+	            public void onClick(View view) {
+	            	
+	            	// set the users
+	            	User sender = Self.getUser();
+	            	User receiver = b_adapter.myList.get(pos).getUser();
+
+	            	// get the contents of the EditText field holding the message string to be sent
+	                String message_contents = message_content_holder.getText().toString();
+	                if(message_contents == null || (message_contents.length() == 0))
+	                	return;
+	          
+	                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
+	                
+	                // get current time
+	                Time now = new Time();
+	                now.setToNow();
+	                String time = now.format2445();
+	                
+	                Message msg = new Message(sender, receiver, b_adapter.myList.get(pos).getListingID(), time, message_contents);
+	                
+	                ConversationList.addMessage(msg);
+	                ConnectToServlet.sendMessage(msg);
+	                // clear the edittext
+	                message_content_holder.getText().clear();
+	                
+	                // hide the keyboard
+	                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+	                	      Context.INPUT_METHOD_SERVICE);
+	                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
+	                
+	              
+		            ((SelectionFragment) getParentFragment()).refreshConversationFragment();
+		            
+		            dialog.dismiss();
+
+	            }
+	        });
+	       
+	       
+	       // set the dialog's views
+	       
+	       
+	       dialog.show();
+
 	       
 	   }
 	   
@@ -149,9 +243,9 @@ public class ListingsList extends ListFragment
          	   Collections.sort(buyEntries, new Comparator<BuyListing>(){
          		   public int compare(BuyListing emp1, BuyListing emp2) 
          		   {
-         			   Long l1 = getTimeText(emp1.getTimeCreated()).getTime();
-         			   Long l2 = getTimeText(emp2.getTimeCreated()).getTime();
-         			   return l1.compareTo(l2); 		     
+         			   Long l1 = getTimeDate(emp1.getTimeCreated()).getTime();
+         			   Long l2 = getTimeDate(emp2.getTimeCreated()).getTime();
+         			   return l2.compareTo(l1); 		     
          		   }	   
          	   });
          	}
@@ -167,8 +261,8 @@ public class ListingsList extends ListFragment
      	   		Collections.sort(sellEntries, new Comparator<SellListing>(){
          		    public int compare(SellListing emp1, SellListing emp2) 
          	   		{
-         		    	 Long l1 = getTimeText(emp1.getTimeCreated()).getTime();
-           			     Long l2 = getTimeText(emp2.getTimeCreated()).getTime();
+         		    	 Long l1 = getTimeDate(emp1.getTimeCreated()).getTime();
+           			     Long l2 = getTimeDate(emp2.getTimeCreated()).getTime();
            			     return l1.compareTo(l2); 	
          	   		}
      		   	});
