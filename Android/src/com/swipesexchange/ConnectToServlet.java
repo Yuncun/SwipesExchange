@@ -263,10 +263,10 @@ public class ConnectToServlet {
 		for (int i = 0; i < conversation.getAllMessages().size(); i++)
 		{
 			String mcf_entry = conversation.getAllMessages().get(i).getMessageID() + ",";
-			if(Self.getUser().getUID() == conversation.getAllMessages().get(i).getSender().getUID()){
+			if(Self.getUser().getUID().equals(conversation.getAllMessages().get(i).getSender().getUID())){
 				mcf_entry += Constants.DELETED_BY_SENDER;
 			}
-			else if (Self.getUser().getUID() == conversation.getAllMessages().get(i).getReceiver().getUID()){
+			else if (Self.getUser().getUID().equals(conversation.getAllMessages().get(i).getReceiver().getUID())){
 				mcf_entry += Constants.DELETED_BY_RECEIVER;
 			}
 			else {

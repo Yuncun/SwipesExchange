@@ -116,125 +116,165 @@ public class ListingsList extends ListFragment
 	       Log.d("pig", "[onListItemClick] Selected Position "+ position);
 	       
 	       
+	       
+	       
+	       
 	       final Dialog dialog = new Dialog(getActivity());
 	       if(this.page_num==0)
 	       {
-	    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-	    	   dialog.setContentView(R.layout.buy_list_dialog);
+	    	   
+	    	   
+	    	   
+	    	   // if a conversation exists for this listing, then move to that conversation
+	    	   String lid = this.b_adapter.myList.get(position).getListingID();
+	    	   String other_person_uid = this.b_adapter.myList.get(position).getUser().getUID();
+	    	   
+	    	   // if the clicked listing is our own, do nothing 
+	    	   // TODO: inflate listing dialog with delete button
+	    	   if(other_person_uid.equals(Self.getUser().getUID()))
+	    		   return;
+	    	   
+	    	   int conv_pos = ConversationList.findConversationIndexByListingID(lid, other_person_uid);
+	    	   
+	    	   // if the conversation exists
+	    	   if(conv_pos != -1)
+	    	   {
+	    		   Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
+	    	       
+	    	       Message clicked_message = ConversationList.getConversations().get(conv_pos).getMostRecentMessage();
 
+	    	       User myUser = Self.getUser();
+	    	       nextScreen.putExtra("listing_id", clicked_message.getListing_id());
+	    	       nextScreen.putExtra("other_uid", other_person_uid);
+	    	       nextScreen.putExtra("myUser", myUser);
+
+	    	       startActivity(nextScreen);
+	    	       getActivity().overridePendingTransition(R.anim.slide_in_from_right,
+	    	               R.anim.slide_out_to_left);
+	    	   }
+	    	   else
+	    	   {
+	
+	    		   // if the conversation DOESN'T exist, we check if the clicked listing is our listing
+		    	  
+		    
+		    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		    	   dialog.setContentView(R.layout.buy_list_dialog);
+	
+			       
+			       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d);
+		           
+		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_d);
+		           TextView exp_time = (TextView) dialog.findViewById(R.id.expiration_time_d);
+		           TextView v1 = (TextView) dialog.findViewById(R.id.box_1_text_d);
+		           TextView v2 = (TextView) dialog.findViewById(R.id.box_2_text_d);
+		           TextView v3 = (TextView) dialog.findViewById(R.id.box_3_text_d);
+		           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_d);
+		           TextView time_created = (TextView) dialog.findViewById(R.id.buy_listing_time_created_d);
+		           TextView name = (TextView) dialog.findViewById(R.id.buy_listing_name_d);
+		           
+		           description.setText("\t\t\t  " + this.b_adapter.myList.get(position).getMessageBody());
+		           time_created.setText(StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getTimeCreated())));
+		           name.setText(this.b_adapter.myList.get(position).getUser().getName());
+		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		      
+		           String s_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getStartTime()));
+		           String e_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getEndTime()));
+		           exp_time.setText(">2h");
+		           
+		           // set the venue boxes
+		           String venue_string = this.b_adapter.myList.get(position).getVenue().getName();
+		           List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
+		           
+		           LinearLayout b1 = (LinearLayout) dialog.findViewById(R.id.box_1_d);
+		           LinearLayout b2 = (LinearLayout) dialog.findViewById(R.id.box_2_d);
+		           LinearLayout b3 = (LinearLayout) dialog.findViewById(R.id.box_3_d);
+		           LinearLayout b4 = (LinearLayout) dialog.findViewById(R.id.box_4_d);
+		           
+		           for(int i = 0; i<items.size(); i++)
+		           {
+		           	if(i==0)
+		           	{
+		           		b1.setVisibility(View.VISIBLE);
+		           		v1.setText(items.get(i));
+		           	}
+		           	else if(i==1)
+		           	{
+		           		b2.setVisibility(View.VISIBLE);
+		           		v2.setText(items.get(i));
+		           	}
+		           	else if(i==2)
+		           	{
+		           		b3.setVisibility(View.VISIBLE);
+		           		v3.setText(items.get(i));
+		           	}
+		           	else if(i==3)
+		           	{
+		           		b4.setVisibility(View.VISIBLE);
+		           		v4.setText(items.get(i));
+		           	}
+		           }
 		       
-		       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d);
-	           
-	           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_d);
-	           TextView exp_time = (TextView) dialog.findViewById(R.id.expiration_time_d);
-	           TextView v1 = (TextView) dialog.findViewById(R.id.box_1_text_d);
-	           TextView v2 = (TextView) dialog.findViewById(R.id.box_2_text_d);
-	           TextView v3 = (TextView) dialog.findViewById(R.id.box_3_text_d);
-	           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_d);
-	           TextView time_created = (TextView) dialog.findViewById(R.id.buy_listing_time_created_d);
-	           TextView name = (TextView) dialog.findViewById(R.id.buy_listing_name_d);
-	           
-	           description.setText("\t\t\t  " + this.b_adapter.myList.get(position).getMessageBody());
-	           time_created.setText(StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getTimeCreated())));
-	           name.setText(this.b_adapter.myList.get(position).getUser().getName());
-	           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
-	      
-	           String s_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getStartTime()));
-	           String e_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getEndTime()));
-	           exp_time.setText(">2h");
-	           
-	           // set the venue boxes
-	           String venue_string = this.b_adapter.myList.get(position).getVenue().getName();
-	           List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
-	           
-	           LinearLayout b1 = (LinearLayout) dialog.findViewById(R.id.box_1_d);
-	           LinearLayout b2 = (LinearLayout) dialog.findViewById(R.id.box_2_d);
-	           LinearLayout b3 = (LinearLayout) dialog.findViewById(R.id.box_3_d);
-	           LinearLayout b4 = (LinearLayout) dialog.findViewById(R.id.box_4_d);
-	           
-	           for(int i = 0; i<items.size(); i++)
-	           {
-	           	if(i==0)
-	           	{
-	           		b1.setVisibility(View.VISIBLE);
-	           		v1.setText(items.get(i));
-	           	}
-	           	else if(i==1)
-	           	{
-	           		b2.setVisibility(View.VISIBLE);
-	           		v2.setText(items.get(i));
-	           	}
-	           	else if(i==2)
-	           	{
-	           		b3.setVisibility(View.VISIBLE);
-	           		v3.setText(items.get(i));
-	           	}
-	           	else if(i==3)
-	           	{
-	           		b4.setVisibility(View.VISIBLE);
-	           		v4.setText(items.get(i));
-	           	}
-	           }
+		       
+		       // get the submit button and the edittext
+		       Button submit_message = (Button) dialog.findViewById(R.id.chatSendButton_d);
+		       final EditText message_content_holder = (EditText) dialog.findViewById(R.id.messageEdit_d);
+		       final int pos = position;
+		       
+		       // override the onClick method
+			   submit_message.setOnClickListener(new View.OnClickListener() {
+					 
+		            @Override
+		            public void onClick(View view) {
+		            	
+		            	// set the users
+		            	User sender = Self.getUser();
+		            	User receiver = b_adapter.myList.get(pos).getUser();
+	
+		            	// get the contents of the EditText field holding the message string to be sent
+		                String message_contents = message_content_holder.getText().toString();
+		                if(message_contents == null || (message_contents.length() == 0))
+		                	return;
+		          
+		                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
+		                
+		                // get current time
+		                Time now = new Time();
+		                now.setToNow();
+		                String time = now.format2445();
+		                Log.d("ListingsList", "b_adapter.myList.get(pos).getListingID() = " + b_adapter.myList.get(pos).getListingID());
+		                Message msg = new Message(sender, receiver, b_adapter.myList.get(pos).getListingID(), time, message_contents);
+		                Log.d("**RECEIVER**", "Receiver UID is " + receiver.getUID() + " because pos is " + Integer.toString(pos) + " and ListingID is " + b_adapter.myList.get(pos).getListingID());
+		                
+		                ConversationList.addMessage(msg);
+		                ConnectToServlet.sendMessage(msg);
+		                // clear the edittext
+		                message_content_holder.getText().clear();
+		                
+		                // hide the keyboard
+		                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+		                	      Context.INPUT_METHOD_SERVICE);
+		                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
+		                
+		              
+			            SelectionFragment.refreshConversationFragment();
+			            
+			            dialog.dismiss();
+	
+		            }
+		        });
+		       
+		       
+		       // set the dialog's views
+		       
+		    	   
+		       dialog.show();
+	    
+	    	   }
+	       
 	       }
-	       
-	       // get the submit button and the edittext
-	       Button submit_message = (Button) dialog.findViewById(R.id.chatSendButton_d);
-	       final EditText message_content_holder = (EditText) dialog.findViewById(R.id.messageEdit_d);
-	       final int pos = position;
-	       
-	       // override the onClick method
-		   submit_message.setOnClickListener(new View.OnClickListener() {
-				 
-	            @Override
-	            public void onClick(View view) {
-	            	
-	            	// set the users
-	            	User sender = Self.getUser();
-	            	User receiver = b_adapter.myList.get(pos).getUser();
-
-	            	// get the contents of the EditText field holding the message string to be sent
-	                String message_contents = message_content_holder.getText().toString();
-	                if(message_contents == null || (message_contents.length() == 0))
-	                	return;
-	          
-	                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
-	                
-	                // get current time
-	                Time now = new Time();
-	                now.setToNow();
-	                String time = now.format2445();
-	                Log.d("ListingsList", "b_adapter.myList.get(pos).getListingID() = " + b_adapter.myList.get(pos).getListingID());
-	                Message msg = new Message(sender, receiver, b_adapter.myList.get(pos).getListingID(), time, message_contents);
-	                Log.d("**RECEIVER**", "Receiver UID is " + receiver.getUID() + " because pos is " + Integer.toString(pos) + " and ListingID is " + b_adapter.myList.get(pos).getListingID());
-	                
-	                ConversationList.addMessage(msg);
-	                ConnectToServlet.sendMessage(msg);
-	                // clear the edittext
-	                message_content_holder.getText().clear();
-	                
-	                // hide the keyboard
-	                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
-	                	      Context.INPUT_METHOD_SERVICE);
-	                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
-	                
-	              
-		            ((SelectionFragment) getParentFragment()).refreshConversationFragment();
-		            
-		            dialog.dismiss();
-
-	            }
-	        });
-	       
-	       
-	       // set the dialog's views
-	       
-	       
-	       dialog.show();
-
-	       
-	   }
 	   
-
+	   }
     
         
         public void setBLAdapter()

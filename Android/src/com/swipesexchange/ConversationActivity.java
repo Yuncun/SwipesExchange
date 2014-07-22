@@ -32,6 +32,7 @@ public class ConversationActivity extends FragmentActivity {
 	private Time now;
 	private ArrayList<Message> passed_messages;
 	private String lid;
+	private String other_person_uid;
 	private boolean is_empty;
 	   @Override
 	    protected void onCreate(Bundle savedInstanceState) {
@@ -42,34 +43,13 @@ public class ConversationActivity extends FragmentActivity {
 	        final EditText message_content_holder = (EditText) findViewById(R.id.messageEdit);
 	        Intent i = getIntent();
 	        int pos = 0;
-	        this.is_empty = i.getBooleanExtra("is_new", false);
-	        if(!this.is_empty)
-	        {
-	        	this.lid = i.getStringExtra("listing_id");
-	        	pos = ConversationList.findConversationIndexByListingID(this.lid);
-	        	this.passed_messages = (ArrayList<Message>) ConversationList.getConversations().get(pos).getAllMessages();
-	        }
-	        else
-	        {
-	        	
-	        	this.passed_messages = new ArrayList<Message>();
-	        	this.lid = i.getStringExtra("listing_id");
-
-	        	message_content_holder.requestFocus();
-
-	        	 final InputMethodManager imm = (InputMethodManager)getSystemService(
-               	      Context.INPUT_METHOD_SERVICE);
-	        	 message_content_holder.postDelayed(new Runnable()
-	        	 {
-	        	     @Override
-	        	     public void run()
-	        	     {
-	        	         message_content_holder.requestFocus();
-	        	         imm.showSoftInput(message_content_holder, 0);
-	        	     }
-	        	 }, 100);
-	            
-	        }
+	        
+	        this.other_person_uid = i.getStringExtra("other_uid");
+	   
+        	this.lid = i.getStringExtra("listing_id");
+        	pos = ConversationList.findConversationIndexByListingID(this.lid, other_person_uid);
+        	this.passed_messages = (ArrayList<Message>) ConversationList.getConversations().get(pos).getAllMessages();
+	
 	       
 	        Log.d("pig", Integer.toString(this.passed_messages.size()));
 	        for(int j=0; j< this.passed_messages.size(); j++) 
@@ -102,8 +82,8 @@ public class ConversationActivity extends FragmentActivity {
 	            	User otherGuy = new User("Empty User");
 	            	
 	            	//Determine which one is the other conversationalist by checking against yourself
-	            	User uSender = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid)).getSender();
-	            	User uReceiver = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid)).getReceiver();
+	            	User uSender = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid, other_person_uid)).getSender();
+	            	User uReceiver = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid, other_person_uid)).getReceiver();
 	            
 	            	Log.d("ConversationActivity uSender ID = ", uSender.getUID());
 	            	Log.d("ConversationActivity uReceiver ID = ", uReceiver.getUID());
@@ -153,15 +133,10 @@ public class ConversationActivity extends FragmentActivity {
 	                InputMethodManager imm = (InputMethodManager)getSystemService(
 	                	      Context.INPUT_METHOD_SERVICE);
 	                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
-	                if(is_empty)
-	                {
-		                is_empty = false;
-		                refreshConversationFragment(msg, true);
-	                }
-	                else
-	                {
-	                	refreshConversationFragment(msg, false);
-	                }
+	       
+	                is_empty = false;
+	                refreshConversationFragment(msg, true);
+	     
 	                
 
 	            }

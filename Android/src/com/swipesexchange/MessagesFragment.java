@@ -10,7 +10,9 @@ import java.util.List;
 
 
 
+
 import sharedObjects.Message;
+import sharedObjects.Self;
 import sharedObjects.SellListing;
 import sharedObjects.User;
 
@@ -121,11 +123,19 @@ public class MessagesFragment extends ListFragment {
       // Fragment conv_list = new MessageListFragment();
        //this.pullAndAddMessages();
        Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
-       ArrayList<Message> clicked_messages = (ArrayList<Message>) ConversationList.getConversations().get(position).getAllMessages();
-       Log.d("pig", Integer.toString(clicked_messages.size()));
-       User myUser = ((MainActivity) mActivity).getSelf();
-       nextScreen.putExtra("is_new", false);
-       nextScreen.putExtra("listing_id", clicked_messages.get(0).getListing_id());
+       
+       String other_person_uid;
+       Message clicked_message = ConversationList.getConversations().get(position).getMostRecentMessage();
+       
+       if(clicked_message.getSender().getUID().equals(Self.getUser().getUID()))
+    	   other_person_uid = clicked_message.getReceiver().getUID();
+       else
+    	   other_person_uid = clicked_message.getSender().getUID();
+       
+       
+       User myUser = Self.getUser();
+       nextScreen.putExtra("listing_id", clicked_message.getListing_id());
+       nextScreen.putExtra("other_uid", other_person_uid);
        nextScreen.putExtra("myUser", myUser);
 
        startActivity(nextScreen);

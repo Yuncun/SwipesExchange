@@ -52,7 +52,7 @@ public class MessageAdapter extends BaseAdapter {
             	   
 	            		
 	            		//Log.d("pig", Self.getUID());
-	            		if(Self.getUser().getUID() == my_list.get(i).getSender().getUID())
+	            		if(Self.getUser().getUID().equals(my_list.get(i).getSender().getUID()))
 	            			sender_ids.add(my_list.get(i).getSender().getUID());
 	            		else
 	            			sender_ids.add(my_list.get(i).getReceiver().getUID());
@@ -84,12 +84,12 @@ public class MessageAdapter extends BaseAdapter {
         String sender_string = "";
         
         
-        if(Self.getUser().getUID() == my_list.get(position).getSender().getUID())
+        if(Self.getUser().getUID().equals(my_list.get(position).getSender().getUID()))
 			sender_string = my_list.get(position).getReceiver().getName();
 		else 
 			sender_string = my_list.get(position).getSender().getName();
         
-        if (Self.getUser().getUID() == my_list.get(position).getSender().getUID() && Self.getUser().getUID() ==my_list.get(position).getReceiver().getUID()){
+        if (Self.getUser().getUID().equals(my_list.get(position).getSender().getUID()) && Self.getUser().getUID().equals(my_list.get(position).getReceiver().getUID())){
         	sender_string = "Talking to Yourself";
         }
         sender_name.setText(sender_string);

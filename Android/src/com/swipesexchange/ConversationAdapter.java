@@ -94,7 +94,7 @@ public class ConversationAdapter extends BaseAdapter {
         setAlignment(holder, is_outoing);
         holder.txtMessage.setText(chatMessage.getText());
         if (chatMessage.getSender() != null) {
-        	if(is_outoing)
+        	if(!is_outoing)
         		holder.txtInfo.setText(StaticHelpers.getTimeText(chatMessage.getTime()));
         	else
         		holder.txtInfo.setText(chatMessage.getSender().getName() + ": " + StaticHelpers.getTimeText(chatMessage.getTime()));
@@ -115,8 +115,7 @@ public class ConversationAdapter extends BaseAdapter {
     
     public void addAndUpdate(Message message, boolean update_locally) {
     	// TODO: remove this??
-    	if(update_locally)
-    		chatMessages.add(message);
+    
     	ConversationList.addMessage(message);
     	this.notifyDataSetChanged();
     }

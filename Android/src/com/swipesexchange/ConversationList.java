@@ -5,11 +5,13 @@ import java.util.List;
 import java.util.Stack;
 
 import sharedObjects.Message;
+import sharedObjects.Self;
 import sharedObjects.User;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.os.AsyncTask;
 import android.util.Log;
+
 
 
 
@@ -56,7 +58,14 @@ public class ConversationList {
 	
 	public static void addMessage(Message msg) {
 		String lid = msg.getListing_id();
-		int conversation_index = findConversationIndexByListingID(lid);
+		
+		String uid;
+		if(Self.getUser().getUID().equals(msg.getSender().getUID()))
+			uid = msg.getReceiver().getUID();
+		else
+			uid = msg.getSender().getUID();
+		
+		int conversation_index = findConversationIndexByListingID(lid, uid);
 		if(conversation_index == -1)
 		{
 			Conversation c = new Conversation(msg.getSender(), msg.getReceiver(), msg.getListing_id());
@@ -74,12 +83,17 @@ public class ConversationList {
 		
 	}
 	
-	public static int findConversationIndexByListingID(String lid) {
+	public static int findConversationIndexByListingID(String lid, String other_person_uid) {
 		Log.d ("ConversationList.findConversationIndex...", "THE ASSOCIATED LID IS " + lid);
 		Stack<Conversation> l = ConversationList.getConversations();
 		for(int i=0; i<l.size(); i++)
 		{
-			if(l.get(i).getLID().equals(lid))
+			String id;
+			if(Self.getUser().getUID().equals(l.get(i).getSender().getUID()))
+				id = l.get(i).getReceiver().getUID();
+			else
+				id = l.get(i).getSender().getUID();
+			if(l.get(i).getLID().equals(lid) && other_person_uid.equals(id))
 			{
 				return i;
 			}
@@ -89,8 +103,8 @@ public class ConversationList {
 			
 	}
 	
-	public static boolean doesConversationExist(String lid) {
-		if(findConversationIndexByListingID(lid) == -1)
+	public static boolean doesConversationExist(String lid, String other_person_uid) {
+		if(findConversationIndexByListingID(lid, other_person_uid) == -1)
 			return false;
 		else
 			return true;
