@@ -295,7 +295,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		
 	}
 	
-	public void refreshConversationFragment() {
+	public static void refreshConversationFragment() {
 		   Fragment fragment = m_frag;
 		   if(fragment != null)
 		   {

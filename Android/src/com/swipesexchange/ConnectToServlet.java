@@ -191,8 +191,8 @@ public class ConnectToServlet {
 	                    Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
 
 
-	                    Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getStartTime() + " " + rl.get(0).getEndTime() + " " + 
-	                	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
+	                    Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getListingID() + " " + rl.get(0).getEndTime() + " " + 
+	                	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getUser().getUID()+ " ");
 	                    return rl;
     			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed");
     			  }
@@ -257,7 +257,7 @@ public class ConnectToServlet {
 
 	}
 	
-	public static void deleteConvesationLocally(Conversation conversation)
+	public static void deleteConversationLocally(Conversation conversation)
 	{
 		final List<String> messageID_comma_flagCode = new ArrayList<String>();
 		for (int i = 0; i < conversation.getAllMessages().size(); i++)

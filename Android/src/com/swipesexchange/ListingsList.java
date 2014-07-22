@@ -203,8 +203,9 @@ public class ListingsList extends ListFragment
 	                Time now = new Time();
 	                now.setToNow();
 	                String time = now.format2445();
-	                
+	                Log.d("ListingsList", "b_adapter.myList.get(pos).getListingID() = " + b_adapter.myList.get(pos).getListingID());
 	                Message msg = new Message(sender, receiver, b_adapter.myList.get(pos).getListingID(), time, message_contents);
+	                Log.d("**RECEIVER**", "Receiver UID is " + receiver.getUID() + " because pos is " + Integer.toString(pos) + " and ListingID is " + b_adapter.myList.get(pos).getListingID());
 	                
 	                ConversationList.addMessage(msg);
 	                ConnectToServlet.sendMessage(msg);
@@ -370,8 +371,8 @@ public class ListingsList extends ListFragment
                 Bitmap pic_bitmap = null;
                 //BitmapFactory.Options options;
                 
-                while (((MainActivity) context).getUID() == null && buy_entries_init == false) {
-   	             Log.d("waitForvalues", "Waiting - getUID yields " + ((MainActivity) context).getUID());
+                while (Self.getUser().getUID() == null && buy_entries_init == false) {
+   	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
    	             		
    	             try {
    	                 Thread.sleep(100);

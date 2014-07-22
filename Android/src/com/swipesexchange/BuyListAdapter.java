@@ -202,6 +202,7 @@ public class BuyListAdapter  extends BaseAdapter
                 
                 int my_color_white = Color.WHITE;
                 
+                
                 Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
                
                 

@@ -615,7 +615,7 @@ public class MainActivity extends FragmentActivity {
 	    checkPlayServices();
 	    session = Session.getActiveSession();
 
-	    if (session != null && session.isOpened()) {
+	    if ((session != null && session.isOpened()) || Self.getUser().getUID()!=null) {
 	        // if the session is already open,
 	        // try to show the selection fragment
 	        showFragment(MAIN, false);

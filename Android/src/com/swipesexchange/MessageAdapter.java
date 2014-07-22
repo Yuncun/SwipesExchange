@@ -12,6 +12,7 @@ import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 import sharedObjects.BuyListing;
 import sharedObjects.Message;
 import sharedObjects.Self;
+import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
 import android.graphics.Color;
@@ -24,6 +25,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -78,13 +80,20 @@ public class MessageAdapter extends BaseAdapter {
         //TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
         TextView text = (TextView) view.findViewById(R.id.message_text);
         TextView time = (TextView) view.findViewById(R.id.message_time);
-      
+        Button trashButtonButton = createTrashButton(view, position);
         String sender_string = "";
+        
+        
         if(Self.getUser().getUID() == my_list.get(position).getSender().getUID())
-			sender_string = my_list.get(position).getSender().getName();
-		else
 			sender_string = my_list.get(position).getReceiver().getName();
+		else 
+			sender_string = my_list.get(position).getSender().getName();
+        
+        if (Self.getUser().getUID() == my_list.get(position).getSender().getUID() && Self.getUser().getUID() ==my_list.get(position).getReceiver().getUID()){
+        	sender_string = "Talking to Yourself";
+        }
         sender_name.setText(sender_string);
+        Log.d("MessageAdapter says senderName is ", "Sender name : " + sender_string + " and MY NAME IS " + Self.getUser().getName());
         //sender_id.setText(sender_ids.get(position));
         
         String message_string = "";
@@ -102,6 +111,45 @@ public class MessageAdapter extends BaseAdapter {
     	  
        
     }
+    private Button createTrashButton(final View v, final int position){
+   	 //@ES - Deletion
+       Button trashButton = (Button) v.findViewById(R.id.trashButton);
+       trashButton.setOnClickListener(new View.OnClickListener() {
+			 
+           @Override
+           public void onClick(View view) {
+
+           	final Dialog delete_dialog = new Dialog(v.getContext(), R.style.CustomDialogTheme);
+           	delete_dialog.setContentView(R.layout.dialog_submit);
+				Button cancel_button = (Button) delete_dialog.findViewById(R.id.Cancel_Button);
+		 		Button yes_button = (Button) delete_dialog.findViewById(R.id.Yes_Button);
+				
+		 		delete_dialog.setTitle("Delete this Conversation?");
+				
+				
+				cancel_button.setOnClickListener(new View.OnClickListener() {
+                   @Override
+                   public void onClick(View view) {
+                   	//cancel
+                   	delete_dialog.dismiss();
+                   }
+               });
+				
+				//yes_button.setTag(position); //Genius way of passing an argument into onclick
+				yes_button.setOnClickListener(new View.OnClickListener() {
+					 @Override
+					 public void onClick(View view) {
+						 ConnectToServlet.deleteConversationLocally(my_list.get(position));
+	                    //Delete the listing
+						delete_dialog.dismiss();
+						SelectionFragment.refreshConversationFragment();
+	               }
+		        });
+			delete_dialog.show();				
+			}  
+       }); 
+       return trashButton;
+   }
     
     public void addAndUpdate() {
     	//this.my_list.clear();

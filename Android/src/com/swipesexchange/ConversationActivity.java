@@ -33,7 +33,6 @@ public class ConversationActivity extends FragmentActivity {
 	private ArrayList<Message> passed_messages;
 	private String lid;
 	private boolean is_empty;
-	private User otherGuy = new User("Empty User");
 	   @Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
@@ -100,16 +99,23 @@ public class ConversationActivity extends FragmentActivity {
 				 
 	            @Override
 	            public void onClick(View view) {
+	            	User otherGuy = new User("Empty User");
 	            	
 	            	//Determine which one is the other conversationalist by checking against yourself
 	            	User uSender = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid)).getSender();
 	            	User uReceiver = ConversationList.getConversations().get(ConversationList.findConversationIndexByListingID(lid)).getReceiver();
 	            
-	            	if (uSender.getUID() == Self.getUser().getUID()){
+	            	Log.d("ConversationActivity uSender ID = ", uSender.getUID());
+	            	Log.d("ConversationActivity uReceiver ID = ", uReceiver.getUID());
+	            	
+	            	if (uSender.getUID().equals(Self.getUser().getUID())){
 	            		otherGuy = uReceiver;
+	            		Log.d("ConversationActivity uSender ID = ", uSender.getUID());
+
 	            	}
-	            	if (uReceiver.getUID() == Self.getUser().getUID()){
+	            	if (uReceiver.getUID().equals(Self.getUser().getUID())){
 	            		otherGuy = uSender;
+	            		Log.d("ConversationActivity uReceiver ID = ", uReceiver.getUID());
 	            	}
 	            	// get the contents of the EditText field holding the message string to be sent
 	                String message_contents = message_content_holder.getText().toString();

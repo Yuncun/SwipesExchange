@@ -547,7 +547,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			                    	MsgStruct nMsg = new MsgStruct();
 			                    	nMsg.setHeader(Constants.SL_PUSH); //Identifies message as a sell listing
 			                    	nMsg.setPayload(j0);
-
+			                    	
 			                    	String j1 = gson.toJson(nMsg);
 			                    	ListingsUpdateTimer.toggleJustSubmittedListing();
 
