@@ -3,6 +3,7 @@ package com.swipesexchange;
 import java.util.ArrayList;
 
 import android.content.Context;
+import android.graphics.Color;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -112,41 +113,49 @@ public class NewListingFragmentBuy extends Fragment{
         			TextRow child0 = new TextRow();
         			child0.setName("V0");
         			child0.setText("Any");
+        			child0.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child0);
         			// Bruin Cafe
         			TextRow child1 = new TextRow();
         			child1.setName("V1");
         			child1.setText("Bruin Cafe");
+        			child1.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child1);
         			// Cafe 1919
         			TextRow child2 = new TextRow();
         			child2.setName("V2");
         			child2.setText("Cafe 1919");
+        			child2.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child2);
         			// Covell
         			TextRow child3 = new TextRow();
         			child3.setName("V3");
         			child3.setText("Covell");
+        			child3.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child3);
         			// De Neve
         			TextRow child4 = new TextRow();
         			child4.setName("V4");
         			child4.setText("De Neve");
+        			child4.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child4);
         			// Feast
         			TextRow child5 = new TextRow();
         			child5.setName("V5");
         			child5.setText("Feast");
+        			child5.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child5);
         			// Hedrick
         			TextRow child6 = new TextRow();
         			child6.setName("V6");
         			child6.setText("Hedrick");
+        			child6.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child6);
         			// Rendezvous
         			TextRow child7 = new TextRow();
         			child7.setName("V7");
         			child7.setText("Rendezvous");
+        			child7.setBackgroundcolor(Color.WHITE);
         			parent.getChildren().add(child7);
         		}/*
         	    else if(i==3) // Number of Swipes

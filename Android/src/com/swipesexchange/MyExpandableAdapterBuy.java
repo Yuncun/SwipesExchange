@@ -146,11 +146,11 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			{
 				convertView = inflater.inflate(R.layout.group_ex2, null);
 				// Unchecked cast is necessary
-				TextRow child = (TextRow) parents.get(groupPosition).getChildren().get(childPosition);
+				final TextRow child = (TextRow) parents.get(groupPosition).getChildren().get(childPosition);
 				
 				
 				((TextView) convertView.findViewById(R.id.textView1ex)).setText(child.getText());
-				
+				convertView.setBackgroundColor(child.getBackgroundcolor());
 				final String child_text = child.getText();
 				// when user selects a child Venue, modify the groupView and collapse the children
 				convertView.setOnClickListener(new OnClickListener() {
@@ -159,11 +159,19 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 					public void onClick(View view) {
 						if (selectedVenues.contains(child_text))
 						{
+							parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(Color.WHITE);
 							selectedVenues.remove(child_text);
-							view.setBackgroundColor(0xCCFFFF);
+							view.setBackgroundColor(Color.WHITE);
+							
+							Log.d("Color", "Venue toggled, color should change off");
+							
 						}
-						else selectedVenues.add(child_text);
+						else if (!selectedVenues.contains(child_text)){
+							selectedVenues.add(child_text);
+						parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(Color.YELLOW);
 						view.setBackgroundColor(Color.YELLOW);
+						Log.d("Color", "Venue toggled, color should change on");
+						}
 					}
 				});
 				

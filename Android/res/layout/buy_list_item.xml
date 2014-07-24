@@ -6,8 +6,8 @@
     <RelativeLayout
         android:id="@+id/buy_listing_top_bar"
         android:layout_width="match_parent"
-        android:layout_height="20dp"
-        android:background="@color/light_grey"
+        android:layout_height="30dp"
+        android:background="@color/White"
         
         >
         
@@ -16,7 +16,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="[Default Name]"
-        android:textSize="12sp"
+        android:textSize="16sp"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
         android:padding="2dp"
@@ -41,7 +41,7 @@
    	 	android:layout_height="1dp"
    	 	
    	 	android:layout_alignParentBottom="true"
-		android:background="@color/light_grey" />
+		android:background="@color/White" />
         
         
     </RelativeLayout>
@@ -157,6 +157,7 @@
         android:layout_width="match_parent"
         android:layout_below="@id/buy_listing_top_bar"
         android:layout_toRightOf="@id/fb_pic">
+        
          <TextView
         android:id="@+id/expiration_time"
         android:layout_width="35dp"
@@ -166,8 +167,9 @@
         android:textSize="12sp"
         android:textStyle="bold"
         android:padding="1dp"
-        android:gravity="center"
-        android:background="@drawable/rectange_bottom_right" />
+        android:gravity="center"        />
+        <!--  android:background="@drawable/rectange_bottom_right" --><!--  -->
+
              <TextView
         android:id="@+id/firstLine"
         android:layout_width="wrap_content"
@@ -192,9 +194,10 @@
             
                <View android:layout_width="fill_parent"
    	 	android:layout_height="1dp"
-   	 	
+   	 	android:background="@color/White"
    	 	android:layout_alignParentBottom="true"
-		android:background="@color/light_grey" />
+   	 	/>
+		
             
             
         </RelativeLayout>

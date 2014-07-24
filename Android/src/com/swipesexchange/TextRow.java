@@ -11,5 +11,7 @@ public class TextRow extends ChildRow {
 	public void setText(String t) {
 		this.text = t;
 	}
+
+ 
 	
 }

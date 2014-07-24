@@ -143,6 +143,7 @@ public class MessageAdapter extends BaseAdapter {
 	                    //Delete the listing
 						delete_dialog.dismiss();
 						SelectionFragment.refreshConversationFragment();
+						
 	               }
 		        });
 			delete_dialog.show();				

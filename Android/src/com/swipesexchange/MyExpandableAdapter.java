@@ -236,14 +236,19 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 					public void onClick(View view) {
 						if (selectedVenues.contains(child_text))
 						{
+							parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(Color.WHITE);
 							selectedVenues.remove(child_text);
-							view.setBackgroundColor(Color.GREEN);
+							view.setBackgroundColor(Color.WHITE);
+							
 							Log.d("Color", "Venue toggled, color should change off");
+							
 						}
-						else selectedVenues.add(child_text);
+						else if (!selectedVenues.contains(child_text)){
+							selectedVenues.add(child_text);
+						parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(Color.YELLOW);
 						view.setBackgroundColor(Color.YELLOW);
 						Log.d("Color", "Venue toggled, color should change on");
-						
+						}
 						//getParent().collapseGroup(2);
 					}
 				});
