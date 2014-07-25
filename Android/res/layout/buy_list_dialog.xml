@@ -1,16 +1,37 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
-    android:background="@color/White"
+    android:minHeight="85dp"
      >
+     
+        <ImageView
+        android:id="@+id/fb_pic_d"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+       
+        android:scaleType="centerCrop"
+         />
+        
+             <TextView
+        android:id="@+id/expiration_time_d"
+        android:layout_width="35dp"
+        android:layout_height="20dp"
+        android:text=">4.5h"
+        android:layout_below="@id/fb_pic_d"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+        android:paddingLeft="2dp"
+        android:gravity="center" />
      
     <RelativeLayout
         android:id="@+id/buy_listing_top_bar_d"
-        android:layout_width="match_parent"
+        android:layout_width="wrap_content"
         android:layout_height="20dp"
-        android:background="@color/light_grey"
         android:focusable="true" 
         android:focusableInTouchMode="true" 
+        android:layout_toRightOf="@id/fb_pic_d"
+        
         >
         
         <TextView
@@ -18,8 +39,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="[Default Name]"
-        android:textSize="12sp"
-        android:textColor="@color/theme_black"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
         android:padding="2dp"
@@ -30,86 +50,58 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="Time Created"
+        
         android:textSize="12sp"
-        android:textColor="@color/theme_black"
         android:textStyle="italic"
         android:layout_alignParentRight="true"
         android:layout_marginRight="5dp"
         android:padding="2dp"
         android:gravity="center" />
-            
-  
+        
+        
+ 
         
         
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/fb_pic_d"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/buy_listing_top_bar_d"
-        android:scaleType="centerCrop"
-         />
+
     
-      <RelativeLayout
+  
+
+
+    <RelativeLayout
         android:id="@+id/description_bar_d"
         android:layout_height="wrap_content"
         android:layout_width="match_parent"
-        android:minHeight="40dp"
         android:layout_below="@id/buy_listing_top_bar_d"
-        android:layout_toRightOf="@id/fb_pic_d">
-         <TextView
-        android:id="@+id/expiration_time_d"
-        android:layout_width="35dp"
-        android:layout_height="20dp"
-        android:text=">4.5h"
-        android:textColor="@color/theme_black"
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:padding="1dp"
-        android:gravity="center"
-        android:background="@drawable/rectange_bottom_right" />
-         
+        android:layout_toRightOf="@id/fb_pic_d"
+        android:paddingLeft="5dp">
+    
              <TextView
         android:id="@+id/firstLine_d"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:lineSpacingExtra="2dp"
         android:padding="1dp"
+        android:layout_marginRight="5dp"
         android:singleLine="false"
-         android:textColor="@color/theme_black"
         android:text="Description"
         android:textSize="12sp" />
-             
-    
- 
-        
 
     </RelativeLayout>
-    
-                   <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="wrap_content"
-          android:ellipsize="end"
-          android:layout_below="@id/description_bar_d">
-            
-               <View android:layout_width="fill_parent"
-   	 	android:layout_height="1dp"
-   	 	
-   	 	
-		android:background="@color/light_grey" />
-            
-            
-        </RelativeLayout>
-    
-    <RelativeLayout 
-        android:id="@+id/boxes_bar_d"
+     
+
+  
+        
+          <RelativeLayout 
+              android:id="@+id/boxes_bar_d"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_below="@id/description_bar_d"
-        android:layout_marginTop="4dp"
+        android:layout_marginTop="2dp"
+        android:layout_marginBottom="30dp"
         android:paddingBottom="4dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="45dp"
         
       >
         
@@ -126,7 +118,7 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:textColor="@color/theme_black"
+                 
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
@@ -148,7 +140,6 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:textColor="@color/theme_black"
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
@@ -170,7 +161,6 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:textColor="@color/theme_black"
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
@@ -192,14 +182,23 @@
                   android:layout_width="wrap_content"
                   android:layout_height="wrap_content"
                   android:gravity="center"
-                  android:textColor="@color/theme_black"
                   android:text="Venue"
                   android:textSize="12sp"
                   android:textStyle="bold" />
 
     </LinearLayout>
+    
+ 
 
     </RelativeLayout>
+        
+    
+
+  
+
+
+
+ 
 
 	       <Button
             android:id="@+id/chatSendButton_d"
@@ -234,7 +233,13 @@
             android:textSize="12sp"
             />
   
-     
+     <View
+         android:layout_width="match_parent"
+         android:layout_height="2dp"
+         android:layout_above="@id/messageEdit_d"
+         android:background="@color/light_grey"
+         android:layout_marginBottom="5dp"
+         />
 
    
 

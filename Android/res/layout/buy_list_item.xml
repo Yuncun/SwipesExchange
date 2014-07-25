@@ -1,13 +1,35 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
     android:layout_height="wrap_content"
+    
+    android:minHeight="85dp"
      >
+     
+        <ImageView
+        android:id="@+id/fb_pic"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+       
+        android:scaleType="centerCrop"
+         />
+        
+             <TextView
+        android:id="@+id/expiration_time"
+        android:layout_width="35dp"
+        android:layout_height="20dp"
+        android:text=">4.5h"
+        android:layout_below="@id/fb_pic"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+        android:paddingLeft="2dp"
+        android:gravity="center" />
      
     <RelativeLayout
         android:id="@+id/buy_listing_top_bar"
-        android:layout_width="match_parent"
-        android:layout_height="30dp"
-        android:background="@color/White"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_toRightOf="@id/fb_pic"
         
         >
         
@@ -16,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="20dp"
         android:text="[Default Name]"
-        android:textSize="16sp"
+        android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
         android:padding="2dp"
@@ -36,31 +58,50 @@
         android:gravity="center" />
         
         
-            
-        <View android:layout_width="fill_parent"
-   	 	android:layout_height="1dp"
-   	 	
-   	 	android:layout_alignParentBottom="true"
-		android:background="@color/White" />
+ 
         
         
     </RelativeLayout>
 
-    <ImageView
-        android:id="@+id/fb_pic"
-        android:layout_width="40dp"
-        android:layout_height="40dp"
-        android:layout_below="@id/buy_listing_top_bar"
-        android:scaleType="centerCrop"
-         />
+
     
-    <RelativeLayout 
+  
+
+
+    <RelativeLayout
+        android:id="@+id/description_bar"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/buy_listing_top_bar"
+        android:layout_toRightOf="@id/fb_pic"
+        android:paddingLeft="5dp">
+    
+             <TextView
+        android:id="@+id/firstLine"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:lineSpacingExtra="2dp"
+        android:padding="1dp"
+        android:layout_marginRight="5dp"
+        android:singleLine="false"
+         android:maxLines="2"
+          android:ellipsize="end"
+        android:text="Description"
+        android:textSize="12sp" />
+
+    </RelativeLayout>
+     
+
+  
+        
+          <RelativeLayout 
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:layout_below="@id/fb_pic"
-        android:layout_marginTop="4dp"
+        android:layout_below="@id/description_bar"
+        android:layout_marginTop="2dp"
+       
         android:paddingBottom="4dp"
-        android:layout_marginLeft="20dp"
+        android:layout_marginLeft="45dp"
         
       >
         
@@ -150,57 +191,6 @@
  
 
     </RelativeLayout>
-
-
-    <RelativeLayout
-        android:layout_height="wrap_content"
-        android:layout_width="match_parent"
-        android:layout_below="@id/buy_listing_top_bar"
-        android:layout_toRightOf="@id/fb_pic">
-        
-         <TextView
-        android:id="@+id/expiration_time"
-        android:layout_width="35dp"
-        android:layout_height="20dp"
-        android:text=">4.5h"
-        
-        android:textSize="12sp"
-        android:textStyle="bold"
-        android:padding="1dp"
-        android:gravity="center"        />
-        <!--  android:background="@drawable/rectange_bottom_right" --><!--  -->
-
-             <TextView
-        android:id="@+id/firstLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:lineSpacingExtra="2dp"
-        android:padding="1dp"
-        android:singleLine="false"
-         android:maxLines="2"
-          android:ellipsize="end"
-        android:text="Description"
-        android:textSize="12sp" />
-
-    </RelativeLayout>
-     
-
-        <RelativeLayout
-         android:layout_width="match_parent"
-         android:layout_height="40dp"
-          android:ellipsize="end"
-          android:layout_below="@id/buy_listing_top_bar"
-         android:layout_toRightOf="@id/fb_pic">
-            
-               <View android:layout_width="fill_parent"
-   	 	android:layout_height="1dp"
-   	 	android:background="@color/White"
-   	 	android:layout_alignParentBottom="true"
-   	 	/>
-		
-            
-            
-        </RelativeLayout>
         
                  <ImageView
         android:id="@+id/forward"

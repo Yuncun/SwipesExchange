@@ -132,7 +132,72 @@ public class ListingsList extends ListFragment
 	    	   // if the clicked listing is our own, do nothing 
 	    	   // TODO: inflate listing dialog with delete button
 	    	   if(other_person_uid.equals(Self.getUser().getUID()))
-	    		   return;
+	    	   {
+	    		   // inflate the dialog with delete button
+	    		   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		    	   dialog.setContentView(R.layout.buy_list_dialog_self);
+		    	   
+		    	   TextView description = (TextView) dialog.findViewById(R.id.firstLine_ds);
+		           
+		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_ds);
+		           TextView exp_time = (TextView) dialog.findViewById(R.id.expiration_time_ds);
+		           TextView v1 = (TextView) dialog.findViewById(R.id.box_1_text_ds);
+		           TextView v2 = (TextView) dialog.findViewById(R.id.box_2_text_ds);
+		           TextView v3 = (TextView) dialog.findViewById(R.id.box_3_text_ds);
+		           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_ds);
+		           TextView time_created = (TextView) dialog.findViewById(R.id.buy_listing_time_created_ds);
+		           TextView name = (TextView) dialog.findViewById(R.id.buy_listing_name_ds);
+		           
+		           description.setText(this.b_adapter.myList.get(position).getMessageBody());
+		           try {
+						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getEndTime(), this.b_adapter.myList.get(position).getTimeCreated()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						exp_time.setText(">1h");
+						e.printStackTrace();
+					}
+		           name.setText(this.b_adapter.myList.get(position).getUser().getName());
+		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		      
+		           time_created.setText(StaticHelpers.getTimeText(this.b_adapter.myList.get(position).getTimeCreated()));
+		           
+		           // set the venue boxes
+		           String venue_string = this.b_adapter.myList.get(position).getVenue().getName();
+		           List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
+		           
+		           LinearLayout b1 = (LinearLayout) dialog.findViewById(R.id.box_1_ds);
+		           LinearLayout b2 = (LinearLayout) dialog.findViewById(R.id.box_2_ds);
+		           LinearLayout b3 = (LinearLayout) dialog.findViewById(R.id.box_3_ds);
+		           LinearLayout b4 = (LinearLayout) dialog.findViewById(R.id.box_4_ds);
+		           
+		           for(int i = 0; i<items.size(); i++)
+		           {
+		           	if(i==0)
+		           	{
+		           		b1.setVisibility(View.VISIBLE);
+		           		v1.setText(items.get(i));
+		           	}
+		           	else if(i==1)
+		           	{
+		           		b2.setVisibility(View.VISIBLE);
+		           		v2.setText(items.get(i));
+		           	}
+		           	else if(i==2)
+		           	{
+		           		b3.setVisibility(View.VISIBLE);
+		           		v3.setText(items.get(i));
+		           	}
+		           	else if(i==3)
+		           	{
+		           		b4.setVisibility(View.VISIBLE);
+		           		v4.setText(items.get(i));
+		           	}
+		           }
+		           
+		           dialog.show();
+		           return;
+		       
+	    	   }
 	    	   
 	    	   int conv_pos = ConversationList.findConversationIndexByListingID(lid, other_person_uid);
 	    	   
@@ -155,9 +220,8 @@ public class ListingsList extends ListFragment
 	    	   else
 	    	   {
 	
-	    		   // if the conversation DOESN'T exist, we check if the clicked listing is our listing
-		    	  
-		    
+	    		   // if the conversation DOESN'T exist, we inflate a "first message" listing dialog
+
 		    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		    	   dialog.setContentView(R.layout.buy_list_dialog);
 	
@@ -173,15 +237,18 @@ public class ListingsList extends ListFragment
 		           TextView time_created = (TextView) dialog.findViewById(R.id.buy_listing_time_created_d);
 		           TextView name = (TextView) dialog.findViewById(R.id.buy_listing_name_d);
 		           
-		           description.setText("\t\t\t  " + this.b_adapter.myList.get(position).getMessageBody());
-		           time_created.setText(StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getTimeCreated())));
+		           description.setText(this.b_adapter.myList.get(position).getMessageBody());
+		           try {
+						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getEndTime(), this.b_adapter.myList.get(position).getTimeCreated()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						exp_time.setText(">1h");
+						e.printStackTrace();
+					}
 		           name.setText(this.b_adapter.myList.get(position).getUser().getName());
 		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
 		      
-		           String s_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getStartTime()));
-		           String e_string = StaticHelpers.getTimeText((this.b_adapter.myList.get(position).getEndTime()));
-		           exp_time.setText(">2h");
-		           
+		           time_created.setText(StaticHelpers.getTimeText(this.b_adapter.myList.get(position).getTimeCreated()));
 		           // set the venue boxes
 		           String venue_string = this.b_adapter.myList.get(position).getVenue().getName();
 		           List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
@@ -263,13 +330,11 @@ public class ListingsList extends ListFragment
 	
 		            }
 		        });
-		       
-		       
-		       // set the dialog's views
-		       
-		    	   
+
+		       // show the dialog
+			   dialog.setCanceledOnTouchOutside(true); 
 		       dialog.show();
-	    
+		       
 	    	   }
 	       
 	       }

@@ -153,15 +153,20 @@ public class BuyListAdapter  extends BaseAdapter
                 TextView time_created = (TextView) view.findViewById(R.id.buy_listing_time_created);
                 TextView name = (TextView) view.findViewById(R.id.buy_listing_name);
                 
-                description.setText("\t\t\t  " + this.myList.get(position).getMessageBody());
+                description.setText(this.myList.get(position).getMessageBody());
                 time_created.setText(StaticHelpers.getTimeText(this.myList.get(position).getTimeCreated()));
                 name.setText(this.myList.get(position).getUser().getName());
                 fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
            
-                String s_string = StaticHelpers.getTimeText(this.myList.get(position).getStartTime());
-                String e_string = StaticHelpers.getTimeText(this.myList.get(position).getEndTime());
-                exp_time.setText(">2h");
-                
+                String s_string = null;
+                try {
+					exp_time.setText(StaticHelpers.figureOutExpirationTime(this.myList.get(position).getTimeCreated(), this.myList.get(position).getEndTime()));
+				} catch (ParseException e) {
+					// TODO Auto-generated catch block
+					exp_time.setText(">1h");
+					e.printStackTrace();
+				}
+        
                 // set the venue boxes
                 String venue_string = this.myList.get(position).getVenue().getName();
                 List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
@@ -198,17 +203,17 @@ public class BuyListAdapter  extends BaseAdapter
                 //time.setText("Expires: " + e_string);
                 //desc.setText(this.myList.get(position).getMessageBody());
                
-                int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
+                int my_color = inflater.getContext().getResources().getColor(R.color.light_teal);
                 
                 int my_color_white = Color.WHITE;
                 
                 
                 Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
                
-                
-               // if(ConversationList.doesConversationExist(this.myList.get(position).getListingID()))
-                	//view.setBackgroundColor(my_color);
-               // else
+                //TODO: pick a better color/indicator that the client is involved in a listing
+               if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()))
+                	view.setBackgroundColor(my_color);
+               else
                 	view.setBackgroundColor(my_color_white);
        	
                return view;

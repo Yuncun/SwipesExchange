@@ -49,8 +49,8 @@ public class StaticHelpers {
 					simple_diffmins = ".5";
 				}
 
-				Log.d("figureoutime: ", ">"+Integer.toString(diffHours)+simple_diffmins+"hrs");
-				return ">"+Integer.toString(diffHours)+simple_diffmins+"hrs";
+				Log.d("figureoutime: ", ">"+Integer.toString(diffHours)+simple_diffmins+"h");
+				return ">"+Integer.toString(diffHours)+simple_diffmins+"h";
 		
 		
 
