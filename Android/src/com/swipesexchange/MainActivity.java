@@ -9,6 +9,7 @@ import sharedObjects.MsgStruct;
 import sharedObjects.Self;
 import sharedObjects.User;
 import android.support.v4.app.FragmentTransaction;
+import android.app.Activity;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager.NameNotFoundException;
@@ -220,6 +221,8 @@ public class MainActivity extends FragmentActivity {
 	    return -1;
 	}
 	
+	
+	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
 	    // only add the menu when the selection fragment is showing
@@ -228,6 +231,32 @@ public class MainActivity extends FragmentActivity {
 	    if (fragments[MAIN].isVisible() || create) {
 	        if (this.options_menu.size() == 0) {
 	            settings = this.options_menu.add(R.string.settings);
+	            getMenuInflater().inflate(R.menu.main, menu);
+	    		RelativeLayout relativeLayout = (RelativeLayout) menu.findItem(R.id.layout_item).getActionView();
+	    		View inflatedView = getLayoutInflater().inflate(R.layout.actionbar_top, null);
+	    		
+	    		inflatedView.findViewById(R.id.new_button).setOnClickListener(new OnClickListener() {
+	     
+	    			@Override
+	    			public void onClick(View v) {
+	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragmentBuy.class);
+	    				 nextScreen.putExtra("new_listing_type", "buy");
+	    				 startActivity(nextScreen);
+	    			}
+	    		});
+	    		
+	    		inflatedView.findViewById(R.id.new_button2).setOnClickListener(new OnClickListener() {
+	    			 
+	    			@Override
+	    			public void onClick(View v) {
+	    					
+	    					//actionBar.setSelectedNavigationItem(3);
+	    				
+	    			}
+	    		});
+	    		
+	    	
+	    		relativeLayout.addView(inflatedView);
 	        }
 	        return true;
 	    } else {

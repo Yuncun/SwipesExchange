@@ -31,10 +31,12 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -116,7 +118,8 @@ public class ListingsList extends ListFragment
 	       Log.d("pig", "[onListItemClick] Selected Position "+ position);
 	       
 	       
-	       
+	       DisplayMetrics metrics = getResources().getDisplayMetrics();
+	       int width = metrics.widthPixels;
 	       
 	       
 	       final Dialog dialog = new Dialog(getActivity());
@@ -193,7 +196,7 @@ public class ListingsList extends ListFragment
 		           		v4.setText(items.get(i));
 		           	}
 		           }
-		           
+		           dialog.getWindow().setLayout((6 * width)/7, LayoutParams.WRAP_CONTENT);
 		           dialog.show();
 		           return;
 		       
@@ -333,6 +336,7 @@ public class ListingsList extends ListFragment
 
 		       // show the dialog
 			   dialog.setCanceledOnTouchOutside(true); 
+			   dialog.getWindow().setLayout((6 * width)/7, LayoutParams.WRAP_CONTENT);
 		       dialog.show();
 		       
 	    	   }

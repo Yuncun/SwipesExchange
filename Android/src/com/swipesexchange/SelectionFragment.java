@@ -113,6 +113,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		//tp = (TimePicker) findViewById(R.id.timePicker1);
 		
 		actionBar.setStackedBackgroundDrawable(new ColorDrawable(getResources().getColor(R.color.light_grey)));
+		actionBar.setCustomView(R.layout.actionbar_top);
 		
 		// Create the adapter that will return a fragment for each of the three
 		// primary sections of the app.
@@ -190,6 +191,8 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 					
 			//Listen for clicks on the tabs
 			.setTabListener(this).setCustomView(tabView));
+			
+			
 		}
 		/*
 		// start Facebook Login
@@ -354,11 +357,13 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 			case 1:
 				l_frag = ListingsList.newInstance(position, mActivity, l);
 				return l_frag;
+				/*
 			case 2:
 				return NewListingFragmentBuy.newInstance(position, mActivity);
 			case 3:
 				return NewListingFragment.newInstance(position, mActivity);
-			case 4:
+				*/
+			case 2:
 				m_frag = MessagesFragment.newInstance(position, mActivity);
 				return m_frag;
 		
@@ -372,7 +377,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 			// Return the number of fragment pages in the application
 			
 			// TODO: Change back
-			return NUM_FRAGMENTS;
+			return 3;
 		}
 		public String getPageTitle(int position) {
 			
@@ -381,11 +386,13 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 				return getString(R.string.title_section1);
 			case 1:
 				return getString(R.string.title_section2);
+				/*
 			case 2:
 				return getString(R.string.title_section4);
 			case 3:
 				return getString(R.string.title_section5);
-			case 4:
+				*/
+			case 2:
 				return getString(R.string.title_section6);
 			
 			}

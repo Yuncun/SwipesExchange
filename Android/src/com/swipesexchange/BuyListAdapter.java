@@ -29,12 +29,14 @@ import java.util.List;
 
 
 
+
 import com.facebook.Request;
 import com.facebook.Response;
 import com.facebook.Session;
 import com.facebook.model.GraphUser;
 
 import sharedObjects.BuyListing;
+import sharedObjects.Self;
 import android.app.Activity;
 import android.content.Context;
 import android.graphics.Bitmap;
@@ -211,7 +213,8 @@ public class BuyListAdapter  extends BaseAdapter
                 Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
                
                 //TODO: pick a better color/indicator that the client is involved in a listing
-               if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()))
+               if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()) || 
+            		   this.myList.get(position).getUser().getUID().equals(Self.getUser().getUID()))
                 	view.setBackgroundColor(my_color);
                else
                 	view.setBackgroundColor(my_color_white);
