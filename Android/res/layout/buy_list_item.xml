@@ -15,14 +15,16 @@
         
              <TextView
         android:id="@+id/expiration_time"
-        android:layout_width="35dp"
-        android:layout_height="20dp"
-        android:text=">4.5h"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text=">22.5h"
         android:layout_below="@id/fb_pic"
-        android:textSize="14sp"
+        android:textSize="12sp"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
         android:textStyle="bold"
         android:paddingTop="5dp"
-        android:paddingLeft="2dp"
+       
         android:gravity="center" />
      
     <RelativeLayout

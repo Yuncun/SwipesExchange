@@ -28,7 +28,7 @@ public class NewListingFragmentBuy extends FragmentActivity {
         static MainActivity mActivity;
         private ExpandableListView lv;
         private int page_num;
-        
+        ActionBar action_bar;
         
            
         @Override
@@ -36,42 +36,36 @@ public class NewListingFragmentBuy extends FragmentActivity {
         	super.onCreate(savedInstanceState);
 
         	// set the content view for the new listing fragments
-	        setContentView(R.layout.new_listing_fragments);
+	        setContentView(R.layout.new_listing_fragment_buy);
 	        Intent i = getIntent();
 
 	   
         	String listing_type = i.getStringExtra("new_listing_type");
    
 	        
-	      //  RelativeLayout close = (RelativeLayout) findViewById(R.id.go_back);
+	        RelativeLayout close = (RelativeLayout) findViewById(R.id.go_back_bl);
 	        
-	        /*close.setOnClickListener(new View.OnClickListener() {
+	        close.setOnClickListener(new View.OnClickListener() {
 
 				@Override
 				public void onClick(View v) {
 					ClosedInfo.setMinimized(false);
-					Intent intent = new Intent(ConversationActivity.this, MainActivity.class);
+					Intent intent = new Intent(NewListingFragmentBuy.this, MainActivity.class);
 					//startActivityForResult(intent, RESULT_OK);
 					setResult(RESULT_OK, intent); 
 					finish();
-					overridePendingTransition(R.anim.slide_in_from_left, R.anim.slide_out_to_right);
-					
 				}
 			});
 	        
-	 
-	        
-	        return;
-	        */
-        	
-        	if(listing_type.equals("buy"))
+
+        	/*if(listing_type.equals("buy"))
         	{
-        		NLBuy frag = new NLBuy();
+        		frag = new NLBuy();
 		        FragmentManager fm = getSupportFragmentManager();
 		        fm.beginTransaction().add(R.id.new_listing_buy_frag, frag).commit();
         	}
-	        
-        	ActionBar action_bar;
+	        */
+        	
 	        action_bar = this.getActionBar();
 	        action_bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	       
