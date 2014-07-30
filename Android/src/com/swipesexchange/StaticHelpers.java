@@ -17,7 +17,7 @@ public class StaticHelpers {
 				 * We will receive both times in "Old Format". Returns a simplified string to represent time, like ">2.5 hrs"
 				 */
 				final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
-				
+				Log.d("timeCreated is ", "TIME CREATED : " + timeCreated + " and TIME ENDED :  "+ endTime);
 				SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
 				Date dateCreated = sdf.parse(timeCreated);
 				Date endDate = sdf.parse(endTime);

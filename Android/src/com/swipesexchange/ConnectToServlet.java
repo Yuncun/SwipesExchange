@@ -257,6 +257,74 @@ public class ConnectToServlet {
 
 	}
 	
+	public static void deleteListing(final Listing listing){
+		/**
+		 * Used to delete a listing owned by the user. This function:
+		 * 	1) Deletes Listing from server. The server accepts a Message with deletionrequest in header and a strnig specifying listingID,UserID
+		 *  2) Does not delete the listing locally - This must be performed elsewhere. (Most likely on button click in ListingsList)
+		 */
+
+		 
+		 Log.d("LOUD AND CLEAR", "Attempting to delete listing from server");
+    	 new Thread(new Runnable() {
+     		public void run() {
+			  try {
+				  URL url = new URL(SERVERURL);
+				  URLConnection connection = url.openConnection();
+	
+				  Gson gson = new Gson();
+				  Log.d("LISTING ID IS", listing.getListingID());
+				  String listingID_comma_selfID = listing.getListingID()+","+Self.getUser().getUID();
+				  String msgpayload = listingID_comma_selfID;
+	          
+		          MsgStruct msgReq = new MsgStruct();
+		          if (listing instanceof BuyListing){
+		        	  msgReq.setHeader(Constants.DELETE_BUYLISTING);
+		          }
+		          else if (listing instanceof SellListing){
+		        	  msgReq.setHeader(Constants.DELETE_SELLLISTING);
+		          }
+		          else{
+		        	  Log.d("INSTANCE OF ", "Listing isn't instanec of anything");
+		          }
+
+		          msgReq.setPayload(msgpayload);
+		          //Create request
+	
+		          String delreq = gson.toJson(msgReq);
+		          
+		          Log.d("LOUD AND CLEAR", "Breakpoint " + delreq); 
+		          
+		          connection.setDoOutput(true);
+	
+		          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+		          objectOut.writeObject(delreq);
+	
+		          objectOut.flush();
+		          objectOut.close();
+	
+		          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		          String returnString="";
+		          doubledValue = "";
+	
+	          	while ((returnString = in.readLine()) != null) 
+	          	{
+	          		doubledValue= returnString;
+	          	}
+	          	in.close();
+	          	
+	          	
+	          		Log.d("LOUD AND CLEAR", "Delete Listing Request responded with " + doubledValue); 
+	
+			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed with exception " + e.toString());}
+	
+			  return;
+     		}}).start();
+		
+    	 //Delete listing from local lists
+    	 
+	}
+	
 	public static void deleteConversationLocally(Conversation conversation)
 	{
 		final List<String> messageID_comma_flagCode = new ArrayList<String>();

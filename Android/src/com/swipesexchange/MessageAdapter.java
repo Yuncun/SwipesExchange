@@ -142,7 +142,7 @@ public class MessageAdapter extends BaseAdapter {
 						 ConnectToServlet.deleteConversationLocally(my_list.get(position));
 	                    //Delete the listing
 						delete_dialog.dismiss();
-						SelectionFragment.refreshConversationFragment();
+						deleteAConversationAndUpdate(my_list.get(position));
 						
 	               }
 		        });
@@ -178,6 +178,13 @@ public class MessageAdapter extends BaseAdapter {
 		
 		return my_list.size();
 	}
+	
+	public synchronized void deleteAConversationAndUpdate(Conversation convo){
+		my_list.removeElement(convo);
+		addAndUpdate();
+	   }
+	
+	
 
 
 	//This class will allow us to safely "block" until all necessary values (like UID) have been accounted for by the initialization code
@@ -229,6 +236,7 @@ public class MessageAdapter extends BaseAdapter {
 	        } 
 	      
 	  }         
+    
     
     
 

@@ -31,12 +31,10 @@ import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
-import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
@@ -64,8 +62,8 @@ public class ListingsList extends ListFragment
 		public int page_num;
 		public BackendData data;
 		static MainActivity mActivity;
-        public List<BuyListing> buyEntries;
-        public List<SellListing> sellEntries;
+        private List<BuyListing> buyEntries;
+        private List<SellListing> sellEntries;
         private boolean first_time = true;
         private boolean buy_entries_init = false;
         
@@ -118,8 +116,7 @@ public class ListingsList extends ListFragment
 	       Log.d("pig", "[onListItemClick] Selected Position "+ position);
 	       
 	       
-	       DisplayMetrics metrics = getResources().getDisplayMetrics();
-	       int width = metrics.widthPixels;
+	       
 	       
 	       
 	       final Dialog dialog = new Dialog(getActivity());
@@ -129,7 +126,7 @@ public class ListingsList extends ListFragment
 	    	   
 	    	   
 	    	   // if a conversation exists for this listing, then move to that conversation
-	    	   String lid = this.b_adapter.myList.get(position).getListingID();
+	    	   final String lid = this.b_adapter.myList.get(position).getListingID();
 	    	   String other_person_uid = this.b_adapter.myList.get(position).getUser().getUID();
 	    	   
 	    	   // if the clicked listing is our own, do nothing 
@@ -150,6 +147,18 @@ public class ListingsList extends ListFragment
 		           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_ds);
 		           TextView time_created = (TextView) dialog.findViewById(R.id.buy_listing_time_created_ds);
 		           TextView name = (TextView) dialog.findViewById(R.id.buy_listing_name_ds);
+		           
+		           //Set button for deleting your own listnig
+		           Button deleteListingButton = (Button) dialog.findViewById(R.id.delete_listing_button);
+		           deleteListingButton.setOnClickListener(new View.OnClickListener() {
+			            @Override
+			            public void onClick(View view) {
+				            if(deleteListingByLid(lid)){
+				            	Log.d("Successful Deletion", "Listing " + lid + " should be successfully deleted");
+				            }
+				            dialog.dismiss();
+			            }
+			        });
 		           
 		           description.setText(this.b_adapter.myList.get(position).getMessageBody());
 		           try {
@@ -196,7 +205,7 @@ public class ListingsList extends ListFragment
 		           		v4.setText(items.get(i));
 		           	}
 		           }
-		           dialog.getWindow().setLayout((6 * width)/7, LayoutParams.WRAP_CONTENT);
+		           
 		           dialog.show();
 		           return;
 		       
@@ -336,7 +345,6 @@ public class ListingsList extends ListFragment
 
 		       // show the dialog
 			   dialog.setCanceledOnTouchOutside(true); 
-			   dialog.getWindow().setLayout((6 * width)/7, LayoutParams.WRAP_CONTENT);
 		       dialog.show();
 		       
 	    	   }
@@ -345,6 +353,31 @@ public class ListingsList extends ListFragment
 	   
 	   }
     
+	   private synchronized boolean deleteListingByLid(String lid){
+		   /**
+		    * Used to delete a listing - Performs action locally, and calls the connectToServlet function to delete from server
+		    */
+		   for(BuyListing bl : buyEntries){
+			   if (bl.getListingID() == lid){
+				   ConnectToServlet.deleteListing(bl);
+				   buyEntries.remove(bl);
+				   this.b_adapter.notifyDataSetChanged();
+				   //ListingsUpdateTimer.toggleJustSubmittedListing();
+				   return true;
+			   }
+		   }
+		   
+		   for (SellListing sl : sellEntries){
+			   if (sl.getListingID() == lid){
+				   ConnectToServlet.deleteListing(sl);
+				   sellEntries.remove(sl);
+				   this.s_adapter.notifyDataSetChanged();
+				   //ListingsUpdateTimer.toggleJustSubmittedListing();
+				   return true;
+			   }
+		   }
+		   return false;
+	   }
         
         public void setBLAdapter()
         {	

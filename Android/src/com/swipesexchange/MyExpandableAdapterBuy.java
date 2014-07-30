@@ -360,18 +360,23 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			                    	sl.setStartTime("Deprecated");
 			                    	sl.setTime("Deprecated");
 			                    	//Set and calculate endtime
+
+			                    	 
+			                    	 //Convert the timePicker values into a format that is readable by us
+			                    	 Time endTimeFormatter = new Time();
+			                    	 Calendar myEndTimeCal = Calendar.getInstance();
+			                    	 myEndTimeCal.set(Calendar.HOUR_OF_DAY, hours_end);
+			                    	 myEndTimeCal.set(Calendar.MINUTE, minutes_end);
+			                    	 endTimeFormatter.set(myEndTimeCal.getTimeInMillis());
+			                    	 //Set endTime, correctly formatted
+			                    	 String endTimeFormatted = endTimeFormatter.format2445();
+			                    	 sl.setEndTime(endTimeFormatted);
+			                    	 
+			                    	 Calendar nowCal = Calendar.getInstance();
 			                    	 Time now = new Time();
-			                    	 
-			                    	 Calendar myCal = Calendar.getInstance();
-			                    	 myCal.add(Calendar.HOUR,hours_end);
-			                    	 myCal.add(Calendar.MINUTE,minutes_end);
-			                    	 now.set(myCal.getTimeInMillis());
-			                    	 
+			                    	 now.set(nowCal.getTimeInMillis());
+			                    	
 			                    	 String time = now.format2445();
-			                    	 sl.setEndTime(time);
-			                    	 
-			                    	 now.setToNow();
-			                    	 time = now.format2445();
 			                    	 sl.setTimeCreated(time);
 
 			                    	//sl.setPrice(5.00);
