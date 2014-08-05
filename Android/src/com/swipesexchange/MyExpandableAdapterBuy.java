@@ -2,25 +2,24 @@ package com.swipesexchange;
 
 
 import java.util.ArrayList;
-
 import android.text.format.Time;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-
 import sharedObjects.BuyListing;
 import sharedObjects.Listing;
 import sharedObjects.MsgStruct;
 import sharedObjects.Self;
 import sharedObjects.User;
 import sharedObjects.Venue;
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Matrix;
 import android.graphics.Typeface;
+import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
@@ -40,11 +39,11 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.ImageView.ScaleType;
+import android.widget.LinearLayout;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
 import com.amazonaws.auth.AWSCredentials;
 import com.amazonaws.auth.BasicAWSCredentials;
 import com.amazonaws.regions.Region;
@@ -83,6 +82,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	private String message_str;
 	private TextView m_text;
 	
+	private boolean any_white;
+	
 	// view int types
 	private final int EDIT_TEXT_TYPE = 0;
 	private final int TIME_PICKER_TYPE = 1;
@@ -118,6 +119,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		this.num_swipes=1;
 		this.parent_list_view = parent;
 		this.message_str = "";
+		this.any_white = true;
 		this.is_expanded = new ArrayList<Boolean>(4);
 		for(int i=0; i<3; i++)
 			this.is_expanded.add(i, false);
@@ -137,7 +139,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	@SuppressWarnings("unchecked")
 	@Override
-	public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
+	public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
 		// TODO: recycle views instead of always inflating
 
 		int v_type = this.getChildType(groupPosition, childPosition);
@@ -155,29 +157,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				convertView = inflater.inflate(R.layout.group_ex, null);
 				v_holder = new EditTextViewHolder();
 				enterMessage = (EditText) convertView.findViewById(R.id.messageEdit_nlbuy);
-				enterMessage.setOnFocusChangeListener(new OnFocusChangeListener() {          
 
-
-
-			        public void onFocusChange(View v, boolean hasFocus) {
-
-			        	if(hasFocus) {
-			        	
-			        	}
-			            if(!hasFocus) {
-
-			                // hide the keyboard
-			              // InputMethodManager imm = (InputMethodManager) enterMessage.getContext().getSystemService(
-			                	      //Context.INPUT_METHOD_SERVICE);
-			               // imm.hideSoftInputFromWindow(enterMessage.getWindowToken(), 0);
-			                
-
-			            }
-			        }
-
-			    });
-				
-				
 				enterMessage.setOnClickListener(new OnClickListener() {
 				
 				@Override
@@ -211,9 +191,336 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			}
 			else if (v_type == 2) // Picking the venue
 			{
-				convertView = inflater.inflate(R.layout.group_ex2, null);
+				convertView = inflater.inflate(R.layout.group_ex3, null);
 				tv_holder = new TextViewHolder();
+				
+				final LinearLayout l_any = (LinearLayout) convertView.findViewById(R.id.box_1);
+				final LinearLayout l_b_cafe = (LinearLayout) convertView.findViewById(R.id.box_2);
+				final LinearLayout l_cafe = (LinearLayout) convertView.findViewById(R.id.box_3);
+				final LinearLayout l_covell = (LinearLayout) convertView.findViewById(R.id.box_4);
+				final LinearLayout l_de_neve = (LinearLayout) convertView.findViewById(R.id.box_5);
+				final LinearLayout l_feast = (LinearLayout) convertView.findViewById(R.id.box_6);
+				final LinearLayout l_hedrick = (LinearLayout) convertView.findViewById(R.id.box_7);
+				final LinearLayout l_rendezvous = (LinearLayout) convertView.findViewById(R.id.box_8);
+				
+				// venue strings
+				final String child_text_any = "Any";
+				final String child_text_bruin_cafe = "Bruin Cafe";
+				final String child_text_covell = "Covell";
+				final String child_text_de_neve = "De Neve";
+				final String child_text_feast = "Feast";
+				final String child_text_hedrick = "Hedrick";
+				final String child_text_rendezvous = "Rendezvous";
+				final String child_text_cafe_1919 = "Cafe 1919";
+				
+				
+				
+				l_any.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_any))
+						{
+							l_any.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_any);	
+						}
+						else if (!selectedVenues.contains(child_text_any)) {
+							l_any.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_any);
+							
+							// set all the other venues to blue
+							l_b_cafe.setBackgroundResource(R.drawable.rectangle);
+							l_b_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_bruin_cafe);
+							
+							l_cafe.setBackgroundResource(R.drawable.rectangle);
+							l_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_cafe_1919);
+							
+							l_covell.setBackgroundResource(R.drawable.rectangle);
+							l_covell.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_covell);
+							
+							l_de_neve.setBackgroundResource(R.drawable.rectangle);
+							l_de_neve.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_de_neve);
+							
+							l_feast.setBackgroundResource(R.drawable.rectangle);
+							l_feast.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_feast);
+							
+							l_hedrick.setBackgroundResource(R.drawable.rectangle);
+							l_hedrick.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_hedrick);
+							
+							l_rendezvous.setBackgroundResource(R.drawable.rectangle);
+							l_rendezvous.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_rendezvous);
+						}
+					}
+							
+				});
+				
+				l_b_cafe.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_bruin_cafe))
+						{
+							l_b_cafe.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_b_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_bruin_cafe);
+						}
+						else if (!selectedVenues.contains(child_text_bruin_cafe)) {
+							l_b_cafe.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_b_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_bruin_cafe);
+							
+							// remove any if it is in selectedVenues
+							if(selectedVenues.contains("Any"))
+							{
+								l_any.setBackgroundResource(R.drawable.rectangle);
+								l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+								selectedVenues.remove(child_text_any);
+							}
+						}
+					}
+							
+				});
+				
+				l_cafe.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_cafe_1919))
+						{
+							l_cafe.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_cafe_1919);
+						}
+						else if (!selectedVenues.contains(child_text_cafe_1919)) {
+							l_cafe.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_cafe_1919);
+							
+							// remove any if it is in selectedVenues
+							if(selectedVenues.contains("Any"))
+							{
+								l_any.setBackgroundResource(R.drawable.rectangle);
+								l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+								selectedVenues.remove(child_text_any);
+							}
+						}
+					}
+							
+				});
+				
+				l_covell.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_covell))
+						{
+							l_covell.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_covell.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_covell);
+						}
+						else if (!selectedVenues.contains(child_text_covell)) {
+							l_covell.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_covell.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_covell);
+							
+							// remove any if it is in selectedVenues
+							if(selectedVenues.contains("Any"))
+							{
+								l_any.setBackgroundResource(R.drawable.rectangle);
+								l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+								selectedVenues.remove(child_text_any);
+							}
+						}
+					}
+							
+				});
+				
+				l_de_neve.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_de_neve))
+						{
+							l_de_neve.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_de_neve.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_de_neve);
+						}
+						else if (!selectedVenues.contains(child_text_de_neve)) {
+							l_de_neve.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_de_neve.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_de_neve);
+							
+							// remove any if it is in selectedVenues
+							if(selectedVenues.contains("Any"))
+							{
+								l_any.setBackgroundResource(R.drawable.rectangle);
+								l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+								selectedVenues.remove(child_text_any);
+							}
+						}
+					}
+							
+				});
+				
+				l_feast.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_feast))
+						{
+							l_feast.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_feast.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_feast);
+						}
+						else if (!selectedVenues.contains(child_text_feast)) {
+							l_feast.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_feast.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_feast);
+							
+							// remove any if it is in selectedVenues
+							if(selectedVenues.contains("Any"))
+							{
+								l_any.setBackgroundResource(R.drawable.rectangle);
+								l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+								selectedVenues.remove(child_text_any);
+							}
+						}
+					}
+							
+				});
+				
+				l_hedrick.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_hedrick))
+						{
+							l_hedrick.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_hedrick.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_hedrick);
+						}
+						else if (!selectedVenues.contains(child_text_hedrick)) {
+							l_hedrick.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_hedrick.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_hedrick);
+							
+							// remove any if it is in selectedVenues
+							if(selectedVenues.contains("Any"))
+							{
+								l_any.setBackgroundResource(R.drawable.rectangle);
+								l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+								selectedVenues.remove(child_text_any);
+							}
+						}
+					}
+							
+				});
+				
+				l_rendezvous.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						if (selectedVenues.contains(child_text_rendezvous))
+						{
+							l_rendezvous.setBackgroundResource(R.drawable.rectangle);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_rendezvous.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.remove(child_text_rendezvous);
+						}
+						else if (!selectedVenues.contains(child_text_rendezvous)) {
+							l_rendezvous.setBackgroundResource(R.drawable.rectangle_red);
+							
+							int padding_in_dp = 2;
+						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
+						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
+							l_rendezvous.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+							selectedVenues.add(child_text_rendezvous);
+							
+							// remove any if it is in selectedVenues
+							if(selectedVenues.contains("Any"))
+							{
+								l_any.setBackgroundResource(R.drawable.rectangle);
+								l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
+								selectedVenues.remove(child_text_any);
+							}
+						}
+					}
+							
+				});
+				
+				
+				
+				
 				// Unchecked cast is necessary
+				/*
 				final TextRow child = (TextRow) parents.get(groupPosition).getChildren().get(childPosition);
 	
 				m_text = (TextView) convertView.findViewById(R.id.textView1ex);
@@ -227,6 +534,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 					public void onClick(View view) {
 						if (selectedVenues.contains(child_text))
 						{
+							if(child_text.equals("Any"))
+								any_white = true;
 							parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(Color.WHITE);
 							selectedVenues.remove(child_text);
 							view.setBackgroundColor(Color.WHITE);
@@ -236,9 +545,32 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						}
 						else if (!selectedVenues.contains(child_text)){
 							selectedVenues.add(child_text);
+							if(child_text.equals("Any"))
+								any_white = false;
+							if(!child_text.equals("Any"))
+							{
+								if(selectedVenues.contains("Any"))
+								{
+									selectedVenues.remove("Any");
+									parents.get(groupPosition).getChildren().get(0).setBackgroundcolor(Color.WHITE);
+									any_white = true;
+									parent.invalidate();
+					
+								}
+							}
 							
 						int my_color = inflater.getContext().getResources().getColor(R.color.light_teal);
 						parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(my_color);
+						if(child_text.equals("Any"))
+						{
+							if(any_white)
+							{
+								view.setBackgroundColor(Color.WHITE);
+							}
+							else
+								view.setBackgroundColor(my_color);
+						}
+						
 						view.setBackgroundColor(my_color);
 						Log.d("Color", "Venue toggled, color should change on");
 						}
@@ -246,7 +578,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				});
 				
 				tv_holder.tv = m_text;
-				
+				*/
 				convertView.setTag(tv_holder);
 				
 				
@@ -318,7 +650,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			                imm.hideSoftInputFromWindow(enterMessage.getWindowToken(), 0);
 			                view.requestFocus();
 			                ImageView flipping_arrow = (ImageView) view.findViewById(R.id.expand_arrow_buy);
-			                //view.requestFocusFromTouch();
+			              
 			                if(is_expanded.get(groupPosition))
 			                {
 			                	flipping_arrow.setRotation(90);
@@ -368,183 +700,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			
 				
 			}
-			else if(groupPosition==3)
-			{
-				// inflate the view
-				convertView = inflater.inflate(R.layout.row_ex6, parent, false);
-			
-				
-				((CheckedTextView) convertView.findViewById(R.id.group6_text_left)).setText(parents.get(groupPosition).getTextLeft());
-				((TextView) convertView.findViewById(R.id.group6_text_right)).setText(parents.get(groupPosition).getTextRight());
-				
-				
-				
-				convertView.setOnClickListener(new OnClickListener() {
 
-					@Override
-					public void onClick(View view) {
-					
-						boolean cancel = false;
-						
-					    // hide the keyboard
-			               InputMethodManager imm = (InputMethodManager) enterMessage.getContext().getSystemService(
-			                	      Context.INPUT_METHOD_SERVICE);
-			                imm.hideSoftInputFromWindow(enterMessage.getWindowToken(), 0);
-			                view.requestFocus();
-			              //  view.requestFocusFromTouch();
-	
-						if (enterMessage.getText().toString() == null || enterMessage.getText().toString().isEmpty())
-						{
-							cancel = true;
-							time_error_dialog = new Dialog(inflater.getContext(), R.style.CustomDialogTheme);
-							time_error_dialog.setContentView(R.layout.dialog_time_error);
-							ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
-							time_error_dialog.setTitle("Please enter something for message body");
-							
-							
-							ok_button.setOnClickListener(new View.OnClickListener() {
-								 
-			                    @Override
-			                    public void onClick(View view) {
-			                        
-			                        time_error_dialog.dismiss();
-			 
-			                    }
-			                });
-							
-							time_error_dialog.show();	
-						}
-						/*
-						if((getStartHours()>getEndHours()) || (getStartHours()==getEndHours() && getStartMinutes()>getEndMinutes()))
-						{
-							cancel = true;
-							time_error_dialog = new Dialog(inflater.getContext(), R.style.cust_dialog);
-							time_error_dialog.setContentView(R.layout.dialog_time_error);
-							ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
-							time_error_dialog.setTitle("One does not finish eating until they've begun...");
-							
-							
-							ok_button.setOnClickListener(new View.OnClickListener() {
-								 
-			                    @Override
-			                    public void onClick(View view) {
-			                        
-			                        time_error_dialog.dismiss();
-			 
-			                    }
-			                });
-							
-							time_error_dialog.show();	
-						}
-						*/				
-						if(!cancel)
-						{						
-							submit_dialog = new Dialog(inflater.getContext(), R.style.CustomDialogTheme);
-							submit_dialog.setContentView(R.layout.dialog_submit);
-							cancel_button = (Button) submit_dialog.findViewById(R.id.Cancel_Button);
-					 		yes_button = (Button) submit_dialog.findViewById(R.id.Yes_Button);
-							
-							submit_dialog.setTitle("Submit new listing?");
-							
-							
-							cancel_button.setOnClickListener(new View.OnClickListener() {
-								 
-			                    @Override
-			                    public void onClick(View view) {
-			                        
-			                        submit_dialog.dismiss();
-			 
-			                    }
-			                });
-							
-							yes_button.setOnClickListener(new View.OnClickListener() {
-								 
-			                    @Override
-			                    public void onClick(View view) {
-			                    	
-			                    	String receivedString = enterMessage.getText().toString();	               
-					                messageFromEditText = receivedString;
-					                Log.v("myExpandableAdapterBuy", messageFromEditText);
-					                
-			                    	//Create a new sellListing for testing
-			                    	BuyListing sl = new BuyListing();
-			                    	sl.setMessageBody(messageFromEditText);
-			                    	
-			                    	sl.setStartTime("Deprecated");
-			                    	sl.setTime("Deprecated");
-			                    	//Set and calculate endtime
-
-			                    	 
-			                    	 //Convert the timePicker values into a format that is readable by us
-			                    	 Time endTimeFormatter = new Time();
-			                    	 Calendar myEndTimeCal = Calendar.getInstance();
-			                    	 myEndTimeCal.set(Calendar.HOUR_OF_DAY, hours_end);
-			                    	 myEndTimeCal.set(Calendar.MINUTE, minutes_end);
-			                    	 endTimeFormatter.set(myEndTimeCal.getTimeInMillis());
-			                    	 //Set endTime, correctly formatted
-			                    	 String endTimeFormatted = endTimeFormatter.format2445();
-			                    	 sl.setEndTime(endTimeFormatted);
-			                    	 
-			                    	 Calendar nowCal = Calendar.getInstance();
-			                    	 Time now = new Time();
-			                    	 now.set(nowCal.getTimeInMillis());
-			                    	
-			                    	 String time = now.format2445();
-			                    	 sl.setTimeCreated(time);
-
-			                    	//sl.setPrice(5.00);
-			                    	sl.setSwipeCount(3);
-			                    	
-			                    	
-			                    	//Set listing with all selected inputs, passed as a string seperated by commas 
-			                    	Venue ven = new Venue("");
-			                    	String commaSeperatedVenueList = "";
-			                    	for (int i = 0; i < selectedVenues.size(); i++){
-			                    		commaSeperatedVenueList += selectedVenues.get(i) + ",";
-			                    	}
-			                    	if (commaSeperatedVenueList.equals(""))
-			                    	{
-			                    		commaSeperatedVenueList = "Any";
-			                    	}
-			                    	else if (Character.toString((commaSeperatedVenueList.charAt(commaSeperatedVenueList.length() - 1))) == ","){
-			                    		commaSeperatedVenueList.substring(0, commaSeperatedVenueList.length()-1); //remove trailing comma
-			                    		}
-			                    	ven.setName(commaSeperatedVenueList);
-			                    	
-			                    	sl.setVenue(ven);
-			                    	User usr = new User(Self.getUser().getName()); 
-			                    	sl.setUser(usr);
-			                    	sl.getUser().setUID(Self.getUser().getUID());
-			                    	sl.getUser().setRating("No Rating");
-			                    	sl.getUser().setConnections("Connections");
-			                    	sl.isSection = false;
-			                    	sl.setSection("random");
-
-			                    	//
-			                    	Gson gson = new Gson();
-			                    	String j0 = gson.toJson(sl);
-
-			                    	MsgStruct nMsg = new MsgStruct();
-			                    	nMsg.setHeader(Constants.BL_PUSH); //Identifies message as a sell listing
-			                    	nMsg.setPayload(j0);
-			                    	String j1 = gson.toJson(nMsg);
-			                    	ConnectToServlet.sendListing(j1);
-			                    	
-			                    	ListingsUpdateTimer.toggleJustSubmittedListing();
-
-			                        submit_dialog.dismiss();
-			                    }
-			                });
-							
-							
-							submit_dialog.show();
-						}
-						
-					}
-				});
-	
-			}
-	
 		}
 		if (groupPosition == 0){
 			getParent().expandGroup(groupPosition);}
@@ -578,12 +734,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		{
 			String venue = this.venue.getName();
 			this.parents.get(groupPosition).setTextRight(venue);
-		}/*
-		else if(groupPosition==3)
-		{
-			String swipes_req = Integer.toString(this.getNumSwipes());
-			this.parents.get(groupPosition).setTextRight(swipes_req);
-		}*/
+		}
 	}
 	
 	@SuppressWarnings("unchecked")

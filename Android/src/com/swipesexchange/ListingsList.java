@@ -669,6 +669,10 @@ public class ListingsList extends ListFragment
          	   });
          	}
     
+     	   // reveal the hidden message?
+     	   if(buyEntries != null && buyEntries.size() == 0)
+     		   getView().findViewById(R.id.hidden_message).setVisibility(View.VISIBLE);
+     	   
          	   b_adapter= new BuyListAdapter(getActivity(), buyEntries);
                 setListAdapter(b_adapter);
         }
@@ -686,6 +690,11 @@ public class ListingsList extends ListFragment
          	   		}
      		   	});
      	   	}
+     	   	
+     	// reveal the hidden message?
+       	   if(sellEntries != null && sellEntries.size() == 0)
+       		   getView().findViewById(R.id.hidden_message).setVisibility(View.VISIBLE);
+       	   
      	   s_adapter= new SellListAdapter(getActivity(), sellEntries);
            setListAdapter(s_adapter);
         }
@@ -695,7 +704,6 @@ public class ListingsList extends ListFragment
                     Bundle savedInstanceState) {
 
                 View view = inflater.inflate(R.layout.mylist, container, false);
-                
 
                 return view;
             }
@@ -706,7 +714,6 @@ public class ListingsList extends ListFragment
                 
                 this.first_time = false;
                 
-      
                if(this.page_num==0) //Buy Listings page
                {   
             	   this.pullAndAddMessages();
@@ -718,9 +725,7 @@ public class ListingsList extends ListFragment
             	 sc = new SLConnectGet(getActivity(), true);
             	 sc.execute();
                }
-               
-               
-       
+
             }
             
 

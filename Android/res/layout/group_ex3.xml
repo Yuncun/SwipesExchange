@@ -1,31 +1,212 @@
-<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="35dp"
-    android:background="#CCFFFF"
+    android:layout_height="80dp"
     android:clickable="true"
     android:orientation="vertical"
-    android:paddingLeft="40dp"
+    
     tools:context=".MainActivity" >
 
-    <RelativeLayout
-        android:layout_width="match_parent"
+          <RelativeLayout 
+        android:layout_width="wrap_content"
+        android:layout_height="45dp"
+        android:layout_margin="10dp"
+        android:layout_gravity="center"
+        
+      >
+        
+        <LinearLayout
+        android:id="@+id/box_1"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center" >
+        android:background="@drawable/rectangle"
+        android:padding="2dp"
+        >
 
-        <NumberPicker
-            android:id="@+id/numberPickerSwipes"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content" />
+              <TextView
+                  android:id="@+id/box_1_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:textColor="@color/White"
+                  android:text="Any"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
 
-        <TextView
-            android:id="@+id/textNumRequested"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_toRightOf="@id/numberPickerSwipes"
-            android:paddingTop="77dp"
-            android:text="swipes"
-            android:textSize="16sp" />
+    </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/box_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@id/box_1"
+        android:layout_marginLeft="40dp"
+         >
+              
+      
+
+              <TextView
+                  android:id="@+id/box_2_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                   android:textColor="@color/White"
+                  android:text="Bruin Cafe"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+      <LinearLayout
+        android:id="@+id/box_3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@id/box_2"
+        android:padding="2dp"
+        android:layout_marginLeft="40dp"
+         >
+
+              <TextView
+                  android:id="@+id/box_3_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                   android:textColor="@color/White"
+                  android:text="Cafe 1919"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/box_4"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/box_3"
+        android:background="@drawable/rectangle"
+        android:padding="2dp"
+        android:layout_marginLeft="40dp"
+         >
+
+              <TextView
+                  android:id="@+id/box_4_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                   android:textColor="@color/White"
+                  android:text="Covell"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+             <LinearLayout
+        android:id="@+id/box_5"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/box_1"
+        android:background="@drawable/rectangle"
+        android:layout_marginTop="5dp"
+        android:padding="2dp"
+  
+         >
+
+              <TextView
+                  android:id="@+id/box_5_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                   android:textColor="@color/White"
+                  android:text="De Neve"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/box_6"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/box_5"
+        android:layout_below="@id/box_2"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/rectangle"
+        android:layout_marginTop="5dp"
+       
+        android:padding="2dp"
+  
+         >
+
+              <TextView
+                  android:id="@+id/box_6_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                   android:textColor="@color/White"
+                  android:text="Feast"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+         <LinearLayout
+        android:id="@+id/box_7"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/box_6"
+        android:layout_below="@id/box_3"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/rectangle"
+        android:layout_marginTop="5dp"
+       
+        android:padding="2dp"
+  
+         >
+
+              <TextView
+                  android:id="@+id/box_7_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                   android:textColor="@color/White"
+                  android:text="Hedrick"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+    
+           <LinearLayout
+        android:id="@+id/box_8"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/box_7"
+        android:layout_below="@id/box_4"
+        android:layout_marginLeft="40dp"
+        android:background="@drawable/rectangle"
+        android:layout_marginTop="5dp"
+       
+        android:padding="2dp"
+  
+         >
+
+              <TextView
+                  android:id="@+id/box_8_text"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                   android:textColor="@color/White"
+                  android:text="Rendezvouz"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+        
+ 
+
     </RelativeLayout>
 
-</RelativeLayout>
+</LinearLayout>

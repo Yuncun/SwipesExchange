@@ -272,12 +272,16 @@ public class NLBuy extends Fragment {
      			parent.setTextRight("");
      			parent.setChildren(new ArrayList<ChildRow>());
      			
+     			
+     			
      		    // create the TextRow children and add them
      			// Any
      			TextRow child0 = new TextRow();
      			child0.setName("V0");
      			child0.setText("Any");
      			parent.getChildren().add(child0);
+     			
+     			/*
      			// Bruin Cafe
      			TextRow child1 = new TextRow();
      			child1.setName("V1");
@@ -313,7 +317,10 @@ public class NLBuy extends Fragment {
      			child7.setName("V7");
      			child7.setText("Rendezvous");
      			parent.getChildren().add(child7);
-     		}/*
+     			*/
+     		}
+     		
+     		/*
      	    else if(i==3) // Number of Swipes
      		{
      			parent.setName("NumSwipes");

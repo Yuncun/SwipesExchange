@@ -23,8 +23,9 @@
     </style>
     
     <style name="ActionBarTabs" parent="@android:style/Widget.Holo.ActionBar.TabView">
-    <item name="android:minHeight">20dip</item>
+    <item name="android:minHeight">20dp</item>
     <item name="android:background">@drawable/actionbar_tab_indicator</item>
+    <item name="android:height">20dp</item>
     
 </style>  
     
