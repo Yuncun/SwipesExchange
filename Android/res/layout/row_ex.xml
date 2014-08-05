@@ -1,6 +1,8 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+     android:focusable="true"
+     >
 
     <CheckedTextView
         android:id="@+id/group1_text_left"
@@ -12,7 +14,7 @@
         android:paddingLeft="10dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
     <TextView
         android:id="@+id/group1_text_right"
@@ -24,6 +26,6 @@
         android:paddingLeft="10dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
-        android:textSize="15sp" />
+        android:textSize="12sp" />
 
 </RelativeLayout>

@@ -78,61 +78,6 @@ public class BuyListAdapter  extends BaseAdapter
             super();
             this.myContext=context;
             this.myList = list;
-            
-            VenueNames = new ArrayList<String>();
-            UserNames = new ArrayList<String>();
-            DescStartTime = new ArrayList<String>();
-            DescEndTime = new ArrayList<String>();
-            DescAmount = new ArrayList<String>();
-            DescVenue = new ArrayList<String>();
-            
-            String[] divider_names = new String[20];
-          
-            
-            if(myList.size()>0)
-            {
-            	
-            //String venueCheck = myList.get(0).getVenue().getName();
-            num_dividers = 0;
-            for (int i = 0; i < myList.size(); i++) {
-            
-            	/*
-            		if(!(venueCheck.equals(myList.get(i).getVenue().getName())) || i==0)
-            		{
-            			
-                                 BuyListing bl = new BuyListing();
-                                 
-                                 divider_names[num_dividers] = myList.get(i).getVenue().getName();
-                                 bl.isSection = true;
-                                 bl.setSection(divider_names[num_dividers]);
-                                 myList.add(i, bl);
-                             VenueNames.add(null);
-                     
-                     UserNames.add(null);
-                   
-                     DescStartTime.add(null);
-                     DescEndTime.add(null);
-                   
-                     DescAmount.add(null);
-                     DescVenue.add(null);
-                     
-                     if(i+1 < myList.size())
-                     venueCheck = myList.get(i+1).getVenue().getName();
-                     
-                     num_dividers++;
-            			
-                   
-            		}
-            		else
-            		{
-            		*/
-            		
-             
-              
-            		
-            }
-            }
-           
     }
        
    

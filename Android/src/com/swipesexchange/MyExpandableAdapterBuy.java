@@ -2,8 +2,11 @@ package com.swipesexchange;
 
 
 import java.util.ArrayList;
+
 import android.text.format.Time;
+
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import sharedObjects.BuyListing;
@@ -14,7 +17,9 @@ import sharedObjects.User;
 import sharedObjects.Venue;
 import android.app.Activity;
 import android.app.Dialog;
+import android.content.Context;
 import android.graphics.Color;
+import android.graphics.Matrix;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
 import android.text.Spannable;
@@ -25,12 +30,16 @@ import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
+import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
 import android.widget.Button;
 import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
+import android.widget.ImageView;
+import android.widget.ImageView.ScaleType;
 import android.widget.NumberPicker;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
@@ -67,10 +76,20 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	private Venue venue;
 	private String venue_name;
 	private ExpandableListView parent_list_view;
-	private EditText enterMessage;
+	public EditText enterMessage;
 	private String messageFromEditText = "";
-	private List<String> selectedVenues;
-
+	public List<String> selectedVenues;
+	private ArrayList<Boolean> is_expanded;
+	private String message_str;
+	private TextView m_text;
+	
+	// view int types
+	private final int EDIT_TEXT_TYPE = 0;
+	private final int TIME_PICKER_TYPE = 1;
+	private final int TEXT_TYPE = 2;
+	
+	
+	
 	
 	
 	// ParentRows passed in from NewListingFragmentBuy
@@ -98,10 +117,14 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		this.venue_name = "Any";
 		this.num_swipes=1;
 		this.parent_list_view = parent;
+		this.message_str = "";
+		this.is_expanded = new ArrayList<Boolean>(4);
+		for(int i=0; i<3; i++)
+			this.is_expanded.add(i, false);
 		
 		
 		// Update the parent rows with information about default values to be shown in groupViews
-		for(int i=0; i<4; i++)
+		for(int i=0; i<3; i++)
 			this.updateParentsRightViews(i);
 	}
 	
@@ -111,45 +134,90 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	 }
 	 
 
-	 
-	 
+
 	@SuppressWarnings("unchecked")
 	@Override
 	public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, ViewGroup parent) {
 		// TODO: recycle views instead of always inflating
 
-		convertView = null;
+		int v_type = this.getChildType(groupPosition, childPosition);
+		
+		// view holders
+		EditTextViewHolder v_holder;
+		TimePickerViewHolder tp_holder;
+		TextViewHolder tv_holder;
+		
 		if(convertView==null)
 		{
-			if (groupPosition == 0) // Picking the start time
+			if (v_type == 0) // Picking the start time
 			{
 				// Inflate the view
 				convertView = inflater.inflate(R.layout.group_ex, null);
-				// Initialize the TimePicker
-				 final EditText myedittext = (EditText) convertView.findViewById(R.id.timePicker1);
-				enterMessage = (EditText) convertView.findViewById(R.id.timePicker1);
-				// TODO: Change to current time
-				//tp_start.setCurrentMinute(minutes_start);
-				//tp_start.setCurrentHour(hours_start);
+				v_holder = new EditTextViewHolder();
+				enterMessage = (EditText) convertView.findViewById(R.id.messageEdit_nlbuy);
+				enterMessage.setOnFocusChangeListener(new OnFocusChangeListener() {          
+
+
+
+			        public void onFocusChange(View v, boolean hasFocus) {
+
+			        	if(hasFocus) {
+			        	
+			        	}
+			            if(!hasFocus) {
+
+			                // hide the keyboard
+			              // InputMethodManager imm = (InputMethodManager) enterMessage.getContext().getSystemService(
+			                	      //Context.INPUT_METHOD_SERVICE);
+			               // imm.hideSoftInputFromWindow(enterMessage.getWindowToken(), 0);
+			                
+
+			            }
+			        }
+
+			    });
+				
+				
+				enterMessage.setOnClickListener(new OnClickListener() {
+				
+				@Override
+				public void onClick(View view) {
+					
+					InputMethodManager mgr = (InputMethodManager) enterMessage.getContext().getSystemService(Context.INPUT_METHOD_SERVICE);
+					mgr.showSoftInput(enterMessage, InputMethodManager.SHOW_IMPLICIT);
+					enterMessage.requestFocusFromTouch();
+					enterMessage.requestFocus();
+				}
+			});
+		
+				v_holder.t = enterMessage;
+				
+				convertView.setTag(v_holder);
+
 			}
-			else if (groupPosition == 1) // Picking the end time
+			else if (v_type == 1) // Picking the end time
 			{
 				convertView = inflater.inflate(R.layout.group_ex1, null);
+				tp_holder = new TimePickerViewHolder();
 				// Initialize the TimePicker
 				this.tp_end = (TimePicker) convertView.findViewById(R.id.timePicker2);
 				
 				// TODO: Change to current time
 				tp_end.setCurrentMinute(minutes_end);
 				tp_end.setCurrentHour(hours_end);
+				tp_holder.tp = tp_end;
+				
+				convertView.setTag(tp_holder);
 			}
-			else if (groupPosition == 2) // Picking the venue
+			else if (v_type == 2) // Picking the venue
 			{
 				convertView = inflater.inflate(R.layout.group_ex2, null);
+				tv_holder = new TextViewHolder();
 				// Unchecked cast is necessary
 				final TextRow child = (TextRow) parents.get(groupPosition).getChildren().get(childPosition);
-				
-				
-				((TextView) convertView.findViewById(R.id.textView1ex)).setText(child.getText());
+	
+				m_text = (TextView) convertView.findViewById(R.id.textView1ex);
+				m_text.setText(child.getText());
 				convertView.setBackgroundColor(child.getBackgroundcolor());
 				final String child_text = child.getText();
 				// when user selects a child Venue, modify the groupView and collapse the children
@@ -168,42 +236,47 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						}
 						else if (!selectedVenues.contains(child_text)){
 							selectedVenues.add(child_text);
-						parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(Color.YELLOW);
-						view.setBackgroundColor(Color.YELLOW);
+							
+						int my_color = inflater.getContext().getResources().getColor(R.color.light_teal);
+						parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(my_color);
+						view.setBackgroundColor(my_color);
 						Log.d("Color", "Venue toggled, color should change on");
 						}
 					}
 				});
 				
+				tv_holder.tv = m_text;
 				
-			}/*
-			else if(groupPosition == 3) // Picking the number of swipes
-			{
-				convertView = inflater.inflate(R.layout.group_ex3, null);
-				// Initialize the NumberPicker
-				this.swipes = (NumberPicker) convertView.findViewById(R.id.numberPickerSwipes);
-				this.swipes.setMinValue(1);
-				this.swipes.setMaxValue(9);
-				this.swipes.setValue(num_swipes);
-			}*//*
-			else if(groupPosition == 3)
-			{
-				convertView = inflater.inflate(R.layout.group_ex4, null);
+				convertView.setTag(tv_holder);
 				
-			}*/
-			else if(groupPosition == 3)
-			{
-				convertView = inflater.inflate(R.layout.group_ex5, null);
 				
 			}
-			
+
 		
-		
+		}
+		else // the convertView isn't null and we are at groupPostion 0, the description EditText child
+		{
+			if(convertView.getTag() instanceof EditTextViewHolder)
+			{
+				Log.d("Holder class", "Class is: " + convertView.getTag().getClass().toString());
+				v_holder = (EditTextViewHolder) convertView.getTag();
+			}
+			else if(convertView.getTag() instanceof TimePickerViewHolder)
+			{
+				Log.d("Holder class", "Class is: " + convertView.getTag().getClass().toString());
+				tp_holder = (TimePickerViewHolder) convertView.getTag();
+			}
+			else if(convertView.getTag() instanceof TextViewHolder)
+			{
+				Log.d("Holder class", "Class is: " + convertView.getTag().getClass().toString());
+				tv_holder = (TextViewHolder) convertView.getTag();
+			}
 		}
 	
 		return convertView;
 	}
 	
+
 
 
 	@Override
@@ -216,16 +289,50 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			if(groupPosition==0)
 			{
 				// inflate the view
-				convertView = inflater.inflate(R.layout.row_ex, parent, false);
-				((CheckedTextView) convertView.findViewById(R.id.group1_text_left)).setText(parents.get(groupPosition).getTextLeft());
-				((TextView) convertView.findViewById(R.id.group1_text_right)).setText("");
+				convertView = inflater.inflate(R.layout.row_ex_center, parent, false);
+				((TextView) convertView.findViewById(R.id.group1_text_right)).setText(parents.get(groupPosition).getTextLeft());
 			}
 			else if(groupPosition==1)
 			{
 				// inflate the view
 				convertView = inflater.inflate(R.layout.row_ex2, parent, false);
 				((CheckedTextView) convertView.findViewById(R.id.group2_text_left)).setText(parents.get(groupPosition).getTextLeft());
+				
+				ImageView flipping_arrow = (ImageView) convertView.findViewById(R.id.expand_arrow_buy);
+				
+				if(this.is_expanded.get(groupPosition))
+					flipping_arrow.setRotation(270);
+				else
+					flipping_arrow.setRotation(90);
+				
+				
 				((TextView) convertView.findViewById(R.id.group2_text_right)).setText(parents.get(groupPosition).getTextRight());
+				convertView.setOnClickListener(new OnClickListener() {
+					
+					@Override
+					public void onClick(View view) {
+						//enterMessage.setFocusable(true);
+					    // hide the keyboard
+			               InputMethodManager imm = (InputMethodManager) enterMessage.getContext().getSystemService(
+			                	      Context.INPUT_METHOD_SERVICE);
+			                imm.hideSoftInputFromWindow(enterMessage.getWindowToken(), 0);
+			                view.requestFocus();
+			                ImageView flipping_arrow = (ImageView) view.findViewById(R.id.expand_arrow_buy);
+			                //view.requestFocusFromTouch();
+			                if(is_expanded.get(groupPosition))
+			                {
+			                	flipping_arrow.setRotation(90);
+			                	getParent().collapseGroup(groupPosition);
+			                	
+			                }
+			                else
+			                {
+			                	flipping_arrow.setRotation(270);
+			                	getParent().expandGroup(groupPosition);
+			                	
+			                }
+					}
+				});
 
 			}
 			else if(groupPosition==2)
@@ -234,34 +341,33 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				convertView = inflater.inflate(R.layout.row_ex3, parent, false);
 			
 				((CheckedTextView) convertView.findViewById(R.id.group3_text_left)).setText(parents.get(groupPosition).getTextLeft());
+				ImageView flipping_arrow = (ImageView) convertView.findViewById(R.id.expand_arrow_buy_2);
+				
+				if(this.is_expanded.get(groupPosition))
+					flipping_arrow.setRotation(270);
+				else
+					flipping_arrow.setRotation(90);
 				((TextView) convertView.findViewById(R.id.group3_text_right)).setText(parents.get(groupPosition).getTextRight());
-			
-				
-			}/*
-			else if(groupPosition==3)
-			{
-				// inflate the view
-				convertView = inflater.inflate(R.layout.row_ex4, parent, false);
-			
-				((CheckedTextView) convertView.findViewById(R.id.group4_text_left)).setText(parents.get(groupPosition).getTextLeft());
-				((TextView) convertView.findViewById(R.id.group4_text_right)).setText(parents.get(groupPosition).getTextRight());
-			
-				
-			}*//*
-			else if(groupPosition==3)
-			{
-				// inflate the view
-				convertView = inflater.inflate(R.layout.row_ex5, parent, false);
-				((CheckedTextView) convertView.findViewById(R.id.group5_text_left)).setText(parents.get(groupPosition).getTextLeft());
-				((TextView) convertView.findViewById(R.id.group5_text_right)).setText(parents.get(groupPosition).getTextRight());
-				convertView.setOnClickListener(new OnClickListener() {		
+				convertView.setOnClickListener(new OnClickListener() {
+					
 					@Override
-					public void onClick(View view) {	
-						getParent().collapseGroup(4);
+					public void onClick(View view) {
+						//enterMessage.setFocusable(true);
+					    // hide the keyboard
+			               InputMethodManager imm = (InputMethodManager) enterMessage.getContext().getSystemService(
+			                	      Context.INPUT_METHOD_SERVICE);
+			                imm.hideSoftInputFromWindow(enterMessage.getWindowToken(), 0);
+			                view.requestFocus();
+			              //  view.requestFocusFromTouch();
+			                if(is_expanded.get(groupPosition))
+			                	getParent().collapseGroup(groupPosition);
+			                else
+			                	getParent().expandGroup(groupPosition);
 					}
 				});
-
-			}*/
+			
+				
+			}
 			else if(groupPosition==3)
 			{
 				// inflate the view
@@ -280,7 +386,14 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 					
 						boolean cancel = false;
 						
-						if (enterMessage.getText().toString() == null || enterMessage.getText().toString() == "")
+					    // hide the keyboard
+			               InputMethodManager imm = (InputMethodManager) enterMessage.getContext().getSystemService(
+			                	      Context.INPUT_METHOD_SERVICE);
+			                imm.hideSoftInputFromWindow(enterMessage.getWindowToken(), 0);
+			                view.requestFocus();
+			              //  view.requestFocusFromTouch();
+	
+						if (enterMessage.getText().toString() == null || enterMessage.getText().toString().isEmpty())
 						{
 							cancel = true;
 							time_error_dialog = new Dialog(inflater.getContext(), R.style.CustomDialogTheme);
@@ -494,6 +607,18 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	public Object getGroup(int groupPosition) {
 		return this.parents.get(groupPosition);
 	}
+	
+	@Override
+	public int getChildType(int groupPosition, int childPosition) {
+		if(groupPosition==0)
+			return EDIT_TEXT_TYPE;
+		if(groupPosition==1)
+			return TIME_PICKER_TYPE;
+		if(groupPosition==2)
+			return TEXT_TYPE;
+		
+		return -1;
+	}
 
 	@Override
 	public int getGroupCount() {
@@ -505,8 +630,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		super.onGroupCollapsed(groupPosition);
 		if(groupPosition == 0)
 		{
-			//this.minutes_start = tp_start.getCurrentMinute();
-			//this.hours_start = tp_start.getCurrentHour();
 			this.updateParentsRightViews(groupPosition);
 		}
 		if (groupPosition == 1)
@@ -520,11 +643,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			this.venue.setName(this.venue_name);
 			this.updateParentsRightViews(groupPosition);
 		}
-		if(groupPosition==3)
-		{
-			//this.num_swipes = swipes.getValue();
-			this.updateParentsRightViews(groupPosition);
-		}
+
+		this.is_expanded.set(groupPosition, false);
 		
 	
 	}
@@ -533,7 +653,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	public void onGroupExpanded(int groupPosition) {
 		
 		super.onGroupExpanded(groupPosition);
-		
+		this.is_expanded.set(groupPosition, true);
 		
 	}
 
@@ -541,19 +661,16 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	public long getGroupId(int groupPosition) {
 		return groupPosition;
 	}
-	
-	
-
 
 	@Override
 	public boolean hasStableIds() {
-		return true;
+		return false;
 	}
 
 	
 	@Override
 	public boolean isChildSelectable(int groupPosition, int childPosition) {
-		return false;
+		return true;
 	}
 	
 	 // Data retrieval and data setting methods
@@ -639,10 +756,28 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		 return false;
 	 }
 	
+
+	 @Override
+	 public int getChildTypeCount() {
+		 return 3;
+	 }
+	 
+	 // view holder static classes
+	 
+	 
+	 
+	static class EditTextViewHolder {
+		EditText t;
+	}
 	
+	static class TimePickerViewHolder {
+		TimePicker tp;
+	}
 	
-  
-    
-    
+	static class TextViewHolder {
+		TextView tv;
+	}
+
+
 
 }

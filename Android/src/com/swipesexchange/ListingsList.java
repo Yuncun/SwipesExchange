@@ -27,15 +27,19 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
+import android.graphics.Point;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
 import android.util.Log;
+import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
+import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -66,6 +70,7 @@ public class ListingsList extends ListFragment
         private List<SellListing> sellEntries;
         private boolean first_time = true;
         private boolean buy_entries_init = false;
+        private boolean sell_entries_init = false;
         
         private BLConnectGet bc;
         private SLConnectGet sc;
@@ -120,11 +125,9 @@ public class ListingsList extends ListFragment
 	       
 	       
 	       final Dialog dialog = new Dialog(getActivity());
-	       if(this.page_num==0)
+	       if(this.page_num==0) //Buy Listings Page
 	       {
-	    	   
-	    	   
-	    	   
+	   
 	    	   // if a conversation exists for this listing, then move to that conversation
 	    	   final String lid = this.b_adapter.myList.get(position).getListingID();
 	    	   String other_person_uid = this.b_adapter.myList.get(position).getUser().getUID();
@@ -206,6 +209,16 @@ public class ListingsList extends ListFragment
 		           	}
 		           }
 		           
+		           
+			        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+			        Display display = wm.getDefaultDisplay();
+			        Point size = new Point();
+			        display.getSize(size);
+			        int width = size.x;
+			        int height = size.y;
+				   
+				   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
+				   
 		           dialog.show();
 		           return;
 		       
@@ -345,10 +358,273 @@ public class ListingsList extends ListFragment
 
 		       // show the dialog
 			   dialog.setCanceledOnTouchOutside(true); 
+			   
+			   // get the screen size of the device
+			   
+		        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+		        Display display = wm.getDefaultDisplay();
+		        Point size = new Point();
+		        display.getSize(size);
+		        int width = size.x;
+		        int height = size.y;
+			   
+			   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
+			   
 		       dialog.show();
 		       
 	    	   }
 	       
+	       }
+	       else if(this.page_num==1) // Sell Listings page
+	       {
+	    	   // if a conversation exists for this listing, then move to that conversation
+	    	   final String lid = this.s_adapter.myList.get(position).getListingID();
+	    	   String other_person_uid = this.s_adapter.myList.get(position).getUser().getUID();
+	    	   
+	    	   // if the clicked listing is our own, do nothing 
+	    	   // TODO: inflate listing dialog with delete button
+	    	   if(other_person_uid.equals(Self.getUser().getUID()))
+	    	   {
+	    		   // inflate the dialog with delete button
+	    		   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		    	   dialog.setContentView(R.layout.sell_list_dialog_self);
+		    	   
+		    	   TextView description = (TextView) dialog.findViewById(R.id.firstLine_ds_sell);
+		           
+		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_ds_sell);
+		           TextView exp_time = (TextView) dialog.findViewById(R.id.expiration_time_ds_sell);
+		           TextView v1 = (TextView) dialog.findViewById(R.id.box_1_text_ds_sell);
+		           TextView v2 = (TextView) dialog.findViewById(R.id.box_2_text_ds_sell);
+		           TextView v3 = (TextView) dialog.findViewById(R.id.box_3_text_ds_sell);
+		           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_ds_sell);
+		           TextView time_created = (TextView) dialog.findViewById(R.id.sell_listing_time_created_ds);
+		           TextView name = (TextView) dialog.findViewById(R.id.sell_listing_name_ds);
+		           TextView price = (TextView) dialog.findViewById(R.id.price_sell_ds);
+		           
+		           price.setText(Double.toString(this.s_adapter.myList.get(position).getPrice()));
+		           //Set button for deleting your own listnig
+		           Button deleteListingButton = (Button) dialog.findViewById(R.id.delete_listing_button_sell);
+		           deleteListingButton.setOnClickListener(new View.OnClickListener() {
+			            @Override
+			            public void onClick(View view) {
+				            if(deleteListingByLid(lid)){
+				            	Log.d("Successful Deletion", "Listing " + lid + " should be successfully deleted");
+				            }
+				            dialog.dismiss();
+			            }
+			        });
+		           
+		           description.setText(this.s_adapter.myList.get(position).getMessageBody());
+		           try {
+						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.s_adapter.myList.get(position).getEndTime(), this.s_adapter.myList.get(position).getTimeCreated()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						exp_time.setText(">1h");
+						e.printStackTrace();
+					}
+		           name.setText(this.s_adapter.myList.get(position).getUser().getName());
+		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		      
+		           time_created.setText(StaticHelpers.getTimeText(this.s_adapter.myList.get(position).getTimeCreated()));
+		           
+		           // set the venue boxes
+		           String venue_string = this.s_adapter.myList.get(position).getVenue().getName();
+		           List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
+		           
+		           LinearLayout b1 = (LinearLayout) dialog.findViewById(R.id.box_1_ds_sell);
+		           LinearLayout b2 = (LinearLayout) dialog.findViewById(R.id.box_2_ds_sell);
+		           LinearLayout b3 = (LinearLayout) dialog.findViewById(R.id.box_3_ds_sell);
+		           LinearLayout b4 = (LinearLayout) dialog.findViewById(R.id.box_4_ds_sell);
+		           
+		           for(int i = 0; i<items.size(); i++)
+		           {
+		           	if(i==0)
+		           	{
+		           		b1.setVisibility(View.VISIBLE);
+		           		v1.setText(items.get(i));
+		           	}
+		           	else if(i==1)
+		           	{
+		           		b2.setVisibility(View.VISIBLE);
+		           		v2.setText(items.get(i));
+		           	}
+		           	else if(i==2)
+		           	{
+		           		b3.setVisibility(View.VISIBLE);
+		           		v3.setText(items.get(i));
+		           	}
+		           	else if(i==3)
+		           	{
+		           		b4.setVisibility(View.VISIBLE);
+		           		v4.setText(items.get(i));
+		           	}
+		           }
+		           
+		           dialog.show();
+		           
+			        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+			        Display display = wm.getDefaultDisplay();
+			        Point size = new Point();
+			        display.getSize(size);
+			        int width = size.x;
+			        int height = size.y;
+				   
+				   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
+		           return;
+		       
+	    	   }
+	    	   
+	    	   int conv_pos = ConversationList.findConversationIndexByListingID(lid, other_person_uid);
+	    	   
+	    	   // if the conversation exists
+	    	   if(conv_pos != -1)
+	    	   {
+	    		   Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
+	    	       
+	    	       Message clicked_message = ConversationList.getConversations().get(conv_pos).getMostRecentMessage();
+
+	    	       User myUser = Self.getUser();
+	    	       nextScreen.putExtra("listing_id", clicked_message.getListing_id());
+	    	       nextScreen.putExtra("other_uid", other_person_uid);
+	    	       nextScreen.putExtra("myUser", myUser);
+
+	    	       startActivity(nextScreen);
+	    	       getActivity().overridePendingTransition(R.anim.slide_in_from_right,
+	    	               R.anim.slide_out_to_left);
+	    	   }
+	    	   else
+	    	   {
+	
+	    		   // if the conversation DOESN'T exist, we inflate a "first message" listing dialog
+
+		    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		    	   dialog.setContentView(R.layout.sell_list_dialog);
+	
+			       
+			       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d_sell);
+		           
+		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_d_sell);
+		           TextView exp_time = (TextView) dialog.findViewById(R.id.expiration_time_d_sell);
+		           TextView v1 = (TextView) dialog.findViewById(R.id.box_1_text_d_sell);
+		           TextView v2 = (TextView) dialog.findViewById(R.id.box_2_text_d_sell);
+		           TextView v3 = (TextView) dialog.findViewById(R.id.box_3_text_d_sell);
+		           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_d_sell);
+		           TextView time_created = (TextView) dialog.findViewById(R.id.sell_listing_time_created_d);
+		           TextView name = (TextView) dialog.findViewById(R.id.sell_listing_name_d);
+		           TextView price = (TextView) dialog.findViewById(R.id.price_sell_d);
+		           
+		           price.setText(Double.toString(this.s_adapter.myList.get(position).getPrice()));
+		           
+		           description.setText(this.s_adapter.myList.get(position).getMessageBody());
+		           try {
+						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.s_adapter.myList.get(position).getEndTime(), this.s_adapter.myList.get(position).getTimeCreated()));
+					} catch (ParseException e) {
+						// TODO Auto-generated catch block
+						exp_time.setText(">1h");
+						e.printStackTrace();
+					}
+		           name.setText(this.s_adapter.myList.get(position).getUser().getName());
+		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		      
+		           time_created.setText(StaticHelpers.getTimeText(this.s_adapter.myList.get(position).getTimeCreated()));
+		           // set the venue boxes
+		           String venue_string = this.s_adapter.myList.get(position).getVenue().getName();
+		           List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
+		           
+		           LinearLayout b1 = (LinearLayout) dialog.findViewById(R.id.box_1_d_sell);
+		           LinearLayout b2 = (LinearLayout) dialog.findViewById(R.id.box_2_d_sell);
+		           LinearLayout b3 = (LinearLayout) dialog.findViewById(R.id.box_3_d_sell);
+		           LinearLayout b4 = (LinearLayout) dialog.findViewById(R.id.box_4_d_sell);
+		           
+		           for(int i = 0; i<items.size(); i++)
+		           {
+		           	if(i==0)
+		           	{
+		           		b1.setVisibility(View.VISIBLE);
+		           		v1.setText(items.get(i));
+		           	}
+		           	else if(i==1)
+		           	{
+		           		b2.setVisibility(View.VISIBLE);
+		           		v2.setText(items.get(i));
+		           	}
+		           	else if(i==2)
+		           	{
+		           		b3.setVisibility(View.VISIBLE);
+		           		v3.setText(items.get(i));
+		           	}
+		           	else if(i==3)
+		           	{
+		           		b4.setVisibility(View.VISIBLE);
+		           		v4.setText(items.get(i));
+		           	}
+		           }
+		       
+		       
+		       // get the submit button and the edittext
+		       Button submit_message = (Button) dialog.findViewById(R.id.chatSendButton_d_sell);
+		       final EditText message_content_holder = (EditText) dialog.findViewById(R.id.messageEdit_d_sell);
+		       final int pos = position;
+		       
+		       // override the onClick method
+			   submit_message.setOnClickListener(new View.OnClickListener() {
+					 
+		            @Override
+		            public void onClick(View view) {
+		            	
+		            	// set the users
+		            	User sender = Self.getUser();
+		            	User receiver = s_adapter.myList.get(pos).getUser();
+	
+		            	// get the contents of the EditText field holding the message string to be sent
+		                String message_contents = message_content_holder.getText().toString();
+		                if(message_contents == null || (message_contents.length() == 0))
+		                	return;
+		          
+		                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
+		                
+		                // get current time
+		                Time now = new Time();
+		                now.setToNow();
+		                String time = now.format2445();
+		                Log.d("ListingsList", "s_adapter.myList.get(pos).getListingID() = " + s_adapter.myList.get(pos).getListingID());
+		                Message msg = new Message(sender, receiver, b_adapter.myList.get(pos).getListingID(), time, message_contents);
+		                Log.d("**RECEIVER**", "Receiver UID is " + receiver.getUID() + " because pos is " + Integer.toString(pos) + " and ListingID is " + s_adapter.myList.get(pos).getListingID());
+		                
+		                ConversationList.addMessage(msg);
+		                ConnectToServlet.sendMessage(msg);
+		                // clear the edittext
+		                message_content_holder.getText().clear();
+		                
+		                // hide the keyboard
+		                InputMethodManager imm = (InputMethodManager) getActivity().getSystemService(
+		                	      Context.INPUT_METHOD_SERVICE);
+		                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
+		                
+		              
+			            SelectionFragment.refreshConversationFragment();
+			            
+			            dialog.dismiss();
+	
+		            }
+		        });
+
+		       // show the dialog
+			   dialog.setCanceledOnTouchOutside(true); 
+			   
+			   // get the screen size of the device
+
+		        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
+		        Display display = wm.getDefaultDisplay();
+		        Point size = new Point();
+		        display.getSize(size);
+		        int width = size.x;
+		        int height = size.y;
+			   
+			   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
+		       dialog.show();
+		       
+	    	   }
 	       }
 	   
 	   }
@@ -406,7 +682,7 @@ public class ListingsList extends ListFragment
          	   		{
          		    	 Long l1 = getTimeDate(emp1.getTimeCreated()).getTime();
            			     Long l2 = getTimeDate(emp2.getTimeCreated()).getTime();
-           			     return l1.compareTo(l2); 	
+           			     return l2.compareTo(l1); 	
          	   		}
      		   	});
      	   	}
@@ -439,7 +715,7 @@ public class ListingsList extends ListFragment
                }
                else if(this.page_num==1) //Sell Listings page
                {
-            	 sc = new SLConnectGet(getActivity());
+            	 sc = new SLConnectGet(getActivity(), true);
             	 sc.execute();
                }
                
@@ -476,7 +752,7 @@ public class ListingsList extends ListFragment
                 	else if(page_num==1 && !first_time)
                 	{
                 		Log.d("frag visibility", "List frag visible..."); 
-                   	 	sc = new SLConnectGet(getActivity());
+                   	 	sc = new SLConnectGet(getActivity(), false);
                  	   	sc.execute();
                  	   	this.s_adapter.notifyDataSetChanged();
                 	}
@@ -486,9 +762,14 @@ public class ListingsList extends ListFragment
             else {}
         }
         
-        public void getPictures() {
+        public void getPicturesBuy() {
         	PictureTaskBuy pb_task = new PictureTaskBuy(getActivity());
       	   	pb_task.execute();
+        }
+        
+        public void getPicturesSell() {
+        	PictureTaskSell pl_task = new PictureTaskSell(getActivity());
+      	   	pl_task.execute();
         }
         
         private class PictureTaskBuy extends AsyncTask<Void, Void, Map<String, Bitmap>> {
@@ -557,6 +838,73 @@ public class ListingsList extends ListFragment
             }
 
         }
+        
+        private class PictureTaskSell extends AsyncTask<Void, Void, Map<String, Bitmap>> {
+
+        	Map<String, Bitmap> map = new HashMap<String, Bitmap>();
+        	private ProgressDialog progressBar;
+        	private Context context;
+        	
+        	public PictureTaskSell(Context context) {
+        		this.context = context;
+        	}
+        	
+            @Override
+	        protected void onPreExecute() {
+	           // super.onPreExecute();
+	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Finishing up...", true);
+	        }
+        	
+            @Override
+            public Map<String, Bitmap> doInBackground(Void... params) {
+                URL url = null;
+                Bitmap pic_bitmap = null;
+                //BitmapFactory.Options options;
+                
+                while (Self.getUser().getUID() == null && sell_entries_init == false) {
+   	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
+   	             		
+   	             try {
+   	                 Thread.sleep(100);
+   	             } catch (InterruptedException e) {
+   	                 e.printStackTrace();
+   	                 Log.d("waitForvalues", e.toString());
+   	             }
+   	         
+   	  		 }
+                Log.d("picture", Integer.toString(sellEntries.size()));
+                for(int i=0; i < sellEntries.size(); i++)
+                {
+	                try {
+	                	//options = new BitmapFactory.Options();
+	                	//options.inSampleSize = 2;
+	                	
+	                	// TODO: get the FBUID
+	                	url = new URL("https://graph.facebook.com/10152153150921342/picture?type=large");
+	                    //Log.d("picture", "URL is: " + url.toString());
+	                    pic_bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+	                    map.put("10152153150921342", pic_bitmap);
+	                } catch (MalformedURLException e) {
+	                    e.printStackTrace();
+	                    Log.d("picture", "Malformed URL!");
+	                } catch (IOException e) {
+	                    e.printStackTrace();
+	                    Log.d("picture", "IO Exception!");
+	                }
+                }
+                
+                return map;
+            }
+
+            @Override
+            protected void onPostExecute(Map<String, Bitmap> map) {
+            	progressBar.dismiss();
+                PictureCache.cachePicMapSell(map);
+                Log.d("picture", "Map size is: " + Integer.toString(map.size()));
+                setSLAdapter();
+            }
+
+        }
             
    
             
@@ -586,7 +934,7 @@ public class ListingsList extends ListFragment
         	    	  buyEntries = result;
         	    	  buy_entries_init = true;
         	    	  if(this.get_pics)
-        	    		  getPictures();
+        	    		  getPicturesBuy();
         	    	  
         	        }
         	    
@@ -614,9 +962,11 @@ public class ListingsList extends ListFragment
      		   private Context context;
      		   private ProgressDialog progressBar;
      	       int count;
+     	       boolean get_pics;
      	  
-     	        public SLConnectGet(Context context) {
+     	        public SLConnectGet(Context context, boolean get_pics) {
      	        	this.context = context;
+     	        	this.get_pics = get_pics;
      	        }
      	        
      	        @Override
@@ -630,6 +980,9 @@ public class ListingsList extends ListFragment
      	    	  Log.d("test", "PostExecute1");
      	    	  progressBar.dismiss();
      	    	  sellEntries = result;
+     	    	  sell_entries_init = true;
+     	    	 if(this.get_pics)
+     	    		 getPicturesSell();
      	    	  setSLAdapter();
      	        }
      	    

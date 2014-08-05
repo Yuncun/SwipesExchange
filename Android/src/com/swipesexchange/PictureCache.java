@@ -29,4 +29,16 @@ public class PictureCache {
 		pic_map_buy.putAll(src_pic_map);
 	}
 	
+	public static Bitmap getFBPicSell(String FBuid) {
+		return pic_map_sell.get(FBuid);
+	}
+	
+	public static void setPicMappingSell(String FBuid, Bitmap pic) {
+		pic_map_sell.put(FBuid, pic);
+	}
+	
+	public static void cachePicMapSell(Map<String, Bitmap> src_pic_map) {
+		pic_map_sell.putAll(src_pic_map);
+	}
+	
 }

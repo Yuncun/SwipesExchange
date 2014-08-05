@@ -27,6 +27,7 @@
         <activity
             android:name="com.swipesexchange.MainActivity"
             android:label="@string/app_name" 
+            
             android:uiOptions="splitActionBarWhenNarrow">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -39,7 +40,7 @@
         
          <activity android:name="com.swipesexchange.ConversationActivity" android:windowSoftInputMode="stateUnchanged"></activity>
 
-         <activity android:name="com.swipesexchange.NewListingFragmentBuy"></activity>
+         <activity android:name="com.swipesexchange.NewListingFragmentBuy" android:windowSoftInputMode="adjustPan"></activity>
         
         <receiver
             android:name=".GcmBroadcastReceiver"

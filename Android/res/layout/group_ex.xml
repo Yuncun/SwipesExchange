@@ -1,29 +1,41 @@
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
-    android:layout_height="200dp"
-    android:background="#CCFFFF"
+    android:layout_height="100dp"
+    android:background="@color/light_teal"
     android:clickable="true"
     android:orientation="vertical"
     android:paddingLeft="10dp"
-    android:paddingRight="10dp"
-    tools:context=".MainActivity" >
+    android:paddingRight="10dp" >
 
     <LinearLayout
         android:layout_width="match_parent"
-        android:layout_height="200dp"
+        android:layout_height="100dp"
         android:gravity="center_horizontal"
-        android:orientation="vertical" >
+        android:orientation="vertical" 
+       >
 
-        <EditText
-            android:id="@+id/timePicker1"
-            android:hint="@string/newListingEditTextHint"
-            android:gravity="top|left"
-            android:layout_width="match_parent"
-            android:layout_height="140dp"
-            android:layout_weight="0.88"
-            android:paddingLeft="10dp"
-            android:paddingRight="10dp" />
+           <EditText
+            android:id="@+id/messageEdit_nlbuy"
+            android:layout_width="fill_parent"
+            android:layout_height="50dp"
+            android:layout_marginBottom="4dp"
+            android:paddingLeft="4dp"
+            android:paddingTop="2dp"
+            android:paddingRight="2dp"
+            android:paddingBottom="2dp"
+            android:layout_marginTop="25dp"
+            android:hint="Enter a description"
+            android:background="@drawable/message_input_box"
+            
+            android:inputType="textMultiLine"
+            android:maxHeight="140dp"
+            android:maxLength="2000"
+     		android:focusable="true"
+            android:minLines="2"
+            android:scrollbars="vertical"
+            android:textSize="12sp"
+            />
 
     </LinearLayout>
 

@@ -1,8 +1,11 @@
 package com.swipesexchange;
 
+import java.text.ParseException;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.List;
 
+import sharedObjects.Self;
 import sharedObjects.SellListing;
 import android.content.Context;
 import android.graphics.Color;
@@ -12,13 +15,15 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.BaseAdapter;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 public class SellListAdapter  extends BaseAdapter
 {
     
     private Context myContext;
-    private List<SellListing> myList;
+    public List<SellListing> myList;
     List<String> VenueNames;
     List<String> UserNames;
     List<String> DescStartTime;
@@ -33,85 +38,7 @@ public class SellListAdapter  extends BaseAdapter
     {
             super();
             myContext=context;
-            myList = list;
-            
-            VenueNames = new ArrayList<String>();
-            UserNames = new ArrayList<String>();
-            DescStartTime = new ArrayList<String>();
-            DescEndTime = new ArrayList<String>();
-            DescAmount = new ArrayList<String>();
-            DescVenue = new ArrayList<String>();
-            DescPrice = new ArrayList<String>();
-            
-            String[] divider_names = new String[20];
-            //HeaderPositions = new ArrayList<Boolean>();
-           // List<String> Prices = new ArrayList<String>();
-            
-            if(myList.size() > 0)
-            {
-            	String venueCheck = myList.get(0).getVenue().getName();
-            num_dividers = 0;
-            for (int i = 0; i < myList.size(); ++i) {
-            	//if(myList.get(i).getVenue().getName() != venueCheck)
-            	//{
-            	//	HeaderPositions
-            	//}
-            		if(!(venueCheck.equals(myList.get(i).getVenue().getName())) || i==0)
-            		{
-            			SellListing bl = new SellListing();
-            			
-            			divider_names[num_dividers] = myList.get(i).getVenue().getName();
-            			bl.isSection = true;
-            			bl.setSection(divider_names[num_dividers]);
-            			myList.add(i, bl);
-            		    VenueNames.add(null);
-                        
-                        UserNames.add(null);
-                       // UserNames.add(((sellEntries.get(i)).getUser()).getName());
-                        DescStartTime.add(null);
-                        DescEndTime.add(null);
-                        //DescTime.add((sellEntries.get(i)).getEndTime());
-                        DescAmount.add(null);
-                        DescVenue.add(null);
-                        DescPrice.add(null);
-                        
-                        if(i+1 < myList.size())
-                        venueCheck = myList.get(i+1).getVenue().getName();
-                        
-                        num_dividers++;
-                        //add the real one
-                        /*
-                        VenueNames.add(((myList.get(i+1)).getVenue()).getName());
-                        
-                        UserNames.add(((myList.get(i+1)).getUser()).getName());
-                       // UserNames.add(((sellEntries.get(i)).getUser()).getName());
-                        DescStartTime.add((myList.get(i+1)).getStartTime());
-                        DescEndTime.add((myList.get(i+1)).getEndTime());
-                        //DescTime.add((sellEntries.get(i)).getEndTime());
-                        DescAmount.add(String.valueOf((myList.get(i+1)).getSwipeCount()));
-                        DescVenue.add(myList.get(i+1).getVenue().getName());
-                        venueCheck = myList.get(i+1).getVenue().getName();
-                        */
-            		}
-            		else
-            		{
-            		
-                    VenueNames.add(((myList.get(i)).getVenue()).getName());
-                    
-                    UserNames.add(((myList.get(i)).getUser()).getName());
-                   // UserNames.add(((sellEntries.get(i)).getUser()).getName());
-                    DescStartTime.add((myList.get(i)).getStartTime());
-                    DescEndTime.add((myList.get(i)).getEndTime());
-                    //DescTime.add((sellEntries.get(i)).getEndTime());
-                    DescAmount.add(String.valueOf((myList.get(i)).getSwipeCount()));
-                    DescVenue.add(myList.get(i).getVenue().getName());
-                    DescPrice.add("$" + String.valueOf((myList.get(i)).getPrice()));
-                    //DescAmount.add(String.valueOf((sellEntries.get(i)).getSwipeCount()));
-                    //Prices.add(String.valueOf((sellEntries.get(i)).getPrice()));
-            		}
-            }
-            }
-           
+            myList = list;	
     }
        
    
@@ -120,48 +47,84 @@ public class SellListAdapter  extends BaseAdapter
     public View getView(int position,  View view, ViewGroup parent) 
     {
     	LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-    	if (myList.get(position).isSection)
-    	{
-    		
-    		view= inflater.inflate(R.layout.test_text, null);
-    		TextView divider_name = (TextView) view.findViewById(R.id.test_inflate);
-    		divider_name.setText(myList.get(position).getSection());
-    		divider_name.setTypeface(null, Typeface.BOLD);
-    		view.setBackgroundColor(Color.BLACK);
-    	}
-    	else
-    	{
-                    // inflate the layout for each item of listView
-                    //LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-                    view = inflater.inflate(R.layout.sell_list_item, null);
-            
-                    TextView name = (TextView) view.findViewById(R.id.firstLine);
-                    TextView numRequested = (TextView) view.findViewById(R.id.firstLineRight);
-                    TextView time = (TextView) view.findViewById(R.id.secondLine);
-                    TextView price = (TextView) view.findViewById(R.id.secondLineRight);
-                   // TextView venue = (TextView) view.findViewById(R.id.thirdLine);
-                    
-                    name.setText(UserNames.get(position));
-                    numRequested.setText(DescAmount.get(position));
-                    price.setText(DescPrice.get(position));
-                    time.setText(DescStartTime.get(position) + " - " + DescEndTime.get(position));
-                    //venue.setText(DescVenue.get(position));
-                   
-                    int my_color = inflater.getContext().getResources().getColor(R.color.mycolor1);
-                    
-                    int my_color_white = Color.WHITE;
-                    
-                    if ((position+1) % 2 == 0)
-                    	view.setBackgroundColor(my_color_white);
-                    else
-                    	view.setBackgroundColor(my_color);
-                    	
-                    
-                    // Set the Sender number and smsBody to respective TextViews 
-    	}   
-    	
+
+        view = inflater.inflate(R.layout.sell_list_item, null);
+
+        TextView description = (TextView) view.findViewById(R.id.firstLine_sell);
+      
+        ImageView fb_pic = (ImageView) view.findViewById(R.id.fb_pic_sell);
+        TextView exp_time = (TextView) view.findViewById(R.id.expiration_time_sell);
+        TextView v1 = (TextView) view.findViewById(R.id.box_1_text_sell);
+        TextView v2 = (TextView) view.findViewById(R.id.box_2_text_sell);
+        TextView v3 = (TextView) view.findViewById(R.id.box_3_text_sell);
+        TextView v4 = (TextView) view.findViewById(R.id.box_4_text_sell);
+        TextView time_created = (TextView) view.findViewById(R.id.sell_listing_time_created);
+        TextView name = (TextView) view.findViewById(R.id.sell_listing_name);
+        TextView price = (TextView) view.findViewById(R.id.price_sell);
         
-                    return view;
+        description.setText(this.myList.get(position).getMessageBody());
+        time_created.setText(StaticHelpers.getTimeText(this.myList.get(position).getTimeCreated()));
+        name.setText(this.myList.get(position).getUser().getName());
+        fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+        price.setText(Double.toString(this.myList.get(position).getPrice()));
+  
+        try {
+			exp_time.setText(StaticHelpers.figureOutExpirationTime(this.myList.get(position).getTimeCreated(), this.myList.get(position).getEndTime()));
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			exp_time.setText(">1h");
+			e.printStackTrace();
+		}
+
+        // set the venue boxes
+        String venue_string = this.myList.get(position).getVenue().getName();
+        List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
+        
+        LinearLayout b1 = (LinearLayout) view.findViewById(R.id.box_1_sell);
+        LinearLayout b2 = (LinearLayout) view.findViewById(R.id.box_2_sell);
+        LinearLayout b3 = (LinearLayout) view.findViewById(R.id.box_3_sell);
+        LinearLayout b4 = (LinearLayout) view.findViewById(R.id.box_4_sell);
+        
+        for(int i = 0; i<items.size(); i++)
+        {
+        	if(i==0)
+        	{
+        		b1.setVisibility(View.VISIBLE);
+        		v1.setText(items.get(i));
+        	}
+        	else if(i==1)
+        	{
+        		b2.setVisibility(View.VISIBLE);
+        		v2.setText(items.get(i));
+        	}
+        	else if(i==2)
+        	{
+        		b3.setVisibility(View.VISIBLE);
+        		v3.setText(items.get(i));
+        	}
+        	else if(i==3)
+        	{
+        		b4.setVisibility(View.VISIBLE);
+        		v4.setText(items.get(i));
+        	}
+        }
+
+       
+        int my_color = inflater.getContext().getResources().getColor(R.color.light_teal);
+        
+        int my_color_white = Color.WHITE;
+        
+        
+        Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
+       
+        //TODO: pick a better color/indicator that the client is involved in a listing
+       if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()) || 
+    		   this.myList.get(position).getUser().getUID().equals(Self.getUser().getUID()))
+        	view.setBackgroundColor(my_color);
+       else
+        	view.setBackgroundColor(my_color_white);
+	
+       return view;
     }
 
     public Object getItem(int position) {
@@ -173,10 +136,6 @@ public class SellListAdapter  extends BaseAdapter
         // TODO Auto-generated method stub
         return position;
     }
-    
-  
-
-
 
 	@Override
 	public int getCount() {

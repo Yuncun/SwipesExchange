@@ -1,6 +1,7 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="wrap_content"
-    android:layout_height="wrap_content" >
+    android:layout_height="wrap_content"
+    android:focusable="true" >
 
     <CheckedTextView
         android:id="@+id/group3_text_left"
@@ -12,7 +13,8 @@
         android:paddingLeft="10dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
-        android:textSize="15sp" />
+        android:textSize="12sp"
+        android:textStyle="bold" />
 
     <TextView
         android:id="@+id/group3_text_right"
@@ -24,6 +26,25 @@
         android:paddingLeft="10dp"
         android:paddingRight="5dp"
         android:paddingTop="10dp"
-        android:textSize="15sp" />
+        android:textSize="12sp"
+       />
+    
+        <RelativeLayout 
+        android:layout_height="15dp"
+        android:layout_width="40dp"
+        android:background="@drawable/half_rounded_rectangle"
+    	android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        >
+        
+             <ImageView
+        android:id="@+id/expand_arrow_buy_2"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:rotation="90"
+        android:layout_alignParentBottom="true"
+        android:layout_centerHorizontal="true"
+        android:src="@drawable/ic_action_next_item" />
+    </RelativeLayout>
 
 </RelativeLayout>

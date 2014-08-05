@@ -1,0 +1,20 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="40dp"
+     android:focusable="true"
+     android:background="@color/mycolor1"
+     >
+
+
+
+    <TextView
+        android:id="@+id/group1_text_right"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_centerInParent="true"
+        android:gravity="center"
+        android:textSize="14sp"
+        android:textColor="@color/White"
+        android:textStyle="bold" />"
+
+</RelativeLayout>

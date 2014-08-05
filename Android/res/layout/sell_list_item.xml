@@ -1,72 +1,218 @@
 <RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="fill_parent"
-    android:layout_height="50dip"
-    android:padding="5dip" >
+    android:layout_height="wrap_content"
+    
+    android:minHeight="85dp"
+     >
+     
+        <ImageView
+        android:id="@+id/fb_pic_sell"
+        android:layout_width="40dp"
+        android:layout_height="40dp"
+       
+        android:scaleType="centerCrop"
+         />
+        
+             <TextView
+        android:id="@+id/expiration_time_sell"
+        android:layout_width="40dp"
+        android:layout_height="wrap_content"
+        android:text=">22.5h"
+        android:layout_below="@id/fb_pic_sell"
+        android:textSize="12sp"
+        android:ellipsize="none"
+        android:scrollHorizontally="false"
+        android:textStyle="bold"
+        android:paddingTop="5dp"
+       
+        android:gravity="center" />
+             
 
-    <TextView
-        android:id="@+id/firstLine"
+     
+    <RelativeLayout
+        android:id="@+id/sell_listing_top_bar"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:layout_toRightOf="@id/fb_pic_sell"
+        
+        >
+        
+        <TextView
+        android:id="@+id/sell_listing_name"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="[Default Name]"
+        android:textSize="14sp"
+        android:textStyle="bold"
+        android:layout_marginLeft="5dp"
+        android:padding="2dp"
+        android:gravity="center"/>
+            
+        <TextView
+        android:id="@+id/sell_listing_time_created"
+        android:layout_width="wrap_content"
+        android:layout_height="20dp"
+        android:text="Time Created"
+        
+        android:textSize="12sp"
+        android:textStyle="italic"
+        android:layout_alignParentRight="true"
+        android:layout_marginRight="5dp"
+        android:padding="2dp"
+        android:gravity="center" />
+        
+        
+ 
+        
+        
+    </RelativeLayout>
+
+
+    
+  
+
+
+    <RelativeLayout
+        android:id="@+id/description_bar_sell"
+        android:layout_height="wrap_content"
+        android:layout_width="match_parent"
+        android:layout_below="@id/sell_listing_top_bar"
+        android:layout_toRightOf="@id/fb_pic_sell"
+        android:paddingLeft="5dp">
+    
+             <TextView
+        android:id="@+id/firstLine_sell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:gravity="center_vertical"
-        android:paddingLeft="5dp"
-        android:paddingTop="0dp"
-        android:text="Example application"
-        android:textSize="16sp"
-        android:textStyle="bold" />
+        android:lineSpacingExtra="2dp"
+        android:padding="1dp"
+        android:layout_marginRight="5dp"
+        android:singleLine="false"
+         android:maxLines="2"
+          android:ellipsize="end"
+        android:text="Description"
+        android:textSize="12sp" />
 
-    <ImageView
-        android:id="@+id/forward"
+    </RelativeLayout>
+     
+
+  
+        
+          <RelativeLayout 
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/description_bar_sell"
+        android:layout_marginTop="2dp"
+       
+        android:paddingBottom="4dp"
+        android:layout_marginLeft="45dp"
+        
+      >
+        
+        <LinearLayout
+        android:id="@+id/box_1_sell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:padding="2dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_1_text_sell"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                 
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/box_2_sell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:padding="2dp"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@id/box_1_sell"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_2_text_sell"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+      <LinearLayout
+        android:id="@+id/box_3_sell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:background="@drawable/rectangle"
+        android:layout_toRightOf="@id/box_2_sell"
+        android:padding="2dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_3_text_sell"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+        <LinearLayout
+        android:id="@+id/box_4_sell"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_toRightOf="@id/box_3_sell"
+        android:background="@drawable/rectangle"
+        android:padding="2dp"
+        android:layout_marginLeft="10dp"
+        android:visibility="gone" >
+
+              <TextView
+                  android:id="@+id/box_4_text_sell"
+                  android:layout_width="wrap_content"
+                  android:layout_height="wrap_content"
+                  android:gravity="center"
+                  android:text="Venue"
+                  android:textSize="12sp"
+                  android:textStyle="bold" />
+
+    </LinearLayout>
+    
+ 
+
+    </RelativeLayout>
+        
+                 <ImageView
+        android:id="@+id/forward_sell"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_alignParentRight="true"
         android:layout_centerVertical="true"
         android:src="@drawable/ic_action_next_item" />
 
-    <TextView
-        android:id="@+id/secondLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_below="@id/firstLine"
-        android:paddingLeft="5dp"
-        android:text="Description"
-        android:textColor="#808080"
-        android:textSize="12sp" />
-
-    <TextView
-        android:id="@+id/thirdLine"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_toRightOf="@id/secondLine"
-        android:paddingLeft="2dp"
-        android:textColor="#808080"
-        android:textSize="12sp" />
-
-    <LinearLayout
-        android:id="@+id/boxSell"
-        android:layout_width="30dp"
-        android:layout_height="30dp"
-        android:layout_toLeftOf="@id/forward"
-        android:background="@drawable/rectangle"
-        android:paddingTop="0dp" >
-
-        <TextView
-            android:id="@+id/firstLineRight"
-            android:layout_width="fill_parent"
-            android:layout_height="fill_parent"
-            android:gravity="center"
-            android:text="Number requested"
-            android:textSize="14sp"
-            android:textStyle="bold" />
-    </LinearLayout>
-
-    <TextView
-        android:id="@+id/secondLineRight"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_alignParentRight="true"
-        android:layout_below="@id/boxSell"
-        android:paddingRight="25dp"
-        android:textColor="#808080"
-        android:textSize="12sp" />
+           <TextView
+               android:id="@+id/price_sell"
+               android:layout_width="40dp"
+               android:layout_height="wrap_content"
+               android:layout_below="@id/expiration_time_sell"
+               android:paddingTop="2dp"
+               android:gravity="center"
+               android:text="$2"
+               android:textStyle="bold"
+               android:textSize="12sp" />
 
 </RelativeLayout>

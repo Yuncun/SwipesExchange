@@ -1,9 +1,18 @@
 package com.swipesexchange;
 
 import java.util.ArrayList;
+import java.util.Calendar;
 
+import com.google.gson.Gson;
+
+import sharedObjects.BuyListing;
 import sharedObjects.Message;
+import sharedObjects.MsgStruct;
+import sharedObjects.Self;
+import sharedObjects.User;
+import sharedObjects.Venue;
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -30,6 +39,13 @@ public class NewListingFragmentBuy extends FragmentActivity {
         private int page_num;
         ActionBar action_bar;
         
+    	Button yes_button;
+    	Button cancel_button;
+    	Dialog submit_dialog;
+    	
+    	Button ok_button;
+    	Dialog time_error_dialog;
+        
            
         @Override
         protected void onCreate(Bundle savedInstanceState) {
@@ -51,21 +67,12 @@ public class NewListingFragmentBuy extends FragmentActivity {
 				public void onClick(View v) {
 					ClosedInfo.setMinimized(false);
 					Intent intent = new Intent(NewListingFragmentBuy.this, MainActivity.class);
-					//startActivityForResult(intent, RESULT_OK);
 					setResult(RESULT_OK, intent); 
 					finish();
 				}
 			});
 	        
 
-        	/*if(listing_type.equals("buy"))
-        	{
-        		frag = new NLBuy();
-		        FragmentManager fm = getSupportFragmentManager();
-		        fm.beginTransaction().add(R.id.new_listing_buy_frag, frag).commit();
-        	}
-	        */
-        	
 	        action_bar = this.getActionBar();
 	        action_bar.setNavigationMode(ActionBar.NAVIGATION_MODE_STANDARD);
 	       
