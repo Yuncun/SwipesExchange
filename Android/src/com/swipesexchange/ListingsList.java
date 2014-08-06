@@ -28,6 +28,7 @@ import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
 import android.graphics.Point;
+import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -140,6 +141,8 @@ public class ListingsList extends ListFragment
 	    		   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		    	   dialog.setContentView(R.layout.buy_list_dialog_self);
 		    	   
+		    	   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xE6FFFFFF));
+		    	   
 		    	   TextView description = (TextView) dialog.findViewById(R.id.firstLine_ds);
 		           
 		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_ds);
@@ -250,7 +253,7 @@ public class ListingsList extends ListFragment
 		    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		    	   dialog.setContentView(R.layout.buy_list_dialog);
 	
-			       
+		    	   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xE6FFFFFF));
 			       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d);
 		           
 		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_d);
@@ -388,7 +391,7 @@ public class ListingsList extends ListFragment
 	    		   // inflate the dialog with delete button
 	    		   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		    	   dialog.setContentView(R.layout.sell_list_dialog_self);
-		    	   
+		    	   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xE6FFFFFF));
 		    	   TextView description = (TextView) dialog.findViewById(R.id.firstLine_ds_sell);
 		           
 		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_ds_sell);
@@ -500,7 +503,7 @@ public class ListingsList extends ListFragment
 		    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 		    	   dialog.setContentView(R.layout.sell_list_dialog);
 	
-			       
+		    	   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xE6FFFFFF));
 			       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d_sell);
 		           
 		           ImageView fb_pic = (ImageView) dialog.findViewById(R.id.fb_pic_d_sell);

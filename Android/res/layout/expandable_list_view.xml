@@ -1,17 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
     android:id="@+id/create_sell"
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:orientation="vertical" >
 
     <ExpandableListView
-        android:id="@+id/exlist"
+        android:id="@+id/exlistsell"
         android:layout_width="match_parent"
-        android:layout_height="0dp"
+        android:layout_height="350dp"
         android:layout_weight="1"
+        android:descendantFocusability="beforeDescendants"
         android:divider="#D8D8D8"
         android:dividerHeight="2dp"
         android:groupIndicator="@null" />
+    
+    <View
+        android:id="@+id/bottom_bar_ex_lv_sell"
+        android:layout_width="match_parent"
+        android:layout_height="2dp"
+        android:layout_below="@id/exlistsell"
+        android:background="@color/light_grey"
+        />
+    
+    <Button 
+        android:id="@+id/new_sell_listing_submit"
+        android:layout_height="35dp"
+        android:layout_width="wrap_content"
+        android:layout_below="@id/bottom_bar_ex_lv_sell"
+        android:gravity="center"
+        android:layout_marginTop="5dp"
+        android:layout_centerHorizontal="true"
+        android:background="@drawable/rectangle"
+        android:text="Submit Listing"
+        android:textSize="12sp"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        
+        />
 
-</LinearLayout>
+</RelativeLayout>

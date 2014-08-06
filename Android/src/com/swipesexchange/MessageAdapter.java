@@ -24,8 +24,12 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
 import android.widget.Button;
+import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.Toast;
 
@@ -36,6 +40,8 @@ public class MessageAdapter extends BaseAdapter {
 	  private List<String> sender_names;
 	  private List<String> sender_ids;
 	  private List<String> message_texts;
+	  public List<Boolean> first_time;
+	  public boolean deletion_mode = false;
 
     public MessageAdapter(Context context, Stack<Conversation> list) 
     {
@@ -62,8 +68,14 @@ public class MessageAdapter extends BaseAdapter {
 	            		
 	            	}
             }
+            
+            this.first_time = new ArrayList<Boolean>(my_list.size());
+            for(int i=0; i < my_list.size(); i++)
+            	this.first_time.add(true);
            
     }
+    
+  
        
    
     // getView method is called for each item of ListView
@@ -80,7 +92,7 @@ public class MessageAdapter extends BaseAdapter {
         //TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
         TextView text = (TextView) view.findViewById(R.id.message_text);
         TextView time = (TextView) view.findViewById(R.id.message_time);
-        Button trashButtonButton = createTrashButton(view, position);
+        LinearLayout trashButtonButton = createTrashButton(view, position);
         String sender_string = "";
         
         
@@ -111,9 +123,41 @@ public class MessageAdapter extends BaseAdapter {
     	  
        
     }
-    private Button createTrashButton(final View v, final int position){
+    
+    public void showDeletionTags() {
+    
+    }
+    
+    
+    private LinearLayout createTrashButton(final View v, final int position){
    	 //@ES - Deletion
-       Button trashButton = (Button) v.findViewById(R.id.trashButton);
+       final LinearLayout trashButton = (LinearLayout) v.findViewById(R.id.trashButton_layout);
+       
+      	final Animation animationSlideInLeft = AnimationUtils.loadAnimation(v.getContext(),
+		         R.anim.slide_in_from_right);
+		animationSlideInLeft.setDuration(500);
+		
+		final Animation animationSlideOutRight = AnimationUtils.loadAnimation(v.getContext(),
+		         R.anim.slide_out_to_right);
+		animationSlideOutRight.setDuration(500);
+		
+		animationSlideOutRight.setAnimationListener(new Animation.AnimationListener() {
+            @Override
+            public void onAnimationStart(Animation animation) {
+
+            }
+
+            @Override
+            public void onAnimationEnd(Animation animation) {
+                 trashButton.setVisibility(View.GONE);
+            }
+
+            @Override
+            public void onAnimationRepeat(Animation animation) {
+
+            }
+        });
+		
        trashButton.setOnClickListener(new View.OnClickListener() {
 			 
            @Override
@@ -121,6 +165,9 @@ public class MessageAdapter extends BaseAdapter {
 
            	final Dialog delete_dialog = new Dialog(v.getContext(), R.style.CustomDialogTheme);
            	delete_dialog.setContentView(R.layout.dialog_submit);
+     
+			   
+			
 				Button cancel_button = (Button) delete_dialog.findViewById(R.id.Cancel_Button);
 		 		Button yes_button = (Button) delete_dialog.findViewById(R.id.Yes_Button);
 				
@@ -132,8 +179,10 @@ public class MessageAdapter extends BaseAdapter {
                    public void onClick(View view) {
                    	//cancel
                    	delete_dialog.dismiss();
+                   	
                    }
                });
+			
 				
 				//yes_button.setTag(position); //Genius way of passing an argument into onclick
 				yes_button.setOnClickListener(new View.OnClickListener() {
@@ -149,6 +198,21 @@ public class MessageAdapter extends BaseAdapter {
 			delete_dialog.show();				
 			}  
        }); 
+       
+       if(deletion_mode) {
+	       trashButton.startAnimation(animationSlideInLeft);
+	       trashButton.setVisibility(View.VISIBLE);
+       }
+       else if(this.first_time.get(position))
+       {
+    	   first_time.set(position, false);
+    	   trashButton.setVisibility(View.GONE);
+       }
+       else 
+       {
+    	   trashButton.startAnimation(animationSlideOutRight);
+       }
+       
        return trashButton;
    }
     

@@ -11,6 +11,13 @@ import java.util.List;
 
 
 
+
+
+
+
+
+
+
 import sharedObjects.Message;
 import sharedObjects.Self;
 import sharedObjects.SellListing;
@@ -31,9 +38,16 @@ import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
+import android.view.View.OnClickListener;
+import android.view.animation.Animation;
+import android.view.animation.AnimationUtils;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.LinearLayout;
 import android.widget.ListView;
+import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 public class MessagesFragment extends ListFragment {
 
@@ -45,6 +59,7 @@ public class MessagesFragment extends ListFragment {
     private ConversationList c_list;
     MessageAdapter adapter;
     private int page_num;
+    private TextView edit_button_text;
     
     
    static MessagesFragment newInstance(int num, MainActivity my_activity) {
@@ -71,6 +86,15 @@ public class MessagesFragment extends ListFragment {
    @Override
    public void onResume() {
 	   super.onResume();
+	   if(adapter!=null)
+	   {
+		   for(int i=0; i<adapter.first_time.size(); i++)
+		   {
+			   adapter.first_time.set(i, true);
+		   }
+	   		adapter.deletion_mode = false;
+	   		edit_button_text.setText("Edit");
+	   }
 	   this.updateFragmentWithMessage();
    }
    
@@ -97,6 +121,39 @@ public class MessagesFragment extends ListFragment {
            Bundle savedInstanceState) {
 
        View view = inflater.inflate(R.layout.message_overview, container, false);
+       
+       RelativeLayout edit_button = (RelativeLayout) view.findViewById(R.id.edit_messages_button);
+       edit_button_text = (TextView) view.findViewById(R.id.edit_messages_text);
+       edit_button.setOnClickListener(new OnClickListener() {
+
+			@Override
+			public void onClick(View arg0) {
+				
+				final Animation animationFadeOut = AnimationUtils.loadAnimation(arg0.getContext(),
+				         android.R.anim.fade_out);
+				final Animation animationFadeIn = AnimationUtils.loadAnimation(arg0.getContext(),
+				         android.R.anim.fade_in);
+				
+				if(adapter.deletion_mode==true)
+				{
+					adapter.deletion_mode = false;
+					edit_button_text.startAnimation(animationFadeOut);
+					edit_button_text.setText("Edit");
+					edit_button_text.startAnimation(animationFadeIn);
+				}
+				else
+				{
+					adapter.deletion_mode = true;
+					edit_button_text.startAnimation(animationFadeOut);
+					edit_button_text.setText("Done");
+					edit_button_text.startAnimation(animationFadeIn);
+				}
+				
+				adapter.notifyDataSetChanged();
+			}
+    	   
+       });
+       
        LocalBroadcastManager.getInstance(getActivity()).registerReceiver(mMessageReceiver,
     		      new IntentFilter("message_received"));
        return view;
@@ -115,6 +172,8 @@ public class MessagesFragment extends ListFragment {
 		 if(this.adapter != null)
 			 this.adapter.addAndUpdate();
 	 }
+   
+ 
    
    @Override
    public void onListItemClick(ListView l, View v, int position, long id) {

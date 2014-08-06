@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+    
+       <LinearLayout
+        android:id="@+id/buttonbar_sl"
+        style="@android:style/ButtonBar"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:background="@color/holo_light_background"
+        android:focusable="true" 
+        android:focusableInTouchMode="true" 
+        
+        android:orientation="horizontal" >
+    
+    <RelativeLayout
+            android:id="@+id/go_back_sl"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" >
+
+            <ImageView
+                android:id="@+id/back_arrow_sl"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4.4dp"
+                android:rotation="180"
+                android:src="@drawable/ic_action_next_item" />
+
+            <TextView
+                android:id="@+id/close_sl_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/back_arrow_sl"
+                android:background="@android:color/transparent"
+                android:paddingTop="3.9dp"
+                android:textStyle="bold"
+                android:text="Back"
+                android:textColor="@color/mycolor1"
+                android:textSize="14sp" />
+        </RelativeLayout>
+        
+    </LinearLayout>
+    
+   <fragment
+        android:id="@+id/new_listing_sell_frag"
+        android:name="com.swipesexchange.NLSell"
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent"
+        android:layout_below="@id/buttonbar_sl" />
+
+  
+
+
+</RelativeLayout>

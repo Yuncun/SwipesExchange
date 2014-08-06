@@ -357,12 +357,6 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 			case 1:
 				l_frag = ListingsList.newInstance(position, mActivity, l);
 				return l_frag;
-				/*
-			case 2:
-				return NewListingFragmentBuy.newInstance(position, mActivity);
-			case 3:
-				return NewListingFragment.newInstance(position, mActivity);
-				*/
 			case 2:
 				m_frag = MessagesFragment.newInstance(position, mActivity);
 				return m_frag;
@@ -386,12 +380,6 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 				return getString(R.string.title_section1);
 			case 1:
 				return getString(R.string.title_section2);
-				/*
-			case 2:
-				return getString(R.string.title_section4);
-			case 3:
-				return getString(R.string.title_section5);
-				*/
 			case 2:
 				return getString(R.string.title_section6);
 			

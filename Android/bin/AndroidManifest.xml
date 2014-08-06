@@ -41,6 +41,8 @@
          <activity android:name="com.swipesexchange.ConversationActivity" android:windowSoftInputMode="stateUnchanged"></activity>
 
          <activity android:name="com.swipesexchange.NewListingFragmentBuy" android:windowSoftInputMode="adjustPan"></activity>
+         
+         <activity android:name="com.swipesexchange.NewListingFragment" android:windowSoftInputMode="adjustPan"></activity>
         
         <receiver
             android:name=".GcmBroadcastReceiver"

@@ -249,9 +249,9 @@ public class MainActivity extends FragmentActivity {
 	    			 
 	    			@Override
 	    			public void onClick(View v) {
-	    					
-	    					//actionBar.setSelectedNavigationItem(3);
-	    				
+	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragment.class);
+	    				 nextScreen.putExtra("new_listing_type", "sell");
+	    				 startActivity(nextScreen);
 	    			}
 	    		});
 	    		
