@@ -139,14 +139,30 @@ public class NLBuy extends Fragment {
 		                    	 //Convert the timePicker values into a format that is readable by us
 		                    	 Time endTimeFormatter = new Time();
 		                    	 Calendar myEndTimeCal = Calendar.getInstance();
+		                    	 
+		                    	 Calendar nowCal = Calendar.getInstance();
+		                    	 
 		                    	 myEndTimeCal.set(Calendar.HOUR_OF_DAY, adapter.getEndHours());
 		                    	 myEndTimeCal.set(Calendar.MINUTE, adapter.getEndMinutes());
+		                    	 
+		                    	 //If the time selected is "before" the current time (which can be determined as PST + 7)
+		                    	 //TODO: Change hardcodes
+		                    	 
+		                    	 Calendar myEndTimeCal_TEMP = Calendar.getInstance();
+		                    	 myEndTimeCal_TEMP.setTimeInMillis(myEndTimeCal.getTimeInMillis());
+		                    	 myEndTimeCal_TEMP.add(Calendar.HOUR, 7);
+		                    	// myEndTimeCal.add(Calendar.HOUR, 7);
+		                    	 if (nowCal.after(myEndTimeCal_TEMP)){
+		                    		 myEndTimeCal.add(Calendar.DATE, 1);
+		                    	 }
+		                    	 
+		                    	 
 		                    	 endTimeFormatter.set(myEndTimeCal.getTimeInMillis());
 		                    	 //Set endTime, correctly formatted
 		                    	 String endTimeFormatted = endTimeFormatter.format2445();
 		                    	 sl.setEndTime(endTimeFormatted);
 		                    	 
-		                    	 Calendar nowCal = Calendar.getInstance();
+
 		                    	 Time now = new Time();
 		                    	 now.set(nowCal.getTimeInMillis());
 		                    	

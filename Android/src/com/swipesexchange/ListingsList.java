@@ -632,22 +632,26 @@ public class ListingsList extends ListFragment
 	   
 	   }
     
-	   private synchronized boolean deleteListingByLid(String lid){
+	   private boolean deleteListingByLid(String lid){
 		   /**
 		    * Used to delete a listing - Performs action locally, and calls the connectToServlet function to delete from server
 		    */
+		   Log.d("DELETE LISTING", "Reached deleteListingByLID in listings list, LID IS, " + lid);
+		   Log.d("DELETE LISTING", "Buy Entries contains " + buyEntries.size() + "elements");
+		   String aggregateBLIDs = "";
 		   for(BuyListing bl : buyEntries){
-			   if (bl.getListingID() == lid){
+			   aggregateBLIDs += bl.getListingID() + " ";
+			   if (bl.getListingID().equals(lid)){
 				   ConnectToServlet.deleteListing(bl);
 				   buyEntries.remove(bl);
 				   this.b_adapter.notifyDataSetChanged();
-				   //ListingsUpdateTimer.toggleJustSubmittedListing();
+				  // ListingsUpdateTimer.toggleJustSubmittedListing();
 				   return true;
 			   }
 		   }
-		   
+		   Log.d("DELETE LISTING", "Buy Entries IDs..." + aggregateBLIDs);
 		   for (SellListing sl : sellEntries){
-			   if (sl.getListingID() == lid){
+			   if (sl.getListingID().equals(lid)){
 				   ConnectToServlet.deleteListing(sl);
 				   sellEntries.remove(sl);
 				   this.s_adapter.notifyDataSetChanged();
@@ -746,9 +750,7 @@ public class ListingsList extends ListFragment
             super.setUserVisibleHint(isVisibleToUser);
             if (isVisibleToUser) 
             { 
-            	if (ListingsUpdateTimer.shouldListBeUpdatedAgain()){
-            		
-            		if(page_num==0 && !first_time)
+            		if(page_num==0 && !first_time && ListingsUpdateTimer.shouldListBeUpdatedAgain(0))
                 	{
                 		
                 		Log.d("frag visibility", "Buy frag visible..."); 
@@ -757,15 +759,13 @@ public class ListingsList extends ListFragment
                  	    setBLAdapter();
                  	   	this.b_adapter.notifyDataSetChanged();
                 	}
-                	else if(page_num==1 && !first_time)
+                	else if(page_num==1 && !first_time && ListingsUpdateTimer.shouldListBeUpdatedAgain(1))
                 	{
                 		Log.d("frag visibility", "List frag visible..."); 
                    	 	sc = new SLConnectGet(getActivity(), false);
                  	   	sc.execute();
                  	   	this.s_adapter.notifyDataSetChanged();
-                	}
-            	}
-                     	
+                	}     	
             }
             else {}
         }

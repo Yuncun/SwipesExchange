@@ -16,42 +16,23 @@ public class StaticHelpers {
 				 * Figure out how much time is left until expiry of listing, based on listing creation time and listing end time
 				 * We will receive both times in "Old Format". Returns a simplified string to represent time, like ">2.5 hrs"
 				 */
-				final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
-				Log.d("timeCreated is ", "TIME CREATED : " + timeCreated + " and TIME ENDED :  "+ endTime);
-				SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
-				Date dateCreated = sdf.parse(timeCreated);
-				Date endDate = sdf.parse(endTime);
-				
-				Calendar calCreated = Calendar.getInstance();
-				calCreated.setTime(dateCreated);
-				
-				Calendar calEnded = Calendar.getInstance();
-				calEnded.setTime(endDate);
-
-				
-				int endDateHours = calEnded.get(Calendar.HOUR_OF_DAY);
-				int dateCreatedHours = calCreated.get(Calendar.HOUR_OF_DAY);
-				int endDateMins = calEnded.get(Calendar.MINUTE);
-				int dateCreatedMins = calCreated.get(Calendar.MINUTE);
-				if (endDateHours<dateCreatedHours || (endDateHours==dateCreatedHours && endDateMins < dateCreatedMins)){
-					//We picked a time "before", so we need to add 24 hrs to the difference
-					endDateHours+=24;
-				}
-				
-				int diffHours = endDateHours - dateCreatedHours;
-				int diffMins = endDateMins - dateCreatedMins;
-				if (diffMins<0)
-					diffMins+=60;
-				
-				String simple_diffmins = "";
-				
-				if (diffMins > 30){
-					simple_diffmins = ".5";
-				}
-
-				Log.d("figureoutime: ", ">"+Integer.toString(diffHours)+simple_diffmins+"h");
-				return ">"+Integer.toString(diffHours)+simple_diffmins+"h";
+		final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+		Log.d("timeCreated is ", "TIME CREATED : " + timeCreated + " and TIME ENDED :  "+ endTime);
+		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+		//Date dateCreated = sdf.parse(timeCreated);
+		Date endDate = sdf.parse(endTime);
 		
+		Calendar calCreated = Calendar.getInstance();
+		Date timeNowDate = calCreated.getTime();
+		//timeNowDate is current time
+		//endDate is date when listing should expire
+		
+		long differenceMs = endDate.getTime() - timeNowDate.getTime();
+		long differenceMin = differenceMs/(1000*60);
+		long differenceHr = differenceMin / 60 + (differenceMin % 60 == 0 ? 0 : 1);
+		Log.d("long differenceHr = differenceMin / 60 + (differenceMin % 60 == 0 ? 0 : 1);", "Differencemin = " + Long.toString(differenceMin) + " and endDate was " + endDate.getTime() + " and nowDate is " + timeNowDate.getTime());
+		
+		return "<" + Long.toString(differenceHr);
 		
 
 	}

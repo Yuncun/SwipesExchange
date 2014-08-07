@@ -1,5 +1,7 @@
 package com.swipesexchange;
 
+import java.util.Calendar;
+
 import android.text.format.Time;
 import android.util.Log;
 
@@ -12,42 +14,36 @@ public class ListingsUpdateTimer {
 	 *  This circumvents the nuisance of the half second wait every time we switch tabs
 	 *  
 	 */
-	private static int minuteSinceLastUpdate = new Time().minute;
-	private static int secondSinceLastUpdate = new Time().second;
+	private static long[] timeOfLastUpdate = {Calendar.getInstance().getTimeInMillis(), Calendar.getInstance().getTimeInMillis()};
+	
+	private static final long periodBetweenUpdatesMs = 1000*15; //30 seconds
 	
 	private static boolean justSubmittedAListing = false;
 	
 	
-	public static boolean shouldListBeUpdatedAgain()
+	public static boolean shouldListBeUpdatedAgain(int tabIndex)
 	{
-		Time timeNow = new Time();
-		int minuteNow = timeNow.minute;
-		int secondsNow = timeNow.second;
+   	 
+	   	 Calendar now = Calendar.getInstance();
+	   	 long nowMs = now.getTimeInMillis();
 		
 		if (justSubmittedAListing==true){
 			Log.d("ListingUpdateTimer", "Updating because recent submission locally");
 			justSubmittedAListing = false;
-			minuteSinceLastUpdate = minuteNow;
-			secondSinceLastUpdate = secondsNow;
+			timeOfLastUpdate[tabIndex] = nowMs;
 			return true;
 		}
 		
-		if (minuteNow >= minuteSinceLastUpdate){
-			if (((minuteNow-minuteSinceLastUpdate == 1)&&((60-secondSinceLastUpdate)+secondsNow)<60) || (minuteNow-minuteSinceLastUpdate == 0)){
-				//if the minute difference is only 1, check if 60 seconds has elapsed. 
-				Log.d("ListingUpdateTimer", "Time elapsed between last update and now is under 60 second, update false");
-				minuteSinceLastUpdate = minuteNow;
-				secondSinceLastUpdate = secondsNow;
+		if (nowMs <= periodBetweenUpdatesMs + timeOfLastUpdate[tabIndex]){
+				Log.d("ListingUpdateTimer", "Time elapsed between last update and now is under 30 second, update false");
+				//timeOfLastUpdate = nowMs;
 				return false;
 			}
-		}
-		
-		Log.d("ListingUpdateTimer", "Time elapsed is over a minute, update true");
-		minuteSinceLastUpdate = minuteNow;
-		secondSinceLastUpdate = secondsNow;
-		return true;
-
-
+		else{
+			Log.d("ListingUpdateTimer", "Time elapsed is over a minute, update true");
+			timeOfLastUpdate[tabIndex] = nowMs;
+			return true;
+		}	
 	}
 	
 	public static void toggleJustSubmittedListing(){
