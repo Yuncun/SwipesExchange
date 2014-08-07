@@ -1,8 +1,12 @@
 package com.swipesexchange;
 
+import java.text.ParseException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
+import java.util.Date;
+import java.util.Iterator;
 import java.util.List;
 
 
@@ -18,6 +22,12 @@ import java.util.List;
 
 
 
+import java.util.Map;
+import java.util.Map.Entry;
+
+import com.swipesexchange.MessageAdapter.ViewHolder;
+
+import sharedObjects.BuyListing;
 import sharedObjects.Message;
 import sharedObjects.Self;
 import sharedObjects.SellListing;
@@ -134,6 +144,7 @@ public class MessagesFragment extends ListFragment {
 				final Animation animationFadeIn = AnimationUtils.loadAnimation(arg0.getContext(),
 				         android.R.anim.fade_in);
 				
+				// deletion mode must be swapped
 				if(adapter.deletion_mode==true)
 				{
 					adapter.deletion_mode = false;
@@ -149,6 +160,23 @@ public class MessagesFragment extends ListFragment {
 					edit_button_text.startAnimation(animationFadeIn);
 				}
 				
+				// deletion mode is now stable
+				if(adapter.deletion_mode)
+				{
+					for(int i = 0; i < adapter.slide_in.size(); i++)
+						adapter.slide_in.set(i, true);
+					for(int i = 0; i < adapter.slide_out.size(); i++)
+						adapter.slide_out.set(i, false);
+				}
+				else
+				{
+					for(int i = 0; i < adapter.slide_in.size(); i++)
+						adapter.slide_in.set(i, false);
+					for(int i = 0; i < adapter.slide_out.size(); i++)
+						adapter.slide_out.set(i, true);
+				}
+
+				adapter.v_map.clear();
 				adapter.notifyDataSetChanged();
 			}
     	   
@@ -169,6 +197,21 @@ public class MessagesFragment extends ListFragment {
 	}
    */
    public void updateFragmentWithMessage() {
+	   
+		if(adapter != null && adapter.my_list.size() > 1) 
+    	{
+     	   Collections.sort(adapter.my_list, new Comparator<Conversation>(){
+     		   public int compare(Conversation emp1, Conversation emp2) 
+     		   {
+     			   Long l1 = getTimeDate(emp1.getMostRecentMessage().getTime()).getTime();
+     			   Long l2 = getTimeDate(emp2.getMostRecentMessage().getTime()).getTime();
+     			   return l2.compareTo(l1); 		     
+     		   }	   
+     	   });
+     	   
+     	  setListAdapter(adapter);
+     	}
+
 		 if(this.adapter != null)
 			 this.adapter.addAndUpdate();
 	 }
@@ -208,6 +251,17 @@ public class MessagesFragment extends ListFragment {
 	  
 	   
 	   adapter = new MessageAdapter(getActivity(),ConversationList.getConversations());
+		if(adapter.my_list.size()>1) 
+    	{
+     	   Collections.sort(adapter.my_list, new Comparator<Conversation>(){
+     		   public int compare(Conversation emp1, Conversation emp2) 
+     		   {
+     			   Long l1 = getTimeDate(emp1.getMostRecentMessage().getTime()).getTime();
+     			   Long l2 = getTimeDate(emp2.getMostRecentMessage().getTime()).getTime();
+     			   return l2.compareTo(l1); 		     
+     		   }	   
+     	   });
+     	}
 	   setListAdapter(adapter);
    }
    
@@ -216,8 +270,6 @@ public class MessagesFragment extends ListFragment {
  	   
 		  WaitTask m_task = new WaitTask(getActivity());
 		  m_task.execute();
-		  
-		    
 	}
 	
 	
@@ -296,6 +348,26 @@ public class MessagesFragment extends ListFragment {
        this.waitForValues();
      
      }
+   
+	private Date getTimeDate(String date_str) {
+    	
+    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+
+    	String oldDateString = date_str;
+    	
+
+    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+    	Date d = null;
+		try {
+			d = sdf.parse(oldDateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+    	
+    	return d;
+    }
    
    
 

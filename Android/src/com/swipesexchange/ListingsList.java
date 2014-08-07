@@ -750,22 +750,27 @@ public class ListingsList extends ListFragment
             super.setUserVisibleHint(isVisibleToUser);
             if (isVisibleToUser) 
             { 
-            		if(page_num==0 && !first_time && ListingsUpdateTimer.shouldListBeUpdatedAgain(0))
-                	{
-                		
-                		Log.d("frag visibility", "Buy frag visible..."); 
-                   	 	bc = new BLConnectGet(getActivity(), false);
-                 	   	bc.execute();
-                 	    setBLAdapter();
-                 	   	this.b_adapter.notifyDataSetChanged();
-                	}
-                	else if(page_num==1 && !first_time && ListingsUpdateTimer.shouldListBeUpdatedAgain(1))
-                	{
-                		Log.d("frag visibility", "List frag visible..."); 
-                   	 	sc = new SLConnectGet(getActivity(), false);
-                 	   	sc.execute();
-                 	   	this.s_adapter.notifyDataSetChanged();
-                	}     	
+            	
+            		
+        		if(page_num==0 && !first_time && ListingsUpdateTimer.shouldListBeUpdatedAgain(0))
+            	{
+            		
+            		Log.d("frag visibility", "Buy frag visible..."); 
+               	 	bc = new BLConnectGet(getActivity(), false);
+             	   	bc.execute();
+             	    setBLAdapter();
+             	   	this.b_adapter.notifyDataSetChanged();
+            	}
+            	else if(page_num==1 && !first_time  && ListingsUpdateTimer.shouldListBeUpdatedAgain(1))
+            	{
+            		Log.d("frag visibility", "List frag visible..."); 
+               	 	sc = new SLConnectGet(getActivity(), false);
+             	   	sc.execute();
+             	   	setSLAdapter();
+             	   	this.s_adapter.notifyDataSetChanged();
+            	}
+            	
+                     	
             }
             else {}
         }

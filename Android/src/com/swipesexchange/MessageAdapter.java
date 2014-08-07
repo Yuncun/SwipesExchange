@@ -4,7 +4,9 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Date;
+import java.util.HashMap;
 import java.util.List;
+import java.util.Map;
 import java.util.Stack;
 
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
@@ -36,12 +38,15 @@ import android.widget.Toast;
 public class MessageAdapter extends BaseAdapter {
 
 	  private Context myContext;
-	  private Stack<Conversation> my_list;
+	  public List<Conversation> my_list;
 	  private List<String> sender_names;
 	  private List<String> sender_ids;
 	  private List<String> message_texts;
 	  public List<Boolean> first_time;
+	  public List<Boolean> slide_in;
+	  public List<Boolean> slide_out;
 	  public boolean deletion_mode = false;
+	  public Map<String, ViewHolder> v_map;
 
     public MessageAdapter(Context context, Stack<Conversation> list) 
     {
@@ -62,16 +67,24 @@ public class MessageAdapter extends BaseAdapter {
 	            			sender_ids.add(my_list.get(i).getSender().getUID());
 	            		else
 	            			sender_ids.add(my_list.get(i).getReceiver().getUID());
-	            		
-	            		
-	            			
+
 	            		
 	            	}
             }
             
-            this.first_time = new ArrayList<Boolean>(my_list.size());
+            this.first_time = new ArrayList<Boolean>();
             for(int i=0; i < my_list.size(); i++)
             	this.first_time.add(true);
+            
+            this.slide_in = new ArrayList<Boolean>();
+            for(int i=0; i < my_list.size(); i++)
+            	this.slide_in.add(false);
+            
+            this.slide_out = new ArrayList<Boolean>();
+            for(int i=0; i < my_list.size(); i++)
+            	this.slide_out.add(false);
+            
+            this.v_map = new HashMap<String, ViewHolder>();
            
     }
     
@@ -82,40 +95,69 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position,  View view, ViewGroup parent) 
     {
-    	LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
-  
+    	// out of bounds exception handling
+    	if(position >= this.first_time.size())
+    	{
+    		boolean first_time_val = this.first_time.get(0);
+    		boolean slide_in_val = this.slide_in.get(0);
+    		boolean slide_out_val = this.slide_out.get(0);
+    		
+    		this.first_time.add(first_time_val);
+    		this.slide_in.add(slide_in_val);
+    		this.slide_out.add(slide_out_val);
+    	}
     	
-        // inflate the layout for each item of listView  
-        view = inflater.inflate(R.layout.message_item, null);
-
-        TextView sender_name = (TextView) view.findViewById(R.id.sender_name);
-        //TextView sender_id = (TextView) view.findViewById(R.id.sender_id);
-        TextView text = (TextView) view.findViewById(R.id.message_text);
-        TextView time = (TextView) view.findViewById(R.id.message_time);
-        LinearLayout trashButtonButton = createTrashButton(view, position);
-        String sender_string = "";
-        
-        
+    	String sender_string = "";
+    	String lid_str = "";
+    	
         if(Self.getUser().getUID().equals(my_list.get(position).getSender().getUID()))
 			sender_string = my_list.get(position).getReceiver().getName();
 		else 
 			sender_string = my_list.get(position).getSender().getName();
         
-        if (Self.getUser().getUID().equals(my_list.get(position).getSender().getUID()) && Self.getUser().getUID().equals(my_list.get(position).getReceiver().getUID())){
-        	sender_string = "Talking to Yourself";
-        }
-        sender_name.setText(sender_string);
+        lid_str = my_list.get(position).getLID();
+
+        String key_str = sender_string + lid_str + position;
+        
+    	ViewHolder v_holder = null;
+    	
+    	// search for the key in the hashmap, setting the holder if the key exists
+    	//if(v_map.containsKey(key_str))
+    		//v_holder = v_map.get(key_str);
+    	
+    	if(v_holder==null)
+    	{
+	    	LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
+	  
+	    	v_holder = new ViewHolder();
+	        // inflate the layout for each item of listView  
+	        view = inflater.inflate(R.layout.message_item, null);
+	
+	        v_holder.s_name = (TextView) view.findViewById(R.id.sender_name);
+	        
+	        v_holder.msg_txt = (TextView) view.findViewById(R.id.message_text);
+	        v_holder.msg_time = (TextView) view.findViewById(R.id.message_time);
+
+	        v_holder.t_button = createTrashButton(view, position);
+	        
+	        v_map.put(key_str, v_holder);
+	        view.setTag(v_holder);
+    	}
+    	else
+    	{
+    		v_holder = (ViewHolder) view.getTag();
+    	}
+    
+
+        // set the data
+        v_holder.s_name.setText(sender_string);
         Log.d("MessageAdapter says senderName is ", "Sender name : " + sender_string + " and MY NAME IS " + Self.getUser().getName());
-        //sender_id.setText(sender_ids.get(position));
         
         String message_string = "";
         message_string = my_list.get(position).getMostRecentMessage().getText();
-        
-        text.setText(message_string);
-        
-        time.setText(StaticHelpers.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
-       
-        
+        v_holder.msg_txt.setText(message_string);
+        v_holder.msg_time.setText(StaticHelpers.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
+
         return view;
     }
     
@@ -199,18 +241,33 @@ public class MessageAdapter extends BaseAdapter {
 			}  
        }); 
        
-       if(deletion_mode) {
+       if(deletion_mode && !this.first_time.get(position)) {
 	       trashButton.startAnimation(animationSlideInLeft);
 	       trashButton.setVisibility(View.VISIBLE);
+	       this.first_time.set(position, false);
        }
-       else if(this.first_time.get(position))
+       else if(deletion_mode && !(this.first_time.get(position)))
        {
-    	   first_time.set(position, false);
-    	   trashButton.setVisibility(View.GONE);
+    	   trashButton.setVisibility(View.VISIBLE);
        }
-       else 
+       else if(this.first_time.get(position) && deletion_mode)
+       {
+    	   trashButton.setVisibility(View.VISIBLE);
+    	   this.first_time.set(position, false);
+       }
+       else if(this.first_time.get(position) && !(deletion_mode))
+       {
+    	   trashButton.setVisibility(View.GONE);
+    	   this.first_time.set(position, false);
+       }
+       else if(this.slide_out.get(position))
        {
     	   trashButton.startAnimation(animationSlideOutRight);
+    	   this.slide_out.set(position, false);
+       }
+       else
+       {
+    	   trashButton.setVisibility(View.GONE);
        }
        
        return trashButton;
@@ -244,7 +301,8 @@ public class MessageAdapter extends BaseAdapter {
 	}
 	
 	public synchronized void deleteAConversationAndUpdate(Conversation convo){
-		my_list.removeElement(convo);
+		my_list.remove(convo);
+		ConversationList.getConversations().remove(convo);
 		addAndUpdate();
 	   }
 	
@@ -300,6 +358,13 @@ public class MessageAdapter extends BaseAdapter {
 	        } 
 	      
 	  }         
+    
+    public class ViewHolder {
+    	TextView s_name;
+    	TextView msg_txt;
+    	TextView msg_time;
+    	LinearLayout t_button;
+    }
     
     
     
