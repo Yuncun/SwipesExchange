@@ -25,7 +25,7 @@
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         <activity
-            android:name="com.swipesexchange.MainActivity"
+            android:name="com.swipesexchange.main.MainActivity"
             android:label="@string/app_name" 
             
             android:uiOptions="splitActionBarWhenNarrow">
@@ -38,21 +38,21 @@
         <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
         <activity android:name="com.facebook.LoginActivity"></activity>
         
-         <activity android:name="com.swipesexchange.ConversationActivity" android:windowSoftInputMode="stateUnchanged"></activity>
+         <activity android:name="com.swipesexchange.messaging.ConversationActivity" android:windowSoftInputMode="stateUnchanged"></activity>
 
-         <activity android:name="com.swipesexchange.NewListingFragmentBuy" android:windowSoftInputMode="adjustPan"></activity>
+         <activity android:name="com.swipesexchange.lists.NewListingFragmentBuy" android:windowSoftInputMode="adjustPan"></activity>
          
-         <activity android:name="com.swipesexchange.NewListingFragment" android:windowSoftInputMode="adjustPan"></activity>
+         <activity android:name="com.swipesexchange.lists.NewListingFragment" android:windowSoftInputMode="adjustPan"></activity>
         
         <receiver
-            android:name=".GcmBroadcastReceiver"
+            android:name="com.swipesexchange.network.GcmBroadcastReceiver"
             android:permission="com.google.android.c2dm.permission.SEND" >
             <intent-filter>
                 <action android:name="com.google.android.c2dm.intent.RECEIVE" />
                 <category android:name="com.example.gcm" />
             </intent-filter>
         </receiver>
-        <service android:name=".GcmIntentService" />
+        <service android:name="com.swipesexchange.network.GcmIntentService" />
         <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
         
     </application>

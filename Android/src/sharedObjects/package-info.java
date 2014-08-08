@@ -1,8 +1,0 @@
-/**
- * 
- */
-/**
- * @author Eric
- *
- */
-package sharedObjects;

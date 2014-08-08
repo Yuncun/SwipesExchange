@@ -46,7 +46,7 @@
     
    <fragment
         android:id="@+id/new_listing_buy_frag"
-        android:name="com.swipesexchange.NLBuy"
+        android:name="com.swipesexchange.lists.NLBuy"
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
         android:layout_below="@id/buttonbar_bl" />

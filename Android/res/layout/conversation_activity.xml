@@ -92,7 +92,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/buttonbar"
         android:layout_above="@id/message_edit_bar"
-        android:name="com.swipesexchange.ConversationFragment"
+        android:name="com.swipesexchange.messaging.ConversationFragment"
         android:layout_marginRight="3dp"
         android:layout_marginLeft="3dp" />
   
