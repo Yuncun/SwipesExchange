@@ -191,8 +191,8 @@ public class ConnectToServlet {
 
 	                   	Type listType = new TypeToken<ArrayList<BuyListing>>() {}.getType();
 	                    List<BuyListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
-	                    Log.d("LOUD AND CLEAR", "Server bl list deserialized, list has size" + rl.size()); 
-	                    Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
+	                 //   Log.d("LOUD AND CLEAR", "Server bl list deserialized, list has size" + rl.size()); 
+	                  //  Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
 
 
 	                    Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getListingID() + " " + rl.get(0).getEndTime() + " " + 

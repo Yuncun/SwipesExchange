@@ -6,7 +6,7 @@
 
     <fragment
         android:id="@+id/selection_fragment"
-        android:name="com.swipesexchange.main.SelectionFragment"
+        android:name="com.swipesexchange.lists.SelectionFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />
 

@@ -3,6 +3,7 @@ package com.swipesexchange.main;
 
 import java.io.IOException;
 import java.util.List;
+import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
@@ -473,8 +474,15 @@ public class MainActivity extends FragmentActivity {
 		    	registrationId = UUID.randomUUID().toString();
 			}
     	Self.getUser().setUID(registrationId);
-    	Self.getUser().setName(username);
-		Log.d("LOUD AND CLEAR", "Accepting guest login with username: " + username);
+
+    	if (username.equals("Name") || (username.trim().length() == 0) ){
+    		username = "";
+    	}
+    
+    	String processedUsername = "Guest-" + registrationId.substring(registrationId.length()-6, registrationId.length()-1) + " (" + username + ")";
+    	
+    	Self.getUser().setName(processedUsername);
+		Log.d("LOUD AND CLEAR", "Accepting guest login with username: " + processedUsername);
 
         if (checkPlayServices()) {
    			Log.d("LOUD AND CLEAR", "Creating GCM");
@@ -487,10 +495,11 @@ public class MainActivity extends FragmentActivity {
 	            } else {
 	                Log.i("LOUD AND CLEAR", "No valid Google Play Services APK found.");
 	            }
-        Log.d("LOUD AND CLEAR", "Guest Login accepted with stats: " + Self.getUser().getUID() + " and " + Self.getUser().getRegid());
+     
 		loggedInAsGuest = true;
 		storeUID(context, Self.getUser().getUID());
-		storeGuestName(context, Self.getUser().getName());
+		Log.d("LOUD AND CLEAR", "Guest Login accepted and storing name " + Self.getUser().getName());
+		storeGuestName(context, username);
 		//Store UID info
     	
 	}
@@ -516,14 +525,24 @@ public class MainActivity extends FragmentActivity {
 		
 	public String retrieveSavedGuestName()
 	{
+		Log.d("retrieveSavedGuestName()", "Attempting to retrieve saved guest name");
 		String guestName = null;
 		final SharedPreferences prefs = getSharedPreferences(MainActivity.class.getSimpleName(), Context.MODE_PRIVATE);
 		String registrationGuest = prefs.getString(PROPERTY_GUESTNAME, "");
 		if (registrationGuest.isEmpty()) {
 		    	Log.i("LOUD AND CLEAR", "No previous guest name registered.");
-		    	guestName = "Guest";
+		    	/*
+		    	Random random = new Random();
+		    	long nextLong = Math.abs(random.nextLong());
+		    	
+		    	guestName = "Guest - " + String.valueOf(nextLong).substring(0, 5);*/
+		    	guestName = "Name";
+		    	Log.d("retrieveSavedGuestName()", "guest name registratedGuest is empty guestname is now" + guestName);
 			}
-		else{ guestName = registrationGuest; }
+		else{ 
+			guestName = registrationGuest;
+		Log.d("retrieveSavedGuestName()", "guestname is found, guestname is " + guestName);
+		}
 
 		return guestName;
 	}
