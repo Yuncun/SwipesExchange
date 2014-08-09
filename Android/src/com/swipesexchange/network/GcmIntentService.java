@@ -1,6 +1,5 @@
 package com.swipesexchange.network;
 
-
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.swipesexchange.R;

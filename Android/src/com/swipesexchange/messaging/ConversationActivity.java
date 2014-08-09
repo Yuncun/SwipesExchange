@@ -1,6 +1,5 @@
 package com.swipesexchange.messaging;
 
-
 import java.util.ArrayList;
 
 import com.swipesexchange.R;
@@ -13,7 +12,6 @@ import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.User;
-
 
 import android.app.ActionBar;
 import android.app.Activity;

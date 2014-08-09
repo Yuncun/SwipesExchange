@@ -7,7 +7,6 @@ import java.util.List;
 import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.User;
 
-
 public class Conversation {
 	
 	// list of Messages

@@ -1,7 +1,7 @@
 package com.swipesexchange.lists;
 
-
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.text.ParseException;
@@ -15,7 +15,7 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
-
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -44,8 +44,19 @@ import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.amazonaws.auth.AWSCredentials;
+import com.amazonaws.auth.BasicAWSCredentials;
+import com.amazonaws.regions.Region;
+import com.amazonaws.regions.Regions;
+import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
+import com.amazonaws.services.simpledb.model.Item;
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
+import com.amazonaws.services.simpledb.model.SelectRequest;
+import com.amazonaws.services.simpledb.model.SelectResult;
 import com.swipesexchange.R;
+import com.swipesexchange.R.anim;
+import com.swipesexchange.R.id;
+import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.ListingsUpdateTimer;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.main.MainActivity;
@@ -58,6 +69,7 @@ import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.SellListing;
 import com.swipesexchange.sharedObjects.User;
+import com.swipesexchange.sharedObjects.Venue;
 
 
 
@@ -65,7 +77,7 @@ public class ListingsList extends ListFragment
 {
 		//page_num 0 is Buy listings, 1 is Sell listings
 		public int page_num;
-		//public BackendData data;
+		
 		static MainActivity mActivity;
         private List<BuyListing> buyEntries;
         private List<SellListing> sellEntries;
@@ -175,7 +187,9 @@ public class ListingsList extends ListFragment
 						e.printStackTrace();
 					}
 		           name.setText(this.b_adapter.myList.get(position).getUser().getName());
-		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		           String var = this.b_adapter.myList.get(position).getUser().getUID();
+		           
+		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy(this.b_adapter.myList.get(position).getUser().getUID()));
 		      
 		           time_created.setText(StaticHelpers.getTimeText(this.b_adapter.myList.get(position).getTimeCreated()));
 		           
@@ -274,7 +288,7 @@ public class ListingsList extends ListFragment
 						e.printStackTrace();
 					}
 		           name.setText(this.b_adapter.myList.get(position).getUser().getName());
-		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy(this.b_adapter.myList.get(position).getUser().getUID()));
 		      
 		           time_created.setText(StaticHelpers.getTimeText(this.b_adapter.myList.get(position).getTimeCreated()));
 		           // set the venue boxes
@@ -426,7 +440,7 @@ public class ListingsList extends ListFragment
 						e.printStackTrace();
 					}
 		           name.setText(this.s_adapter.myList.get(position).getUser().getName());
-		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		           fb_pic.setImageBitmap(PictureCache.getFBPicSell(this.s_adapter.myList.get(position).getUser().getUID()));
 		      
 		           time_created.setText(StaticHelpers.getTimeText(this.s_adapter.myList.get(position).getTimeCreated()));
 		           
@@ -527,7 +541,7 @@ public class ListingsList extends ListFragment
 						e.printStackTrace();
 					}
 		           name.setText(this.s_adapter.myList.get(position).getUser().getName());
-		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+		           fb_pic.setImageBitmap(PictureCache.getFBPicSell(this.s_adapter.myList.get(position).getUser().getUID()));
 		      
 		           time_created.setText(StaticHelpers.getTimeText(this.s_adapter.myList.get(position).getTimeCreated()));
 		           // set the venue boxes
@@ -679,9 +693,11 @@ public class ListingsList extends ListFragment
      	   // reveal the hidden message?
      	   if(buyEntries != null && buyEntries.size() == 0)
      		   getView().findViewById(R.id.hidden_message).setVisibility(View.VISIBLE);
+     	   else
+     		  getView().findViewById(R.id.hidden_message).setVisibility(View.GONE);
      	   
-         	   b_adapter= new BuyListAdapter(getActivity(), buyEntries);
-                setListAdapter(b_adapter);
+     	   b_adapter= new BuyListAdapter(getActivity(), buyEntries);
+           setListAdapter(b_adapter);
         }
         
         public void setSLAdapter()
@@ -701,6 +717,8 @@ public class ListingsList extends ListFragment
      	// reveal the hidden message?
        	   if(sellEntries != null && sellEntries.size() == 0)
        		   getView().findViewById(R.id.hidden_message).setVisibility(View.VISIBLE);
+       	   else
+       		   getView().findViewById(R.id.hidden_message).setVisibility(View.GONE);
        	   
      	   s_adapter= new SellListAdapter(getActivity(), sellEntries);
            setListAdapter(s_adapter);
@@ -819,22 +837,31 @@ public class ListingsList extends ListFragment
    	         
    	  		 }
                 Log.d("picture", Integer.toString(buyEntries.size()));
+                
+                Bitmap guest_icon = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.bear_greyscale);
+                String uid = "";
                 for(int i=0; i < buyEntries.size(); i++)
                 {
 	                try {
 	                	//options = new BitmapFactory.Options();
 	                	//options.inSampleSize = 2;
+	                	// Guest bitmap
 	                	
 	                	// TODO: get the FBUID
-	                	url = new URL("https://graph.facebook.com/10152153150921342/picture?type=large");
-	                    //Log.d("picture", "URL is: " + url.toString());
-	                    pic_bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-	                    map.put("10152153150921342", pic_bitmap);
+	                	uid = buyEntries.get(i).getUser().getUID();
+	                	url = new URL("https://graph.facebook.com/" + uid + "/picture?type=large");
+	                	InputStream in = (InputStream) url.getContent();
+	                    Log.d("picture", "URL is: " + url.toString());
+	                    pic_bitmap = BitmapFactory.decodeStream(in);
+	                    map.put(uid, pic_bitmap);
 	                } catch (MalformedURLException e) {
 	                    e.printStackTrace();
+	                    map.put(uid, guest_icon);
 	                    Log.d("picture", "Malformed URL!");
 	                } catch (IOException e) {
 	                    e.printStackTrace();
+	                    map.put(uid, guest_icon);
 	                    Log.d("picture", "IO Exception!");
 	                }
                 }
@@ -892,11 +919,11 @@ public class ListingsList extends ListFragment
 	                	//options = new BitmapFactory.Options();
 	                	//options.inSampleSize = 2;
 	                	
-	                	// TODO: get the FBUID
-	                	url = new URL("https://graph.facebook.com/10152153150921342/picture?type=large");
-	                    //Log.d("picture", "URL is: " + url.toString());
+	                	String uid = sellEntries.get(i).getUser().getUID();
+	                	url = new URL("https://graph.facebook.com/" + uid + "/picture?type=large");
+	                    Log.d("picture", "URL is: " + url.toString());
 	                    pic_bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
-	                    map.put("10152153150921342", pic_bitmap);
+	                    map.put(uid, pic_bitmap);
 	                } catch (MalformedURLException e) {
 	                    e.printStackTrace();
 	                    Log.d("picture", "Malformed URL!");

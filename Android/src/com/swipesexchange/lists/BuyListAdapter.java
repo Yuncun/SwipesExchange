@@ -1,6 +1,5 @@
 package com.swipesexchange.lists;
 
-
 import java.io.IOException;
 import java.net.MalformedURLException;
 import java.net.URL;
@@ -10,6 +9,9 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.List;
+
+
+
 
 
 
@@ -112,7 +114,7 @@ public class BuyListAdapter  extends BaseAdapter
                 description.setText(this.myList.get(position).getMessageBody());
                 time_created.setText(StaticHelpers.getTimeText(this.myList.get(position).getTimeCreated()));
                 name.setText(this.myList.get(position).getUser().getName());
-                fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+                fb_pic.setImageBitmap(PictureCache.getFBPicBuy(this.myList.get(position).getUser().getUID()));
            
                 String s_string = null;
                 try {

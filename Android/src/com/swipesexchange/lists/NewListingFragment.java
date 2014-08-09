@@ -1,6 +1,5 @@
 package com.swipesexchange.lists;
 
-
 import java.util.ArrayList;
 
 import com.swipesexchange.R;

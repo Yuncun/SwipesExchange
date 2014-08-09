@@ -1,7 +1,6 @@
 package com.swipesexchange.lists;
 
 
-
 import java.sql.Date;
 import java.util.ArrayList;
 
@@ -9,7 +8,6 @@ import android.text.format.Time;
 
 import java.util.Calendar;
 import java.util.List;
-
 
 import android.app.Activity;
 import android.app.Dialog;

@@ -9,7 +9,7 @@
         android:id="@+id/fb_pic"
         android:layout_width="40dp"
         android:layout_height="40dp"
-       
+
         android:scaleType="centerCrop"
          />
         
@@ -37,14 +37,17 @@
         
         <TextView
         android:id="@+id/buy_listing_name"
-        android:layout_width="wrap_content"
+        android:layout_width="200dp"
         android:layout_height="20dp"
         android:text="[Default Name]"
         android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
-        android:padding="2dp"
-        android:gravity="center"/>
+         android:maxLength="35"
+        android:ellipsize="end"
+		android:singleLine="true"
+        android:padding="1dp"
+      />
             
         <TextView
         android:id="@+id/buy_listing_time_created"
@@ -84,6 +87,7 @@
         android:layout_height="wrap_content"
         android:lineSpacingExtra="2dp"
         android:padding="1dp"
+        android:textColor="#808080"
         android:layout_marginRight="5dp"
         android:singleLine="false"
          android:maxLines="2"

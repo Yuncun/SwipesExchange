@@ -9,6 +9,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 
+
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -39,6 +40,10 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.swipesexchange.R;
+import com.swipesexchange.R.id;
+import com.swipesexchange.R.layout;
+import com.swipesexchange.R.menu;
+import com.swipesexchange.R.string;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.lists.NewListingFragment;
 import com.swipesexchange.lists.NewListingFragmentBuy;

@@ -1,6 +1,5 @@
 package com.swipesexchange.lists;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -9,12 +8,10 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 
-
 import com.google.gson.Gson;
 import com.swipesexchange.R;
 import com.swipesexchange.R.id;
 import com.swipesexchange.R.layout;
-import com.swipesexchange.R.style;
 import com.swipesexchange.helpers.ChildRow;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.helpers.Constants;
@@ -44,8 +41,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 public class NLBuy extends Fragment {
 
@@ -62,6 +61,8 @@ public class NLBuy extends Fragment {
 	Button yes_button;
 	Button cancel_button;
 	Dialog submit_dialog;
+	TextView text_field;
+	TextView text_field_submit;
 	
 	Button ok_button;
 	Dialog time_error_dialog;
@@ -93,11 +94,14 @@ public class NLBuy extends Fragment {
 	        		if (adapter.enterMessage.getText().toString() == null || adapter.enterMessage.getText().toString().isEmpty())
 					{
 						cancel = true;
-						time_error_dialog = new Dialog(v.getContext(), R.style.CustomDialogTheme);
+						time_error_dialog = new Dialog(v.getContext());
+						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						time_error_dialog.setContentView(R.layout.dialog_time_error);
-						ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
-						time_error_dialog.setTitle("Please enter something for message body");
 						
+						ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
+						text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
+						
+						text_field.setText("Please enter something for the message body");
 						
 						ok_button.setOnClickListener(new View.OnClickListener() {
 							 
@@ -114,12 +118,15 @@ public class NLBuy extends Fragment {
 			
 					if(!cancel)
 					{						
-						submit_dialog = new Dialog(v.getContext(), R.style.CustomDialogTheme);
+						submit_dialog = new Dialog(v.getContext());
+						submit_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						submit_dialog.setContentView(R.layout.dialog_submit);
 						cancel_button = (Button) submit_dialog.findViewById(R.id.Cancel_Button);
 				 		yes_button = (Button) submit_dialog.findViewById(R.id.Yes_Button);
 						
-						submit_dialog.setTitle("Submit new listing?");
+				 		text_field_submit = (TextView) submit_dialog.findViewById(R.id.dialog_text_view);
+				 		
+						text_field_submit.setText("Submit listing?");
 						
 						
 						cancel_button.setOnClickListener(new View.OnClickListener() {

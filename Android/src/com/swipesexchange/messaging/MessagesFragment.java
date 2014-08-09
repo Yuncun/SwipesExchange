@@ -25,7 +25,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 
-
 import com.swipesexchange.R;
 import com.swipesexchange.R.anim;
 import com.swipesexchange.R.id;
@@ -112,14 +111,14 @@ public class MessagesFragment extends ListFragment {
 	   		adapter.deletion_mode = false;
 	   		edit_button_text.setText("Edit");
 	   }
-	   this.updateFragmentWithMessage();
+	   this.updateFragmentWithMessage(false);
    }
    
    @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data) {
        super.onActivityResult(requestCode, resultCode, data);
        // refresh
-       this.updateFragmentWithMessage();
+       this.updateFragmentWithMessage(false);
    }
    
    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -127,7 +126,7 @@ public class MessagesFragment extends ListFragment {
 	   public void onReceive(Context context, Intent intent) {
 	     // Get extra data included in the Intent
 	     String message = intent.getStringExtra("message");
-	     updateFragmentWithMessage();
+	     updateFragmentWithMessage(true);
 	     Log.d("zebra", "Got message: " + message);
 	   }
 	 };
@@ -183,7 +182,6 @@ public class MessagesFragment extends ListFragment {
 						adapter.slide_out.set(i, true);
 				}
 
-				adapter.v_map.clear();
 				adapter.notifyDataSetChanged();
 			}
     	   
@@ -203,7 +201,7 @@ public class MessagesFragment extends ListFragment {
 		    
 	}
    */
-   public void updateFragmentWithMessage() {
+   public void updateFragmentWithMessage(boolean dot) {
 	   
 		if(adapter != null && adapter.my_list.size() > 1) 
     	{
@@ -220,7 +218,7 @@ public class MessagesFragment extends ListFragment {
      	}
 
 		 if(this.adapter != null)
-			 this.adapter.addAndUpdate();
+			 this.adapter.addAndUpdate(dot);
 	 }
    
  
@@ -231,6 +229,9 @@ public class MessagesFragment extends ListFragment {
        Log.d("pig", "[onListItemClick] Selected Position "+ position);
       // Fragment conv_list = new MessageListFragment();
        //this.pullAndAddMessages();
+       
+       
+       
        Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
        
        String other_person_uid;
@@ -241,6 +242,9 @@ public class MessagesFragment extends ListFragment {
        else
     	   other_person_uid = clicked_message.getSender().getUID();
        
+       String key_str = other_person_uid+clicked_message.getListing_id();
+       if(this.adapter.dotted_messages.containsKey(key_str))
+    	   adapter.dotted_messages.put(other_person_uid+clicked_message.getListing_id(), false);
        
        User myUser = Self.getUser();
        nextScreen.putExtra("listing_id", clicked_message.getListing_id());

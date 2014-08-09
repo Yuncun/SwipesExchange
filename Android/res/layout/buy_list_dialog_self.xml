@@ -36,14 +36,16 @@
         
         <TextView
         android:id="@+id/buy_listing_name_ds"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="20dp"
         android:text="[Default Name]"
         android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
-        android:padding="2dp"
-        android:gravity="center"/>
+        android:padding="1dp"
+        android:maxLength="30"
+        android:ellipsize="end"
+		android:singleLine="true"/>
             
         <TextView
         android:id="@+id/buy_listing_time_created_ds"
@@ -85,6 +87,7 @@
         android:padding="1dp"
         android:layout_marginRight="5dp"
         android:singleLine="false"
+        android:textColor="#808080"
         android:text="Description"
         android:textSize="12sp" />
 

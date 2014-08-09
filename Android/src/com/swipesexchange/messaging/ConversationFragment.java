@@ -15,7 +15,6 @@ import com.swipesexchange.sharedObjects.BuyListing;
 import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.User;
 
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;

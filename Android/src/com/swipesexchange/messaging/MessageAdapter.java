@@ -1,6 +1,5 @@
 package com.swipesexchange.messaging;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,13 +9,11 @@ import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 import com.swipesexchange.R;
 import com.swipesexchange.R.anim;
 import com.swipesexchange.R.id;
 import com.swipesexchange.R.layout;
-import com.swipesexchange.R.style;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.BuyListing;
@@ -55,6 +52,7 @@ public class MessageAdapter extends BaseAdapter {
 	  public List<Boolean> slide_in;
 	  public List<Boolean> slide_out;
 	  public boolean deletion_mode = false;
+	  public Map<String, Boolean> dotted_messages;
 	  public Map<String, ViewHolder> v_map;
 
     public MessageAdapter(Context context, Stack<Conversation> list) 
@@ -81,6 +79,8 @@ public class MessageAdapter extends BaseAdapter {
 	            	}
             }
             
+            this.dotted_messages = new HashMap<String, Boolean>();
+            
             this.first_time = new ArrayList<Boolean>();
             for(int i=0; i < my_list.size(); i++)
             	this.first_time.add(true);
@@ -93,7 +93,7 @@ public class MessageAdapter extends BaseAdapter {
             for(int i=0; i < my_list.size(); i++)
             	this.slide_out.add(false);
             
-            this.v_map = new HashMap<String, ViewHolder>();
+         
            
     }
     
@@ -110,24 +110,32 @@ public class MessageAdapter extends BaseAdapter {
     		boolean first_time_val = this.first_time.get(0);
     		boolean slide_in_val = this.slide_in.get(0);
     		boolean slide_out_val = this.slide_out.get(0);
+
     		
     		this.first_time.add(first_time_val);
     		this.slide_in.add(slide_in_val);
     		this.slide_out.add(slide_out_val);
+    		
     	}
     	
     	String sender_string = "";
     	String lid_str = "";
+    	String sid_str = "";
     	
         if(Self.getUser().getUID().equals(my_list.get(position).getSender().getUID()))
+        {
+        	sid_str = my_list.get(position).getReceiver().getUID();
 			sender_string = my_list.get(position).getReceiver().getName();
+        }
 		else 
+		{
+			sid_str = my_list.get(position).getSender().getUID();
 			sender_string = my_list.get(position).getSender().getName();
+		}
         
         lid_str = my_list.get(position).getLID();
-
-        String key_str = sender_string + lid_str + position;
-        
+      
+        String key_str = sid_str + lid_str;
     	ViewHolder v_holder = null;
     	
     	// search for the key in the hashmap, setting the holder if the key exists
@@ -143,19 +151,15 @@ public class MessageAdapter extends BaseAdapter {
 	        view = inflater.inflate(R.layout.message_item, null);
 	
 	        v_holder.s_name = (TextView) view.findViewById(R.id.sender_name);
-	        
+	        v_holder.blue_dot = (ImageView) view.findViewById(R.id.blue_dot);
 	        v_holder.msg_txt = (TextView) view.findViewById(R.id.message_text);
 	        v_holder.msg_time = (TextView) view.findViewById(R.id.message_time);
 
 	        v_holder.t_button = createTrashButton(view, position);
 	        
-	        v_map.put(key_str, v_holder);
 	        view.setTag(v_holder);
     	}
-    	else
-    	{
-    		v_holder = (ViewHolder) view.getTag();
-    	}
+
     
 
         // set the data
@@ -166,6 +170,11 @@ public class MessageAdapter extends BaseAdapter {
         message_string = my_list.get(position).getMostRecentMessage().getText();
         v_holder.msg_txt.setText(message_string);
         v_holder.msg_time.setText(StaticHelpers.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
+        
+        if(this.dotted_messages != null && this.dotted_messages.containsKey(key_str) && this.dotted_messages.get(key_str))
+        	v_holder.blue_dot.setVisibility(View.VISIBLE);
+        else
+        	v_holder.blue_dot.setVisibility(View.GONE);
 
         return view;
     }
@@ -214,48 +223,20 @@ public class MessageAdapter extends BaseAdapter {
            @Override
            public void onClick(View view) {
 
-           	final Dialog delete_dialog = new Dialog(v.getContext(), R.style.CustomDialogTheme);
-           	delete_dialog.setContentView(R.layout.dialog_submit);
-     
-			   
-			
-				Button cancel_button = (Button) delete_dialog.findViewById(R.id.Cancel_Button);
-		 		Button yes_button = (Button) delete_dialog.findViewById(R.id.Yes_Button);
-				
-		 		delete_dialog.setTitle("Delete this Conversation?");
-				
-				
-				cancel_button.setOnClickListener(new View.OnClickListener() {
-                   @Override
-                   public void onClick(View view) {
-                   	//cancel
-                   	delete_dialog.dismiss();
-                   	
-                   }
-               });
-			
-				
-				//yes_button.setTag(position); //Genius way of passing an argument into onclick
-				yes_button.setOnClickListener(new View.OnClickListener() {
-					 @Override
-					 public void onClick(View view) {
-						 ConnectToServlet.deleteConversationLocally(my_list.get(position));
-	                    //Delete the listing
-						delete_dialog.dismiss();
-						deleteAConversationAndUpdate(my_list.get(position));
-						
-	               }
-		        });
-			delete_dialog.show();				
-			}  
+				ConnectToServlet.deleteConversationLocally(my_list.get(position));
+				deleteAConversationAndUpdate(my_list.get(position));
+					
+               }
+	
        }); 
        
-       if(deletion_mode && !this.first_time.get(position)) {
+       if(deletion_mode && !this.first_time.get(position) && this.slide_in.get(position)) {
 	       trashButton.startAnimation(animationSlideInLeft);
 	       trashButton.setVisibility(View.VISIBLE);
 	       this.first_time.set(position, false);
+	       this.slide_in.set(position, false);
        }
-       else if(deletion_mode && !(this.first_time.get(position)))
+       else if(deletion_mode && !(this.first_time.get(position)) && !this.slide_in.get(position))
        {
     	   trashButton.setVisibility(View.VISIBLE);
        }
@@ -282,13 +263,36 @@ public class MessageAdapter extends BaseAdapter {
        return trashButton;
    }
     
-    public void addAndUpdate() {
-    	//this.my_list.clear();
+    public void addAndUpdate(boolean dot) {
     	this.my_list = ConversationList.getConversations();
     	for(int i=0; i < ConversationList.getConversations().size(); i++)
     	{
     		Log.d("zebra", "Conversation " + i);
     	}
+    	
+    	String key_str;
+     	String lid_str = "";
+    	String sid_str = "";
+    	
+    	if(my_list != null)
+    	{
+	        if(Self.getUser().getUID().equals(my_list.get(0).getSender().getUID()))
+	        {
+	        	sid_str = my_list.get(0).getReceiver().getUID();
+	        }
+			else 
+			{
+				sid_str = my_list.get(0).getSender().getUID();
+			}
+	        
+	        lid_str = my_list.get(0).getLID();
+	        
+	        key_str = sid_str + lid_str;
+	        
+	    	if(dot)
+	    		this.dotted_messages.put(key_str, true);
+    	}
+    	
     	this.notifyDataSetChanged();
     }
 
@@ -312,7 +316,7 @@ public class MessageAdapter extends BaseAdapter {
 	public synchronized void deleteAConversationAndUpdate(Conversation convo){
 		my_list.remove(convo);
 		ConversationList.getConversations().remove(convo);
-		addAndUpdate();
+		addAndUpdate(false);
 	   }
 	
 	
@@ -373,6 +377,7 @@ public class MessageAdapter extends BaseAdapter {
     	TextView msg_txt;
     	TextView msg_time;
     	LinearLayout t_button;
+    	ImageView blue_dot;
     }
     
     

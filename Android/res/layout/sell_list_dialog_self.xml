@@ -37,14 +37,16 @@
         
         <TextView
         android:id="@+id/sell_listing_name_ds"
-        android:layout_width="wrap_content"
+        android:layout_width="160dp"
         android:layout_height="20dp"
         android:text="[Default Name]"
         android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
-        android:padding="2dp"
-        android:gravity="center"/>
+         android:maxLength="30"
+        android:ellipsize="end"
+		android:singleLine="true"
+        android:padding="1dp"/>
             
         <TextView
         android:id="@+id/sell_listing_time_created_ds"
@@ -84,6 +86,7 @@
         android:layout_height="wrap_content"
         android:lineSpacingExtra="2dp"
         android:padding="1dp"
+        android:textColor="#808080"
         android:layout_marginRight="5dp"
         android:singleLine="false"
         android:text="Description"

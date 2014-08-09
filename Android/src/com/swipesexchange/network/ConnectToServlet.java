@@ -1,7 +1,6 @@
 package com.swipesexchange.network;
 
 
-
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
@@ -12,8 +11,6 @@ import java.net.URL;
 import java.net.URLConnection;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
@@ -191,8 +188,8 @@ public class ConnectToServlet {
 
 	                   	Type listType = new TypeToken<ArrayList<BuyListing>>() {}.getType();
 	                    List<BuyListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
-	                 //   Log.d("LOUD AND CLEAR", "Server bl list deserialized, list has size" + rl.size()); 
-	                  //  Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
+	                    Log.d("LOUD AND CLEAR", "Server bl list deserialized, list has size" + rl.size()); 
+	                    Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
 
 
 	                    Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getListingID() + " " + rl.get(0).getEndTime() + " " + 

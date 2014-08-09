@@ -1,8 +1,8 @@
 package com.swipesexchange.main;
 
-
 import java.util.Arrays;
 import java.util.List;
+
 import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.DialogFragment;
@@ -22,6 +22,8 @@ import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.widget.LoginButton;
 import com.swipesexchange.R;
+import com.swipesexchange.R.id;
+import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.main.MainActivity;
 public class LoginFragment extends Fragment {

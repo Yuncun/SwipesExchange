@@ -49,11 +49,12 @@
         android:textSize="12sp" />
     <LinearLayout
         android:id="@+id/trashButton_layout"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+        android:layout_width="22dp"
+        android:layout_height="22dp"
         android:background="@drawable/half_rounded_rectangle_left"
         android:layout_alignParentRight="true"
         android:layout_alignParentBottom="true"
+        
         >
            <ImageView
         android:id="@+id/trashButton"
@@ -61,11 +62,21 @@
         android:layout_height="wrap_content"
         android:focusable="false"
         android:layout_gravity="center"
-        android:background="@drawable/ic_action_cancel"
+        android:background="@drawable/x_mark_m"
         android:scaleX=".5"
         android:scaleY=".5"
          />
         </LinearLayout>
+        
+    <ImageView 
+        android:id="@+id/blue_dot"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_alignParentRight="true"
+        android:layout_centerVertical="true"
+        android:layout_marginRight="5dp"
+        android:background="@drawable/blue_dot"
+        />
     
  
 

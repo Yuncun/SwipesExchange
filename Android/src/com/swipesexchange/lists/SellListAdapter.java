@@ -1,11 +1,9 @@
 package com.swipesexchange.lists;
 
-
 import java.text.ParseException;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
-
 
 import com.swipesexchange.R;
 import com.swipesexchange.R.color;
@@ -75,7 +73,7 @@ public class SellListAdapter  extends BaseAdapter
         description.setText(this.myList.get(position).getMessageBody());
         time_created.setText(StaticHelpers.getTimeText(this.myList.get(position).getTimeCreated()));
         name.setText(this.myList.get(position).getUser().getName());
-        fb_pic.setImageBitmap(PictureCache.getFBPicBuy("10152153150921342"));
+        fb_pic.setImageBitmap(PictureCache.getFBPicBuy(this.myList.get(position).getUser().getUID()));
         price.setText(Double.toString(this.myList.get(position).getPrice()));
   
         try {

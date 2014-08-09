@@ -1,22 +1,23 @@
 package com.swipesexchange.lists;
 
-
 import java.lang.reflect.Field;
 import java.util.ArrayList;
 import java.util.List;
-
-
 
 import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.swipesexchange.R;
-import com.swipesexchange.lists.ListingsList;
+import com.swipesexchange.R.color;
+import com.swipesexchange.R.drawable;
+import com.swipesexchange.R.id;
+import com.swipesexchange.R.layout;
+import com.swipesexchange.R.menu;
+import com.swipesexchange.R.string;
 import com.swipesexchange.main.LoginFragment;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.messaging.MessagesFragment;
 import com.swipesexchange.sharedObjects.Message;
-
 
 import android.app.ActionBar;
 import android.app.ProgressDialog;
@@ -310,13 +311,10 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		   if(fragment != null)
 		   {
 			   MessagesFragment m_frag = (MessagesFragment) fragment;
-			   m_frag.updateFragmentWithMessage();
+			   m_frag.updateFragmentWithMessage(false);
 			  
 		   }
 	   }
-
-
-	
 
 
 	/**

@@ -19,6 +19,8 @@ import android.widget.TextView;
 
 
 
+
+
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -32,8 +34,6 @@ import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.Self;
-
-
 
 public class ConversationAdapter extends BaseAdapter {
 

@@ -1,11 +1,9 @@
 package com.swipesexchange.sharedObjects;
 
-
 import java.io.Serializable;
 import java.util.UUID;
 
 import com.swipesexchange.helpers.Constants;
-
 
 
 public class Message implements Serializable {

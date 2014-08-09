@@ -1,6 +1,5 @@
 package com.swipesexchange.lists;
 
-
 import java.util.ArrayList;
 import java.util.Calendar;
 
@@ -61,7 +60,6 @@ public class NewListingFragmentBuy extends FragmentActivity {
         	// set the content view for the new listing fragments
 	        setContentView(R.layout.new_listing_fragment_buy);
 	        Intent i = getIntent();
-
 	   
         	String listing_type = i.getStringExtra("new_listing_type");
    

@@ -1,6 +1,5 @@
 package com.swipesexchange.lists;
 
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -8,7 +7,6 @@ import java.util.Calendar;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-
 
 import com.google.gson.Gson;
 import com.swipesexchange.R;
