@@ -24,6 +24,9 @@ import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
+
+import java.util.Date;
+
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -75,23 +78,11 @@ public class ConversationFragment extends ListFragment {
 	     	   Collections.sort(this.passed_messages, new Comparator<Message>(){
 	     		   public int compare(Message emp1, Message emp2) 
 	     		   {
-	     			 SimpleDateFormat df = new SimpleDateFormat("yy.MM.dd.HH.mm.ss.Z");
-	     			 Date date1 = null;
-					try {
-						date1 = df.parse(emp1.getTime());
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	     			 Date date2 = null;
-					try {
-						date2 = df.parse(emp2.getTime());
-					} catch (ParseException e) {
-						// TODO Auto-generated catch block
-						e.printStackTrace();
-					}
-	     		     return date1.compareTo(date2); 		     
-	     		   }	   
+	     			 Long l1 = getTimeDate(emp1.getTime()).getTime();
+        			 Long l2 = getTimeDate(emp2.getTime()).getTime();
+	     		     return l1.compareTo(l2);		     
+	     		   }
+	     	
 	     	   });
 	     	}
 	 }
@@ -111,9 +102,29 @@ public class ConversationFragment extends ListFragment {
      public void onActivityCreated(Bundle savedInstanceState) {
          super.onActivityCreated(savedInstanceState);
    
-         //this.sortConversationByDate();
+         this.sortConversationByDate();
          adapter = new ConversationAdapter(this.getActivity(), this.passed_messages);
          setListAdapter(adapter);
 
      }
+     
+	private Date getTimeDate(String date_str) {
+    	
+    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+
+    	String oldDateString = date_str;
+    	
+
+    	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+    	Date d = null;
+		try {
+			d = sdf.parse(oldDateString);
+		} catch (ParseException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+			return null;
+		}
+    	
+    	return d;
+    }
 }

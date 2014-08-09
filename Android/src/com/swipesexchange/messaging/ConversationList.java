@@ -49,6 +49,7 @@ public class ConversationList {
 	
 }
 	
+ 	
 	
 	// for adding conversations to the conversation list
 	public static void addConversation(Conversation c) {
