@@ -20,6 +20,7 @@ import com.swipesexchange.messaging.MessagesFragment;
 import com.swipesexchange.sharedObjects.Message;
 
 import android.app.ActionBar;
+import android.app.Activity;
 import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
 import android.content.Context;
@@ -232,6 +233,11 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	    
 		return view;
 	}
+	
+	public void updateLists()
+	{
+		//TODO:
+	}
 	/*
 	@Override
 	public void onCreate(Bundle savedInstanceState) {
@@ -306,13 +312,21 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		
 	}
 	
+	public static void refreshBL(){
+		b_frag.forceRefreshBL();
+	}
+	
+	public static void refreshSL(){
+		l_frag.forceRefreshSL();
+	}
+	
+
 	public static void refreshConversationFragment() {
 		   Fragment fragment = m_frag;
 		   if(fragment != null)
 		   {
 			   MessagesFragment m_frag = (MessagesFragment) fragment;
 			   m_frag.updateFragmentWithMessage(false);
-			  
 		   }
 	   }
 
@@ -415,12 +429,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		// TODO Auto-generated method stub
 		// When the given tab is selected, switch to the corresponding page in
 				// the ViewPager.
-		
-		
 		mViewPager.setCurrentItem(tab.getPosition());
-				
-				
-		
 	}
 
 	@Override
@@ -431,21 +440,23 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	
 	
 	
+	
 	 @Override
-	    public void onDetach() {
-	        super.onDetach();
-	        try {
-	            Field childFragmentManager = Fragment.class
-	                    .getDeclaredField("mChildFragmentManager");
-	            childFragmentManager.setAccessible(true);
-	            childFragmentManager.set(this, null);
-	        } catch (NoSuchFieldException e) {
-	            throw new RuntimeException(e);
-	        } catch (IllegalAccessException e) {
-	            throw new RuntimeException(e);
-	        }
-	    }
-	 
+	public void onDetach() {
+        super.onDetach();
+        try {
+            Field childFragmentManager = Fragment.class
+                    .getDeclaredField("mChildFragmentManager");
+            childFragmentManager.setAccessible(true);
+            childFragmentManager.set(this, null);
+        } catch (NoSuchFieldException e) {
+            throw new RuntimeException(e);
+        } catch (IllegalAccessException e) {
+            throw new RuntimeException(e);
+        }
+    }
+ 
+
 
 	
 	

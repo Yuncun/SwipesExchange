@@ -16,6 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 import android.annotation.SuppressLint;
+import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -93,6 +94,7 @@ public class ListingsList extends ListFragment
         Button btnStartProgress;
 
         
+        
 		static ListingsList newInstance(int num, MainActivity my_activity) {
         	mActivity = my_activity;
         ListingsList l = new ListingsList();
@@ -128,6 +130,7 @@ public class ListingsList extends ListFragment
 	    	return d;
 	    }
 		
+	
 	   @Override
 	   public void onListItemClick(ListView l, View v, int position, long id) {
 	       super.onListItemClick(l, v, position, id);
@@ -180,7 +183,7 @@ public class ListingsList extends ListFragment
 		           
 		           description.setText(this.b_adapter.myList.get(position).getMessageBody());
 		           try {
-						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getEndTime(), this.b_adapter.myList.get(position).getTimeCreated()));
+						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getTimeCreated(), this.b_adapter.myList.get(position).getEndTime()));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						exp_time.setText(">1h");
@@ -281,7 +284,7 @@ public class ListingsList extends ListFragment
 		           
 		           description.setText(this.b_adapter.myList.get(position).getMessageBody());
 		           try {
-						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getEndTime(), this.b_adapter.myList.get(position).getTimeCreated()));
+						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getTimeCreated(), this.b_adapter.myList.get(position).getEndTime()));
 					} catch (ParseException e) {
 						// TODO Auto-generated catch block
 						exp_time.setText(">1h");
@@ -645,7 +648,20 @@ public class ListingsList extends ListFragment
 	       }
 	   
 	   }
-    
+    /*
+	   @Override
+	   public void onResume(){
+		   
+		   Log.d("onResume", "****ON RESUME CALLED IN LISTINGS LIST****");
+		   
+		 //  String booleanResult = Boolean.toString(getActivity().getIntent().getBooleanExtra("submitted_new_BL", false));
+		 //  Log.d("onResume", "getActivity().getIntent().getBooleanExtra('submitted_new_BL', false): " + booleanResult); 
+		   super.onResume();
+
+	   }*/
+	   
+
+	   
 	   private boolean deleteListingByLid(String lid){
 		   /**
 		    * Used to delete a listing - Performs action locally, and calls the connectToServlet function to delete from server
@@ -741,6 +757,7 @@ public class ListingsList extends ListFragment
                 
                if(this.page_num==0) //Buy Listings page
                {   
+            	   Log.d("First time", "**First Time Pulling Messages - notifydataset not hupdated");
             	   this.pullAndAddMessages();
             	   bc = new BLConnectGet(getActivity(), true);
             	   bc.execute();
@@ -774,17 +791,17 @@ public class ListingsList extends ListFragment
             	{
             		
             		Log.d("frag visibility", "Buy frag visible..."); 
-               	 	bc = new BLConnectGet(getActivity(), false);
+               	 	bc = new BLConnectGet(getActivity(), true);
              	   	bc.execute();
-             	    setBLAdapter();
+             	  //  setBLAdapter();
              	   	this.b_adapter.notifyDataSetChanged();
             	}
             	else if(page_num==1 && !first_time  && ListingsUpdateTimer.shouldListBeUpdatedAgain(1))
             	{
             		Log.d("frag visibility", "List frag visible..."); 
-               	 	sc = new SLConnectGet(getActivity(), false);
+               	 	sc = new SLConnectGet(getActivity(), true);
              	   	sc.execute();
-             	   	setSLAdapter();
+             	  // 	setSLAdapter();
              	   	this.s_adapter.notifyDataSetChanged();
             	}
             	
@@ -879,6 +896,8 @@ public class ListingsList extends ListFragment
 
         }
         
+ 	 
+        
         private class PictureTaskSell extends AsyncTask<Void, Void, Map<String, Bitmap>> {
 
         	Map<String, Bitmap> map = new HashMap<String, Bitmap>();
@@ -945,6 +964,19 @@ public class ListingsList extends ListFragment
             }
 
         }
+        
+        public void forceRefreshBL(){
+        	Log.d("ListingsList", "Forcing a BL Refresh"); 
+       	 	bc = new BLConnectGet(getActivity(), true);
+     	   	bc.execute();
+     	  //  setBLAdapter();
+     	   	this.b_adapter.notifyDataSetChanged();
+        }
+        
+        public void forceRefreshSL(){
+        	
+        }
+       
             
    
             
@@ -953,12 +985,29 @@ public class ListingsList extends ListFragment
 	   
         		   private Context context;
         		   private ProgressDialog progressBar;
-        	       int count;
+        	      
         	       boolean get_pics;
         	  
         	        public BLConnectGet(Context context, boolean get_pics) {
         	        	this.context = context;
         	        	this.get_pics = get_pics;
+        	        	
+        	        }
+        
+        	        
+        	        protected boolean seeIfThereIsANewListingFromUs(List<BuyListing> updatedList, List<String> ledger){
+        	        	for (BuyListing bl : updatedList){
+        	        		if (bl.getUser().getUID().equals(Self.getUser().getUID())){
+        	        			if (!ledger.contains(bl.getListingID())){
+        	        				Log.d("NewListingsAwait", "Checked if new listings was ready - returned true");
+        	        				return true;
+        	        				//We looked through the list of listingIDs owned by this user in our clientside buy_entries and did not find this buylisting
+        	        				//This means we have been updated
+        	        			}
+        	        		}
+        	        	}
+        	        	Log.d("NewListingsAwait", "Checked if new listings was ready - returned false");
+        	        	return false;
         	        }
         	        
         	        @Override
@@ -969,10 +1018,12 @@ public class ListingsList extends ListFragment
         	        
         	      @Override
         	        protected void onPostExecute(List<BuyListing> result) {
+        	    	  
         	    	  Log.d("test", "PostExecute1");
         	    	  progressBar.dismiss();
         	    	  buyEntries = result;
         	    	  buy_entries_init = true;
+        	    	  ListingsUpdateTimer.resetUpdateCountdown(0);
         	    	  if(this.get_pics)
         	    		  getPicturesBuy();
         	    	  
@@ -982,11 +1033,62 @@ public class ListingsList extends ListFragment
         	        protected List<BuyListing> doInBackground(Void... params) {
         	        	List<BuyListing> updatedBuyList = new ArrayList<BuyListing>();
 
-        	            try {updatedBuyList = ConnectToServlet.updateBList();}
-        	            catch (RequestTimeoutException e)
-        	               	{Log.d("LOUD AND CLEAR", "Failure at updatedBlist");}
-        	            Log.d("LOUD AND CLEAR", "doInBackground reached. List contains; " + updatedBuyList.size() + " elements");
-
+        	        	
+        	        	
+        	        	//@Eric - The following bit is invoked when a new listing has just been submitted. In this case, we want the user to see his or her
+        	        	//new listing when it comes up. Therefore, we first count the number of listinsg this user has in  buy_entries, then keep keep the user waiting
+        	        	//until we finally see a new listing owned by the creator 
+        	        	if (ListingsUpdateTimer.isForceRepeatedUpdates_BL()){
+        	        		//Turn off the bool
+        	        		ListingsUpdateTimer.setForceRepeatedUpdates_BL(false);
+        	        		
+        	        		
+	        	        	List<String> listingsOwnedByUser = new ArrayList<String>();
+	        	        	//Count the number of entries owned by user right now
+	        	        	for (BuyListing bl : buyEntries){
+	        	        		if (bl.getUser().getUID().equals(Self.getUser().getUID())){
+	        	        			listingsOwnedByUser.add(bl.getListingID());
+	        	        		}
+	        	        	}
+	        	        	
+	        	        	Log.d("Special cycle starting ", "Special Cycle Starting listingsOwnedByUser (Ledger) contains " + Integer.toString(listingsOwnedByUser.size()) + " elements and BuyEntries contains " + Integer.toString(buyEntries.size()) + " entries");
+	        	        	int count = 0;
+	        	        	while(!seeIfThereIsANewListingFromUs(updatedBuyList, listingsOwnedByUser) && count < 10){
+	        	        		if (count < 1){
+	        	        			try {
+	        	        				Log.d("GetALLBL", "Sleeping for 250ms");
+	        	        		        Thread.sleep(250);         
+	        	        		    } catch (InterruptedException e) {
+	        	        		       e.printStackTrace();
+	        	        		    }
+	        	        		}else{
+	        	        			try {
+	        	        		        Thread.sleep(80);    
+	        	        		        Log.d("GetALLBL", "Sleeping for 800ms");
+	        	        		    } catch (InterruptedException e) {
+	        	        		       e.printStackTrace();
+	        	        		    }
+	        	        		}
+	        	        		
+	        	        		
+		        	            try {updatedBuyList = ConnectToServlet.updateBList();}
+		        	            catch (RequestTimeoutException e)
+		        	               	{Log.d("LOUD AND CLEAR", "Failure at updatedBlist special edition" + e.toString());}
+		        	            Log.d("LOUD AND CLEAR", "Special GetALLBL in anticipation of new listing - doInBackground reached. List contains; " + updatedBuyList.size() + " elements");
+		        	            count++;
+		        	            Log.d("LOUD AND CLEAR", "Special GetALLBL - number of times we've pulled in this refresh: " + Integer.toString(count));  
+	        	        	}
+        	        	}else{
+        	        		try {updatedBuyList = ConnectToServlet.updateBList();}
+	        	            catch (RequestTimeoutException e)
+	        	               	{Log.d("LOUD AND CLEAR", "Failure at updatedBlist" + e.toString());}
+	        	            Log.d("LOUD AND CLEAR", "Normal GetALLBL - doInBackground reached. List contains; " + updatedBuyList.size() + " elements");
+	        	           
+        	        	}
+        	        	
+        	        
+	        	        	
+        	        	
         	            for (int i = 0; i < updatedBuyList.size(); i ++)
         	            {
         	            	updatedBuyList.get(i).isSection = false;
@@ -1001,7 +1103,6 @@ public class ListingsList extends ListFragment
          	   
      		   private Context context;
      		   private ProgressDialog progressBar;
-     	       int count;
      	       boolean get_pics;
      	  
      	        public SLConnectGet(Context context, boolean get_pics) {
@@ -1018,6 +1119,7 @@ public class ListingsList extends ListFragment
      	      @Override
      	        protected void onPostExecute(List<SellListing> result) {
      	    	  Log.d("test", "PostExecute1");
+     	    	 ListingsUpdateTimer.resetUpdateCountdown(0);
      	    	  progressBar.dismiss();
      	    	  sellEntries = result;
      	    	  sell_entries_init = true;
@@ -1025,16 +1127,76 @@ public class ListingsList extends ListFragment
      	    		 getPicturesSell();
      	    	  setSLAdapter();
      	        }
+     	      
+     	       
+  	        protected boolean seeIfThereIsANewListingFromUs(List<SellListing> updatedList, List<String> ledger){
+  	        	for (SellListing sl : updatedList){
+  	        		if (sl.getUser().getUID().equals(Self.getUser().getUID())){
+  	        			if (!ledger.contains(sl.getListingID())){
+  	        				Log.d("NewListingsAwait", "SL - Checked if new listings was ready - returned true");
+  	        				return true;
+  	        				//We looked through the list of listingIDs owned by this user in our clientside buy_entries and did not find this buylisting
+  	        				//This means we have been updated
+  	        			}
+  	        		}
+  	        	}
+  	        	Log.d("NewListingsAwait", "SL Checked if new listings was ready - returned false");
+  	        	return false;
+  	        }
+  	        
      	    
      	      	@Override
      	        protected List<SellListing> doInBackground(Void... params) {
      	        	List<SellListing> updatedSellList = new ArrayList<SellListing>();
+     	        	
+     	        	if (ListingsUpdateTimer.isForceRepeatedUpdates_SL()){
+    	        		//Turn off the bool
+    	        		ListingsUpdateTimer.setForceRepeatedUpdates_SL(false);
+    	        		
+    	        		
+        	        	List<String> listingsOwnedByUser = new ArrayList<String>();
+        	        	//Count the number of entries owned by user right now
+        	        	for (BuyListing bl : buyEntries){
+        	        		if (bl.getUser().getUID().equals(Self.getUser().getUID())){
+        	        			listingsOwnedByUser.add(bl.getListingID());
+        	        		}
+        	        	}
+        	        	
+        	        	Log.d("Special cycle starting ", "Special Cycle Starting listingsOwnedByUser (Ledger) contains " + Integer.toString(listingsOwnedByUser.size()) + " elements and BuyEntries contains " + Integer.toString(buyEntries.size()) + " entries");
+        	        	int count = 0;
+        	        	while(!seeIfThereIsANewListingFromUs(updatedSellList, listingsOwnedByUser) && count < 10){
+        	        		if (count < 1){
+        	        			try {
+        	        				Log.d("GetALLBL", "Sleeping for 250ms");
+        	        		        Thread.sleep(250);         
+        	        		    } catch (InterruptedException e) {
+        	        		       e.printStackTrace();
+        	        		    }
+        	        		}else{
+        	        			try {
+        	        		        Thread.sleep(80);    
+        	        		        Log.d("GetALLSL", "Sleeping for 800ms");
+        	        		    } catch (InterruptedException e) {
+        	        		       e.printStackTrace();
+        	        		    }
+        	        		}
+        	        		
+        	        		
+	        	            try {updatedSellList = ConnectToServlet.updateSList();}
+	        	            catch (RequestTimeoutException e)
+	        	               	{Log.d("LOUD AND CLEAR", "Failure at updatedSlist special edition" + e.toString());}
+	        	            Log.d("LOUD AND CLEAR", "Special GetALLSL in anticipation of new listing - doInBackground reached. List contains; " + updatedSellList.size() + " elements");
+	        	            count++;
+	        	            Log.d("LOUD AND CLEAR", "Special GetALLSL - number of times we've pulled in this refresh: " + Integer.toString(count));  
+        	        	}
+    	        	}else{
 
-     	            try {updatedSellList = ConnectToServlet.updateSList();}
-     	            catch (RequestTimeoutException e)
-     	               	{Log.d("LOUD AND CLEAR", "Failure at updatedBlist");}
-     	            Log.d("LOUD AND CLEAR", "doInBackground reached. List contains; " + updatedSellList.size() + " elements");
-
+	     	            try {updatedSellList = ConnectToServlet.updateSList();}
+	     	            catch (RequestTimeoutException e)
+	     	               	{Log.d("LOUD AND CLEAR", "Failure at updatedSlist");}
+	     	            Log.d("LOUD AND CLEAR", "doInBackground reached. List contains; " + updatedSellList.size() + " elements");
+    	        	}
+     	        	
      	            //Temporary code for fixing the "isSecton" missing field
      	            //TODO: Eliminate isSection
      	            for (int i = 0; i < updatedSellList.size(); i ++)

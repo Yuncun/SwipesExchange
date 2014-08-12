@@ -17,7 +17,7 @@ public class StaticHelpers {
 				 * We will receive both times in "Old Format". Returns a simplified string to represent time, like ">2.5 hrs"
 				 */
 		final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
-		Log.d("timeCreated is ", "TIME CREATED : " + timeCreated + " and TIME ENDED :  "+ endTime);
+	//	Log.d("timeCreated is ", "TIME CREATED : " + timeCreated + " and TIME ENDED :  "+ endTime);
 		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
 		//Date dateCreated = sdf.parse(timeCreated);
 		Date endDate = sdf.parse(endTime);
@@ -30,9 +30,9 @@ public class StaticHelpers {
 		long differenceMs = endDate.getTime() - timeNowDate.getTime();
 		long differenceMin = differenceMs/(1000*60);
 		long differenceHr = differenceMin / 60 + (differenceMin % 60 == 0 ? 0 : 1);
-		Log.d("long differenceHr = differenceMin / 60 + (differenceMin % 60 == 0 ? 0 : 1);", "Differencemin = " + Long.toString(differenceMin) + " and endDate was " + endDate.getTime() + " and nowDate is " + timeNowDate.getTime());
+	//	Log.d("long differenceHr = differenceMin / 60 + (differenceMin % 60 == 0 ? 0 : 1);", "Differencemin = " + Long.toString(differenceMin) + " and endDate was " + endDate.getTime() + " and nowDate is " + timeNowDate.getTime());
 		
-		return "<" + Long.toString(differenceHr);
+		return "<" + Long.toString(differenceHr) + "h";
 		
 
 	}

@@ -3,6 +3,7 @@
     android:layout_width="fill_parent"
     android:layout_height="fill_parent"
     android:background="#FFFFFF"
+    android:clickable="true"
     android:orientation="vertical" >
 
     <RelativeLayout
@@ -25,6 +26,7 @@
 
         <ImageView
             android:id="@+id/splash_icon"
+            android:layout_marginTop="12dp"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:layout_below="@id/splash_title"
@@ -32,34 +34,42 @@
             android:src="@drawable/bear_circle" />
     </RelativeLayout>
 
+    
     <TextView
         android:id="@+id/profile_name"
-        android:layout_width="174dp"
+        android:layout_width="200dp"
         android:layout_height="wrap_content"
         android:layout_gravity="center_horizontal"
-        android:layout_marginTop="50dp"
+        android:layout_marginTop="40dp"
         android:gravity="center_horizontal"
         android:lines="2"
         android:text="@string/get_started"
+        
         android:textSize="15sp" />
 
-    <com.facebook.widget.LoginButton
-        android:id="@+id/login_button"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="30dp" />
+    	
 
-    <Button
-        android:id="@+id/guestButton"
-        android:layout_width="194dp"
-        android:layout_height="55dp"
-        android:layout_gravity="center_horizontal"
-        android:layout_marginBottom="30dp"
-        android:layout_marginTop="15dp"
-        android:text="@string/guesttext"
-        android:textSize = "16sp" />
+        
+	    <com.facebook.widget.LoginButton
+	        android:id="@+id/login_button"
+	        android:layout_width="200dp"
+	        android:layout_height="50dp"
+	        
+	        android:layout_gravity="center_horizontal"
+	        android:layout_marginTop="30dp" />
+	
+	    <Button
+	        android:id="@+id/guestButton"
+	        android:layout_width="200dp"
+	        android:clickable="true"
+	        android:layout_height="50dp"
+	        android:layout_marginTop="22dp"
+	        android:text="@string/guesttext"
+	        android:layout_gravity="center_horizontal"
+	        android:background="@drawable/rectangle_grey"
+	        android:textStyle = "bold"
+	        android:textSize = "16sp" />
+
 
 
 </LinearLayout>

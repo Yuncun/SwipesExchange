@@ -88,7 +88,7 @@ public class ConversationList {
 	}
 	
 	public static int findConversationIndexByListingID(String lid, String other_person_uid) {
-		Log.d ("ConversationList.findConversationIndex...", "THE ASSOCIATED LID IS " + lid);
+		//Log.d ("ConversationList.findConversationIndex...", "THE ASSOCIATED LID IS " + lid);
 		Stack<Conversation> l = ConversationList.getConversations();
 		for(int i=0; i<l.size(); i++)
 		{

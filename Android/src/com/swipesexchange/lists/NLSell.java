@@ -43,8 +43,10 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.view.Window;
 import android.widget.Button;
 import android.widget.ExpandableListView;
+import android.widget.TextView;
 
 public class NLSell extends Fragment {
 
@@ -61,6 +63,8 @@ public class NLSell extends Fragment {
 	Button yes_button;
 	Button cancel_button;
 	Dialog submit_dialog;
+	TextView text_field;
+	TextView text_field_submit;
 	
 	Button ok_button;
 	Dialog time_error_dialog;
@@ -92,10 +96,15 @@ public class NLSell extends Fragment {
 	        		if (adapter.enterMessage.getText().toString() == null || adapter.enterMessage.getText().toString().isEmpty())
 					{
 						cancel = true;
-						time_error_dialog = new Dialog(v.getContext(), R.style.CustomDialogTheme);
+						
+						time_error_dialog = new Dialog(v.getContext());
+						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						time_error_dialog.setContentView(R.layout.dialog_time_error);
+						
 						ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
-						time_error_dialog.setTitle("Please enter something for message body");
+						text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
+						
+						text_field.setText("Please enter something for the message body");
 						
 						
 						ok_button.setOnClickListener(new View.OnClickListener() {
@@ -112,13 +121,17 @@ public class NLSell extends Fragment {
 					}
 			
 					if(!cancel)
-					{						
-						submit_dialog = new Dialog(v.getContext(), R.style.CustomDialogTheme);
+					{	
+						submit_dialog = new Dialog(v.getContext());
+						submit_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						submit_dialog.setContentView(R.layout.dialog_submit);
+
 						cancel_button = (Button) submit_dialog.findViewById(R.id.Cancel_Button);
 				 		yes_button = (Button) submit_dialog.findViewById(R.id.Yes_Button);
 						
-						submit_dialog.setTitle("Submit new listing?");
+				 		text_field_submit = (TextView) submit_dialog.findViewById(R.id.dialog_text_view);
+				 		
+						text_field_submit.setText("Submit listing?");
 						
 						
 						cancel_button.setOnClickListener(new View.OnClickListener() {
@@ -205,11 +218,17 @@ public class NLSell extends Fragment {
 		                    	ConnectToServlet.sendListing(j1);
 		                    	
 		                    	ListingsUpdateTimer.toggleJustSubmittedListing();
-
+		                    	ListingsUpdateTimer.setForceRepeatedUpdates_SL(true);
 		                        submit_dialog.dismiss();
 		                        
 		                        // finish the new listing activity
 		                    	ClosedInfo.setMinimized(false);
+		                    	
+		                    	
+		                    	Intent resultIntent = new Intent();
+		                    	resultIntent.putExtra("submitted_new_SL", true);
+		                    	getActivity().setResult(1, resultIntent);
+		                    	
 		    					getActivity().finish();
 		                    }
 		                });

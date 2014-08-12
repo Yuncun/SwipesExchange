@@ -166,7 +166,7 @@ public class BuyListAdapter  extends BaseAdapter
                 int my_color_white = Color.WHITE;
                 
                 
-                Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
+               // Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
                
                 //TODO: pick a better color/indicator that the client is involved in a listing
                if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()) || 

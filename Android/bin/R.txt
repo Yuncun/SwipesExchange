@@ -492,8 +492,8 @@ int id description_bar_ds_sell 0x7f0500e2
 int id description_bar_sell 0x7f0500f4
 int id dialogTitle1 0x7f050103
 int id dialogTitle2 0x7f050102
-int id dialog_bar 0x7f05007a
-int id dialog_text_view 0x7f050079
+int id dialog_bar 0x7f050079
+int id dialog_text_view 0x7f050078
 int id edit_messages_button 0x7f0500a8
 int id edit_messages_text 0x7f0500a9
 int id exlistbuy 0x7f050082
@@ -615,7 +615,7 @@ int id trashButton_layout 0x7f0500a3
 int id txtInfo 0x7f050020
 int id txtMessage 0x7f050022
 int id userSettingsFragment 0x7f05001a
-int id username 0x7f050078
+int id username 0x7f05007a
 int id v_pager 0x7f0500ae
 int id wrap_content 0x7f05000f
 int integer google_play_services_version 0x7f0a0000

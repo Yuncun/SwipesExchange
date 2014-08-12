@@ -27,6 +27,7 @@ import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.User;
 import com.swipesexchange.sharedObjects.Venue;
 
+//import android.app.Activity;
 import android.app.Dialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -55,8 +56,10 @@ public class NLBuy extends Fragment {
     static MainActivity mActivity;
     private ExpandableListView lv;
     public MyExpandableAdapterBuy adapter;
-    
+ 
     private String messageFromEditText = "";
+    private Fragment fragment = this;
+
     
 	Button yes_button;
 	Button cancel_button;
@@ -91,7 +94,7 @@ public class NLBuy extends Fragment {
 	        		
 	        		boolean cancel = false;
 				
-	        		if (adapter.enterMessage.getText().toString() == null || adapter.enterMessage.getText().toString().isEmpty())
+	        		if (adapter.enterMessage.getText().toString() == null || adapter.enterMessage.getText().toString().isEmpty() )
 					{
 						cancel = true;
 						time_error_dialog = new Dialog(v.getContext());
@@ -227,11 +230,17 @@ public class NLBuy extends Fragment {
 		                    	ConnectToServlet.sendListing(j1);
 		                    	
 		                    	ListingsUpdateTimer.toggleJustSubmittedListing();
-
+		                    	ListingsUpdateTimer.setForceRepeatedUpdates_BL(true);
 		                        submit_dialog.dismiss();
 		                        
 		                        // finish the new listing activity
 		                    	ClosedInfo.setMinimized(false);
+		                    	
+		                    	Intent resultIntent = new Intent();
+		                    	resultIntent.putExtra("submitted_new_BL", true);
+		                    	getActivity().setResult(1, resultIntent);
+
+		                    	
 		    					getActivity().finish();
 		                    }
 		                });

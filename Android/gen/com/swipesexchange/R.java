@@ -932,8 +932,8 @@ containing a value of this type.
         public static final int description_bar_sell=0x7f0500f4;
         public static final int dialogTitle1=0x7f050103;
         public static final int dialogTitle2=0x7f050102;
-        public static final int dialog_bar=0x7f05007a;
-        public static final int dialog_text_view=0x7f050079;
+        public static final int dialog_bar=0x7f050079;
+        public static final int dialog_text_view=0x7f050078;
         public static final int edit_messages_button=0x7f0500a8;
         public static final int edit_messages_text=0x7f0500a9;
         public static final int exlistbuy=0x7f050082;
@@ -1055,7 +1055,7 @@ containing a value of this type.
         public static final int txtInfo=0x7f050020;
         public static final int txtMessage=0x7f050022;
         public static final int userSettingsFragment=0x7f05001a;
-        public static final int username=0x7f050078;
+        public static final int username=0x7f05007a;
         public static final int v_pager=0x7f0500ae;
         public static final int wrap_content=0x7f05000f;
     }

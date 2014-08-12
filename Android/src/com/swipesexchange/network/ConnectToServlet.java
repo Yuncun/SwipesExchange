@@ -189,7 +189,7 @@ public class ConnectToServlet {
 	                   	Type listType = new TypeToken<ArrayList<BuyListing>>() {}.getType();
 	                    List<BuyListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
 	                    Log.d("LOUD AND CLEAR", "Server bl list deserialized, list has size" + rl.size()); 
-	                    Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
+	                 //   Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
 
 
 	                    return rl;
@@ -244,11 +244,11 @@ public class ConnectToServlet {
                	Type listType = new TypeToken<ArrayList<SellListing>>() {}.getType();
                 List<SellListing> rl = new Gson().fromJson(dmsg.getPayload(), listType);
                 Log.d("LOUD AND CLEAR", "Server sl list deserialized, list has size" + rl.size()); 
-                Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
+            //    Log.d("LOUD AND CLEAR", "Clientside bls updated" + rl.size() + rl.get(0).getUser().getName());
                 
                 
-                Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getStartTime() + " " + rl.get(0).getEndTime() + " " + 
-            	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
+           //     Log.d("LOUD AND CLEAR", rl.get(0).getUser().getName() + " " + rl.get(0).getStartTime() + " " + rl.get(0).getEndTime() + " " + 
+           // 	            			rl.get(0).getVenue().getName() + " " + rl.get(0).getSwipeCount() + " ");
                 return rl;
 		  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed at updatesl" + e.toString()); }
 

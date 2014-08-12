@@ -75,7 +75,7 @@ import com.swipesexchange.sharedObjects.Venue;
  */
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
-	private Activity activity;
+	//private Activity activity;
 	private LayoutInflater inflater;
 	private int minutes_start, minutes_end, hours_start, hours_end;
 	private TimePicker tp_start, tp_end;
@@ -141,7 +141,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	
 	 public void setInflater(LayoutInflater inflater, Activity activity) {
 		         this.inflater = inflater;
-		         this.activity = activity;  
 	 }
 	 
 

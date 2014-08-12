@@ -19,7 +19,7 @@ import com.swipesexchange.sharedObjects.Self;
 
 public class GuestLoginFragment extends DialogFragment {
 	
-	
+	/*
 
     @Override
     public Dialog onCreateDialog(Bundle savedInstanceState) {
@@ -30,11 +30,11 @@ public class GuestLoginFragment extends DialogFragment {
        
         //final EditText mEdit = EditText ;
         final View myView = inflater.inflate(R.layout.dialog_signin, null);
+        
+        
     	final EditText mEdit =  (EditText) myView.findViewById(R.id.username);
-
-       
+    	
         mEdit.setText(mactivity.retrieveSavedGuestName(), TextView.BufferType.EDITABLE);
-
         
         // Inflate and set the layout for the dialog
         // Pass null as the parent view because its going in the dialog layout
@@ -63,6 +63,6 @@ public class GuestLoginFragment extends DialogFragment {
                });      
         return builder.create();
     }
-    
+    */
   
 }

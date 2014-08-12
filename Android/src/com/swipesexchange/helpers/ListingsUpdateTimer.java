@@ -14,12 +14,15 @@ public class ListingsUpdateTimer {
 	 *  This circumvents the nuisance of the half second wait every time we switch tabs
 	 *  
 	 */
+	//{bl, sl}
 	private static long[] timeOfLastUpdate = {Calendar.getInstance().getTimeInMillis(), Calendar.getInstance().getTimeInMillis()};
 	
-	private static final long periodBetweenUpdatesMs = 1000*15; //30 seconds
+	private static final long periodBetweenUpdatesMs = 1000*8; //8 seconds
 	
 	private static boolean justSubmittedAListing = false;
 	
+	private static boolean forceRepeatedUpdates_BL = false;
+	private static boolean forceRepeatedUpdates_SL = false;
 	
 	public static boolean shouldListBeUpdatedAgain(int tabIndex)
 	{
@@ -46,8 +49,43 @@ public class ListingsUpdateTimer {
 		}	
 	}
 	
+	public static void resetUpdateCountdown(int tabindex){
+		//Reset update countdown by adding period to our last update time
+		 Calendar now = Calendar.getInstance();
+	   	 long nowMs = now.getTimeInMillis();
+		timeOfLastUpdate[tabindex] = nowMs;
+	}
+	
 	public static void toggleJustSubmittedListing(){
 		justSubmittedAListing = true;
+	}
+
+	/**
+	 * @return the forceRepeatedUpdates_SL
+	 */
+	public static boolean isForceRepeatedUpdates_SL() {
+		return forceRepeatedUpdates_SL;
+	}
+
+	/**
+	 * @param forceRepeatedUpdates_SL the forceRepeatedUpdates_SL to set
+	 */
+	public static void setForceRepeatedUpdates_SL(boolean forceRepeatedUpdates_SL) {
+		ListingsUpdateTimer.forceRepeatedUpdates_SL = forceRepeatedUpdates_SL;
+	}
+
+	/**
+	 * @return the forceRepeatedUpdates_BL
+	 */
+	public static boolean isForceRepeatedUpdates_BL() {
+		return forceRepeatedUpdates_BL;
+	}
+
+	/**
+	 * @param forceRepeatedUpdates_BL the forceRepeatedUpdates_BL to set
+	 */
+	public static void setForceRepeatedUpdates_BL(boolean forceRepeatedUpdates_BL) {
+		ListingsUpdateTimer.forceRepeatedUpdates_BL = forceRepeatedUpdates_BL;
 	}
 
 }

@@ -1,8 +1,9 @@
 package com.swipesexchange.sharedObjects;
 
 public class Self {
+	public final static int max_listings_allowed = 5;
 	private static User user;
-	
+	private static int no_of_listings = 0;
 	/**
 	 * @return the myuser
 	 */
@@ -17,6 +18,8 @@ public class Self {
 	public static void setUser(User myuser) {
 		Self.user = myuser;
 	}
+	
+	
 	
 
 }

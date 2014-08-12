@@ -10,6 +10,7 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 
 
+import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -47,6 +48,7 @@ import com.swipesexchange.R.string;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.lists.NewListingFragment;
 import com.swipesexchange.lists.NewListingFragmentBuy;
+import com.swipesexchange.lists.SelectionFragment;
 import com.swipesexchange.lists.SelectionFragment.SectionsPagerAdapter;
 import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.Self;
@@ -71,11 +73,14 @@ public class MainActivity extends FragmentActivity {
 	public static final int MAIN = 1;
 	public static final int SETTINGS = 2;
 	public static final int GUESTLOGOUT = 3;
+	public static final int NL_REQUESTCODE = 121;
+	public static final int SL_REQUESTCODE = 122;
 	//GCM Constants
 	public static final String EXTRA_MESSAGE = "message";
     public static final String PROPERTY_REG_ID = "registration_id";
     public static final String PROPERTY_APP_VERSION = "appVersion";
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
+    
     
 	
 	//GCM Variables
@@ -247,7 +252,9 @@ public class MainActivity extends FragmentActivity {
 	    			public void onClick(View v) {
 	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragmentBuy.class);
 	    				 nextScreen.putExtra("new_listing_type", "buy");
-	    				 startActivity(nextScreen);
+	    				 //startActivity(nextScreen);
+	    				 Log.d("MainActivity Onclick for NL", "startActivityForResult(nextScreen, NL_REQUESTCODE);" );
+	    				 startActivityForResult(nextScreen, NL_REQUESTCODE);
 	    			}
 	    		});
 	    		
@@ -257,7 +264,8 @@ public class MainActivity extends FragmentActivity {
 	    			public void onClick(View v) {
 	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragment.class);
 	    				 nextScreen.putExtra("new_listing_type", "sell");
-	    				 startActivity(nextScreen);
+	    				// startActivity(nextScreen);
+	    				 startActivityForResult(nextScreen, SL_REQUESTCODE);
 	    			}
 	    		});
 	    		
@@ -288,9 +296,40 @@ public class MainActivity extends FragmentActivity {
 	public void onActivityResult(int requestCode, int resultCode, Intent data) {
 	  super.onActivityResult(requestCode, resultCode, data);
 	  uiHelper.onActivityResult(requestCode, resultCode, data);
+	  
+	  //From ListingsList 
+	  //Used to take some data from NLBuy or SLBuy to determine whether UI should be reloaded right awya
+	  Log.d("onActivityResult", "****onActivityResult IN LISTINGS LIST****" + Integer.toString(resultCode));
+	     
+	     switch(requestCode) { 
+	       case (MainActivity.NL_REQUESTCODE) : { 
+	         if (resultCode == 1) { 
+	         String newText = Boolean.toString(data.getBooleanExtra("submitted_new_BL", false));
+	         Log.d("onActivityResult", "(data.getBooleanExtra('submitted_new_BL', false) : " + newText);
+	     
+	 	     SelectionFragment.refreshBL();
+	 	     
+	         } 
+	         break; 
+	       } 
+	       case (MainActivity.SL_REQUESTCODE) : { 
+	         if (resultCode == 1) { 
+	         String newText = Boolean.toString(data.getBooleanExtra("submitted_new_SL", false));
+	         Log.d("onActivityResult", "(data.getBooleanExtra('submitted_new_SL', false) : " + newText);
+
+	 	     SelectionFragment.refreshSL();
+	 	     
+	         } 
+	         break; 
+	       } 
+	     } 
+	  
+	  
 	
 	}
 	
+	
+	 
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -681,6 +720,7 @@ public class MainActivity extends FragmentActivity {
 	    }
 	}
 
+	
 
 	@Override
 	public void onUserLeaveHint() {
