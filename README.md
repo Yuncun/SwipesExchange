@@ -2,8 +2,8 @@
 ==============
 Updated 7/13/14
 Contact:
-[Eric](<yuncuns@gmail.com>) 
-[Kyle](<kplutchak@gmail.com>)
+[Eric Shen](<yuncuns@gmail.com>) and 
+[Kyle Plutchak](<kplutchak@gmail.com>)
 
 
 ## Overview
@@ -18,6 +18,13 @@ Backend code can be found at Yuncun/SwipesExchangeBackend
 ### Version Branches
 =====================================
 1. V2.0 is default and working branch
+2. V1.0_prod is production branch
+
+![alt tag](http://i.imgur.com/ge2g7BF.png)
+![alt tag](http://i.imgur.com/sK4qApz.png)
+![alt tag](http://i.imgur.com/nCnyRBV.png)
+![alt tag](http://i.imgur.com/MQjF6s3.png)
+![alt tag](http://i.imgur.com/CpJVKQM.png)
 
 
 

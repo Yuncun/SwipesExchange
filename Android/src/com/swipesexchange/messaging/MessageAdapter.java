@@ -107,9 +107,16 @@ public class MessageAdapter extends BaseAdapter {
     	// out of bounds exception handling
     	if(position >= this.first_time.size())
     	{
-    		boolean first_time_val = this.first_time.get(0);
-    		boolean slide_in_val = this.slide_in.get(0);
-    		boolean slide_out_val = this.slide_out.get(0);
+    		boolean first_time_val = true;
+    		boolean slide_in_val = false;
+    		boolean slide_out_val = false;
+    		
+    		if(this.first_time.size() != 0)
+    		{
+    			first_time_val = this.first_time.get(0);
+	    		slide_in_val = this.slide_in.get(0);
+	    		slide_out_val = this.slide_out.get(0);
+    		}
 
     		
     		this.first_time.add(first_time_val);
@@ -225,6 +232,9 @@ public class MessageAdapter extends BaseAdapter {
            public void onClick(View view) {
 
 				ConnectToServlet.deleteConversationLocally(my_list.get(position));
+				first_time.remove(position);
+				slide_in.remove(position);
+				slide_out.remove(position);
 				deleteAConversationAndUpdate(my_list.get(position));
 					
                }
@@ -275,7 +285,7 @@ public class MessageAdapter extends BaseAdapter {
      	String lid_str = "";
     	String sid_str = "";
     	
-    	if(my_list != null)
+    	if(my_list != null && my_list.size() > 0)
     	{
 	        if(Self.getUser().getUID().equals(my_list.get(0).getSender().getUID()))
 	        {
