@@ -162,10 +162,12 @@ public class NLBuy extends Fragment {
 		                    	 
 		                    	 //Convert the timePicker values into a format that is readable by us
 		                    	 Time endTimeFormatter = new Time();
-		                    	 Calendar myEndTimeCal = Calendar.getInstance();
+		                    	
 		                    	 
 		                    	 Calendar nowCal = Calendar.getInstance();
+		                    	 nowCal.setTimeInMillis(MainActivity.accurateTimeHandler.getAccurateTime());
 		                    	 
+		                    	 Calendar myEndTimeCal = Calendar.getInstance();
 		                    	 myEndTimeCal.set(Calendar.HOUR_OF_DAY, adapter.getEndHours());
 		                    	 myEndTimeCal.set(Calendar.MINUTE, adapter.getEndMinutes());
 		                    	 

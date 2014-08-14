@@ -6,6 +6,8 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.concurrent.TimeUnit;
 
+import com.swipesexchange.main.MainActivity;
+
 import android.text.format.DateFormat;
 import android.util.Log;
 
@@ -23,6 +25,7 @@ public class StaticHelpers {
 		Date endDate = sdf.parse(endTime);
 		
 		Calendar calCreated = Calendar.getInstance();
+		calCreated.setTimeInMillis(MainActivity.accurateTimeHandler.getAccurateTime());
 		Date timeNowDate = calCreated.getTime();
 		//timeNowDate is current time
 		//endDate is date when listing should expire
@@ -61,3 +64,4 @@ public class StaticHelpers {
     }
 
 }
+

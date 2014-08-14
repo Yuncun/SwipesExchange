@@ -45,7 +45,9 @@ import com.swipesexchange.R.id;
 import com.swipesexchange.R.layout;
 import com.swipesexchange.R.menu;
 import com.swipesexchange.R.string;
+import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ClosedInfo;
+import com.swipesexchange.helpers.SntpClient;
 import com.swipesexchange.lists.NewListingFragment;
 import com.swipesexchange.lists.NewListingFragmentBuy;
 import com.swipesexchange.lists.SelectionFragment;
@@ -81,7 +83,7 @@ public class MainActivity extends FragmentActivity {
     public static final String PROPERTY_APP_VERSION = "appVersion";
     public static final int PLAY_SERVICES_RESOLUTION_REQUEST = 9000;
     
-    
+    public static AccurateTimeHandler accurateTimeHandler;
 	
 	//GCM Variables
     String SENDER_ID = "59031275379";
@@ -96,7 +98,7 @@ public class MainActivity extends FragmentActivity {
 	public boolean loggedInAsGuest = false;
     private boolean minimized;
     private int logged_in;
-	
+
     //Member Instances
     protected Context context;
 	SectionsPagerAdapter mSectionsPagerAdapter;
@@ -134,6 +136,7 @@ public class MainActivity extends FragmentActivity {
 		
 		ClosedInfo.setMinimized(true);
 		
+		
 		setRequestedOrientation(ActivityInfo.SCREEN_ORIENTATION_PORTRAIT);
 		setContentView(R.layout.activity_main);
 		
@@ -143,6 +146,7 @@ public class MainActivity extends FragmentActivity {
 		fragments[SETTINGS] = fragment_manager.findFragmentById(R.id.userSettingsFragment);
 		fragments[GUESTLOGOUT] = fragment_manager.findFragmentById(R.id.guestlogoutfragment);
 		
+		accurateTimeHandler = new AccurateTimeHandler();
 		
 		//Create self
 		//self = new User(null);

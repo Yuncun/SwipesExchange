@@ -165,6 +165,7 @@ public class NLSell extends Fragment {
 		                    	 //Convert the timePicker values into a format that is readable by us
 		                    	 Time endTimeFormatter = new Time();
 		                    	 Calendar myEndTimeCal = Calendar.getInstance();
+		                    	 
 		                    	 myEndTimeCal.set(Calendar.HOUR_OF_DAY, adapter.getEndHours());
 		                    	 myEndTimeCal.set(Calendar.MINUTE, adapter.getEndMinutes());
 		                    	 endTimeFormatter.set(myEndTimeCal.getTimeInMillis());
@@ -173,6 +174,8 @@ public class NLSell extends Fragment {
 		                    	 sl.setEndTime(endTimeFormatted);
 		                    	 
 		                    	 Calendar nowCal = Calendar.getInstance();
+		                    	 nowCal.setTimeInMillis(MainActivity.accurateTimeHandler.getAccurateTime());
+		                    	 
 		                    	 Time now = new Time();
 		                    	 now.set(nowCal.getTimeInMillis());
 		                    	
