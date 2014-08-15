@@ -7,6 +7,7 @@ import java.util.ArrayList;
 import android.text.format.Time;
 
 import java.util.Calendar;
+import java.util.HashMap;
 import java.util.List;
 
 import android.app.Activity;
@@ -15,8 +16,10 @@ import android.content.Context;
 import android.graphics.Color;
 import android.graphics.Typeface;
 import android.os.AsyncTask;
+import android.text.Editable;
 import android.text.Spannable;
 import android.text.SpannableStringBuilder;
+import android.text.TextWatcher;
 import android.text.style.ForegroundColorSpan;
 import android.util.Log;
 import android.view.Gravity;
@@ -88,6 +91,8 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	private ArrayList<Boolean> is_expanded;
 	private String message_str;
 	private TextView m_text;
+	
+	private HashMap<String, String> SavedData = new HashMap<String, String>();
 	
 	private boolean any_white;
 	
@@ -176,6 +181,31 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 					enterMessage.requestFocus();
 				}
 			});
+				
+				enterMessage.setTag("desc");
+				
+				enterMessage.addTextChangedListener(new TextWatcher() {
+
+		            public void beforeTextChanged(CharSequence s, int start, int count,
+		                    int after) {
+		            }
+
+		            public void afterTextChanged(Editable s) {
+
+		                 //Save your Changed Text to HashMap using tag of edittext
+		                 SavedData.put((String) enterMessage.getTag(),s.toString());
+
+		            }
+		            public void onTextChanged(CharSequence s, int start, int before,
+		                    int count) {
+
+		            }
+		        });
+				
+				if(SavedData.containsKey("desc"))
+				{
+					enterMessage.setText(SavedData.get("desc").toString());
+				}
 		
 				v_holder.t = enterMessage;
 				
@@ -599,6 +629,10 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 			{
 				Log.d("Holder class", "Class is: " + convertView.getTag().getClass().toString());
 				v_holder = (EditTextViewHolder) convertView.getTag();
+				if(SavedData.containsKey("desc"))
+				{
+					v_holder.t.setText(SavedData.get("desc").toString());
+				}
 			}
 			else if(convertView.getTag() instanceof TimePickerViewHolder)
 			{
@@ -686,7 +720,7 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 					flipping_arrow.setRotation(270);
 				else
 					flipping_arrow.setRotation(90);
-				((TextView) convertView.findViewById(R.id.group3_text_right)).setText(parents.get(groupPosition).getTextRight());
+				
 				convertView.setOnClickListener(new OnClickListener() {
 					
 					@Override
@@ -736,11 +770,6 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 				end_time = end_time + "AM";
 			// set the text field
 			this.parents.get(groupPosition).setTextRight(end_time);
-		}
-		else if(groupPosition==2)
-		{
-			String venue = this.venue.getName();
-			this.parents.get(groupPosition).setTextRight(venue);
 		}
 	}
 	
@@ -794,11 +823,6 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		{
 			this.minutes_end = tp_end.getCurrentMinute();
 			this.hours_end = tp_end.getCurrentHour();
-			this.updateParentsRightViews(groupPosition);
-		}
-		if(groupPosition==2)
-		{
-			this.venue.setName(this.venue_name);
 			this.updateParentsRightViews(groupPosition);
 		}
 

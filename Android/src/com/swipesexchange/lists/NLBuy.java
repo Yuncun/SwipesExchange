@@ -302,7 +302,7 @@ public class NLBuy extends Fragment {
      		else if(i==1) // EndTime, i==1
      		{
      			parent.setName("EndTime");
-     			parent.setTextLeft("End Time:");
+     			parent.setTextLeft("Set Expiration Time:");
      			parent.setTextRight("");
      			parent.setChildren(new ArrayList<ChildRow>());
      			
@@ -314,7 +314,7 @@ public class NLBuy extends Fragment {
      		else if(i==2) // Venue, i==2
      		{
      			parent.setName("SetVenue");
-     			parent.setTextLeft("Set Venue:");
+     			parent.setTextLeft("Set Venues:");
      			parent.setTextRight("");
      			parent.setChildren(new ArrayList<ChildRow>());
      			

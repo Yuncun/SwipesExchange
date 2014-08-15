@@ -68,13 +68,11 @@ public class SellListAdapter  extends BaseAdapter
         TextView v4 = (TextView) view.findViewById(R.id.box_4_text_sell);
         TextView time_created = (TextView) view.findViewById(R.id.sell_listing_time_created);
         TextView name = (TextView) view.findViewById(R.id.sell_listing_name);
-        TextView price = (TextView) view.findViewById(R.id.price_sell);
         
         description.setText(this.myList.get(position).getMessageBody());
         time_created.setText(StaticHelpers.getTimeText(this.myList.get(position).getTimeCreated()));
         name.setText(this.myList.get(position).getUser().getName());
         fb_pic.setImageBitmap(PictureCache.getFBPicBuy(this.myList.get(position).getUser().getUID()));
-        price.setText(Double.toString(this.myList.get(position).getPrice()));
   
         try {
 			exp_time.setText(StaticHelpers.figureOutExpirationTime(this.myList.get(position).getTimeCreated(), this.myList.get(position).getEndTime()));

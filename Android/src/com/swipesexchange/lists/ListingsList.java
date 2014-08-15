@@ -419,9 +419,9 @@ public class ListingsList extends ListFragment
 		           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_ds_sell);
 		           TextView time_created = (TextView) dialog.findViewById(R.id.sell_listing_time_created_ds);
 		           TextView name = (TextView) dialog.findViewById(R.id.sell_listing_name_ds);
-		           TextView price = (TextView) dialog.findViewById(R.id.price_sell_ds);
 		           
-		           price.setText(Double.toString(this.s_adapter.myList.get(position).getPrice()));
+		           
+		           
 		           //Set button for deleting your own listnig
 		           Button deleteListingButton = (Button) dialog.findViewById(R.id.delete_listing_button_sell);
 		           deleteListingButton.setOnClickListener(new View.OnClickListener() {
@@ -531,10 +531,7 @@ public class ListingsList extends ListFragment
 		           TextView v4 = (TextView) dialog.findViewById(R.id.box_4_text_d_sell);
 		           TextView time_created = (TextView) dialog.findViewById(R.id.sell_listing_time_created_d);
 		           TextView name = (TextView) dialog.findViewById(R.id.sell_listing_name_d);
-		           TextView price = (TextView) dialog.findViewById(R.id.price_sell_d);
-		           
-		           price.setText(Double.toString(this.s_adapter.myList.get(position).getPrice()));
-		           
+
 		           description.setText(this.s_adapter.myList.get(position).getMessageBody());
 		           try {
 						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.s_adapter.myList.get(position).getEndTime(), this.s_adapter.myList.get(position).getTimeCreated()));
@@ -793,7 +790,7 @@ public class ListingsList extends ListFragment
             		Log.d("frag visibility", "Buy frag visible..."); 
                	 	bc = new BLConnectGet(getActivity(), true);
              	   	bc.execute();
-             	  //  setBLAdapter();
+             	    setBLAdapter();
              	   	this.b_adapter.notifyDataSetChanged();
             	}
             	else if(page_num==1 && !first_time  && ListingsUpdateTimer.shouldListBeUpdatedAgain(1))
@@ -801,7 +798,7 @@ public class ListingsList extends ListFragment
             		Log.d("frag visibility", "List frag visible..."); 
                	 	sc = new SLConnectGet(getActivity(), true);
              	   	sc.execute();
-             	  // 	setSLAdapter();
+             	   	setSLAdapter();
              	   	this.s_adapter.notifyDataSetChanged();
             	}
             	
@@ -932,22 +929,28 @@ public class ListingsList extends ListFragment
    	         
    	  		 }
                 Log.d("picture", Integer.toString(sellEntries.size()));
+                String uid = "";
+                Bitmap guest_icon = BitmapFactory.decodeResource(context.getResources(),
+                        R.drawable.bear_greyscale);
                 for(int i=0; i < sellEntries.size(); i++)
                 {
 	                try {
 	                	//options = new BitmapFactory.Options();
 	                	//options.inSampleSize = 2;
 	                	
-	                	String uid = sellEntries.get(i).getUser().getUID();
+	                	uid = sellEntries.get(i).getUser().getUID();
 	                	url = new URL("https://graph.facebook.com/" + uid + "/picture?type=large");
+	                	InputStream in = (InputStream) url.getContent();
 	                    Log.d("picture", "URL is: " + url.toString());
-	                    pic_bitmap = BitmapFactory.decodeStream(url.openConnection().getInputStream());
+	                    pic_bitmap = BitmapFactory.decodeStream(in);
 	                    map.put(uid, pic_bitmap);
 	                } catch (MalformedURLException e) {
 	                    e.printStackTrace();
+	                    map.put(uid, guest_icon);
 	                    Log.d("picture", "Malformed URL!");
 	                } catch (IOException e) {
 	                    e.printStackTrace();
+	                    map.put(uid, guest_icon);
 	                    Log.d("picture", "IO Exception!");
 	                }
                 }
@@ -974,7 +977,11 @@ public class ListingsList extends ListFragment
         }
         
         public void forceRefreshSL(){
-        	
+        	Log.d("ListingsList", "Forcing a SL Refresh"); 
+       	 	sc = new SLConnectGet(getActivity(), true);
+     	   	sc.execute();
+     	  //  setBLAdapter();
+     	   	this.s_adapter.notifyDataSetChanged();
         }
        
             

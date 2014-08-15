@@ -103,7 +103,7 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/description_bar_ds_sell"
         android:layout_marginTop="2dp"
-        android:layout_marginBottom="30dp"
+        android:layout_marginBottom="10dp"
         android:paddingBottom="4dp"
         android:layout_marginLeft="45dp"
         
@@ -202,17 +202,7 @@
     
 
   
-   <TextView
-               android:id="@+id/price_sell_ds"
-               android:layout_width="40dp"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/expiration_time_ds_sell"
-               android:paddingTop="2dp"
-               android:paddingBottom="7dp"
-               android:gravity="center"
-               android:text="$2"
-               android:textStyle="bold"
-               android:textSize="12sp" />
+
 
 
  
@@ -224,7 +214,7 @@
             android:layout_width="wrap_content"
             android:layout_height="25dp"
             android:padding="2dp"
-            android:layout_below="@id/price_sell_ds"
+            android:layout_below="@id/boxes_bar_ds_sell"
             android:layout_centerHorizontal="true"
             android:textSize="14sp"
             android:textStyle="bold"

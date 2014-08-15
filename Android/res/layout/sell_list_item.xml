@@ -210,15 +210,6 @@
         android:layout_centerVertical="true"
         android:src="@drawable/ic_action_next_item" />
 
-           <TextView
-               android:id="@+id/price_sell"
-               android:layout_width="40dp"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/expiration_time_sell"
-               android:paddingTop="2dp"
-               android:gravity="center"
-               android:text="$2"
-               android:textStyle="bold"
-               android:textSize="12sp" />
+
 
 </RelativeLayout>

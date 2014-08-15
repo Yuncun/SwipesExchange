@@ -202,17 +202,7 @@
     
 
   
-   <TextView
-               android:id="@+id/price_sell_d"
-               android:layout_width="40dp"
-               android:layout_height="wrap_content"
-               android:layout_below="@id/expiration_time_d_sell"
-               android:paddingTop="2dp"
-               android:paddingBottom="7dp"
-               android:gravity="center"
-               android:text="$2"
-               android:textStyle="bold"
-               android:textSize="12sp" />
+
 
 
  
@@ -222,7 +212,7 @@
             android:layout_width="wrap_content"
             android:layout_height="40dp"
             android:layout_marginBottom="8dp"
-            android:layout_below="@id/price_sell_d"
+            android:layout_below="@id/boxes_bar_d_sell"
             android:layout_alignParentRight="true"
             android:textSize="14sp"
             android:textStyle="bold"
@@ -235,7 +225,7 @@
             android:id="@+id/messageEdit_d_sell"
             android:layout_width="fill_parent"
             android:layout_height="wrap_content"
-            android:layout_below="@id/price_sell_d"
+            android:layout_below="@id/boxes_bar_d_sell"
             android:layout_marginBottom="4dp"
             android:padding="2dp"
             android:layout_toLeftOf="@id/chatSendButton_d_sell"
