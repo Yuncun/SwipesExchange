@@ -5,14 +5,6 @@ import java.util.Calendar;
 
 import com.google.gson.Gson;
 import com.swipesexchange.R;
-<<<<<<< Updated upstream
-=======
-<<<<<<< HEAD
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
-=======
->>>>>>> 395bd822774ad3f37b840b647fe71c70d3364de4
->>>>>>> Stashed changes
 import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ChildRow;
 import com.swipesexchange.helpers.ClosedInfo;
