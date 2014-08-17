@@ -2,7 +2,6 @@ package com.swipesexchange.helpers;
 
 import java.util.Calendar;
 
-import android.text.format.Time;
 import android.util.Log;
 
 public class ListingsUpdateTimer {
@@ -39,7 +38,6 @@ public class ListingsUpdateTimer {
 		
 		if (nowMs <= periodBetweenUpdatesMs + timeOfLastUpdate[tabIndex]){
 				Log.d("ListingUpdateTimer", "Time elapsed between last update and now is under 30 second, update false");
-				//timeOfLastUpdate = nowMs;
 				return false;
 			}
 		else{

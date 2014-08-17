@@ -2,19 +2,7 @@ package com.swipesexchange.messaging;
 
 import java.util.ArrayList;
 
-import com.swipesexchange.R;
-import com.swipesexchange.R.anim;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
-import com.swipesexchange.helpers.ClosedInfo;
-import com.swipesexchange.main.MainActivity;
-import com.swipesexchange.network.ConnectToServlet;
-import com.swipesexchange.sharedObjects.Message;
-import com.swipesexchange.sharedObjects.Self;
-import com.swipesexchange.sharedObjects.User;
-
 import android.app.ActionBar;
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -25,11 +13,17 @@ import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
 import android.view.inputmethod.InputMethodManager;
-import android.widget.BaseAdapter;
 import android.widget.Button;
 import android.widget.EditText;
 import android.widget.RelativeLayout;
-import android.widget.TextView;
+
+import com.swipesexchange.R;
+import com.swipesexchange.helpers.ClosedInfo;
+import com.swipesexchange.main.MainActivity;
+import com.swipesexchange.network.ConnectToServlet;
+import com.swipesexchange.sharedObjects.Message;
+import com.swipesexchange.sharedObjects.Self;
+import com.swipesexchange.sharedObjects.User;
 
 
 public class ConversationActivity extends FragmentActivity {
@@ -41,8 +35,7 @@ public class ConversationActivity extends FragmentActivity {
 	private ArrayList<Message> passed_messages;
 	private String lid;
 	private String other_person_uid;
-	private boolean is_empty;
-	   @Override
+	@Override
 	    protected void onCreate(Bundle savedInstanceState) {
 	        super.onCreate(savedInstanceState);
 	        
@@ -143,7 +136,6 @@ public class ConversationActivity extends FragmentActivity {
 	                	      Context.INPUT_METHOD_SERVICE);
 	                imm.hideSoftInputFromWindow(message_content_holder.getWindowToken(), 0);
 	       
-	                is_empty = false;
 	                refreshConversationFragment(msg, true);
 	     
 	                

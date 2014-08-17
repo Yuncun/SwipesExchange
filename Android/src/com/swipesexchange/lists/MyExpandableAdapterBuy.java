@@ -2,33 +2,19 @@ package com.swipesexchange.lists;
 
 
 import java.util.ArrayList;
-
 import android.text.format.Time;
-
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-
 import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Matrix;
-import android.graphics.Typeface;
-import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
-import android.view.View.OnFocusChangeListener;
 import android.view.ViewGroup;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.BaseExpandableListAdapter;
@@ -37,32 +23,11 @@ import android.widget.CheckedTextView;
 import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
-import android.widget.ImageView.ScaleType;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
-import com.amazonaws.services.simpledb.model.PutAttributesRequest;
-import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
-import com.google.gson.Gson;
 import com.swipesexchange.R;
-import com.swipesexchange.R.drawable;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.ParentRow;
-import com.swipesexchange.sharedObjects.BuyListing;
-import com.swipesexchange.sharedObjects.Listing;
-import com.swipesexchange.sharedObjects.MsgStruct;
-import com.swipesexchange.sharedObjects.Self;
-import com.swipesexchange.sharedObjects.User;
-import com.swipesexchange.sharedObjects.Venue;
 /**
  * 
  * MyExpandableAdapterBuy
@@ -75,37 +40,32 @@ import com.swipesexchange.sharedObjects.Venue;
  * @author Kyle
  *
  */
+@SuppressLint("DefaultLocale")
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
-	//private Activity activity;
 	private LayoutInflater inflater;
-	private int minutes_start, minutes_end, hours_start, hours_end;
-	private TimePicker tp_start, tp_end;
-	private int num_swipes;
-	private NumberPicker swipes;
-	private Venue venue;
+	private int minutes_end, hours_end;
+	private TimePicker tp_end;
 	private String venue_name;
 	private ExpandableListView parent_list_view;
+	
+	// EditText for entering the description for the listing
 	public EditText enterMessage;
-	private String messageFromEditText = "";
+	
+	// list of desired venues
 	public List<String> selectedVenues;
+	
+	// list of expanded groups
 	private ArrayList<Boolean> is_expanded;
-	private String message_str;
-	private TextView m_text;
 	
-	private HashMap<String, String> SavedData = new HashMap<String, String>();
-	
-	private boolean any_white;
+	// used to store the EditText string to prevent loss of entered text when the view loses focus
+	private HashMap<String, String> enterMessageSaved = new HashMap<String, String>();
 	
 	// view int types
 	private final int EDIT_TEXT_TYPE = 0;
 	private final int TIME_PICKER_TYPE = 1;
 	private final int TEXT_TYPE = 2;
-	
-	
-	
-	
-	
+
 	// ParentRows passed in from NewListingFragmentBuy
 	final private ArrayList<ParentRow> parents;
 	 
@@ -119,20 +79,20 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	public MyExpandableAdapterBuy(ExpandableListView parent, ArrayList<ParentRow> parents) {
 		this.parents = parents;
-		this.venue = new Venue("Any");
+		
 		// set the default times in the TimePickers based off of current time
 		Time now = new Time();
 		now.setToNow();
+		
+		// create selected venues list and add default "Any" to it
 		selectedVenues = new ArrayList<String>();
-		this.minutes_start = now.minute;
+		selectedVenues.add("Any");
+		
 		this.minutes_end = now.minute;
-		this.hours_start = now.hour;
 		this.hours_end = now.hour + 3;
 		this.venue_name = "Any";
-		this.num_swipes=1;
 		this.parent_list_view = parent;
-		this.message_str = "";
-		this.any_white = true;
+		
 		this.is_expanded = new ArrayList<Boolean>(4);
 		for(int i=0; i<3; i++)
 			this.is_expanded.add(i, false);
@@ -148,8 +108,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	 }
 	 
 
-
-	@SuppressWarnings("unchecked")
 	@Override
 	public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
 		// TODO: recycle views instead of always inflating
@@ -193,7 +151,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		            public void afterTextChanged(Editable s) {
 
 		                 //Save your Changed Text to HashMap using tag of edittext
-		                 SavedData.put((String) enterMessage.getTag(),s.toString());
+		                 enterMessageSaved.put((String) enterMessage.getTag(),s.toString());
 
 		            }
 		            public void onTextChanged(CharSequence s, int start, int before,
@@ -202,9 +160,9 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		            }
 		        });
 				
-				if(SavedData.containsKey("desc"))
+				if(enterMessageSaved.containsKey("desc"))
 				{
-					enterMessage.setText(SavedData.get("desc").toString());
+					enterMessage.setText(enterMessageSaved.get("desc").toString());
 				}
 		
 				v_holder.t = enterMessage;
@@ -629,9 +587,9 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 			{
 				Log.d("Holder class", "Class is: " + convertView.getTag().getClass().toString());
 				v_holder = (EditTextViewHolder) convertView.getTag();
-				if(SavedData.containsKey("desc"))
+				if(enterMessageSaved.containsKey("desc"))
 				{
-					v_holder.t.setText(SavedData.get("desc").toString());
+					v_holder.t.setText(enterMessageSaved.get("desc").toString());
 				}
 			}
 			else if(convertView.getTag() instanceof TimePickerViewHolder)
@@ -751,18 +709,8 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	}
 
 	public void updateParentsRightViews(int groupPosition) {
-		if(groupPosition==0)
-		{
-			String start_time = String.format("%d:%02d", fixHours(this.hours_start), this.minutes_start);
-			// add PM/AM
-			if(this.isPM(this.hours_start))
-				start_time = start_time + "PM";
-			else
-				start_time = start_time + "AM";
-			// set the text field
-			this.parents.get(groupPosition).setTextRight(start_time);
-		}
-		else if(groupPosition==1)
+	
+		if(groupPosition==1)
 		{
 			String end_time = String.format("%d:%02d", fixHours(this.hours_end), this.minutes_end);
 			// add PM/AM
@@ -775,7 +723,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		return parents.get(groupPosition).getChildren().get(childPosition);
@@ -786,7 +733,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		return childPosition;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		return parents.get(groupPosition).getChildren().size();
@@ -834,6 +780,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	
 	}
 
+	@SuppressLint("DefaultLocale")
 	@Override
 	public void onGroupExpanded(int groupPosition) {
 		
@@ -842,6 +789,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		
 	}
 
+	@SuppressLint("DefaultLocale")
 	@Override
 	public long getGroupId(int groupPosition) {
 		return groupPosition;
@@ -860,22 +808,6 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	
 	 // Data retrieval and data setting methods
 	 
-	 public int getNumSwipes()
-	 {
-		 return this.num_swipes;
-	 }
-	 
-	 public void setMessageFromEditText(String text)
-	 {
-		 messageFromEditText = text;
-	 }
-	 
-	 public void setNumSwipes(int num)
-	 {
-		 this.num_swipes = num;
-	 }
-	 
-	 
 	 public ExpandableListView getParent()
 	 {
 		 return this.parent_list_view;
@@ -888,28 +820,12 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		 return this.venue_name;
 	 }
 	 
-	 public int getStartMinutes() {
-		return this.minutes_start;
-	 }
-	 
-	 public void setStartMinutes(int num) {
-		 this.minutes_start = num;
-	 }
-	 
 	 public int getEndMinutes() {
 		 return this.minutes_end;
 	 }
 	 
 	 public void setEndMinutes(int num) {
 		 this.minutes_end = num;
-	 }
-	 public int getStartHours() {
-		 return this.hours_start;
-	 }
-	 
-	 public void setStartHours(int num)
-	 {
-		 this.hours_start = num;
 	 }
 	 
 	 public int getEndHours() {

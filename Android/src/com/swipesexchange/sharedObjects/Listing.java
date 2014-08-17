@@ -3,7 +3,11 @@ import java.io.Serializable;
 
 public abstract class Listing implements Serializable{ 
         
-	//the following variables need to be set when we create a new listing from the backend
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
+		//the following variables need to be set when we create a new listing from the backend
         private int swipeCount; 
         private User user;
         private Venue venue; //might need to change this to just a string

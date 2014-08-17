@@ -19,7 +19,7 @@
         android:id="@+id/box_1"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:background="@drawable/rectangle"
+        android:background="@drawable/rectangle_red"
         android:padding="2dp"
         >
 

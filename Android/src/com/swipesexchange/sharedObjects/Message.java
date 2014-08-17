@@ -8,6 +8,10 @@ import com.swipesexchange.helpers.Constants;
 
 public class Message implements Serializable {
 	
+	/**
+	 * 
+	 */
+	private static final long serialVersionUID = 1L;
 	private String MessageID;
 	private User Sender;
 	private User Receiver;

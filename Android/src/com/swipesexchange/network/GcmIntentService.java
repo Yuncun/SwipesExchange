@@ -3,12 +3,9 @@ package com.swipesexchange.network;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.google.gson.Gson;
 import com.swipesexchange.R;
-import com.swipesexchange.R.drawable;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.messaging.ConversationList;
 import com.swipesexchange.sharedObjects.Message;
-import com.swipesexchange.sharedObjects.MsgStruct;
-
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -17,14 +14,12 @@ import android.content.Intent;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
-import android.support.v4.app.TaskStackBuilder;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 
 	public class GcmIntentService extends IntentService {
 	    public static final int NOTIFICATION_ID = 1;
 	    private Context mContext; 
-	    private NotificationManager mNotificationManager;
 	    NotificationCompat.Builder builder;
 
 	    public GcmIntentService() {

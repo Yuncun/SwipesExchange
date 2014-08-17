@@ -1,14 +1,10 @@
 package com.swipesexchange.lists;
 
 import java.text.ParseException;
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.List;
 
 import com.swipesexchange.R;
-import com.swipesexchange.R.color;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.messaging.ConversationList;
 import com.swipesexchange.messaging.PictureCache;
@@ -17,8 +13,6 @@ import com.swipesexchange.sharedObjects.SellListing;
 
 import android.content.Context;
 import android.graphics.Color;
-import android.graphics.Typeface;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -40,7 +34,6 @@ public class SellListAdapter  extends BaseAdapter
     List<String> DescAmount;
     List<String> DescVenue;
     public int num_dividers;
-   //really dumb way of doing the dividers, but ohwell, maybe do a sticky divider later
     
     public SellListAdapter(Context context,List<SellListing> list) 
     {
@@ -77,7 +70,6 @@ public class SellListAdapter  extends BaseAdapter
         try {
 			exp_time.setText(StaticHelpers.figureOutExpirationTime(this.myList.get(position).getTimeCreated(), this.myList.get(position).getEndTime()));
 		} catch (ParseException e) {
-			// TODO Auto-generated catch block
 			exp_time.setText(">1h");
 			e.printStackTrace();
 		}
@@ -119,9 +111,7 @@ public class SellListAdapter  extends BaseAdapter
         int my_color = inflater.getContext().getResources().getColor(R.color.light_teal);
         
         int my_color_white = Color.WHITE;
-        
-        
-       // Log.d("porcupine", "Listing ID: " + this.myList.get(position).getListingID());
+
        
         //TODO: pick a better color/indicator that the client is involved in a listing
        if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()) || 
@@ -134,18 +124,15 @@ public class SellListAdapter  extends BaseAdapter
     }
 
     public Object getItem(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
     public long getItemId(int position) {
-        // TODO Auto-generated method stub
         return position;
     }
 
 	@Override
 	public int getCount() {
-		// TODO Auto-generated method stub
 		return myList.size();
 	}
 

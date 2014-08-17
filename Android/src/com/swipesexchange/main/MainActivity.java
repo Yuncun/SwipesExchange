@@ -3,14 +3,9 @@ package com.swipesexchange.main;
 
 import java.io.IOException;
 import java.util.List;
-import java.util.Random;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
-
-
-
-import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
@@ -41,13 +36,8 @@ import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.swipesexchange.R;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
-import com.swipesexchange.R.menu;
-import com.swipesexchange.R.string;
 import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ClosedInfo;
-import com.swipesexchange.helpers.SntpClient;
 import com.swipesexchange.lists.NewListingFragment;
 import com.swipesexchange.lists.NewListingFragmentBuy;
 import com.swipesexchange.lists.SelectionFragment;
@@ -91,14 +81,9 @@ public class MainActivity extends FragmentActivity {
     GoogleCloudMessaging gcm;
     AtomicInteger msgId = new AtomicInteger();
 
-    //Client State Variables
-	private boolean state_changed;
-	private boolean create;
+    private boolean create;
 	private boolean is_resumed;
 	public boolean loggedInAsGuest = false;
-    private boolean minimized;
-    private int logged_in;
-
     //Member Instances
     protected Context context;
 	SectionsPagerAdapter mSectionsPagerAdapter;
@@ -109,12 +94,6 @@ public class MainActivity extends FragmentActivity {
 	ViewPager mViewPager;
 	private UiLifecycleHelper uiHelper;
 	
-	//Deprecated
-	//private boolean first_login;
-	//private final Handler handler = new Handler();
-	//private Runnable run_pager;
-	//private LoginFragment login_fragment;
-	//public BackendData l;
 	
 	/**
 	 * onCreate function for FragmentActivity
@@ -127,10 +106,7 @@ public class MainActivity extends FragmentActivity {
 		uiHelper.onCreate(savedInstanceState);
 		
 		
-		minimized = false;
 		Self.setUser(new User("Guest"));
-		this.logged_in = 0;
-		
 		session = Session.getActiveSession();
 		session.closeAndClearTokenInformation();
 		
@@ -147,9 +123,7 @@ public class MainActivity extends FragmentActivity {
 		fragments[GUESTLOGOUT] = fragment_manager.findFragmentById(R.id.guestlogoutfragment);
 		
 		accurateTimeHandler = new AccurateTimeHandler();
-		
-		//Create self
-		//self = new User(null);
+
 		context = getApplicationContext();
 		
 		FragmentTransaction transaction = fragment_manager.beginTransaction();
@@ -160,7 +134,6 @@ public class MainActivity extends FragmentActivity {
 		
 		transaction.commit();
 	        
-		this.state_changed = false;
 		this.create = false;
 
 	}
@@ -206,10 +179,7 @@ public class MainActivity extends FragmentActivity {
  	  	            } else {
  	  	                Log.i("LOUD AND CLEAR", "No valid Google Play Services APK found.");
  	  	            }
- 	  	                
- 	  	               
- 	  	             
- 	  	               // fg.execute(fbid);
+
  	  	                
  	  	              }
  	  	            }
@@ -256,7 +226,6 @@ public class MainActivity extends FragmentActivity {
 	    			public void onClick(View v) {
 	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragmentBuy.class);
 	    				 nextScreen.putExtra("new_listing_type", "buy");
-	    				 //startActivity(nextScreen);
 	    				 Log.d("MainActivity Onclick for NL", "startActivityForResult(nextScreen, NL_REQUESTCODE);" );
 	    				 startActivityForResult(nextScreen, NL_REQUESTCODE);
 	    			}
@@ -268,7 +237,6 @@ public class MainActivity extends FragmentActivity {
 	    			public void onClick(View v) {
 	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragment.class);
 	    				 nextScreen.putExtra("new_listing_type", "sell");
-	    				// startActivity(nextScreen);
 	    				 startActivityForResult(nextScreen, SL_REQUESTCODE);
 	    			}
 	    		});
@@ -327,13 +295,9 @@ public class MainActivity extends FragmentActivity {
 	         break; 
 	       } 
 	     } 
-	  
-	  
-	
+
 	}
-	
-	
-	 
+
 	@Override
 	public void onPause() {
 		super.onPause();
@@ -367,7 +331,7 @@ public class MainActivity extends FragmentActivity {
 	            Log.d("Loud and Clear", "checkPlayServices() device not supported");
 	            finish();
 	            //@Eric - Should be careful with this shit
-	            //REmember to test it
+	            //Remember to test it
 	        }
 	        return false;
 	    }
@@ -406,8 +370,6 @@ public class MainActivity extends FragmentActivity {
 	 * @return Application's {@code SharedPreferences}.
 	 */
 	private SharedPreferences getGCMPreferences(Context context) {
-	    // This sample app persists the registration ID in shared preferences, but
-	    // how you store the regID in your app is up to you.
 	    return getSharedPreferences(MainActivity.class.getSimpleName(),
 	            Context.MODE_PRIVATE);
 	}
@@ -579,11 +541,6 @@ public class MainActivity extends FragmentActivity {
 		String registrationGuest = prefs.getString(PROPERTY_GUESTNAME, "");
 		if (registrationGuest.isEmpty()) {
 		    	Log.i("LOUD AND CLEAR", "No previous guest name registered.");
-		    	/*
-		    	Random random = new Random();
-		    	long nextLong = Math.abs(random.nextLong());
-		    	
-		    	guestName = "Guest - " + String.valueOf(nextLong).substring(0, 5);*/
 		    	guestName = "Name";
 		    	Log.d("retrieveSavedGuestName()", "guest name registratedGuest is empty guestname is now" + guestName);
 			}
@@ -608,9 +565,6 @@ public class MainActivity extends FragmentActivity {
                else
             	   super.onBackPressed();
 
-               
-            	   
-               
           }
 	
 	public void showFragment(int fragmentIndex, boolean addToBackStack) {
@@ -652,7 +606,7 @@ public class MainActivity extends FragmentActivity {
 	}
 	/**
 	 * onSessionStateChange
-	 * Performs logout if sesion state changes (ie logged out of Facebook)
+	 * Performs logout if session state changes (ie logged out of Facebook)
 	 */
 	private void onSessionStateChange(Session session, SessionState state, Exception exception) {
 	    // Only make changes if the activity is visible
@@ -669,35 +623,17 @@ public class MainActivity extends FragmentActivity {
 	        if (state.isOpened()) {
 	            // If the session state is open:
 	            // Show the authenticated fragment
-	            showFragment(MAIN, false);
-	            this.create= true;
-	            this.onCreateOptionsMenu(this.options_menu);
-	            // MAIN: log the user ID and name
-	    	    if (session != null) {
-	    	    	 Request.newMeRequest(session, new Request.GraphUserCallback() {
-	    	  	            // callback after Graph API response with user object
-	    	  	            @Override
-	    	  	            public void onCompleted(GraphUser user, Response response) {
-	    	  	              if (user != null) {
-	    	  	                Log.d("facebook", user.getName() + "normal");
-	    	  	              }
-	    	  	            }
-	    	  	          }).executeAsync();
-	    	    }
+	        	if(this.getVisibleFragment() != MAIN)
+	        	{
+		            showFragment(MAIN, false);
+		            this.create= true;
+		            this.onCreateOptionsMenu(this.options_menu);
+	        	}
 	        } else {
 	            // If the session state is closed:
 	            // Show the login fragment
-	        	/*
-	        	this.state_changed = true;
-	        	 Fragment refresh_fragment = this.fragments[MAIN];
-	        	    FragmentTransaction fragTransaction = getSupportFragmentManager().beginTransaction();
-	        	    fragTransaction.detach(refresh_fragment);
-	        	    fragTransaction.attach(refresh_fragment);
-	        	    fragTransaction.commit();
-	        	    */
-	        	
-	        	//this.first_login = false;
-	            showFragment(LOGIN_SPLASH, false);
+        		if(this.getVisibleFragment() != LOGIN_SPLASH)
+        			showFragment(LOGIN_SPLASH, false);
 	        }
 	    }
 	    	
@@ -718,8 +654,8 @@ public class MainActivity extends FragmentActivity {
 	    } else {
 	        // otherwise present the splash screen
 	        // and ask the person to login.
-	    	//this.first_login = false;
-	        showFragment(LOGIN_SPLASH, false);
+	    	if(this.getVisibleFragment() != LOGIN_SPLASH)
+	    		showFragment(LOGIN_SPLASH, false);
 	        
 	    }
 	}
@@ -730,15 +666,12 @@ public class MainActivity extends FragmentActivity {
 	public void onUserLeaveHint() {
 
 	    super.onUserLeaveHint();
-	    this.minimized = true;
 	     
 	}
 	
 	public void setLoggedIn (int l) {
-		this.logged_in = l;
 		session = Session.getActiveSession();
-		SessionState state = session.getState();
-		Exception e = null;
+		session.getState();
 		if(l==2)
 		{
 			 FragmentManager manager = getSupportFragmentManager();
@@ -749,12 +682,10 @@ public class MainActivity extends FragmentActivity {
         for (int i = 0; i < backStackSize; i++) {
             manager.popBackStack();
         }
-        this.logged_in=0;
         this.showFragment(LOGIN_SPLASH, false);
 		}
 		else if(l==1)
 		{
-			this.logged_in=0;
 			FragmentManager manager = getSupportFragmentManager();
 	        // Get the number of entries in the back stack
 	        int backStackSize = manager.getBackStackEntryCount();
@@ -763,7 +694,6 @@ public class MainActivity extends FragmentActivity {
 	        for (int i = 0; i < backStackSize; i++) {
 	            manager.popBackStack();
 	        }
-	        this.logged_in=0;
 	        this.showFragment(MAIN, false);
 		}
 	}
@@ -789,42 +719,6 @@ public class MainActivity extends FragmentActivity {
 		uiHelper.onResume();
 	}
 	
-	public void callFacebookLogout(Context context) {
-	    Session session = Session.getActiveSession();
-	    if (session != null) {
-
-        Log.d("facebook", "Clearing tokens");
-	           
-	        session = new Session(context);
-	        Session.setActiveSession(session);
-	        session.closeAndClearTokenInformation();
-	        
-	       
-	        Session.openActiveSession(this, true, new Session.StatusCallback() {
-
-	  	      // callback when session changes state
-	  	      @Override
-	  	      public void call(Session session, SessionState state, Exception exception) {
-	  	        if (session.isOpened()) {
-
-	  	          // make request to the /me API
-	  	          Request.newMeRequest(session, new Request.GraphUserCallback() {
-
-	  	            // callback after Graph API response with user object
-	  	            @Override
-	  	            public void onCompleted(GraphUser user, Response response) {
-	  	              if (user != null) {
-	  	                
-	  	                Log.d("facebook", user.getName() + "Normal");
-	  	              }
-	  	            }
-	  	          }).executeAsync();
-	  	        }
-	  	      }
-	  	    });
-
-	    }
-	}
 	
 	public static User getSelf(){
 		return Self.getUser();
@@ -842,7 +736,6 @@ public class MainActivity extends FragmentActivity {
 	            String msg = "";
 	            try {
 	            	
-	            	int me = 1+1;
 	            	Log.d("LOUD AND CLEAR", "**** HandleIDASync doinbackground is reached and our IDs are" + params[0] + "*** and *****" + params[1]);
 	            	ConnectToServlet.sendIDPair(params[0],  params[1]);
 	            } catch (Exception ex) {
@@ -862,6 +755,3 @@ public class MainActivity extends FragmentActivity {
 	}
 
 }
-
-
-

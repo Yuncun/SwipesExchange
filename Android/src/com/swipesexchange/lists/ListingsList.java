@@ -14,9 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
-
 import android.annotation.SuppressLint;
-import android.app.Activity;
 import android.app.Dialog;
 import android.app.ProgressDialog;
 import android.content.Context;
@@ -44,20 +42,8 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
-
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
-import com.amazonaws.services.simpledb.model.Item;
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
-import com.amazonaws.services.simpledb.model.SelectRequest;
-import com.amazonaws.services.simpledb.model.SelectResult;
 import com.swipesexchange.R;
-import com.swipesexchange.R.anim;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.ListingsUpdateTimer;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.main.MainActivity;
@@ -70,7 +56,6 @@ import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.SellListing;
 import com.swipesexchange.sharedObjects.User;
-import com.swipesexchange.sharedObjects.Venue;
 
 
 
@@ -88,17 +73,14 @@ public class ListingsList extends ListFragment
         
         private BLConnectGet bc;
         private SLConnectGet sc;
-        private Context v;
         private BuyListAdapter b_adapter;
         private SellListAdapter s_adapter;
         Button btnStartProgress;
 
-        
-        
+
 		static ListingsList newInstance(int num, MainActivity my_activity) {
         	mActivity = my_activity;
         ListingsList l = new ListingsList();
-        l.v = my_activity;
         l.buyEntries = new ArrayList<BuyListing>();
         l.sellEntries = new ArrayList<SellListing>();
         l.page_num = num;
@@ -110,6 +92,7 @@ public class ListingsList extends ListFragment
         return l;
     }
 		
+		@SuppressLint("SimpleDateFormat")
 		private Date getTimeDate(String date_str) {
 	    	
 	    	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
@@ -122,7 +105,6 @@ public class ListingsList extends ListFragment
 			try {
 				d = sdf.parse(oldDateString);
 			} catch (ParseException e) {
-				// TODO Auto-generated catch block
 				e.printStackTrace();
 				return null;
 			}
@@ -134,12 +116,7 @@ public class ListingsList extends ListFragment
 	   @Override
 	   public void onListItemClick(ListView l, View v, int position, long id) {
 	       super.onListItemClick(l, v, position, id);
-	       Log.d("pig", "[onListItemClick] Selected Position "+ position);
-	       
-	       
-	       
-	       
-	       
+
 	       final Dialog dialog = new Dialog(getActivity());
 	       if(this.page_num==0) //Buy Listings Page
 	       {
@@ -148,8 +125,7 @@ public class ListingsList extends ListFragment
 	    	   final String lid = this.b_adapter.myList.get(position).getListingID();
 	    	   String other_person_uid = this.b_adapter.myList.get(position).getUser().getUID();
 	    	   
-	    	   // if the clicked listing is our own, do nothing 
-	    	   // TODO: inflate listing dialog with delete button
+	    	   // if the clicked listing is our own, do nothing
 	    	   if(other_person_uid.equals(Self.getUser().getUID()))
 	    	   {
 	    		   // inflate the dialog with delete button
@@ -185,12 +161,10 @@ public class ListingsList extends ListFragment
 		           try {
 						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getTimeCreated(), this.b_adapter.myList.get(position).getEndTime()));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						exp_time.setText(">1h");
 						e.printStackTrace();
 					}
 		           name.setText(this.b_adapter.myList.get(position).getUser().getName());
-		           String var = this.b_adapter.myList.get(position).getUser().getUID();
 		           
 		           fb_pic.setImageBitmap(PictureCache.getFBPicBuy(this.b_adapter.myList.get(position).getUser().getUID()));
 		      
@@ -235,7 +209,6 @@ public class ListingsList extends ListFragment
 			        Point size = new Point();
 			        display.getSize(size);
 			        int width = size.x;
-			        int height = size.y;
 				   
 				   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
 				   
@@ -286,7 +259,6 @@ public class ListingsList extends ListFragment
 		           try {
 						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.b_adapter.myList.get(position).getTimeCreated(), this.b_adapter.myList.get(position).getEndTime()));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						exp_time.setText(">1h");
 						e.printStackTrace();
 					}
@@ -386,7 +358,6 @@ public class ListingsList extends ListFragment
 		        Point size = new Point();
 		        display.getSize(size);
 		        int width = size.x;
-		        int height = size.y;
 			   
 			   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
 			   
@@ -401,8 +372,7 @@ public class ListingsList extends ListFragment
 	    	   final String lid = this.s_adapter.myList.get(position).getListingID();
 	    	   String other_person_uid = this.s_adapter.myList.get(position).getUser().getUID();
 	    	   
-	    	   // if the clicked listing is our own, do nothing 
-	    	   // TODO: inflate listing dialog with delete button
+	    	   // if the clicked listing is our own, do nothing
 	    	   if(other_person_uid.equals(Self.getUser().getUID()))
 	    	   {
 	    		   // inflate the dialog with delete button
@@ -438,7 +408,6 @@ public class ListingsList extends ListFragment
 		           try {
 						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.s_adapter.myList.get(position).getEndTime(), this.s_adapter.myList.get(position).getTimeCreated()));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						exp_time.setText(">1h");
 						e.printStackTrace();
 					}
@@ -487,7 +456,6 @@ public class ListingsList extends ListFragment
 			        Point size = new Point();
 			        display.getSize(size);
 			        int width = size.x;
-			        int height = size.y;
 				   
 				   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
 		           return;
@@ -536,7 +504,6 @@ public class ListingsList extends ListFragment
 		           try {
 						exp_time.setText(StaticHelpers.figureOutExpirationTime(this.s_adapter.myList.get(position).getEndTime(), this.s_adapter.myList.get(position).getTimeCreated()));
 					} catch (ParseException e) {
-						// TODO Auto-generated catch block
 						exp_time.setText(">1h");
 						e.printStackTrace();
 					}
@@ -636,7 +603,6 @@ public class ListingsList extends ListFragment
 		        Point size = new Point();
 		        display.getSize(size);
 		        int width = size.x;
-		        int height = size.y;
 			   
 			   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
 		       dialog.show();
@@ -645,20 +611,7 @@ public class ListingsList extends ListFragment
 	       }
 	   
 	   }
-    /*
-	   @Override
-	   public void onResume(){
-		   
-		   Log.d("onResume", "****ON RESUME CALLED IN LISTINGS LIST****");
-		   
-		 //  String booleanResult = Boolean.toString(getActivity().getIntent().getBooleanExtra("submitted_new_BL", false));
-		 //  Log.d("onResume", "getActivity().getIntent().getBooleanExtra('submitted_new_BL', false): " + booleanResult); 
-		   super.onResume();
 
-	   }*/
-	   
-
-	   
 	   private boolean deleteListingByLid(String lid){
 		   /**
 		    * Used to delete a listing - Performs action locally, and calls the connectToServlet function to delete from server
@@ -672,7 +625,7 @@ public class ListingsList extends ListFragment
 				   ConnectToServlet.deleteListing(bl);
 				   buyEntries.remove(bl);
 				   this.b_adapter.notifyDataSetChanged();
-				  // ListingsUpdateTimer.toggleJustSubmittedListing();
+				  
 				   return true;
 			   }
 		   }
@@ -682,7 +635,7 @@ public class ListingsList extends ListFragment
 				   ConnectToServlet.deleteListing(sl);
 				   sellEntries.remove(sl);
 				   this.s_adapter.notifyDataSetChanged();
-				   //ListingsUpdateTimer.toggleJustSubmittedListing();
+				  
 				   return true;
 			   }
 		   }
@@ -829,7 +782,6 @@ public class ListingsList extends ListFragment
         	
             @Override
 	        protected void onPreExecute() {
-	           // super.onPreExecute();
 	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Finishing up...", true);
 	        }
         	
@@ -837,7 +789,6 @@ public class ListingsList extends ListFragment
             public Map<String, Bitmap> doInBackground(Void... params) {
                 URL url = null;
                 Bitmap pic_bitmap = null;
-                //BitmapFactory.Options options;
                 
                 while (Self.getUser().getUID() == null && buy_entries_init == false) {
    	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
@@ -858,11 +809,7 @@ public class ListingsList extends ListFragment
                 for(int i=0; i < buyEntries.size(); i++)
                 {
 	                try {
-	                	//options = new BitmapFactory.Options();
-	                	//options.inSampleSize = 2;
-	                	// Guest bitmap
-	                	
-	                	// TODO: get the FBUID
+	              
 	                	uid = buyEntries.get(i).getUser().getUID();
 	                	url = new URL("https://graph.facebook.com/" + uid + "/picture?type=large");
 	                	InputStream in = (InputStream) url.getContent();
@@ -907,7 +854,7 @@ public class ListingsList extends ListFragment
         	
             @Override
 	        protected void onPreExecute() {
-	           // super.onPreExecute();
+	      
 	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Finishing up...", true);
 	        }
         	
@@ -915,7 +862,7 @@ public class ListingsList extends ListFragment
             public Map<String, Bitmap> doInBackground(Void... params) {
                 URL url = null;
                 Bitmap pic_bitmap = null;
-                //BitmapFactory.Options options;
+               
                 
                 while (Self.getUser().getUID() == null && sell_entries_init == false) {
    	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
@@ -935,8 +882,7 @@ public class ListingsList extends ListFragment
                 for(int i=0; i < sellEntries.size(); i++)
                 {
 	                try {
-	                	//options = new BitmapFactory.Options();
-	                	//options.inSampleSize = 2;
+	                
 	                	
 	                	uid = sellEntries.get(i).getUser().getUID();
 	                	url = new URL("https://graph.facebook.com/" + uid + "/picture?type=large");
@@ -1119,7 +1065,7 @@ public class ListingsList extends ListFragment
      	        
      	        @Override
      	        protected void onPreExecute() {
-     	           // super.onPreExecute();
+     	           
      	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Listings are loading...", true);
      	        }
      	        
@@ -1226,7 +1172,7 @@ public class ListingsList extends ListFragment
 
     	 	@Override
     		        protected void onPreExecute() {
-    		           // super.onPreExecute();
+    		           
     		        	progressBar = ProgressDialog.show(context, "Loading...", "Messages are loading...", true);
     		        }
     	 	
@@ -1245,13 +1191,10 @@ public class ListingsList extends ListFragment
     	             }
     	         
     	  		 }
-    	    	 
-    	    	 
-    	     	//Log.d("LOUD AND CLEAR", "Attempting to update messages list");
+
     	 		List<Message> newConversations = new ArrayList<Message>();
     	 		newConversations = ConnectToServlet.requestAllMsgs(((MainActivity) context).getUID());
-    	 		
-    	 		//Log.d("LOUD AND CLEAR", "Message list returned from server with size " + newConversations.size());
+
     	 		return newConversations;
     	     }
 

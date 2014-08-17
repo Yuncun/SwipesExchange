@@ -5,8 +5,6 @@ package com.swipesexchange.helpers;
 public final class Constants {
 
 	public final static String API_KEY = "AIzaSyDoRZatk2YxluSIjEOtWUVa6iOTD9bV3Pk";
-	public static final String reg_key = "AKIAIBKEOA7FKTHHVG7Q";
-    public static final String sec_key = "5kap6qSvIB6VYdxEt+w10rYz8C41UUp2s1f2umd/";
     
     /*
      * MESSAGE CODES
@@ -31,23 +29,11 @@ public final class Constants {
     public static final String NO_FLAG = "0";
     public static final String DELETED_BY_SENDER = "1";
     public static final String DELETED_BY_RECEIVER = "2";
-    //If deleted by both sender and receiver, message is removed from database
+    
+    // if deleted by both sender and receiver, message is removed from database
 
     public static final String SAVED_BY_SENDER = "1";
     public static final String SAVED_BY_RECEIVER = "2";
     public static final String SAVED_BY_BOTH = "3";
-
-    
-
-    public static final String getRegKey()
-    {
-    	return reg_key;
-    }
-    
-    public static final String getSecKey()
-    {
-    	return sec_key;
-    }
-    
 
 }

@@ -6,7 +6,7 @@
 
     <uses-sdk
         android:minSdkVersion="15"
-        android:targetSdkVersion="18" />
+        android:targetSdkVersion="19" />
     
     <uses-permission android:name="android.permission.INTERNET" /> 
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
@@ -26,8 +26,10 @@
         <activity
             android:name="com.swipesexchange.main.MainActivity"
             android:label="@string/app_name" 
+            android:launchMode = "standard"
             
-            android:uiOptions="splitActionBarWhenNarrow">
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
@@ -35,13 +37,17 @@
             </intent-filter>
         </activity>
         <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
-        <activity android:name="com.facebook.LoginActivity"></activity>
+        <activity android:name="com.facebook.LoginActivity"
+            android:screenOrientation="portrait"></activity>
         
-         <activity android:name="com.swipesexchange.messaging.ConversationActivity" android:windowSoftInputMode="stateUnchanged"></activity>
+         <activity android:name="com.swipesexchange.messaging.ConversationActivity" android:windowSoftInputMode="stateUnchanged"
+             android:screenOrientation="portrait"></activity>
 
-         <activity android:name="com.swipesexchange.lists.NewListingFragmentBuy" android:windowSoftInputMode="adjustPan"></activity>
+         <activity android:name="com.swipesexchange.lists.NewListingFragmentBuy" android:windowSoftInputMode="adjustPan"
+             android:screenOrientation="portrait"></activity>
          
-         <activity android:name="com.swipesexchange.lists.NewListingFragment" android:windowSoftInputMode="adjustPan"></activity>
+         <activity android:name="com.swipesexchange.lists.NewListingFragment" android:windowSoftInputMode="adjustPan"
+             android:screenOrientation="portrait"></activity>
         
         <receiver
             android:name="com.swipesexchange.network.GcmBroadcastReceiver"

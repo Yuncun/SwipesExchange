@@ -1,76 +1,42 @@
 package com.swipesexchange.lists;
 
 import java.lang.reflect.Field;
-import java.util.ArrayList;
-import java.util.List;
-
-import com.facebook.Session;
-import com.facebook.SessionState;
-import com.facebook.UiLifecycleHelper;
 import com.swipesexchange.R;
-import com.swipesexchange.R.color;
-import com.swipesexchange.R.drawable;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
-import com.swipesexchange.R.menu;
-import com.swipesexchange.R.string;
-import com.swipesexchange.main.LoginFragment;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.messaging.MessagesFragment;
-import com.swipesexchange.sharedObjects.Message;
-
 import android.app.ActionBar;
-import android.app.Activity;
-import android.app.ProgressDialog;
 import android.app.ActionBar.Tab;
-import android.content.Context;
-import android.content.Intent;
-import android.content.pm.ActivityInfo;
 import android.graphics.drawable.ColorDrawable;
 import android.graphics.drawable.Drawable;
-import android.os.AsyncTask;
 import android.os.Bundle;
-import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
-import android.util.Log;
 import android.util.SparseArray;
-import android.view.KeyEvent;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
-import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.View.OnClickListener;
-import android.widget.ImageButton;
-import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 public class SelectionFragment extends Fragment implements ActionBar.TabListener {
 
 
-	private LoginFragment loginFragment;
 	SectionsPagerAdapter mSectionsPagerAdapter;
 	ActionBar actionBar;
 	private static MessagesFragment m_frag;
 	private static ListingsList b_frag;
 	private static ListingsList l_frag;
 	
-	private static final int NUM_FRAGMENTS = 5;
-	
 	/**
 	 * The {@link ViewPager} that will host the section contents.
 	 */
 	ViewPager mViewPager;
-	
-	private Fragment[] fragments = new Fragment[NUM_FRAGMENTS];
-	
-	
 	
 	@Override
 	public View onCreateView(LayoutInflater inflater, 

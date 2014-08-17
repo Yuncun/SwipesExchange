@@ -6,41 +6,8 @@ import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
-import java.util.Iterator;
 import java.util.List;
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-import java.util.Map;
-import java.util.Map.Entry;
-
-import com.swipesexchange.R;
-import com.swipesexchange.R.anim;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
-import com.swipesexchange.main.MainActivity;
-import com.swipesexchange.messaging.MessageAdapter.ViewHolder;
-import com.swipesexchange.network.ConnectToServlet;
-import com.swipesexchange.sharedObjects.BuyListing;
-import com.swipesexchange.sharedObjects.Message;
-import com.swipesexchange.sharedObjects.Self;
-import com.swipesexchange.sharedObjects.SellListing;
-import com.swipesexchange.sharedObjects.User;
-
-
-
-import android.support.v4.app.FragmentTransaction;
+import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -48,33 +15,31 @@ import android.content.Intent;
 import android.content.IntentFilter;
 import android.os.AsyncTask;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
+import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
-import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.ExpandableListView;
-import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import com.swipesexchange.R;
+import com.swipesexchange.main.MainActivity;
+import com.swipesexchange.network.ConnectToServlet;
+import com.swipesexchange.sharedObjects.Message;
+import com.swipesexchange.sharedObjects.Self;
+import com.swipesexchange.sharedObjects.User;
 
 public class MessagesFragment extends ListFragment {
 
 	
-	// member variables
-	private final int num_parents = 7;
 	//private ArrayList<ParentRow> parents;
     static Context mActivity;
-    private ConversationList c_list;
     MessageAdapter adapter;
-    private int page_num;
     private TextView edit_button_text;
     
     
@@ -84,7 +49,6 @@ public class MessagesFragment extends ListFragment {
         MessagesFragment myFrag = new MessagesFragment(); 
         Bundle args = new Bundle();
         args.putInt("num", num);
-        myFrag.page_num = 5;
         mActivity = my_activity;
         myFrag.setArguments(args);
         //myFrag.c_list = new ConversationList();
@@ -96,7 +60,7 @@ public class MessagesFragment extends ListFragment {
    
    public MessagesFragment()
    {
-	   this.c_list = new ConversationList();
+	   new ConversationList();
    }
    
    @Override
@@ -360,13 +324,13 @@ public class MessagesFragment extends ListFragment {
      
      }
    
+	@SuppressLint("SimpleDateFormat")
 	private Date getTimeDate(String date_str) {
     	
     	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
 
     	String oldDateString = date_str;
     	
-
     	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
     	Date d = null;
 		try {

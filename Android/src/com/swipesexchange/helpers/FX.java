@@ -1,8 +1,6 @@
 package com.swipesexchange.helpers;
 
 import com.swipesexchange.R;
-import com.swipesexchange.R.anim;
-
 import android.content.Context;
 import android.view.View;
 import android.view.animation.Animation;

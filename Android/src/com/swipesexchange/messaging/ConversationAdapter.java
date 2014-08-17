@@ -1,7 +1,8 @@
 package com.swipesexchange.messaging;
 
+import java.util.ArrayList;
+
 import android.content.Context;
-import android.text.format.DateFormat;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -11,33 +12,13 @@ import android.widget.LinearLayout;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
-
-
-
-
-
-
-
-
-
-
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-
 import com.swipesexchange.R;
-import com.swipesexchange.R.drawable;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.Self;
 
 public class ConversationAdapter extends BaseAdapter {
 
-    private static final String DATE_FORMAT = "yyyy-MM-dd hh:mm:ss";
     private final ArrayList<Message> chatMessages;
     private Context context;
     

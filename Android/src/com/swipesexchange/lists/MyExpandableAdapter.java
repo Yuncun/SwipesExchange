@@ -1,28 +1,17 @@
 package com.swipesexchange.lists;
 
 
-import java.sql.Date;
 import java.util.ArrayList;
-
 import android.text.format.Time;
-
-import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
-
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.Dialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
 import android.text.Editable;
-import android.text.Spannable;
-import android.text.SpannableStringBuilder;
 import android.text.TextWatcher;
-import android.text.style.ForegroundColorSpan;
 import android.util.Log;
-import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.View.OnClickListener;
@@ -35,33 +24,10 @@ import android.widget.EditText;
 import android.widget.ExpandableListView;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
-import android.widget.NumberPicker;
-import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
-
-import com.amazonaws.auth.AWSCredentials;
-import com.amazonaws.auth.BasicAWSCredentials;
-import com.amazonaws.regions.Region;
-import com.amazonaws.regions.Regions;
-import com.amazonaws.services.simpledb.AmazonSimpleDBClient;
-import com.amazonaws.services.simpledb.model.PutAttributesRequest;
-import com.amazonaws.services.simpledb.model.ReplaceableAttribute;
-import com.google.gson.Gson;
 import com.swipesexchange.R;
-import com.swipesexchange.R.drawable;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
 import com.swipesexchange.helpers.ParentRow;
-import com.swipesexchange.lists.MyExpandableAdapterBuy.EditTextViewHolder;
-import com.swipesexchange.lists.MyExpandableAdapterBuy.TextViewHolder;
-import com.swipesexchange.lists.MyExpandableAdapterBuy.TimePickerViewHolder;
-import com.swipesexchange.sharedObjects.BuyListing;
-import com.swipesexchange.sharedObjects.Listing;
-import com.swipesexchange.sharedObjects.MsgStruct;
-import com.swipesexchange.sharedObjects.Self;
-import com.swipesexchange.sharedObjects.User;
-import com.swipesexchange.sharedObjects.Venue;
 /**
  * 
  * MyExpandableAdapterBuy
@@ -76,25 +42,18 @@ import com.swipesexchange.sharedObjects.Venue;
  */
 public class MyExpandableAdapter extends BaseExpandableListAdapter {
 
-	private Activity activity;
+
 	private LayoutInflater inflater;
 	private int minutes_start, minutes_end, hours_start, hours_end;
-	private TimePicker tp_start, tp_end;
-	private int num_swipes;
-	private NumberPicker swipes;
-	private Venue venue;
+	private TimePicker tp_end;
 	private String venue_name;
 	private ExpandableListView parent_list_view;
 	public EditText enterMessage;
-	private String messageFromEditText = "";
 	public List<String> selectedVenues;
 	private ArrayList<Boolean> is_expanded;
-	private String message_str;
-	private TextView m_text;
 	
 	private HashMap<String, String> SavedData = new HashMap<String, String>();
-	
-	private boolean any_white;
+
 	
 	// view int types
 	private final int EDIT_TEXT_TYPE = 0;
@@ -118,20 +77,19 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 
 	public MyExpandableAdapter(ExpandableListView parent, ArrayList<ParentRow> parents) {
 		this.parents = parents;
-		this.venue = new Venue("Any");
+		
 		// set the default times in the TimePickers based off of current time
 		Time now = new Time();
 		now.setToNow();
+		
 		selectedVenues = new ArrayList<String>();
+		selectedVenues.add("Any");
 		this.minutes_start = now.minute;
 		this.minutes_end = now.minute;
 		this.hours_start = now.hour;
 		this.hours_end = now.hour + 3;
 		this.venue_name = "Any";
-		this.num_swipes=1;
 		this.parent_list_view = parent;
-		this.message_str = "";
-		this.any_white = true;
 		this.is_expanded = new ArrayList<Boolean>(4);
 		for(int i=0; i<3; i++)
 			this.is_expanded.add(i, false);
@@ -144,12 +102,10 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	
 	 public void setInflater(LayoutInflater inflater, Activity activity) {
 		         this.inflater = inflater;
-		         this.activity = activity;  
 	 }
 	 
 
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public View getChildView(final int groupPosition, final int childPosition, boolean isLastChild, View convertView, final ViewGroup parent) {
 		// TODO: recycle views instead of always inflating
@@ -552,73 +508,9 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 					}
 							
 				});
-				
-				
-				
-				
-				// Unchecked cast is necessary
-				/*
-				final TextRow child = (TextRow) parents.get(groupPosition).getChildren().get(childPosition);
-	
-				m_text = (TextView) convertView.findViewById(R.id.textView1ex);
-				m_text.setText(child.getText());
-				convertView.setBackgroundColor(child.getBackgroundcolor());
-				final String child_text = child.getText();
-				// when user selects a child Venue, modify the groupView and collapse the children
-				convertView.setOnClickListener(new OnClickListener() {
-	
-					@Override
-					public void onClick(View view) {
-						if (selectedVenues.contains(child_text))
-						{
-							if(child_text.equals("Any"))
-								any_white = true;
-							parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(Color.WHITE);
-							selectedVenues.remove(child_text);
-							view.setBackgroundColor(Color.WHITE);
-							
-							Log.d("Color", "Venue toggled, color should change off");
-							
-						}
-						else if (!selectedVenues.contains(child_text)){
-							selectedVenues.add(child_text);
-							if(child_text.equals("Any"))
-								any_white = false;
-							if(!child_text.equals("Any"))
-							{
-								if(selectedVenues.contains("Any"))
-								{
-									selectedVenues.remove("Any");
-									parents.get(groupPosition).getChildren().get(0).setBackgroundcolor(Color.WHITE);
-									any_white = true;
-									parent.invalidate();
-					
-								}
-							}
-							
-						int my_color = inflater.getContext().getResources().getColor(R.color.light_teal);
-						parents.get(groupPosition).getChildren().get(childPosition).setBackgroundcolor(my_color);
-						if(child_text.equals("Any"))
-						{
-							if(any_white)
-							{
-								view.setBackgroundColor(Color.WHITE);
-							}
-							else
-								view.setBackgroundColor(my_color);
-						}
-						
-						view.setBackgroundColor(my_color);
-						Log.d("Color", "Venue toggled, color should change on");
-						}
-					}
-				});
-				
-				tv_holder.tv = m_text;
-				*/
+
 				convertView.setTag(tv_holder);
-				
-				
+
 			}
 
 		
@@ -748,19 +640,10 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		return convertView;
 	}
 
+	@SuppressLint("DefaultLocale")
 	public void updateParentsRightViews(int groupPosition) {
-		if(groupPosition==0)
-		{
-			String start_time = String.format("%d:%02d", fixHours(this.hours_start), this.minutes_start);
-			// add PM/AM
-			if(this.isPM(this.hours_start))
-				start_time = start_time + "PM";
-			else
-				start_time = start_time + "AM";
-			// set the text field
-			this.parents.get(groupPosition).setTextRight(start_time);
-		}
-		else if(groupPosition==1)
+	
+		if(groupPosition==1)
 		{
 			String end_time = String.format("%d:%02d", fixHours(this.hours_end), this.minutes_end);
 			// add PM/AM
@@ -773,7 +656,6 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		}
 	}
 	
-	@SuppressWarnings("unchecked")
 	@Override
 	public Object getChild(int groupPosition, int childPosition) {
 		return parents.get(groupPosition).getChildren().get(childPosition);
@@ -784,7 +666,6 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 		return childPosition;
 	}
 
-	@SuppressWarnings("unchecked")
 	@Override
 	public int getChildrenCount(int groupPosition) {
 		return parents.get(groupPosition).getChildren().size();
@@ -856,22 +737,6 @@ public class MyExpandableAdapter extends BaseExpandableListAdapter {
 	}
 	
 	 // Data retrieval and data setting methods
-	 
-	 public int getNumSwipes()
-	 {
-		 return this.num_swipes;
-	 }
-	 
-	 public void setMessageFromEditText(String text)
-	 {
-		 messageFromEditText = text;
-	 }
-	 
-	 public void setNumSwipes(int num)
-	 {
-		 this.num_swipes = num;
-	 }
-	 
 	 
 	 public ExpandableListView getParent()
 	 {

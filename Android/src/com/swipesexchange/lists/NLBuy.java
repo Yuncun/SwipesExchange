@@ -1,17 +1,11 @@
 package com.swipesexchange.lists;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
 import java.util.Calendar;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.Date;
 
 import com.google.gson.Gson;
 import com.swipesexchange.R;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
+import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ChildRow;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.helpers.Constants;
@@ -21,22 +15,18 @@ import com.swipesexchange.helpers.TextRow;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.BuyListing;
-import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.MsgStruct;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.User;
 import com.swipesexchange.sharedObjects.Venue;
 
+
 //import android.app.Activity;
 import android.app.Dialog;
-import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
-import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.support.v4.app.ListFragment;
-import android.support.v4.content.LocalBroadcastManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.LayoutInflater;
@@ -58,10 +48,7 @@ public class NLBuy extends Fragment {
     public MyExpandableAdapterBuy adapter;
  
     private String messageFromEditText = "";
-    private Fragment fragment = this;
-
-    
-	Button yes_button;
+    Button yes_button;
 	Button cancel_button;
 	Dialog submit_dialog;
 	TextView text_field;
@@ -165,7 +152,7 @@ public class NLBuy extends Fragment {
 		                    	
 		                    	 
 		                    	 Calendar nowCal = Calendar.getInstance();
-		                    	 nowCal.setTimeInMillis(MainActivity.accurateTimeHandler.getAccurateTime());
+		                    	 nowCal.setTimeInMillis(AccurateTimeHandler.getAccurateTime());
 		                    	 
 		                    	 Calendar myEndTimeCal = Calendar.getInstance();
 		                    	 myEndTimeCal.set(Calendar.HOUR_OF_DAY, adapter.getEndHours());
@@ -282,22 +269,22 @@ public class NLBuy extends Fragment {
      
      public void setGroupParents() {
      	this.parents.clear();
-     	// there are 6 parent rows: StartTime, EndTime, Venue, Number of Swipes, (EMPTY), and Submit
+     	// there are 3 parent rows: Description, EndTime, Venue
      	for(int i=0; i < this.num_parents; i++)
      	{
      		final ParentRow parent = new ParentRow();
-     		// StartTime, i==0
+     		// Description, i==0
      		if(i==0)
      		{
-     			parent.setName("StartTime");
+     			parent.setName("Description");
      			parent.setTextLeft("Create Your Listing");
      			parent.setTextRight("");
      			parent.setChildren(new ArrayList<ChildRow>());
      			
-     			// create the TimePicker for StartTime and add it
-     			TimePickerRow child = new TimePickerRow();
-     			child.setName("StartTimePicker");
-     			parent.getChildren().add(child);
+     			TextRow child0 = new TextRow();
+     			child0.setName("V0");
+     			child0.setText("Placeholder");
+     			parent.getChildren().add(child0);
      		}
      		else if(i==1) // EndTime, i==1
      		{
@@ -317,9 +304,7 @@ public class NLBuy extends Fragment {
      			parent.setTextLeft("Set Venues:");
      			parent.setTextRight("");
      			parent.setChildren(new ArrayList<ChildRow>());
-     			
-     			
-     			
+
      		    // create the TextRow children and add them
      			// Any
      			TextRow child0 = new TextRow();
@@ -327,90 +312,9 @@ public class NLBuy extends Fragment {
      			child0.setText("Any");
      			parent.getChildren().add(child0);
      			
-     			/*
-     			// Bruin Cafe
-     			TextRow child1 = new TextRow();
-     			child1.setName("V1");
-     			child1.setText("Bruin Cafe");
-     			parent.getChildren().add(child1);
-     			// Cafe 1919
-     			TextRow child2 = new TextRow();
-     			child2.setName("V2");
-     			child2.setText("Cafe 1919");
-     			parent.getChildren().add(child2);
-     			// Covell
-     			TextRow child3 = new TextRow();
-     			child3.setName("V3");
-     			child3.setText("Covell");
-     			parent.getChildren().add(child3);
-     			// De Neve
-     			TextRow child4 = new TextRow();
-     			child4.setName("V4");
-     			child4.setText("De Neve");
-     			parent.getChildren().add(child4);
-     			// Feast
-     			TextRow child5 = new TextRow();
-     			child5.setName("V5");
-     			child5.setText("Feast");
-     			parent.getChildren().add(child5);
-     			// Hedrick
-     			TextRow child6 = new TextRow();
-     			child6.setName("V6");
-     			child6.setText("Hedrick");
-     			parent.getChildren().add(child6);
-     			// Rendezvous
-     			TextRow child7 = new TextRow();
-     			child7.setName("V7");
-     			child7.setText("Rendezvous");
-     			parent.getChildren().add(child7);
-     			*/
+     			
      		}
-     		
-     		/*
-     	    else if(i==3) // Number of Swipes
-     		{
-     			parent.setName("NumSwipes");
-     			parent.setTextLeft("Number of Swipes:");
-     			parent.setTextRight("");
-     			parent.setChildren(new ArrayList<ChildRow>());
-     			
-     			// create the NumberPickerRow and add it
-     			NumberPickerRow child = new NumberPickerRow();
-     			child.setName("NumSwipesPicker");
-     			parent.getChildren().add(child);
-     		}*//*
-     		else if(i==3) // Empty
-     		{
-     			parent.setName("Emtpy");
-     			parent.setTextLeft("");
-     			parent.setTextRight("");
-     			parent.setChildren(new ArrayList<ChildRow>());
-     			// create the Empty child
-     			TextRow child = new TextRow();
-     			child.setName("Empty");
-     			child.setText("");
-     			
-     			parent.getChildren().add(child);
-     		}*/
-     		/*else if(i==3) // Submit
-     		{
-     			parent.setName("Submit");
-     			parent.setTextLeft("Submit");
-     			parent.setTextRight("");
-     			
-     			
-     			parent.setChildren(new ArrayList<ChildRow>());
-     			// create the Empty child
-     			TextRow child = new TextRow();
-     			child.setName("Empty_Submit");
-     			child.setText("");
-     			
-     			parent.getChildren().add(child);
-     		}
-     		*/
-     		
-     		
-     		
+
      		this.parents.add(parent);
      	}
      	

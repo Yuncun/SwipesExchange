@@ -4,8 +4,6 @@ package com.swipesexchange.network;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.io.ObjectOutputStream;
-import java.io.OutputStreamWriter;
-import java.io.StringReader;
 import java.lang.reflect.Type;
 import java.net.URL;
 import java.net.URLConnection;
@@ -14,7 +12,6 @@ import java.util.List;
 
 import com.google.gson.Gson;
 import com.google.gson.reflect.TypeToken;
-import com.google.gson.stream.JsonReader;
 import com.swipesexchange.helpers.Constants;
 import com.swipesexchange.messaging.Conversation;
 import com.swipesexchange.sharedObjects.*;
@@ -30,13 +27,11 @@ public class ConnectToServlet {
 	public static String SERVERURL = "http://anotherservlet14-env.elasticbeanstalk.com/HelloWorld";
     String inputValue=null;
     static String doubledValue = "";
-    public static List<BuyListing> bls;
-    private List<SellListing> sls;
+
     
     public ConnectToServlet()
     {
-    	this.bls = new ArrayList<BuyListing>();
-    	this.sls = new ArrayList<SellListing>();
+  
     }
 
     

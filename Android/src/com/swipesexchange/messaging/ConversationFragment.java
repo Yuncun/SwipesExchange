@@ -1,7 +1,5 @@
 package com.swipesexchange.messaging;
 
-
-
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -10,11 +8,8 @@ import java.util.Comparator;
 import java.util.Date;
 
 import com.swipesexchange.R;
-import com.swipesexchange.R.layout;
-import com.swipesexchange.sharedObjects.BuyListing;
+import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.sharedObjects.Message;
-import com.swipesexchange.sharedObjects.User;
-
 import android.annotation.SuppressLint;
 import android.content.BroadcastReceiver;
 import android.content.Context;
@@ -23,16 +18,10 @@ import android.content.IntentFilter;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
-import android.text.format.Time;
-
-import java.util.Date;
-
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.widget.Button;
-import android.widget.EditText;
 
 @SuppressLint("ValidFragment")
 public class ConversationFragment extends ListFragment {
@@ -55,6 +44,7 @@ public class ConversationFragment extends ListFragment {
 		     // Get extra data included in the Intent
 		     String message = intent.getStringExtra("message");
 		     updateFragmentWithNoMessage();
+		     ClosedInfo.setReceivedMessage(true);
 		     Log.d("zebra", "Got message: " + message);
 		   }
 		 };
@@ -108,13 +98,13 @@ public class ConversationFragment extends ListFragment {
 
      }
      
+	@SuppressLint("SimpleDateFormat")
 	private Date getTimeDate(String date_str) {
     	
     	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
 
     	String oldDateString = date_str;
     	
-
     	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
     	Date d = null;
 		try {

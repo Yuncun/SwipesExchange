@@ -1,33 +1,12 @@
 package com.swipesexchange.messaging;
 
-import java.text.ParseException;
-import java.text.SimpleDateFormat;
 import java.util.ArrayList;
-import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.Stack;
 
-import com.amazonaws.services.simpledb.model.RequestTimeoutException;
-import com.swipesexchange.R;
-import com.swipesexchange.R.anim;
-import com.swipesexchange.R.id;
-import com.swipesexchange.R.layout;
-import com.swipesexchange.helpers.StaticHelpers;
-import com.swipesexchange.network.ConnectToServlet;
-import com.swipesexchange.sharedObjects.BuyListing;
-import com.swipesexchange.sharedObjects.Message;
-import com.swipesexchange.sharedObjects.Self;
-
-import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.graphics.Color;
-import android.graphics.Typeface;
-import android.os.AsyncTask;
-import android.support.v4.app.Fragment;
-import android.support.v4.app.FragmentManager;
 import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -35,24 +14,40 @@ import android.view.ViewGroup;
 import android.view.animation.Animation;
 import android.view.animation.AnimationUtils;
 import android.widget.BaseAdapter;
-import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toast;
+
+import com.swipesexchange.R;
+import com.swipesexchange.helpers.ClosedInfo;
+import com.swipesexchange.helpers.StaticHelpers;
+import com.swipesexchange.network.ConnectToServlet;
+import com.swipesexchange.sharedObjects.Self;
 
 public class MessageAdapter extends BaseAdapter {
 
 	  private Context myContext;
+	  
+	  // list of Conversations that will be used in this adapter
 	  public List<Conversation> my_list;
-	  private List<String> sender_names;
+	  // list of ids, only kept for ease of debugging
 	  private List<String> sender_ids;
-	  private List<String> message_texts;
+	  
+	  // first_time.get(i) is the boolean that says if it is the first time that this view has been inflated
+	  // this check is performed later to ensure we don't slide out the first time we see the fragment
 	  public List<Boolean> first_time;
+	  
+	  // should we slide_in the delete button? should we slide_out the delete button?
 	  public List<Boolean> slide_in;
 	  public List<Boolean> slide_out;
+	  
+	  // are we in deletion_mode (set in MessagesFragment by the "Edit" button
 	  public boolean deletion_mode = false;
+	  
+	  // what Conversations contain new, unseen messages that we haven't read?
 	  public Map<String, Boolean> dotted_messages;
+	  
+	  // map that contains our ViewHolders (for view preservation/prevention of view recycling)
 	  public Map<String, ViewHolder> v_map;
 
     public MessageAdapter(Context context, Stack<Conversation> list) 
@@ -67,19 +62,19 @@ public class MessageAdapter extends BaseAdapter {
             {
             	    for (int i = 0; i < my_list.size(); i++) 
       	            {
-            	   
-	            		
-	            		//Log.d("pig", Self.getUID());
+
 	            		if(Self.getUser().getUID().equals(my_list.get(i).getSender().getUID()))
 	            			sender_ids.add(my_list.get(i).getSender().getUID());
 	            		else
 	            			sender_ids.add(my_list.get(i).getReceiver().getUID());
 
-	            		
 	            	}
             }
             
             this.dotted_messages = new HashMap<String, Boolean>();
+            
+            
+            // by default, we don't want to slide_out or slide_in 
             
             this.first_time = new ArrayList<Boolean>();
             for(int i=0; i < my_list.size(); i++)
@@ -92,9 +87,7 @@ public class MessageAdapter extends BaseAdapter {
             this.slide_out = new ArrayList<Boolean>();
             for(int i=0; i < my_list.size(); i++)
             	this.slide_out.add(false);
-            
-         
-           
+
     }
     
   
@@ -104,7 +97,8 @@ public class MessageAdapter extends BaseAdapter {
     @Override
     public View getView(int position,  View view, ViewGroup parent) 
     {
-    	// out of bounds exception handling
+    	// out of bounds exception handling, in the case that for some reason, the deletion button checking arrays
+    	// are not large enough for the size of the list
     	if(position >= this.first_time.size())
     	{
     		boolean first_time_val = true;
@@ -124,10 +118,12 @@ public class MessageAdapter extends BaseAdapter {
     		this.slide_out.add(slide_out_val);
     		
     	}
-    	
+
     	String sender_string = "";
     	String lid_str = "";
     	String sid_str = "";
+    	
+    	// UID retrieval
     	
         if(Self.getUser().getUID().equals(my_list.get(position).getSender().getUID()))
         {
@@ -142,13 +138,19 @@ public class MessageAdapter extends BaseAdapter {
         
         lid_str = my_list.get(position).getLID();
       
+        // the key string for the dotted_messages map, using listing id concatenated with sender id
         String key_str = sid_str + lid_str;
+        
+        // if we are creating the view for the first Conversation but we already saw the new message that caused this conversation
+        // to be dotted (ie because we saw it in ConversationFragment), then un-dot the list item
+    	if(position == 0 && ClosedInfo.receivedMessage() && this.dotted_messages.containsKey(key_str))
+    	{
+    		this.dotted_messages.put(key_str, false);
+    		ClosedInfo.setReceivedMessage(false);
+    	}
+        
     	ViewHolder v_holder = null;
-    	
-    	// search for the key in the hashmap, setting the holder if the key exists
-    	//if(v_map.containsKey(key_str))
-    		//v_holder = v_map.get(key_str);
-    	
+
     	if(v_holder==null)
     	{
 	    	LayoutInflater inflater = (LayoutInflater) myContext.getSystemService(Context.LAYOUT_INFLATER_SERVICE);
@@ -186,16 +188,7 @@ public class MessageAdapter extends BaseAdapter {
 
         return view;
     }
-    
-    public void switchToConversationFrag() {
-    	  
-       
-    }
-    
-    public void showDeletionTags() {
-    
-    }
-    
+
     
     private LinearLayout createTrashButton(final View v, final int position){
    	 //@ES - Deletion
@@ -241,6 +234,7 @@ public class MessageAdapter extends BaseAdapter {
 	
        }); 
        
+       // deletion button behavior 
        if(deletion_mode && !this.first_time.get(position) && this.slide_in.get(position)) {
 	       trashButton.startAnimation(animationSlideInLeft);
 	       trashButton.setVisibility(View.VISIBLE);
@@ -330,59 +324,8 @@ public class MessageAdapter extends BaseAdapter {
 		addAndUpdate(false);
 	   }
 	
-	
 
-
-	//This class will allow us to safely "block" until all necessary values (like UID) have been accounted for by the initialization code
-	//DEPRECATED @Eric 7/5/14
-    private class WaitForKeyValues extends AsyncTask<Void, Void, String> {
-
-		   private Context context;
-		   private ProgressDialog progressBar;
-		   boolean status = false;
-	  
-	        public WaitForKeyValues(Context context) {
-	        	this.context = context;
-	        }
-	        
-	        @Override
-	        protected void onPreExecute() {
-	           // super.onPreExecute();
-	        	progressBar = ProgressDialog.show(this.context, "Loading...", "Messages are loading...", true);
-	        }
-	        
-	      @Override
-	        protected void onPostExecute(String input) {
-	    	  Log.d("waitForvalues", "PostExecute " + input);
-	    	  progressBar.dismiss();
-
-	        }
-	      
-	      	public void UIDisRetrieved()
-	      	{
-	      		status = true;
-	      	}
-	    
-	      	@Override
-	        protected String doInBackground(Void... params) {
-	        	
-	      		 while (!status) {
-	                 Log.d("waitForvalues", "Waiting");
-	                 		
-	                 try {
-	                     Thread.sleep(100);
-	                 } catch (InterruptedException e) {
-	                     e.printStackTrace();
-	                     Log.d("waitForvalues", e.toString());
-	                 }
-	             
-	      		 }
-				return "success";
-				
-	        } 
-	      
-	  }         
-    
+    // for holding views, recycling prevention
     public class ViewHolder {
     	TextView s_name;
     	TextView msg_txt;
