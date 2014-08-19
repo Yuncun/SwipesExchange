@@ -18,6 +18,7 @@ import android.widget.EditText;
 import android.widget.RelativeLayout;
 
 import com.swipesexchange.R;
+import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
@@ -116,7 +117,8 @@ public class ConversationActivity extends FragmentActivity {
 	                //receiver.setUID("10152153150921342");
 	                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
 	                
-	                now.setToNow();
+	                
+	                now.set(AccurateTimeHandler.getAccurateTime());
 	                
 	               
 

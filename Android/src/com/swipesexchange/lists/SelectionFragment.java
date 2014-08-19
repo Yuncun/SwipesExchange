@@ -286,6 +286,15 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		l_frag.forceRefreshSL();
 	}
 	
+	public int countBuyListingsFromUserID(String userID){
+		return b_frag.countBLsByUserID(userID);
+		
+	}
+	
+	public int countSellListingsFromUserID(String userID){
+		return l_frag.countSLsbyUserID(userID);
+	}
+	
 
 	public static void refreshConversationFragment() {
 		   Fragment fragment = m_frag;

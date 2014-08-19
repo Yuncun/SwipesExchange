@@ -19,10 +19,13 @@
     <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
 
     <application
+        android:name="com.swipesexchange.main.MyApplication"
         android:allowBackup="true"
         android:icon="@drawable/bear_circle"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
+        
+
         <activity
             android:name="com.swipesexchange.main.MainActivity"
             android:label="@string/app_name" 
@@ -37,6 +40,11 @@
             </intent-filter>
         </activity>
         <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
+        
+        <!-- Google Analytics Version v4 needs this value for easy tracking -->
+		<meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
+		android:resource="@xml/global_tracker" />
+
         <activity android:name="com.facebook.LoginActivity"
             android:screenOrientation="portrait"></activity>
         

@@ -44,6 +44,7 @@ import android.widget.ListView;
 import android.widget.TextView;
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 import com.swipesexchange.R;
+import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ListingsUpdateTimer;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.main.MainActivity;
@@ -64,7 +65,7 @@ public class ListingsList extends ListFragment
 		//page_num 0 is Buy listings, 1 is Sell listings
 		public int page_num;
 		
-		static MainActivity mActivity;
+		//static MainActivity mActivity;
         private List<BuyListing> buyEntries;
         private List<SellListing> sellEntries;
         private boolean first_time = true;
@@ -79,7 +80,7 @@ public class ListingsList extends ListFragment
 
 
 		static ListingsList newInstance(int num, MainActivity my_activity) {
-        	mActivity = my_activity;
+    //    	mActivity = my_activity;
         ListingsList l = new ListingsList();
         l.buyEntries = new ArrayList<BuyListing>();
         l.sellEntries = new ArrayList<SellListing>();
@@ -324,7 +325,7 @@ public class ListingsList extends ListFragment
 		                
 		                // get current time
 		                Time now = new Time();
-		                now.setToNow();
+		                now.set(AccurateTimeHandler.getAccurateTime());
 		                String time = now.format2445();
 		                Log.d("ListingsList", "b_adapter.myList.get(pos).getListingID() = " + b_adapter.myList.get(pos).getListingID());
 		                Message msg = new Message(sender, receiver, b_adapter.myList.get(pos).getListingID(), time, message_contents);
@@ -569,7 +570,7 @@ public class ListingsList extends ListFragment
 		                
 		                // get current time
 		                Time now = new Time();
-		                now.setToNow();
+		                now.set(AccurateTimeHandler.getAccurateTime());
 		                String time = now.format2445();
 		                Log.d("ListingsList", "s_adapter.myList.get(pos).getListingID() = " + s_adapter.myList.get(pos).getListingID());
 		                Message msg = new Message(sender, receiver, s_adapter.myList.get(pos).getListingID(), time, message_contents);
@@ -922,6 +923,20 @@ public class ListingsList extends ListFragment
      	   	this.b_adapter.notifyDataSetChanged();
         }
         
+        public int countBLsByUserID(String userID){
+        	
+        	Log.d("ListingsList", "Counting BLs for userID " + userID + "with the initial buy entries size: " + Integer.toString(buyEntries.size())  );
+        //	Log.d("ListingsList", " and the size of b_adapater.myList is " + b_adapter.getCount());
+        	int count = 0;
+        	for (BuyListing bl : buyEntries){
+        		if (bl.getUser().getUID().equals(userID)){
+        			count++;
+        		}
+        	}
+        	return count;
+        }
+        
+        
         public void forceRefreshSL(){
         	Log.d("ListingsList", "Forcing a SL Refresh"); 
        	 	sc = new SLConnectGet(getActivity(), true);
@@ -930,7 +945,16 @@ public class ListingsList extends ListFragment
      	   	this.s_adapter.notifyDataSetChanged();
         }
        
-            
+        public int countSLsbyUserID(String userID){
+        	int count = 0;
+        	for (SellListing sl : sellEntries){
+        		if (sl.getUser().getUID().equals(userID)){
+        			count++;
+        		}
+        	}
+        	return count;
+        }
+        
    
             
             //ASYNC TASK for BUY LISTINGS
@@ -972,9 +996,10 @@ public class ListingsList extends ListFragment
         	      @Override
         	        protected void onPostExecute(List<BuyListing> result) {
         	    	  
-        	    	  Log.d("test", "PostExecute1");
+        	    	  
         	    	  progressBar.dismiss();
         	    	  buyEntries = result;
+        	    	  Log.d("BLExecute", "BuyEntries contains " + Integer.toString(buyEntries.size()));
         	    	  buy_entries_init = true;
         	    	  ListingsUpdateTimer.resetUpdateCountdown(0);
         	    	  if(this.get_pics)
@@ -1164,7 +1189,6 @@ public class ListingsList extends ListFragment
     	 	
     	 	private ProgressDialog progressBar;
     	 	private Context context;
-    	 	
     	 	 public MessageTask(Context context) {
     		        	this.context = context;
     		        }

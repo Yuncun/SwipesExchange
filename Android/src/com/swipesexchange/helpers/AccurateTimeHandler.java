@@ -19,32 +19,38 @@ public class AccurateTimeHandler {
 	
 	private static long ntpTimeStampOnBoot;
 	private static long systemElapsedTimeStamp;
-	
-	private static final String NTP_HOST_NAME = "0.us.pool.ntp.org";
+
+	private static SntpClient client;
 	
 	public AccurateTimeHandler(){
-		SntpClient client = new SntpClient();
-		//String dateFromNtpServer = "";
-		if (client.requestTime(NTP_HOST_NAME, 30000)) {
-		                ntpTimeStampOnBoot = client.getNtpTime();
-		                
-		                systemElapsedTimeStamp  =  SystemClock.elapsedRealtime();
-
-		                Log.d("AccurateTimeHandler", ntpTimeStampOnBoot + "...ntpTimeStamp on boot");
-		                Log.d("AccurateTimeHandler", systemElapsedTimeStamp  + "...systemElapsedTime on boot");
-		                
-		                Calendar calendar = Calendar.getInstance();
-		                try {
-		                	//test that our time is valid
-		                    calendar.setTimeInMillis(ntpTimeStampOnBoot);
-		                    calendar.getTime();
-		                } catch (Exception e) {
-		                    // TODO: handle exception
-		                    Log.wtf("AccurateTimeHandler", "No Response from NTP");
-		                    
-		                }
-
-		            }
+		client = new SntpClient();
+		client.requestTime();
+	}
+	
+	public static void completeTimeRetrieval(Boolean sntpSuccess){
+		if (sntpSuccess){
+			ntpTimeStampOnBoot = client.getNtpTime();
+		}
+		else if (!sntpSuccess){
+			ntpTimeStampOnBoot = Calendar.getInstance().getTimeInMillis();
+			 Log.d("AccurateTimeHandler", "sntpSuccess - FAILED, using Calendar time");
+		}
+	        
+	        systemElapsedTimeStamp  =  SystemClock.elapsedRealtime();
+	
+	        Log.d("AccurateTimeHandler", "Successful time retrieval: " + ntpTimeStampOnBoot + "...ntpTimeStamp on boot");
+	        Log.d("AccurateTimeHandler", "Successful time retrieval: " + systemElapsedTimeStamp  + "...systemElapsedTime on boot");
+	        
+	        Calendar calendar = Calendar.getInstance();
+	        try {
+	        	//test that our time is valid
+	            calendar.setTimeInMillis(ntpTimeStampOnBoot);
+	            calendar.getTime();
+	        } catch (Exception e) {
+	            // TODO: handle exception
+	            Log.d("AccurateTimeHandler", "No Response from NTP");
+	            
+	        }
 		
 	}
 	
@@ -56,4 +62,6 @@ public class AccurateTimeHandler {
 		long time = ntpTimeStampOnBoot + (updatedSystemElapsedTime - systemElapsedTimeStamp);
 		return time;
 	}
+	
+	
 }

@@ -16,6 +16,7 @@ package com.swipesexchange.helpers;
  * limitations under the License.
  */
 
+import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
 import java.io.IOException;
@@ -34,8 +35,13 @@ import java.net.InetAddress;
  * }
  * </pre>
  */
-public class SntpClient
+public class SntpClient implements OnTaskCompleted
 {
+	
+	private static int timeOutMs = 30000;
+	private static final String NTP_HOST_NAME = "0.pool.ntp.org";
+	
+	
     private static final String TAG = "SntpClient";
     private static final int REFERENCE_TIME_OFFSET = 16;
     private static final int ORIGINATE_TIME_OFFSET = 24;
@@ -54,6 +60,8 @@ public class SntpClient
     private long mNtpTimeReference;
     // round trip time in milliseconds
     private long mRoundTripTime;
+    
+    private OnTaskCompleted listener;
     /**
      * Sends an SNTP request to the given host and processes the response.
      *
@@ -61,58 +69,21 @@ public class SntpClient
      * @param timeout network timeout in milliseconds.
      * @return true if the transaction was successful.
      */
-    public boolean requestTime(String host, int timeout) {
-        DatagramSocket socket = null;
-        try {
-            socket = new DatagramSocket();
-            socket.setSoTimeout(timeout);
-            InetAddress address = InetAddress.getByName(host);
-            byte[] buffer = new byte[NTP_PACKET_SIZE];
-            DatagramPacket request = new DatagramPacket(buffer, buffer.length, address, NTP_PORT);
-            // set mode = 3 (client) and version = 3
-            // mode is in low 3 bits of first byte
-            // version is in bits 3-5 of first byte
-            buffer[0] = NTP_MODE_CLIENT | (NTP_VERSION << 3);
-            // get current time and write it to the request packet
-            long requestTime = System.currentTimeMillis();
-            long requestTicks = SystemClock.elapsedRealtime();
-            writeTimeStamp(buffer, TRANSMIT_TIME_OFFSET, requestTime);
-            socket.send(request);
-            // read the response
-            DatagramPacket response = new DatagramPacket(buffer, buffer.length);
-            socket.receive(response);
-            long responseTicks = SystemClock.elapsedRealtime();
-            long responseTime = requestTime + (responseTicks - requestTicks);
-            // extract the results
-            long originateTime = readTimeStamp(buffer, ORIGINATE_TIME_OFFSET);
-            long receiveTime = readTimeStamp(buffer, RECEIVE_TIME_OFFSET);
-            long transmitTime = readTimeStamp(buffer, TRANSMIT_TIME_OFFSET);
-            long roundTripTime = responseTicks - requestTicks - (transmitTime - receiveTime);
-            // receiveTime = originateTime + transit + skew
-            // responseTime = transmitTime + transit - skew
-            // clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime))/2
-            //             = ((originateTime + transit + skew - originateTime) +
-            //                (transmitTime - (transmitTime + transit - skew)))/2
-            //             = ((transit + skew) + (transmitTime - transmitTime - transit + skew))/2
-            //             = (transit + skew - transit + skew)/2
-            //             = (2 * skew)/2 = skew
-            long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime))/2;
-            // if (false) Log.d(TAG, "round trip: " + roundTripTime + " ms");
-            // if (false) Log.d(TAG, "clock offset: " + clockOffset + " ms");
-            // save our results - use the times on this side of the network latency
-            // (response rather than request time)
-            mNtpTime = responseTime + clockOffset;
-            mNtpTimeReference = responseTicks;
-            mRoundTripTime = roundTripTime;
-        } catch (Exception e) {
-            if (false) Log.d(TAG, "request time failed: " + e);
-            return false;
-        } finally {
-            if (socket != null) {
-                socket.close();
-            }
-        }
-        return true;
+	 
+	
+    public void requestTime() {
+    	
+    	Log.d("AccurateTimeHandler", "requestTime raeched in SntpClient - starting async retrieval");
+    	try{
+	    	StartSNTPAsync sntpclient = new StartSNTPAsync();
+	    	sntpclient.setListener(this);
+	    	sntpclient.execute();
+    	}
+    	catch (Exception e){
+    		 Log.d("AccurateTimeHandler", "requestTime in SntpClient failed - async retrieval exception " + e.toString());
+    	}
+    	
+        
     }
     /**
      * Returns the time computed from the NTP transaction.
@@ -184,4 +155,83 @@ public class SntpClient
         // low order bits should be random data
         buffer[offset++] = (byte)(Math.random() * 255.0);
     }
+	
+	public class StartSNTPAsync extends AsyncTask<Void,Void,Boolean>{ //change Object to required type
+	    private OnTaskCompleted listener;
+	
+	    public void setListener(OnTaskCompleted listener){
+	        this.listener=listener;
+			
+	    }
+	    
+	    @Override
+		protected Boolean doInBackground(Void... params){
+			DatagramSocket socket = null;
+				try {
+					socket = new DatagramSocket();
+					socket.setSoTimeout(timeOutMs);
+					InetAddress address = InetAddress.getByName(NTP_HOST_NAME);
+					byte[] buffer = new byte[NTP_PACKET_SIZE];
+					DatagramPacket request = new DatagramPacket(buffer, buffer.length, address, NTP_PORT);
+					// set mode = 3 (client) and version = 3
+					// mode is in low 3 bits of first byte
+					// version is in bits 3-5 of first byte
+					buffer[0] = NTP_MODE_CLIENT | (NTP_VERSION << 3);
+					// get current time and write it to the request packet
+					long requestTime = System.currentTimeMillis();
+					long requestTicks = SystemClock.elapsedRealtime();
+					writeTimeStamp(buffer, TRANSMIT_TIME_OFFSET, requestTime);
+					socket.send(request);
+					// read the response
+					DatagramPacket response = new DatagramPacket(buffer, buffer.length);
+					socket.receive(response);
+					long responseTicks = SystemClock.elapsedRealtime();
+					long responseTime = requestTime + (responseTicks - requestTicks);
+					// extract the results
+					long originateTime = readTimeStamp(buffer, ORIGINATE_TIME_OFFSET);
+					long receiveTime = readTimeStamp(buffer, RECEIVE_TIME_OFFSET);
+					long transmitTime = readTimeStamp(buffer, TRANSMIT_TIME_OFFSET);
+					long roundTripTime = responseTicks - requestTicks - (transmitTime - receiveTime);
+					// receiveTime = originateTime + transit + skew
+					// responseTime = transmitTime + transit - skew
+					// clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime))/2
+					//             = ((originateTime + transit + skew - originateTime) +
+					//                (transmitTime - (transmitTime + transit - skew)))/2
+					//             = ((transit + skew) + (transmitTime - transmitTime - transit + skew))/2
+					//             = (transit + skew - transit + skew)/2
+					//             = (2 * skew)/2 = skew
+					long clockOffset = ((receiveTime - originateTime) + (transmitTime - responseTime))/2;
+					// if (false) Log.d(TAG, "round trip: " + roundTripTime + " ms");
+					// if (false) Log.d(TAG, "clock offset: " + clockOffset + " ms");
+					// save our results - use the times on this side of the network latency
+					// (response rather than request time)
+					mNtpTime = responseTime + clockOffset;
+					mNtpTimeReference = responseTicks;
+					mRoundTripTime = roundTripTime;
+				} catch (Exception e) {
+					Log.d(TAG, "request time failed: " + e);
+					return false;
+				} finally {
+					if (socket != null) {
+						socket.close();
+					}
+				}
+				return true;
+		}
+	    // required methods
+	
+	    protected void onPostExecute(Boolean result){
+		
+	        // your stuff
+	    	
+	    		listener.onRequestTimeCompleted(result);
+	    	
+	    }
+	}
+
+	@Override
+	public void onRequestTimeCompleted(Boolean result) {
+		// TODO Auto-generated method stub
+		AccurateTimeHandler.completeTimeRetrieval(result);
+	}
 }

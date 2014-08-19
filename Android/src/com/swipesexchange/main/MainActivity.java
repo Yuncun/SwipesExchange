@@ -6,7 +6,10 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import android.app.AlertDialog;
+import android.app.Dialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
@@ -23,8 +26,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.view.Window;
 import android.view.View.OnClickListener;
+import android.widget.Button;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -32,16 +38,21 @@ import com.facebook.Session;
 import com.facebook.SessionState;
 import com.facebook.UiLifecycleHelper;
 import com.facebook.model.GraphUser;
+import com.google.android.gms.analytics.GoogleAnalytics;
+import com.google.android.gms.analytics.HitBuilders;
+import com.google.android.gms.analytics.Tracker;
 import com.google.android.gms.common.ConnectionResult;
 import com.google.android.gms.common.GooglePlayServicesUtil;
 import com.google.android.gms.gcm.GoogleCloudMessaging;
 import com.swipesexchange.R;
 import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ClosedInfo;
+import com.swipesexchange.helpers.Constants;
 import com.swipesexchange.lists.NewListingFragment;
 import com.swipesexchange.lists.NewListingFragmentBuy;
 import com.swipesexchange.lists.SelectionFragment;
 import com.swipesexchange.lists.SelectionFragment.SectionsPagerAdapter;
+import com.swipesexchange.main.MyApplication.TrackerName;
 import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.User;
@@ -94,6 +105,11 @@ public class MainActivity extends FragmentActivity {
 	ViewPager mViewPager;
 	private UiLifecycleHelper uiHelper;
 	
+	//Instances for error dialog
+	Button ok_button;
+	Dialog time_error_dialog;
+	TextView text_field;
+	
 	
 	/**
 	 * onCreate function for FragmentActivity
@@ -125,6 +141,18 @@ public class MainActivity extends FragmentActivity {
 		accurateTimeHandler = new AccurateTimeHandler();
 
 		context = getApplicationContext();
+		
+	
+
+		/**
+		 * Google Analytics intialization
+		 */
+		//Get a Tracker (should auto-report)
+		((MyApplication) getApplication()).getTracker(MyApplication.TrackerName.APP_TRACKER);
+		
+		//Get an Analytics tracker to report app starts & uncaught exceptions etc.
+		GoogleAnalytics.getInstance(this).reportActivityStart(this);
+
 		
 		FragmentTransaction transaction = fragment_manager.beginTransaction();
 		for(int i=0; i < fragments.length; i++)
@@ -224,10 +252,50 @@ public class MainActivity extends FragmentActivity {
 	     
 	    			@Override
 	    			public void onClick(View v) {
+	    				
+	    				 if (((SelectionFragment) fragments[MAIN]).countBuyListingsFromUserID(Self.getUser().getUID())>=Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER){
+	    			/*
+	    					 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
+	    					 builder.setMessage("You cannot have more than " + Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER + " listings per section. Please delete one before making another")
+	    					        .setCancelable(false)
+	    					        .setPositiveButton("Ok Im so sorry", new DialogInterface.OnClickListener() {
+	    					            public void onClick(DialogInterface dialog, int id) {
+	    					                 //do things
+	    					            	dialog.dismiss();
+	    					            }
+	    					        });
+	    					 AlertDialog alert = builder.create();
+	    					 alert.show();
+	    				*/
+	    					time_error_dialog = new Dialog(v.getContext());
+	 						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	 						time_error_dialog.setContentView(R.layout.dialog_time_error);
+	 						
+	 						ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
+	 						text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
+	 						
+	 						//Return the first error found
+	 						text_field.setText("You cannot have more than " + Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER + " listings per section. Please delete one before making another");
+	 						
+	 						ok_button.setOnClickListener(new View.OnClickListener() {
+	 							 
+	 		                    @Override
+	 		                    public void onClick(View view) {
+	 		                        
+	 		                        time_error_dialog.dismiss();
+	 		 
+	 		                    }
+	 		                });
+	 						
+	 						time_error_dialog.show();	
+	    				 }
+	    				 else{
 	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragmentBuy.class);
 	    				 nextScreen.putExtra("new_listing_type", "buy");
 	    				 Log.d("MainActivity Onclick for NL", "startActivityForResult(nextScreen, NL_REQUESTCODE);" );
 	    				 startActivityForResult(nextScreen, NL_REQUESTCODE);
+	    				 }
+	    				 
 	    			}
 	    		});
 	    		
@@ -235,9 +303,37 @@ public class MainActivity extends FragmentActivity {
 	    			 
 	    			@Override
 	    			public void onClick(View v) {
+	    				
+	    				 if (((SelectionFragment) fragments[MAIN]).countSellListingsFromUserID(Self.getUser().getUID())>=Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER){
+	    					time_error_dialog = new Dialog(v.getContext());
+	 						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	 						time_error_dialog.setContentView(R.layout.dialog_time_error);
+	 						
+	 						ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
+	 						text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
+	 						
+	 						//Return the first error found
+	 						text_field.setText("You cannot have more than " + Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER + " listings per section. Please delete one before making another");
+	 						
+	 						ok_button.setOnClickListener(new View.OnClickListener() {
+	 							 
+	 		                    @Override
+	 		                    public void onClick(View view) {
+	 		                        
+	 		                        time_error_dialog.dismiss();
+	 		 
+	 		                    }
+	 		                });
+	 						
+	 						time_error_dialog.show();	
+	    				 }
+	    				 else{
 	    				 Intent nextScreen = new Intent(v.getContext(), NewListingFragment.class);
 	    				 nextScreen.putExtra("new_listing_type", "sell");
+	    				 Log.d("MainActivity Onclick for SL", "startActivityForResult(nextScreen, SL_REQUESTCODE);" );
 	    				 startActivityForResult(nextScreen, SL_REQUESTCODE);
+	    				 }
+	    				 
 	    			}
 	    		});
 	    		
@@ -308,7 +404,10 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onDestroy() {
 		super.onDestroy();
+		//Stop the analytics tracking
+		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 		uiHelper.onDestroy();
+		
 	}
 	
 	@Override

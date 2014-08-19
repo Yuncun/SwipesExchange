@@ -35,5 +35,7 @@ public final class Constants {
     public static final String SAVED_BY_SENDER = "1";
     public static final String SAVED_BY_RECEIVER = "2";
     public static final String SAVED_BY_BOTH = "3";
+    
+    public static final int MAXIMUM_LISTINGS_ALLOWED_PER_USER = 2;
 
 }

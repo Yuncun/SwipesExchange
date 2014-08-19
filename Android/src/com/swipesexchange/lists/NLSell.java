@@ -2,6 +2,7 @@ package com.swipesexchange.lists;
 
 import java.util.ArrayList;
 import java.util.Calendar;
+import java.util.List;
 
 import com.google.gson.Gson;
 import com.swipesexchange.R;
@@ -80,7 +81,8 @@ public class NLSell extends Fragment {
 	        		
 	        		boolean cancel = false;
 				
-	        		if (adapter.enterMessage.getText().toString() == null || adapter.enterMessage.getText().toString().isEmpty())
+	        		
+	        		if (checkAndListAllProblemsWithSubmission().size()>0)
 					{
 						cancel = true;
 						
@@ -91,8 +93,8 @@ public class NLSell extends Fragment {
 						ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
 						text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
 						
-						text_field.setText("Please enter something for the message body");
-						
+						//Return the first error found
+						text_field.setText(checkAndListAllProblemsWithSubmission().get(0));
 						
 						ok_button.setOnClickListener(new View.OnClickListener() {
 							 
@@ -254,6 +256,16 @@ public class NLSell extends Fragment {
          adapter.setInflater((LayoutInflater) getActivity().getSystemService(Context.LAYOUT_INFLATER_SERVICE), getActivity());
          this.lv.setAdapter(adapter);
     
+     }
+     
+     public List<String> checkAndListAllProblemsWithSubmission(){
+    	 List<String> problems = new ArrayList<String>();
+    	 if (adapter.enterMessage.getText().toString() == null  || adapter.enterMessage.getText().toString().isEmpty() ){
+    		problems.add("Please enter something for the message body");
+    	 }
+    	
+    			 
+    	 return problems;
      }
      
      public void setGroupParents() {
