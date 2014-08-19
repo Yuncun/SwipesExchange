@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.app.ProgressDialog;
@@ -24,9 +25,11 @@ import android.graphics.BitmapFactory;
 import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
+import android.util.DisplayMetrics;
 import android.util.Log;
 import android.view.Display;
 import android.view.LayoutInflater;
@@ -42,6 +45,7 @@ import android.widget.ImageView;
 import android.widget.LinearLayout;
 import android.widget.ListView;
 import android.widget.TextView;
+
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 import com.swipesexchange.R;
 import com.swipesexchange.helpers.AccurateTimeHandler;
@@ -203,13 +207,10 @@ public class ListingsList extends ListFragment
 		           		v4.setText(items.get(i));
 		           	}
 		           }
-		           
-		           
-			        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-			        Display display = wm.getDefaultDisplay();
-			        Point size = new Point();
-			        display.getSize(size);
-			        int width = size.x;
+
+		           DisplayMetrics displaymetrics = new DisplayMetrics();
+				   getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+				   int width = displaymetrics.widthPixels;
 				   
 				   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
 				   
@@ -354,11 +355,9 @@ public class ListingsList extends ListFragment
 			   
 			   // get the screen size of the device
 			   
-		        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-		        Display display = wm.getDefaultDisplay();
-		        Point size = new Point();
-		        display.getSize(size);
-		        int width = size.x;
+			   DisplayMetrics displaymetrics = new DisplayMetrics();
+			   getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			   int width = displaymetrics.widthPixels;
 			   
 			   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
 			   
@@ -450,15 +449,14 @@ public class ListingsList extends ListFragment
 		           	}
 		           }
 		           
-		           dialog.show();
 		           
-			        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-			        Display display = wm.getDefaultDisplay();
-			        Point size = new Point();
-			        display.getSize(size);
-			        int width = size.x;
+		           DisplayMetrics displaymetrics = new DisplayMetrics();
+				   getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+				   int width = displaymetrics.widthPixels;
 				   
 				   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
+				   
+				   dialog.show();
 		           return;
 		       
 	    	   }
@@ -599,11 +597,9 @@ public class ListingsList extends ListFragment
 			   
 			   // get the screen size of the device
 
-		        WindowManager wm = (WindowManager) getActivity().getSystemService(Context.WINDOW_SERVICE);
-		        Display display = wm.getDefaultDisplay();
-		        Point size = new Point();
-		        display.getSize(size);
-		        int width = size.x;
+			   DisplayMetrics displaymetrics = new DisplayMetrics();
+			   getActivity().getWindowManager().getDefaultDisplay().getMetrics(displaymetrics);
+			   int width = displaymetrics.widthPixels;
 			   
 			   dialog.getWindow().setLayout((7 * width)/8, LayoutParams.WRAP_CONTENT);
 		       dialog.show();

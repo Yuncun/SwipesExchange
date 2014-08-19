@@ -34,9 +34,7 @@ Dialog loginDialog;
 	    getActivity().getActionBar().hide();
 	    
 	    ClosedInfo.setMinimized(false);
-	  
-        
-        
+
 	    Button submitButton = (Button) view.findViewById(R.id.guestButton);
 	    submitButton.setOnClickListener(new View.OnClickListener() {
 	          public void onClick(View v) {

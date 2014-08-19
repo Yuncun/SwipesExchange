@@ -1,5 +1,6 @@
 package com.swipesexchange.messaging;
 
+import java.io.IOException;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.ArrayList;
@@ -7,12 +8,15 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
+
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
+import android.content.res.AssetFileDescriptor;
+import android.media.MediaPlayer;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
@@ -27,6 +31,7 @@ import android.view.animation.AnimationUtils;
 import android.widget.ListView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+
 import com.swipesexchange.R;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
@@ -91,6 +96,32 @@ public class MessagesFragment extends ListFragment {
 	     // Get extra data included in the Intent
 	     String message = intent.getStringExtra("message");
 	     updateFragmentWithMessage(true);
+	     
+	     MediaPlayer player = new MediaPlayer();
+	     AssetFileDescriptor afd = null;
+		try {
+			afd = context.getAssets().openFd("message.mp3");
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+		
+	     try {
+			player.setDataSource(afd.getFileDescriptor());
+		} catch (IllegalArgumentException e) {
+			e.printStackTrace();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	     try {
+			player.prepare();
+		} catch (IllegalStateException e) {
+			e.printStackTrace();
+		} catch (IOException e) {
+			e.printStackTrace();
+		}
+	     player.start();
 	     Log.d("zebra", "Got message: " + message);
 	   }
 	 };
