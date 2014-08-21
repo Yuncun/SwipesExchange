@@ -15,6 +15,7 @@ import com.swipesexchange.helpers.ParentRow;
 import com.swipesexchange.helpers.TextRow;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
+import com.swipesexchange.sharedObjects.BuyListing;
 import com.swipesexchange.sharedObjects.MsgStruct;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.SellListing;
@@ -77,37 +78,12 @@ public class NLSell extends Fragment {
 	        submit_button.setOnClickListener(new View.OnClickListener() {
 			
 	        	@Override
-				public void onClick(View v) {
+				public void onClick(final View v) {
 	        		
 	        		boolean cancel = false;
-				
 	        		
-	        		if (checkAndListAllProblemsWithSubmission().size()>0)
-					{
-						cancel = true;
-						
-						time_error_dialog = new Dialog(v.getContext());
-						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
-						time_error_dialog.setContentView(R.layout.dialog_time_error);
-						
-						ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
-						text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
-						
-						//Return the first error found
-						text_field.setText(checkAndListAllProblemsWithSubmission().get(0));
-						
-						ok_button.setOnClickListener(new View.OnClickListener() {
-							 
-		                    @Override
-		                    public void onClick(View view) {
-		                        
-		                        time_error_dialog.dismiss();
-		 
-		                    }
-		                });
-						
-						time_error_dialog.show();	
-					}
+	        		
+					
 			
 					if(!cancel)
 					{	
@@ -207,6 +183,20 @@ public class NLSell extends Fragment {
 		                    	nMsg.setHeader(Constants.SL_PUSH); //Identifies message as a sell listing
 		                    	nMsg.setPayload(j0);
 		                    	String j1 = gson.toJson(nMsg);
+		                    	
+		                    	
+		                    	//Check validity of submission
+		                     	List<String> problems = checkAndListAllProblemsWithSubmission(sl);
+		                    	if (problems.size()>0)
+		    					{
+		    						//cancel = true;
+		    						submissionCheck(problems.get(0), v);
+		    						submit_dialog.dismiss();
+		    					}
+		    					//
+		                    	else{
+		                    		
+		                    	}
 		                    	ConnectToServlet.sendListing(j1);
 		                    	
 		                    	ListingsUpdateTimer.toggleJustSubmittedListing();
@@ -258,15 +248,54 @@ public class NLSell extends Fragment {
     
      }
      
-     public List<String> checkAndListAllProblemsWithSubmission(){
+     public void submissionCheck(String firstProblem, View v){
+    	 /**
+    	  * Displays error dialog
+    	  */
+				time_error_dialog = new Dialog(v.getContext());
+				time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				time_error_dialog.setContentView(R.layout.dialog_time_error);
+				
+				ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
+				text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
+				
+				//Return the first error found
+				text_field.setText(firstProblem);
+				
+				ok_button.setOnClickListener(new View.OnClickListener() {
+					 
+                 @Override
+                 public void onClick(View view) {
+                     
+                     time_error_dialog.dismiss();
+
+                 }
+             });
+				
+				time_error_dialog.show();	
+     }
+ 		
+     public List<String> checkAndListAllProblemsWithSubmission(SellListing sl){
+    	 /**
+    	  * checkAndListAllProblems contains all cases in which a new listing should not be valid
+    	  */
     	 List<String> problems = new ArrayList<String>();
     	 if (adapter.enterMessage.getText().toString() == null  || adapter.enterMessage.getText().toString().isEmpty() ){
     		problems.add("Please enter something for the message body");
+    		Log.d("NLBUY", "checkAndLIstAllProblems contains: Please enter something for the message body");
     	 }
-    	
-    			 
+    	 if (sl.getUser().getUID()==null || sl.getUser().getUID().isEmpty() || sl.getUser().getName().isEmpty() || sl.getUser().getName()==null){
+    		 problems.add("Fatal - User is undefined");
+    		 Log.d("Unknown user ", "Unknown user is attempting to create sellListing");
+    	 }
+    	 
+    	 if (sl.getMessageBody().contains("nigger")){
+    		 problems.add("Please don't call anybody a nigger");
+    	 }
+    	 
     	 return problems;
      }
+     
      
      public void setGroupParents() {
      	this.parents.clear();

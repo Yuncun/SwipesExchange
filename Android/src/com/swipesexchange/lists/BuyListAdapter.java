@@ -6,6 +6,7 @@ import java.util.List;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -110,12 +111,17 @@ public class BuyListAdapter  extends BaseAdapter
                 int my_color = inflater.getContext().getResources().getColor(R.color.light_teal);
                 int my_color_white = Color.WHITE;
                
-                //TODO: pick a better color/indicator that the client is involved in a listing
-               if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()) || 
-            		   this.myList.get(position).getUser().getUID().equals(Self.getUser().getUID()))
-                	view.setBackgroundColor(my_color);
-               else
-                	view.setBackgroundColor(my_color_white);
+               try{
+	                //TODO: pick a better color/indicator that the client is involved in a listing
+	               if(ConversationList.doesConversationExist(this.myList.get(position).getListingID(), this.myList.get(position).getUser().getUID()) || 
+	            		   this.myList.get(position).getUser().getUID().equals(Self.getUser().getUID()))
+	                	view.setBackgroundColor(my_color);
+	               else
+	                	view.setBackgroundColor(my_color_white);
+               }catch(Exception e){
+            	   view.setBackgroundColor(my_color_white);
+            	   Log.d("BuyListadapter", "Colorpicking background did not work - May be a null pointer somewhere" + e.toString());
+               }
        	
                return view;
     }

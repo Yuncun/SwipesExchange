@@ -1038,7 +1038,7 @@ public class ListingsList extends ListFragment
 	        	        		}else{
 	        	        			try {
 	        	        		        Thread.sleep(80);    
-	        	        		        Log.d("GetALLBL", "Sleeping for 800ms");
+	        	        		        Log.d("GetALLBL", "Sleeping for 80ms");
 	        	        		    } catch (InterruptedException e) {
 	        	        		       e.printStackTrace();
 	        	        		    }

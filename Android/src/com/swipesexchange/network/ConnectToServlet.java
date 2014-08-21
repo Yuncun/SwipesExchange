@@ -506,7 +506,7 @@ public class ConnectToServlet {
 			  Gson gson = new Gson();
 			  String gmsg = gson.toJson(dmsg);
           
-			  Log.d("LOUD AND CLEAR", "SendIDPair reached, sending the string:" + gmsg);
+			  Log.d("handleIDAsync", "SendIDPair reached, sending the string:" + gmsg);
              //Begin to open a new OutputObjectStream
              ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
              objectOut.writeObject(gmsg);
@@ -537,11 +537,11 @@ public class ConnectToServlet {
              	*/
 
 			  } catch(Exception e) { 
-				  Log.d("LOUD AND CLEAR", "url connection failed at getFBID");
+				  Log.d("handleIDAsync", "url connection failed at getFBID");
 				  //dmsg.setPayload("URLConnectionFailedID");
 			  }
 
-		 Log.d("LOUD AND CLEAR", "dmsg.getPayload() is " + dmsg.getPayload());
+		 Log.d("handleIDAsync", "dmsg.getPayload() is " + dmsg.getPayload());
 			  return dmsg.getPayload();
 	}
 }

@@ -27,6 +27,7 @@ import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
+import android.provider.Telephony.Mms;
 import android.support.v4.app.Fragment;
 import android.text.format.Time;
 import android.util.Log;
@@ -78,13 +79,16 @@ public class NLBuy extends Fragment {
 	        submit_button.setOnClickListener(new View.OnClickListener() {
 			
 	        	@Override
-				public void onClick(View v) {
+				public void onClick(final View v) {
 	        		
 	        		boolean cancel = false;
-				
+				/*
 	        		if (checkAndListAllProblemsWithSubmission().size()>0)
 					{
 						cancel = true;
+						submissionCheck(v);
+						
+						
 						time_error_dialog = new Dialog(v.getContext());
 						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 						time_error_dialog.setContentView(R.layout.dialog_time_error);
@@ -106,8 +110,9 @@ public class NLBuy extends Fragment {
 		                });
 						
 						time_error_dialog.show();	
+						
 					}
-			
+				*/
 					if(!cancel)
 					{						
 						submit_dialog = new Dialog(v.getContext());
@@ -220,6 +225,16 @@ public class NLBuy extends Fragment {
 		                    	String j1 = gson.toJson(nMsg);
 		                    	
 		                    	
+		                    	//CHECK
+		                    	List<String> problems = checkAndListAllProblemsWithSubmission(sl);
+		                    	if (problems.size()>0)
+		    					{
+		    						//cancel = true;
+		    						submissionCheck(problems.get(0), v);
+		    						submit_dialog.dismiss();
+		    					}
+		    					//
+		                    	else{
 		                    	ConnectToServlet.sendListing(j1);
 		                    	
 		                    	ListingsUpdateTimer.toggleJustSubmittedListing();
@@ -235,6 +250,8 @@ public class NLBuy extends Fragment {
 
 		                    	
 		    					getActivity().finish();
+		                    	}
+		                    	
 		                    }
 		                });
 						
@@ -248,6 +265,33 @@ public class NLBuy extends Fragment {
          return view;
      }
 	 
+	 
+	 private void submissionCheck(String firstProblem, View v){
+	
+				//cancel = true;
+				time_error_dialog = new Dialog(v.getContext());
+				time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				time_error_dialog.setContentView(R.layout.dialog_time_error);
+				
+				ok_button = (Button) time_error_dialog.findViewById(R.id.Ok_Button);
+				text_field = (TextView) time_error_dialog.findViewById(R.id.dialog_text_view);
+				
+				//Return the first error found
+				text_field.setText(firstProblem);
+				
+				ok_button.setOnClickListener(new View.OnClickListener() {
+					 
+                 @Override
+                 public void onClick(View view) {
+                     
+                     time_error_dialog.dismiss();
+
+                 }
+             });
+				
+				time_error_dialog.show();	
+			
+	 }
 
 	 
 
@@ -271,14 +315,23 @@ public class NLBuy extends Fragment {
     
      }
      
-     public List<String> checkAndListAllProblemsWithSubmission(){
+     public List<String> checkAndListAllProblemsWithSubmission(BuyListing bl){
+    	 /**
+    	  * checkAndListAllProblems contains all cases in which a new listing should not be valid
+    	  */
     	 List<String> problems = new ArrayList<String>();
     	 if (adapter.enterMessage.getText().toString() == null  || adapter.enterMessage.getText().toString().isEmpty() ){
     		problems.add("Please enter something for the message body");
     		Log.d("NLBUY", "checkAndLIstAllProblems contains: Please enter something for the message body");
     	 }
+    	 if (bl.getUser().getUID()==null || bl.getUser().getUID().isEmpty() || bl.getUser().getName().isEmpty() || bl.getUser().getName()==null){
+    		 problems.add("Fatal - User is undefined");
+    		 Log.d("Unknown user ", "Unknown user is attempting to create buyListing");
+    	 }
     	 
-   
+    	 if (bl.getMessageBody().contains("nigger")){
+    		 problems.add("Please don't call anybody a nigger");
+    	 }
     	 
     	 return problems;
      }

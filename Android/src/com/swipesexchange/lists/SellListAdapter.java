@@ -78,6 +78,7 @@ public class SellListAdapter  extends BaseAdapter
         String venue_string = this.myList.get(position).getVenue().getName();
         List<String> items = Arrays.asList(venue_string.split("\\s*,\\s*"));
         
+        
         LinearLayout b1 = (LinearLayout) view.findViewById(R.id.box_1_sell);
         LinearLayout b2 = (LinearLayout) view.findViewById(R.id.box_2_sell);
         LinearLayout b3 = (LinearLayout) view.findViewById(R.id.box_3_sell);

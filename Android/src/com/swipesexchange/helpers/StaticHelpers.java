@@ -21,7 +21,7 @@ public class StaticHelpers {
 		Date endDate = sdf.parse(endTime);
 		
 		Calendar calCreated = Calendar.getInstance();
-		calCreated.setTimeInMillis(MainActivity.accurateTimeHandler.getAccurateTime());
+		calCreated.setTimeInMillis(AccurateTimeHandler.getAccurateTime());
 		Date timeNowDate = calCreated.getTime();
 		//timeNowDate is current time
 		//endDate is date when listing should expire

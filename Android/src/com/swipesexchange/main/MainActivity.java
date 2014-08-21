@@ -2,6 +2,8 @@ package com.swipesexchange.main;
 
 
 import java.io.IOException;
+import java.security.MessageDigest;
+import java.security.NoSuchAlgorithmException;
 import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
@@ -14,14 +16,18 @@ import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
+import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
+import android.content.pm.Signature;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.os.Handler;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v4.view.ViewPager;
+import android.util.Base64;
 import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
@@ -143,6 +149,20 @@ public class MainActivity extends FragmentActivity {
 		context = getApplicationContext();
 		
 	
+		//TEMPORARY TO FIND DEVELOPER KEYHASH
+		try{
+	        PackageInfo info = getPackageManager().getPackageInfo(
+	                "com.swipesexchange", PackageManager.GET_SIGNATURES);
+	        for (Signature signature : info.signatures) {
+	            MessageDigest md = MessageDigest.getInstance("SHA");
+	            md.update(signature.toByteArray());
+	            Log.d("KeyHash:",Base64.encodeToString(md.digest(), Base64.DEFAULT));       
+//
+	        }
+	    } catch (Exception e) {
+	    	Log.d("KeyHash:", "Exception" + e.toString());
+	    } 
+		//*************************
 
 		/**
 		 * Google Analytics intialization
@@ -212,14 +232,17 @@ public class MainActivity extends FragmentActivity {
  	  	              }
  	  	            }
  	  	          }).executeAsync();
+			 	 
+
 			 	 //Todo: Try to extract from sharedpreferences
 			}
 			else if (session.isClosed()){
 				 Log.d("Guest Logout ", "Log out button activated");
+				 /*
 				  Intent i = getBaseContext().getPackageManager()
 				             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(i);
+				startActivity(i);*/
 			}
 		}
 	};
@@ -238,6 +261,7 @@ public class MainActivity extends FragmentActivity {
 	
 	@Override
 	public boolean onPrepareOptionsMenu(Menu menu) {
+		Log.d("Actionbar", "Showing actionbar");
 	    // only add the menu when the selection fragment is showing
 		this.options_menu = menu;
 		super.onCreateOptionsMenu(this.options_menu);
