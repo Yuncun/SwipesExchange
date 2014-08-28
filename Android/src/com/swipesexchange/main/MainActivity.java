@@ -54,6 +54,7 @@ import com.swipesexchange.R;
 import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.helpers.Constants;
+import com.swipesexchange.helpers.DisplayExceptionAlertDialog;
 import com.swipesexchange.lists.NewListingFragment;
 import com.swipesexchange.lists.NewListingFragmentBuy;
 import com.swipesexchange.lists.SelectionFragment;
@@ -101,6 +102,7 @@ public class MainActivity extends FragmentActivity {
     private boolean create;
 	private boolean is_resumed;
 	public boolean loggedInAsGuest = false;
+	public boolean has_successfully_logged_in_sometime = false;
     //Member Instances
     protected Context context;
 	SectionsPagerAdapter mSectionsPagerAdapter;
@@ -124,6 +126,14 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		
+		//Used when we need to close all activities. Since MainActivity is our first activity, in order to close all activities we need to
+		//restart MainActivity, and then finish it. Therefore, sometimes this activity will be recreated when we want to close everything.
+		if (getIntent().getBooleanExtra("EXIT", false)) {
+		    finish();
+		}
+		
+		
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		
@@ -233,16 +243,33 @@ public class MainActivity extends FragmentActivity {
  	  	            }
  	  	          }).executeAsync();
 			 	 
+			 	has_successfully_logged_in_sometime = true;
 
 			 	 //Todo: Try to extract from sharedpreferences
 			}
 			else if (session.isClosed()){
-				 Log.d("Guest Logout ", "Log out button activated");
-				 /*
+				 Log.d("Guest Logout ", "session.isClosed()");
+				  if (fragments[LOGIN_SPLASH].isVisible()){
+				    	Log.d("OnResume", "Hiding actionbar");
+				    	getActionBar().hide();
+				    }
+				  
+				if (has_successfully_logged_in_sometime){/*
 				  Intent i = getBaseContext().getPackageManager()
 				             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
 				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(i);*/
+				startActivity(i);
+				*/
+            	Log.d("logged out" , "Finishing all activities");
+            	//activity.finish();
+            	ConnectToServlet.logoutRemoveUIDRegIDPair(Self.getUser().getUID(), Self.getUser().getRegid());
+            	
+            	
+            	Intent intent = new Intent(context, MainActivity.class);
+            	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+            	intent.putExtra("EXIT", true);
+            	startActivity(intent);
+				}
 			}
 		}
 	};
@@ -267,7 +294,7 @@ public class MainActivity extends FragmentActivity {
 		super.onCreateOptionsMenu(this.options_menu);
 	    if (fragments[MAIN].isVisible() || create) {
 	        if (this.options_menu.size() == 0) {
-	            settings = this.options_menu.add(R.string.settings);
+	            settings = this.options_menu.add(R.string.logout);
 	            getMenuInflater().inflate(R.menu.main, menu);
 	    		RelativeLayout relativeLayout = (RelativeLayout) menu.findItem(R.id.layout_item).getActionView();
 	    		View inflatedView = getLayoutInflater().inflate(R.layout.actionbar_top, null);
@@ -277,20 +304,10 @@ public class MainActivity extends FragmentActivity {
 	    			@Override
 	    			public void onClick(View v) {
 	    				
+	    				if (Self.getUser().getUID()!=null){
 	    				 if (((SelectionFragment) fragments[MAIN]).countBuyListingsFromUserID(Self.getUser().getUID())>=Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER){
-	    			/*
-	    					 AlertDialog.Builder builder = new AlertDialog.Builder(v.getContext());
-	    					 builder.setMessage("You cannot have more than " + Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER + " listings per section. Please delete one before making another")
-	    					        .setCancelable(false)
-	    					        .setPositiveButton("Ok Im so sorry", new DialogInterface.OnClickListener() {
-	    					            public void onClick(DialogInterface dialog, int id) {
-	    					                 //do things
-	    					            	dialog.dismiss();
-	    					            }
-	    					        });
-	    					 AlertDialog alert = builder.create();
-	    					 alert.show();
-	    				*/
+	    	
+	    				
 	    					time_error_dialog = new Dialog(v.getContext());
 	 						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
 	 						time_error_dialog.setContentView(R.layout.dialog_time_error);
@@ -320,6 +337,7 @@ public class MainActivity extends FragmentActivity {
 	    				 startActivityForResult(nextScreen, NL_REQUESTCODE);
 	    				 }
 	    				 
+	    			 }
 	    			}
 	    		});
 	    		
@@ -328,6 +346,7 @@ public class MainActivity extends FragmentActivity {
 	    			@Override
 	    			public void onClick(View v) {
 	    				
+	    				if (Self.getUser().getUID()!=null){
 	    				 if (((SelectionFragment) fragments[MAIN]).countSellListingsFromUserID(Self.getUser().getUID())>=Constants.MAXIMUM_LISTINGS_ALLOWED_PER_USER){
 	    					time_error_dialog = new Dialog(v.getContext());
 	 						time_error_dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
@@ -358,6 +377,7 @@ public class MainActivity extends FragmentActivity {
 	    				 startActivityForResult(nextScreen, SL_REQUESTCODE);
 	    				 }
 	    				 
+	    			 }
 	    			}
 	    		});
 	    		
@@ -703,6 +723,7 @@ public class MainActivity extends FragmentActivity {
 	        	}
 	        	else if(i==1)
 	        	{
+	        		Log.d("onPrepareMenusOption", "getActionBar().show()");
 	        		ClosedInfo.setMinimized(true);
 	        		update_menu = true;
 	        		getActionBar().show();
@@ -751,12 +772,16 @@ public class MainActivity extends FragmentActivity {
 		            showFragment(MAIN, false);
 		            this.create= true;
 		            this.onCreateOptionsMenu(this.options_menu);
+		            Log.d("onSessionStateChange", "onSessionStateChange shows state.isOpened() - Showing MAINFragment");
 	        	}
 	        } else {
 	            // If the session state is closed:
 	            // Show the login fragment
-        		if(this.getVisibleFragment() != LOGIN_SPLASH)
+	        	 Log.d("onSessionStateChange", "onSessionStateChange shows state is not opened - Showing loginsplash fragment");
+        //	if(this.getVisibleFragment() != LOGIN_SPLASH)
         			showFragment(LOGIN_SPLASH, false);
+        			getActionBar().hide();
+	        	 
 	        }
 	    }
 	    	
@@ -766,19 +791,26 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onResumeFragments() {
 	    super.onResumeFragments();
-	    
+	    Log.d("OnResumeFragments", "OnResumeFragments called");
 	    checkPlayServices();
 	    session = Session.getActiveSession();
 
+
+	    		
 	    if ((session != null && session.isOpened()) || Self.getUser().getUID()!=null) {
 	        // if the session is already open,
 	        // try to show the selection fragment
 	        showFragment(MAIN, false);
+	        Log.d("OnResumeFragments", "OnResumeFragments - showFragment(MAIN)" );
 	    } else {
 	        // otherwise present the splash screen
 	        // and ask the person to login.
-	    	if(this.getVisibleFragment() != LOGIN_SPLASH)
+	    	Log.d("ONResumeFragments", "OnResumeFragments - showfragment.login_Splash");
+	    	getActionBar().hide();
+	    	//if(this.getVisibleFragment() != LOGIN_SPLASH)
 	    		showFragment(LOGIN_SPLASH, false);
+	    	
+	    	
 	        
 	    }
 	}
@@ -831,9 +863,15 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onResume() {
 		super.onResume();
-		
+		 Log.d("OnResume", "OnResume in MainActivity called");
 		session = Session.getActiveSession();
 		
+		
+	    if (fragments[LOGIN_SPLASH].isVisible()){
+	    	Log.d("OnResume", "Hiding actionbar");
+	    	getActionBar().hide();
+	    }
+	    
 		if(session != null && (session.isOpened() || session.isClosed()))
 		{
 			this.onSessionStateChange(session, session.getState(), null);
@@ -862,8 +900,12 @@ public class MainActivity extends FragmentActivity {
 	            	Log.d("LOUD AND CLEAR", "**** HandleIDASync doinbackground is reached and our IDs are" + params[0] + "*** and *****" + params[1]);
 	            	ConnectToServlet.sendIDPair(params[0],  params[1]);
 	            } catch (Exception ex) {
+	            	
 	                msg = "Error :" + ex.getMessage();
 	                Log.d("LOUD AND CLEAR", "**** handleIDAsync error **** " + msg);
+	                Log.d("Timeout in MessageTask", "Timeout in MessageTask ");
+	            	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+  	                 errorDialog.showAlert(((MainActivity) context), "Timeout Exception - Could not resolve identity of client, possibly because of connection failure", true);
 	              
 	            }
 	            return msg;

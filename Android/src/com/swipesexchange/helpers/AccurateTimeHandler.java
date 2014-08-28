@@ -63,5 +63,12 @@ public class AccurateTimeHandler {
 		return time;
 	}
 	
-	
+	public static long getAccurateTime_adjustedForPST(){
+		//TODO: Change this shitty implementation, use JodaTime instead of doing this shitty method
+		//I will lose sleep over this
+		//PST is UTC-8, PDT is UTC-7
+		long PDT_ms = 60000*60*7; //7 hrs
+		long PST_ms = 60000*60*8;
+		return (getAccurateTime()-PDT_ms);
+	}
 }

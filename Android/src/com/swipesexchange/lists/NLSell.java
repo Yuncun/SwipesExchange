@@ -96,8 +96,8 @@ public class NLSell extends Fragment {
 						
 				 		text_field_submit = (TextView) submit_dialog.findViewById(R.id.dialog_text_view);
 				 		
-						text_field_submit.setText("Submit listing?");
-						
+						//text_field_submit.setText("Submit listing?");
+						text_field_submit.setText("Submit listing?" + '\n' + "Your listing will expire at " + String.format("%02d",adapter.getEndHours())+":"+String.format("%02d", adapter.getEndMinutes()));
 						
 						cancel_button.setOnClickListener(new View.OnClickListener() {
 							 
@@ -129,27 +129,39 @@ public class NLSell extends Fragment {
 		                    	 
 		                    	 //Convert the timePicker values into a format that is readable by us
 		                    	 Time endTimeFormatter = new Time();
-		                    	 Calendar myEndTimeCal = Calendar.getInstance();
+		                    	
 		                    	 
+		                    	 Calendar nowCal = Calendar.getInstance();
+		                    	 nowCal.setTimeInMillis(AccurateTimeHandler.getAccurateTime());
+		                    	 
+		                    	 Calendar myEndTimeCal = Calendar.getInstance();
 		                    	 myEndTimeCal.set(Calendar.HOUR_OF_DAY, adapter.getEndHours());
 		                    	 myEndTimeCal.set(Calendar.MINUTE, adapter.getEndMinutes());
+		                    	 
+		                    	 //If the time selected is "before" the current time (which can be determined as PST + 7)
+		                    	 		                    	 //TODO: Change hardcodes
+		                    	 		                    	 
+		                    	Calendar myEndTimeCal_TEMP = Calendar.getInstance();
+		                    	 myEndTimeCal_TEMP.setTimeInMillis(myEndTimeCal.getTimeInMillis());
+		                    	// myEndTimeCal_TEMP.add(Calendar.HOUR, 7);
+		                    	// myEndTimeCal.add(Calendar.HOUR, 7);
+		                    	if (nowCal.after(myEndTimeCal_TEMP)){
+		                    		 myEndTimeCal.add(Calendar.DATE, 1);
+		                    	 }
 		                    	 endTimeFormatter.set(myEndTimeCal.getTimeInMillis());
 		                    	 //Set endTime, correctly formatted
 		                    	 String endTimeFormatted = endTimeFormatter.format2445();
 		                    	 sl.setEndTime(endTimeFormatted);
 		                    	 
-		                    	 Calendar nowCal = Calendar.getInstance();
-		                    	 nowCal.setTimeInMillis(AccurateTimeHandler.getAccurateTime());
 		                    	 
 		                    	 Time now = new Time();
-		                    	 now.set(nowCal.getTimeInMillis());
-		                    	
+		                    	// now.set(nowCal.getTimeInMillis());
+		                    	now.set(AccurateTimeHandler.getAccurateTime_adjustedForPST());
 		                    	 String time = now.format2445();
 		                    	 sl.setTimeCreated(time);
 
-		                    	sl.setPrice(5.00);
+		                    	//sl.setPrice(5.00);
 		                    	sl.setSwipeCount(3);
-		                    	
 		                    	
 		                    	//Set listing with all selected inputs, passed as a string seperated by commas 
 		                    	Venue ven = new Venue("");
@@ -189,6 +201,7 @@ public class NLSell extends Fragment {
 		                     	List<String> problems = checkAndListAllProblemsWithSubmission(sl);
 		                    	if (problems.size()>0)
 		    					{
+		                    		Log.d("NLSell", "Opening submissioncheck dialog");
 		    						//cancel = true;
 		    						submissionCheck(problems.get(0), v);
 		    						submit_dialog.dismiss();
@@ -196,7 +209,7 @@ public class NLSell extends Fragment {
 		    					//
 		                    	else{
 		                    		
-		                    	}
+		                    	
 		                    	ConnectToServlet.sendListing(j1);
 		                    	
 		                    	ListingsUpdateTimer.toggleJustSubmittedListing();
@@ -212,6 +225,7 @@ public class NLSell extends Fragment {
 		                    	getActivity().setResult(1, resultIntent);
 		                    	
 		    					getActivity().finish();
+		                    	}
 		                    }
 		                });
 						

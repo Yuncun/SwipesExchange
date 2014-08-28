@@ -43,7 +43,7 @@
         android:textSize="14sp"
         android:textStyle="bold"
         android:layout_marginLeft="5dp"
-         android:maxLength="30"
+         android:maxLength="25"
         android:ellipsize="end"
 		android:singleLine="true"
         android:padding="1dp"/>

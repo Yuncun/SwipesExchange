@@ -4,6 +4,7 @@ import java.text.ParseException;
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
+import java.util.TimeZone;
 
 import com.swipesexchange.main.MainActivity;
 
@@ -36,10 +37,25 @@ public class StaticHelpers {
 
 	}
 	
+	public static Calendar convertToPST(Calendar cal) {
+
+		//PST = -8hr
+		//PDT = -7hr
+		long PST_ms = 60000*60*8;
+		long PDT_ms = 60000*60*7;
+		
+	//	log.debug("Created GMT cal with date [" + gmtCal.getTime() + "]");
+//		long timezoneAlteredTime = cal.getTimeInMillis()+ TimeZone.getTimeZone("PDT").getRawOffset();
+		Calendar cSchedStartCal1 = Calendar.getInstance(TimeZone.getTimeZone("PDT"));
+		cSchedStartCal1.setTimeInMillis(cal.getTimeInMillis() - PDT_ms);
+		return cSchedStartCal1;
+	}
+	
+	
    public static String getTimeText(String date_str) {
     	
     	final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
-    	final String NEW_FORMAT = "EEE, MMM dd, hh:mm aaa";
+    	final String NEW_FORMAT = "MMM dd, hh:mm aaa";
 
     	String oldDateString = date_str;
     	String newDateString;
@@ -55,6 +71,7 @@ public class StaticHelpers {
 		}
     	sdf.applyPattern(NEW_FORMAT);
     	newDateString = sdf.format(d);
+    	
     	
         return newDateString;
     }

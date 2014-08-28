@@ -80,6 +80,26 @@ Dialog loginDialog;
 	     } );
 	    return view; 
 	}
+	/*
+	 @Override
+	public void onResume() {
+		 super.onResume();
+	getActivity().getActionBar().hide();
+	}*/
+
+	 @Override
+     public void setUserVisibleHint(boolean isVisibleToUser) {
+         super.setUserVisibleHint(isVisibleToUser);
+         if (isVisibleToUser) 
+         { 
+  
+         getActivity().getActionBar().hide();
+         
+                  
+         }
+         else {}
+     }
+
 	
 	
 

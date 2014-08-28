@@ -2,6 +2,8 @@ package com.swipesexchange.main;
 
 import com.swipesexchange.R;
 import com.swipesexchange.helpers.ClosedInfo;
+import com.swipesexchange.network.ConnectToServlet;
+import com.swipesexchange.sharedObjects.Self;
 
 import android.content.Intent;
 import android.os.Bundle;
@@ -41,6 +43,11 @@ public class GuestLogoutFragment extends Fragment {
 		  Intent i = getActivity().getBaseContext().getPackageManager()
 		             .getLaunchIntentForPackage( getActivity().getBaseContext().getPackageName() );
 		i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
+		
+		//Log out of database, so that this phone does not receive GCM notifications while not logged in
+		ConnectToServlet.logoutRemoveUIDRegIDPair(Self.getUser().getUID(), Self.getUser().getRegid());
+		 
+		 
 		startActivity(i);
 	    }
 	

@@ -35,6 +35,56 @@ public class ConnectToServlet {
     }
 
     
+    public static void logoutRemoveUIDRegIDPair(final String UID, final String RegID){
+    	/**
+    	 * 
+    	 */
+    	
+    	 new Thread(new Runnable() {
+     		public void run() {
+			  try {
+				  URL url = new URL(SERVERURL);
+				  URLConnection connection = url.openConnection();
+	
+				  Gson gson = new Gson();
+				  String msgpayload = gson.toJson(UID+","+RegID);
+				  Log.d("logoutRemoveUIDRegIDPair", "logoutRemoveUIDRegIDPair " + msgpayload);
+				  Log.d("logoutRemoveUIDRegIDPair", "ID Pair from SELF: UID = " + Self.getUser().getUID() + " and RegID " + Self.getUser().getRegid());
+		          MsgStruct msgReq = new MsgStruct();
+		          msgReq.setHeader(Constants.LOGOUT_REMOVE_IDPAIR);
+		          msgReq.setPayload(msgpayload);
+		          //Create request
+	
+		          String blstring = gson.toJson(msgReq);
+		          connection.setDoOutput(true);
+	
+		          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+		          objectOut.writeObject(blstring);
+	
+		          objectOut.flush();
+		          objectOut.close();
+	
+		          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		          String returnString="";
+		          doubledValue = "";
+	
+	          	while ((returnString = in.readLine()) != null) 
+	          	{
+	          		doubledValue= returnString;
+	          	}
+	          	in.close();
+	          	
+	          	
+	          		Log.d("logoutRemoveUIDRegIDPair", "logoutRemoveUIDRegIDPair responded with " + doubledValue); 
+	
+			  } catch(Exception e) { Log.d("logoutRemoveUIDRegIDPair", "logoutRemoveUIDRegIDPair failed with exception " + e.toString());}
+	
+			  return;
+     		}
+     		}).start();
+    	
+    }
+    
     public static void sendMessage(final Message msg)
     {
     	/*

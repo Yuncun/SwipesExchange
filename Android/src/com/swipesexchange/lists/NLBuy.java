@@ -123,7 +123,8 @@ public class NLBuy extends Fragment {
 						
 				 		text_field_submit = (TextView) submit_dialog.findViewById(R.id.dialog_text_view);
 				 		
-						text_field_submit.setText("Submit listing?");
+				 		
+						text_field_submit.setText("Submit listing?" + '\n' + "Your listing will expire at " + String.format("%02d", adapter.getEndHours())+":"+String.format("%02d", adapter.getEndMinutes()) );
 						
 						
 						cancel_button.setOnClickListener(new View.OnClickListener() {
@@ -170,7 +171,7 @@ public class NLBuy extends Fragment {
 		                    	 		                    	 
 		                    	Calendar myEndTimeCal_TEMP = Calendar.getInstance();
  		                    	 myEndTimeCal_TEMP.setTimeInMillis(myEndTimeCal.getTimeInMillis());
- 		                    	 myEndTimeCal_TEMP.add(Calendar.HOUR, 7);
+ 		                    	// myEndTimeCal_TEMP.add(Calendar.HOUR, 7);
  		                    	// myEndTimeCal.add(Calendar.HOUR, 7);
  		                    	if (nowCal.after(myEndTimeCal_TEMP)){
  		                    		 myEndTimeCal.add(Calendar.DATE, 1);
@@ -182,7 +183,7 @@ public class NLBuy extends Fragment {
 		                    	 
 		                    	 
 		                    	 Time now = new Time();
-		                    	 now.set(nowCal.getTimeInMillis());
+		                    	 now.set(AccurateTimeHandler.getAccurateTime_adjustedForPST());
 		                    	
 		                    	 String time = now.format2445();
 		                    	 sl.setTimeCreated(time);

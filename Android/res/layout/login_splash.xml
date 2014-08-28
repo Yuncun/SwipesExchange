@@ -31,7 +31,7 @@
             android:layout_height="wrap_content"
             android:layout_below="@id/splash_title"
             android:layout_centerHorizontal="true"
-            android:src="@drawable/bear_circle" />
+            android:src="@drawable/circlebear_96x96" />
     </RelativeLayout>
 
     

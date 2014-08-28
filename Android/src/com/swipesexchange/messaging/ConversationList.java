@@ -48,7 +48,11 @@ public class ConversationList {
 	
 	public static void addMessage(Message msg) {
 		String lid = msg.getListing_id();
-		
+		if (Self.getUser().getUID()==null){
+			return;
+		}
+		else{
+			
 		String uid;
 		if(Self.getUser().getUID().equals(msg.getSender().getUID()))
 			uid = msg.getReceiver().getUID();
@@ -70,7 +74,7 @@ public class ConversationList {
 				needs_update = true;
 			}
 		}
-		
+		}
 	}
 	
 	public static int findConversationIndexByListingID(String lid, String other_person_uid) {

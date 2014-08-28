@@ -14,6 +14,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.concurrent.TimeoutException;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
@@ -49,6 +50,7 @@ import android.widget.TextView;
 import com.amazonaws.services.simpledb.model.RequestTimeoutException;
 import com.swipesexchange.R;
 import com.swipesexchange.helpers.AccurateTimeHandler;
+import com.swipesexchange.helpers.DisplayExceptionAlertDialog;
 import com.swipesexchange.helpers.ListingsUpdateTimer;
 import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.main.MainActivity;
@@ -772,9 +774,16 @@ public class ListingsList extends ListFragment
         	Map<String, Bitmap> map = new HashMap<String, Bitmap>();
         	private ProgressDialog progressBar;
         	private Context context;
+        	private int timeoutCounter; 
+        	
+        	//Currently, loop sleeps in intervals of 500ms, so a timeoutLimit of X will represent a time of X*1/2 seconds.
+        	private static final int timeoutLimit = 40; //20 seconds
+        	
         	
         	public PictureTaskBuy(Context context) {
         		this.context = context;
+        		this.timeoutCounter = 0;
+        		
         	}
         	
             @Override
@@ -787,15 +796,25 @@ public class ListingsList extends ListFragment
                 URL url = null;
                 Bitmap pic_bitmap = null;
                 
-                while (Self.getUser().getUID() == null && buy_entries_init == false) {
-   	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
-   	             		
-   	             try {
-   	                 Thread.sleep(100);
-   	             } catch (InterruptedException e) {
-   	                 e.printStackTrace();
-   	                 Log.d("waitForvalues", e.toString());
-   	             }
+                while (Self.getUser().getUID() == null && buy_entries_init == false) {         	
+                	try {
+	                	if (timeoutCounter > timeoutLimit){
+	                		throw new TimeoutException();
+	                	}
+	                	else{
+		   	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
+		   	             		
+		   	            
+		   	                 Thread.sleep(500);
+		   	                 timeoutCounter++;
+	                	}
+	   	             } catch (Exception e) {
+	   	                 e.printStackTrace();
+	   	                 Log.d("waitForvalues", e.toString());
+	   	                 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+	   	                 errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
+	   	             }
+            	
    	         
    	  		 }
                 Log.d("picture", Integer.toString(buyEntries.size()));
@@ -835,6 +854,7 @@ public class ListingsList extends ListFragment
                 setBLAdapter();
             }
 
+        
         }
         
  	 
@@ -844,9 +864,14 @@ public class ListingsList extends ListFragment
         	Map<String, Bitmap> map = new HashMap<String, Bitmap>();
         	private ProgressDialog progressBar;
         	private Context context;
+        	private int timeoutCounter; 
+        	
+        	//Currently, loop sleeps in intervals of 500ms, so a timeoutLimit of X will represent a time of X*1/2 seconds.
+        	private static final int timeoutLimit = 40; //20 seconds
         	
         	public PictureTaskSell(Context context) {
         		this.context = context;
+        		timeoutCounter = 0;
         	}
         	
             @Override
@@ -859,16 +884,28 @@ public class ListingsList extends ListFragment
             public Map<String, Bitmap> doInBackground(Void... params) {
                 URL url = null;
                 Bitmap pic_bitmap = null;
-               
+                
                 
                 while (Self.getUser().getUID() == null && sell_entries_init == false) {
    	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
    	             		
-   	             try {
-   	                 Thread.sleep(100);
-   	             } catch (InterruptedException e) {
-   	                 e.printStackTrace();
-   	                 Log.d("waitForvalues", e.toString());
+   	          try {
+              	if (timeoutCounter > timeoutLimit){
+              		throw new TimeoutException();
+              	}
+              	else{
+	   	             Log.d("waitForvalues", "Waiting - getUID yields " + Self.getUser().getUID());
+	   	                 Thread.sleep(500);
+	   	                 timeoutCounter++;
+              		}
+ 	            }catch (InterruptedException e) {
+
+   	              e.printStackTrace();
+	                 Log.d("PictureTaskSell", e.toString());
+ 	            }
+   	             catch (Exception e){
+	                 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+	                 errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
    	             }
    	         
    	  		 }
@@ -1012,7 +1049,7 @@ public class ListingsList extends ListFragment
         	        	//@Eric - The following bit is invoked when a new listing has just been submitted. In this case, we want the user to see his or her
         	        	//new listing when it comes up. Therefore, we first count the number of listinsg this user has in  buy_entries, then keep keep the user waiting
         	        	//until we finally see a new listing owned by the creator 
-        	        	if (ListingsUpdateTimer.isForceRepeatedUpdates_BL()){
+        	        	if (ListingsUpdateTimer.isForceRepeatedUpdates_BL() && Self.getUser().getUID()!=null){
         	        		//Turn off the bool
         	        		ListingsUpdateTimer.setForceRepeatedUpdates_BL(false);
         	        		
@@ -1093,7 +1130,7 @@ public class ListingsList extends ListFragment
      	      @Override
      	        protected void onPostExecute(List<SellListing> result) {
      	    	  Log.d("test", "PostExecute1");
-     	    	 ListingsUpdateTimer.resetUpdateCountdown(0);
+     	    	 ListingsUpdateTimer.resetUpdateCountdown(1);
      	    	  progressBar.dismiss();
      	    	  sellEntries = result;
      	    	  sell_entries_init = true;
@@ -1123,7 +1160,7 @@ public class ListingsList extends ListFragment
      	        protected List<SellListing> doInBackground(Void... params) {
      	        	List<SellListing> updatedSellList = new ArrayList<SellListing>();
      	        	
-     	        	if (ListingsUpdateTimer.isForceRepeatedUpdates_SL()){
+     	        	if (ListingsUpdateTimer.isForceRepeatedUpdates_SL()  && Self.getUser().getUID()!=null){
     	        		//Turn off the bool
     	        		ListingsUpdateTimer.setForceRepeatedUpdates_SL(false);
     	        		
@@ -1185,6 +1222,9 @@ public class ListingsList extends ListFragment
     	 	
     	 	private ProgressDialog progressBar;
     	 	private Context context;
+    	 	private int timeoutCounter = 0;
+    	 	private final int timeoutLimit = 60; //currently in halfseconds
+    	 	
     	 	 public MessageTask(Context context) {
     		        	this.context = context;
     		        }
@@ -1200,14 +1240,25 @@ public class ListingsList extends ListFragment
     	     protected List<Message> doInBackground(Void... params) {
     	    	 //Block this until UID is successfully retrieved
     	    	 Log.d("waitForvalues", "Checking that UID is safely retrieved");
-    	    	 while (((MainActivity) context).getUID() == null) {
+    	    	 while (Self.getUser().getUID() == null) {
     	             Log.d("waitForvalues", "Waiting - getUID yields " + ((MainActivity) context).getUID());
     	             		
     	             try {
-    	                 Thread.sleep(100);
+    	            	 
+    	            	 if (timeoutCounter >= timeoutLimit){
+    	            		 throw new TimeoutException();
+    	            	 }
+    	                 Thread.sleep(500);
+    	                 timeoutCounter++;
     	             } catch (InterruptedException e) {
-    	                 e.printStackTrace();
+    	                 e.printStackTrace();    	                 
     	                 Log.d("waitForvalues", e.toString());
+
+    	             }
+    	             catch (TimeoutException e){
+    	            	 Log.d("Timeout in MessageTask", "Timeout in MessageTask ");
+    	            	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+	   	                 errorDialog.showAlert(((MainActivity) context), "Timeout Exception - Could not resolve identity of client, possibly because of connection failure", true);
     	             }
     	         
     	  		 }

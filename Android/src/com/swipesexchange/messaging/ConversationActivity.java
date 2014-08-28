@@ -1,6 +1,9 @@
 package com.swipesexchange.messaging;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Date;
 
 import android.app.ActionBar;
 import android.content.Context;
@@ -25,6 +28,7 @@ import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.Message;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.User;
+
 
 
 public class ConversationActivity extends FragmentActivity {
@@ -119,13 +123,17 @@ public class ConversationActivity extends FragmentActivity {
 	                
 	                
 	                now.set(AccurateTimeHandler.getAccurateTime());
+	                //Set correct time based on AccurateTimeHandler
+	                final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
+	       	    	 Calendar nowCal = Calendar.getInstance();
+	       	    	 nowCal.setTimeInMillis(AccurateTimeHandler.getAccurateTime_adjustedForPST());
+	       	  		Date now = nowCal.getTime();
+	       	  		
+	       	  		
+	       	  		SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
+	       	  		String time = sdf.format(now);
 	                
-	               
-
-	                
-	                String time = now.format2445();
-	                
-	                Log.d("TIME", "Time_plus at ConversationActivity is " + time);
+	                Log.d("TIME", "Time at ConversationActivity is " + time);
 	                
 	                Message msg = new Message(sender, receiver, lid, time, message_contents);
 	                

@@ -6,6 +6,8 @@ import com.swipesexchange.R;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.messaging.ConversationList;
 import com.swipesexchange.sharedObjects.Message;
+import com.swipesexchange.sharedObjects.Self;
+
 import android.app.IntentService;
 import android.app.NotificationManager;
 import android.app.PendingIntent;
@@ -77,7 +79,7 @@ import android.util.Log;
 	    
 	    private void updateLocal(String msg)
 	    {
-	    	
+	    	if (Self.getUser().getUID()!=null){
 	    	Gson gson = new Gson();
 	    	Message received = gson.fromJson(msg, Message.class);
 	    	String payload = received.getText();
@@ -88,11 +90,9 @@ import android.util.Log;
     	    // You can also include some extra data.
     	    bIntent.putExtra("message", received.getText());
     	    LocalBroadcastManager.getInstance(mContext).sendBroadcast(bIntent);
+	    	}
 	    	
 	    }
-	    
-	    
-	    
 	    
 
 	    // Put the message into a notification and post it.
@@ -104,46 +104,24 @@ import android.util.Log;
 	    	Message received = gson.fromJson(msg, Message.class);
 	    	String payload = received.getText();
 	    	String senderName = received.getSender().getName();
-	    	/*
-	        mNotificationManager = (NotificationManager)
-	                this.getSystemService(Context.NOTIFICATION_SERVICE);
 
-	        PendingIntent contentIntent = PendingIntent.getActivity(this, 0,
-	                new Intent(this, MainActivity.class), 0);
-
-	        NotificationCompat.Builder mBuilder =
-	                new NotificationCompat.Builder(this)
-	        .setSmallIcon(R.drawable.icon)
-	        .setContentTitle("GCM Notification")
-	        .setStyle(new NotificationCompat.BigTextStyle()
-	        .bigText(msg))
-	        .setContentText(msg);
-
-	        mBuilder.setContentIntent(contentIntent);
-	        mNotificationManager.notify(NOTIFICATION_ID, mBuilder.build());
-	        */
 	    	NotificationCompat.Builder mBuilder =
 	    	        new NotificationCompat.Builder(this)
 	    	        .setSmallIcon(R.drawable.icon)
 	    	        .setContentTitle(payload)
 	    	        .setContentText("New Message from " + senderName);
 	    	// Creates an explicit intent for an Activity in your app
+	    	
+	    	/*
 	    	Intent resultIntent = new Intent(this, MainActivity.class);
-
-	    	// The stack builder object will contain an artificial back stack for the
-	    	// started Activity.
-	    	// This ensures that navigating backward from the Activity leads out of
-	    	// your application to the Home screen.
-	    	//TaskStackBuilder stackBuilder = TaskStackBuilder.create(this);
-	    	//stackBuilder.addParentStack(MainActivity.class);
-	    	//stackBuilder.addNextIntent(resultIntent);
+	    	
 	    	PendingIntent resultPendingIntent = PendingIntent.getActivity(this, 0, resultIntent, PendingIntent.FLAG_UPDATE_CURRENT);
-	    	/*PendingIntent resultPendingIntent =
-	    	        stackBuilder.getPendingIntent(
-	    	            0,
-	    	            PendingIntent.FLAG_UPDATE_CURRENT
-	    	        );*/
-	    	mBuilder.setContentIntent(resultPendingIntent);
+*/
+	        Intent notificationIntent = new Intent(this, MainActivity.class);
+	        notificationIntent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP | Intent.FLAG_ACTIVITY_SINGLE_TOP);
+	        PendingIntent intent = PendingIntent.getActivity(this, 0, notificationIntent, 0);
+	        
+	    	mBuilder.setContentIntent(intent);
 	    	NotificationManager mNotificationManager =
 	    	    (NotificationManager) getSystemService(Context.NOTIFICATION_SERVICE);
 	    	// mId allows you to update the notification later on.

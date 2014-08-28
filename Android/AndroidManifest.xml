@@ -21,7 +21,7 @@
     <application
         android:name="com.swipesexchange.main.MyApplication"
         android:allowBackup="true"
-        android:icon="@drawable/bear_circle"
+        android:icon="@drawable/circlebear_96x96"
         android:label="@string/app_name"
         android:theme="@style/AppTheme" >
         

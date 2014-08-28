@@ -3,6 +3,8 @@ package com.swipesexchange.lists;
 
 import java.util.ArrayList;
 import android.text.format.Time;
+
+import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
 import android.annotation.SuppressLint;
@@ -27,6 +29,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.widget.TimePicker;
 import com.swipesexchange.R;
+import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ParentRow;
 /**
  * 
@@ -44,7 +47,7 @@ import com.swipesexchange.helpers.ParentRow;
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	private LayoutInflater inflater;
-	private int minutes_end, hours_end;
+	private int minutes_end, hours_end, hours_start;
 	private TimePicker tp_end;
 	private String venue_name;
 	private ExpandableListView parent_list_view;
@@ -65,7 +68,10 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 	private final int EDIT_TEXT_TYPE = 0;
 	private final int TIME_PICKER_TYPE = 1;
 	private final int TEXT_TYPE = 2;
-
+	
+	//1 minute is 60,000 ms. 
+	private final int offset_inMillis = 60000*60*8;
+	
 	// ParentRows passed in from NewListingFragmentBuy
 	final private ArrayList<ParentRow> parents;
 	 
@@ -81,15 +87,21 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		this.parents = parents;
 		
 		// set the default times in the TimePickers based off of current time
-		Time now = new Time();
-		now.setToNow();
+	//	Time now = new Time();
+		Calendar nowCal = Calendar.getInstance();
+		nowCal.setTimeInMillis(AccurateTimeHandler.getAccurateTime()+offset_inMillis);
+		
+	//	now.setToNow();
+	//	now.set(AccurateTimeHandler.getAccurateTime_adjustedForPST()+offset_inMillis);
 		
 		// create selected venues list and add default "Any" to it
 		selectedVenues = new ArrayList<String>();
 		selectedVenues.add("Any");
+	//now.add(Calendar.HOUR, 8);
 		
-		this.minutes_end = now.minute;
-		this.hours_end = now.hour + 3;
+		this.minutes_end = nowCal.get(Calendar.MINUTE);
+		this.hours_end =  nowCal.get(Calendar.HOUR_OF_DAY);
+		
 		this.venue_name = "Any";
 		this.parent_list_view = parent;
 		
@@ -180,6 +192,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				// TODO: Change to current time
 				tp_end.setCurrentMinute(minutes_end);
 				tp_end.setCurrentHour(hours_end);
+				Log.d("Expandableadpaterbuy", "tp_end.setCurrentHour(hours_end)" + hours_end);
 				tp_holder.tp = tp_end;
 				
 				convertView.setTag(tp_holder);
@@ -201,10 +214,10 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 				// venue strings
 				final String child_text_any = "Any";
 				final String child_text_bruin_cafe = "Bruin Cafe";
-				final String child_text_covell = "Covell";
-				final String child_text_de_neve = "De Neve";
+				final String child_text_covell = "Covel";
+				final String child_text_de_neve = "Sproul";
 				final String child_text_feast = "Feast";
-				final String child_text_hedrick = "Hedrick";
+				final String child_text_hedrick = "BPlate";
 				final String child_text_rendezvous = "Rendezvous";
 				final String child_text_cafe_1919 = "Cafe 1919";
 				
@@ -770,7 +783,9 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 		if (groupPosition == 1)
 		{
 			this.minutes_end = tp_end.getCurrentMinute();
+			
 			this.hours_end = tp_end.getCurrentHour();
+			Log.d("Expandableadpaterbuy", "this.minutes_end = tp_end.getCurrentHour()" + this.hours_end);
 			this.updateParentsRightViews(groupPosition);
 		}
 
