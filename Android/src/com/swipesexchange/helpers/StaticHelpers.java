@@ -32,7 +32,12 @@ public class StaticHelpers {
 		long differenceHr = differenceMin / 60 + (differenceMin % 60 == 0 ? 0 : 1);
 	//	Log.d("long differenceHr = differenceMin / 60 + (differenceMin % 60 == 0 ? 0 : 1);", "Differencemin = " + Long.toString(differenceMin) + " and endDate was " + endDate.getTime() + " and nowDate is " + timeNowDate.getTime());
 		
-		return "<" + Long.toString(differenceHr) + "h";
+		String re = "<" + Long.toString(differenceHr) + "h";
+		
+		if (differenceHr < 0){
+			re = "exp";
+		}
+		return re;
 		
 
 	}

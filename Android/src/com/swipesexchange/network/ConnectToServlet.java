@@ -436,6 +436,52 @@ public class ConnectToServlet {
      		}).start();
 	
 	}
+	
+	public void markMessageRead(final String messageID){
+		//Send request to server
+		new Thread(new Runnable() {
+    		public void run() {
+			  try {
+				  URL url = new URL(SERVERURL);
+				  URLConnection connection = url.openConnection();
+	
+				  Gson gson = new Gson();
+				  String msgpayload = gson.toJson(messageID);
+	          
+		          MsgStruct msgReq = new MsgStruct();
+		          msgReq.setHeader(Constants.MARK_MSG_READ);
+		          msgReq.setPayload(msgpayload);
+		          //Create request
+	
+		          String blstring = gson.toJson(msgReq);
+		     
+		          connection.setDoOutput(true);
+	
+		          ObjectOutputStream objectOut = new ObjectOutputStream(connection.getOutputStream());
+		          objectOut.writeObject(blstring);
+	
+		          objectOut.flush();
+		          objectOut.close();
+	
+		          BufferedReader in = new BufferedReader(new InputStreamReader(connection.getInputStream()));
+		          String returnString="";
+		          doubledValue = "";
+	
+	          	while ((returnString = in.readLine()) != null) 
+	          	{
+	          		doubledValue= returnString;
+	          	}
+	          	in.close();
+	 
+	          		Log.d("LOUD AND CLEAR", "Mark_Msg_Read GCM responded with " + doubledValue); 
+	
+			  } catch(Exception e) { Log.d("LOUD AND CLEAR", "url connection failed with exception " + e.toString());}
+	
+			  return;
+    		}
+    		}).start();
+		
+	}
 	public static List<Message> requestAllMsgs(String myID){
 		 Log.d("LOUD AND CLEAR", "Starting new thread for client/server connect to pull ALL MESSAGES");
 		  List<Message> nl = new ArrayList<Message>();

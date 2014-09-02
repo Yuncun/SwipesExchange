@@ -26,6 +26,7 @@ public final class Constants {
     public static final int DELETE_BUYLISTING = 15;
     public static final int DELETE_SELLLISTING = 16;
     public static final int LOGOUT_REMOVE_IDPAIR = 17;
+    public static final int MARK_MSG_READ = 18;
     
     public static final String NO_FLAG = "0";
     public static final String DELETED_BY_SENDER = "1";

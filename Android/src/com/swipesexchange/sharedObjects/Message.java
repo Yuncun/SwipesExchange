@@ -22,6 +22,7 @@ public class Message implements Serializable {
 	
 	private String savedFlag;
 	private String deletedFlag;
+	private String hasBeenReadFlag;
 	
 	/** Message constructor for creating a new message to be stored in a Conversation
 	 * 

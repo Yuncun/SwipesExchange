@@ -126,7 +126,7 @@ public class ConversationActivity extends FragmentActivity {
 	                //Set correct time based on AccurateTimeHandler
 	                final String OLD_FORMAT = "yyyyMMdd'T'HHmmss";
 	       	    	 Calendar nowCal = Calendar.getInstance();
-	       	    	 nowCal.setTimeInMillis(AccurateTimeHandler.getAccurateTime_adjustedForPST());
+	       	    	 nowCal.setTimeInMillis(AccurateTimeHandler.getAccurateTime());
 	       	  		Date now = nowCal.getTime();
 	       	  		
 	       	  		

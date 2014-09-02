@@ -14,7 +14,7 @@
         android:textColor="@color/theme_black"
         android:textSize="14sp"
         android:layout_centerHorizontal="true"
-        android:text="Enter your Guest nickhame"
+        android:text="Use a Guest account to quickly access BruinSwipes on this device"
         android:paddingTop="10dp"
         android:paddingRight="10dp"
         android:paddingLeft="10dp"
