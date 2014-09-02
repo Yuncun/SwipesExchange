@@ -53,6 +53,7 @@ import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.DisplayExceptionAlertDialog;
 import com.swipesexchange.helpers.ListingsUpdateTimer;
 import com.swipesexchange.helpers.StaticHelpers;
+import com.swipesexchange.helpers.SuperUsers;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.messaging.ConversationActivity;
 import com.swipesexchange.messaging.ConversationList;
@@ -245,7 +246,14 @@ public class ListingsList extends ListFragment
 	    		   // if the conversation DOESN'T exist, we inflate a "first message" listing dialog
 
 		    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		    	   
+		    	   //For admins 
+		    	   if(SuperUsers.checkSuperUser(Self.getUser().getUID())){
+		    		   dialog.setContentView(R.layout.buy_list_admin);
+		    	   }
+		    	   else{ //For normal folks
 		    	   dialog.setContentView(R.layout.buy_list_dialog);
+		    	   }
 	
 		    	   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xE6FFFFFF));
 			       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d);
@@ -351,7 +359,28 @@ public class ListingsList extends ListFragment
 	
 		            }
 		        });
+			   
+			   //***CASE ADMIN ACCESS***
+			   try{
+				   if (SuperUsers.checkSuperUser(Self.getUser().getUID())){
+				   Button deleteListingButton = (Button) dialog.findViewById(R.id.delete_listing_button);
+		           deleteListingButton.setOnClickListener(new View.OnClickListener() {
+			            @Override
+			            public void onClick(View view) {
+				            if(deleteListingByLid( b_adapter.myList.get(pos).getListingID())){
+				            	//Log.d("Successful Deletion", "Listing " +  s_adapter.myList.get(pos).getListingID() + " should be successfully deleted");
+				            }
+				            dialog.dismiss();
+			            }
+			        });
+		           LayoutParams lparams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
 
+				   dialog.addContentView(deleteListingButton, lparams);
+				   }
+				   }catch(Exception e){
+					   Log.d("ListingsList", "Unable to create button for admin view sell page");
+				   }
+			   //***END ADMIN ACCESS CASE****
 		       // show the dialog
 			   dialog.setCanceledOnTouchOutside(true); 
 			   
@@ -487,7 +516,13 @@ public class ListingsList extends ListFragment
 	    		   // if the conversation DOESN'T exist, we inflate a "first message" listing dialog
 
 		    	   dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		    	   
+		    	   if(SuperUsers.checkSuperUser(Self.getUser().getUID())){
+		    		   dialog.setContentView(R.layout.sell_list_admin);
+		    	   }
+		    	   else{
 		    	   dialog.setContentView(R.layout.sell_list_dialog);
+		    	   }
 	
 		    	   dialog.getWindow().setBackgroundDrawable(new ColorDrawable(0xE6FFFFFF));
 			       TextView description = (TextView) dialog.findViewById(R.id.firstLine_d_sell);
@@ -521,6 +556,7 @@ public class ListingsList extends ListFragment
 		           LinearLayout b3 = (LinearLayout) dialog.findViewById(R.id.box_3_d_sell);
 		           LinearLayout b4 = (LinearLayout) dialog.findViewById(R.id.box_4_d_sell);
 		           
+		           
 		           for(int i = 0; i<items.size(); i++)
 		           {
 		           	if(i==0)
@@ -545,6 +581,7 @@ public class ListingsList extends ListFragment
 		           	}
 		           }
 		       
+		      
 		       
 		       // get the submit button and the edittext
 		       Button submit_message = (Button) dialog.findViewById(R.id.chatSendButton_d_sell);
@@ -594,6 +631,32 @@ public class ListingsList extends ListFragment
 		            }
 		        });
 
+			   
+			   //*** ADD SUPER USER ACCESS ***
+			   try{
+			   if (SuperUsers.checkSuperUser(Self.getUser().getUID())){
+			   Button deleteListingButton = (Button) dialog.findViewById(R.id.delete_listing_button_sell);
+	           deleteListingButton.setOnClickListener(new View.OnClickListener() {
+		            @Override
+		            public void onClick(View view) {
+			            if(deleteListingByLid( s_adapter.myList.get(pos).getListingID())){
+			            	//Log.d("Successful Deletion", "Listing " +  s_adapter.myList.get(pos).getListingID() + " should be successfully deleted");
+			            }
+			            dialog.dismiss();
+		            }
+		        });
+	           LayoutParams lparams = new LayoutParams(LayoutParams.WRAP_CONTENT,LayoutParams.WRAP_CONTENT);
+
+			   dialog.addContentView(deleteListingButton, lparams);
+			   }
+			   }catch(Exception e){
+				   Log.d("ListingsList", "Unable to create button for admin view sell page");
+			   }
+	           
+	           //*** END ADD SUPER USER ACCESS ***
+	           
+	           
+	           
 		       // show the dialog
 			   dialog.setCanceledOnTouchOutside(true); 
 			   
