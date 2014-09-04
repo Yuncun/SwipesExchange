@@ -35,7 +35,7 @@ public class StaticHelpers {
 		String re = "<" + Long.toString(differenceHr) + "h";
 		
 		if (differenceHr < 0){
-			re = "exp";
+			re = "EXP";
 		}
 		return re;
 		

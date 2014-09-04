@@ -11,12 +11,29 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:gravity="center"
-        android:layout_centerInParent="true"
+        android:layout_centerHorizontal="true"
+        android:layout_alignParentTop="true"
         android:textAlignment="center"
         android:textColor="@color/mycolor1"
         android:textSize="12sp"
         android:textStyle="bold"
         tools:ignore="SmallSp" />
-
+    
+    <TextView
+             android:id="@+id/num_unread"
+        android:layout_width="15dp"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/tabText"
+        android:layout_centerHorizontal="true"
+        android:layout_marginTop="5dp"
+        android:gravity="center"
+        android:text="0"
+        android:textStyle="bold"
+        android:textColor="@color/White"
+        android:visibility="gone"
+        android:background="@drawable/red_circle"
+        
+        
+        />
 
 </RelativeLayout>

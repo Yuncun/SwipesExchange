@@ -65,7 +65,7 @@ public class SellListAdapter  extends BaseAdapter
         description.setText(this.myList.get(position).getMessageBody());
         time_created.setText(StaticHelpers.getTimeText(this.myList.get(position).getTimeCreated()));
         name.setText(this.myList.get(position).getUser().getName());
-        fb_pic.setImageBitmap(PictureCache.getFBPicBuy(this.myList.get(position).getUser().getUID()));
+        fb_pic.setImageBitmap(PictureCache.getFBPicSell(this.myList.get(position).getUser().getUID()));
   
         try {
 			exp_time.setText(StaticHelpers.figureOutExpirationTime(this.myList.get(position).getTimeCreated(), this.myList.get(position).getEndTime()));

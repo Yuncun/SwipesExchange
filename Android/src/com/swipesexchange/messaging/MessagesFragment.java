@@ -18,6 +18,7 @@ import android.content.IntentFilter;
 import android.content.res.AssetFileDescriptor;
 import android.media.MediaPlayer;
 import android.os.AsyncTask;
+import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.support.v4.content.LocalBroadcastManager;
@@ -33,6 +34,8 @@ import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import com.swipesexchange.R;
+import com.swipesexchange.helpers.ClosedInfo;
+import com.swipesexchange.lists.SelectionFragment;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.Message;
@@ -95,6 +98,13 @@ public class MessagesFragment extends ListFragment {
 	   public void onReceive(Context context, Intent intent) {
 	     // Get extra data included in the Intent
 	     String message = intent.getStringExtra("message");
+	     
+	     MainActivity m = (MainActivity) getActivity();
+     	((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.VISIBLE);
+     	ClosedInfo.num_unread = ClosedInfo.num_unread + 1;
+     	int num = ClosedInfo.num_unread;
+     	((SelectionFragment) m.fragments[1]).num_unread.setText(Integer.toString(num));
+
 	     updateFragmentWithMessage(true);
 	     
 	     MediaPlayer player = new MediaPlayer();
@@ -130,6 +140,27 @@ public class MessagesFragment extends ListFragment {
    @Override
    public View onCreateView(LayoutInflater inflater, ViewGroup container,
            Bundle savedInstanceState) {
+
+	   int unread = 0;
+	   
+	   for(int i = 0; i < ConversationList.getConversations().size(); i++)
+	   {
+		   if(!ConversationList.getConversations().get(i).getMostRecentMessage().getSender().equals(Self.getUser().getUID()) && 
+				   ConversationList.getConversations().get(i).getMostRecentMessage().getHasBeenReadFlag().equals("0"))
+		   {
+			   unread++;
+		   }
+	   }
+	   
+	   ClosedInfo.num_unread = unread;
+	  
+	   if(unread > 0)
+	   {
+		   MainActivity m = (MainActivity) getActivity();
+	       ((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.VISIBLE);
+	       int num = ClosedInfo.num_unread;
+	       ((SelectionFragment) m.fragments[1]).num_unread.setText(Integer.toString(num));
+	   }
 
        View view = inflater.inflate(R.layout.message_overview, container, false);
        
@@ -225,8 +256,23 @@ public class MessagesFragment extends ListFragment {
       // Fragment conv_list = new MessageListFragment();
        //this.pullAndAddMessages();
        
+       // mark all messages in the conversation as read locally
+       ConversationList.getConversations().get(position).markAllRead();
        
+       MainActivity m = (MainActivity) getActivity();
+       if(ClosedInfo.num_unread > 0)
+       {
+	       ((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.VISIBLE);
+	       int num = ClosedInfo.num_unread;
+	       ((SelectionFragment) m.fragments[1]).num_unread.setText(Integer.toString(num));
+       }
+       else
+       {
+    	   ((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.GONE);
+       }
        
+       // mark all as read and send to database
+
        Intent nextScreen = new Intent(getActivity(), ConversationActivity.class);
        
        String other_person_uid;
@@ -249,8 +295,7 @@ public class MessagesFragment extends ListFragment {
        startActivity(nextScreen);
        getActivity().overridePendingTransition(R.anim.slide_in_from_right,
                R.anim.slide_out_to_left);
-       
-       
+        
    }
    
    public void setMessageAdapter() {

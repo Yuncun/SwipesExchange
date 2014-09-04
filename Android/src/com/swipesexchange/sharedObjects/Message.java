@@ -41,6 +41,7 @@ public class Message implements Serializable {
 		setDeletedFlag(Constants.NO_FLAG);
 		setMessageID(null);
 		MessageID = UUID.randomUUID().toString();
+		this.hasBeenReadFlag = "0";
 		
 	}
 
@@ -148,6 +149,14 @@ public class Message implements Serializable {
 	 */
 	public void setMessageID(String messageID) {
 		MessageID = messageID;
+	}
+
+	public String getHasBeenReadFlag() {
+		return hasBeenReadFlag;
+	}
+
+	public void setHasBeenReadFlag(String hasBeenReadFlag) {
+		this.hasBeenReadFlag = hasBeenReadFlag;
 	}
 
 	

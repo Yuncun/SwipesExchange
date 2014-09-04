@@ -437,7 +437,7 @@ public class ConnectToServlet {
 	
 	}
 	
-	public void markMessageRead(final String messageID){
+	public static void markMessageRead(final String messageID){
 		//Send request to server
 		new Thread(new Runnable() {
     		public void run() {

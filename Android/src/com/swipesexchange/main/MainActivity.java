@@ -109,7 +109,7 @@ public class MainActivity extends FragmentActivity {
 	private MenuItem settings;
 	private Menu options_menu;
 	private Session session;
-	private Fragment[] fragments = new Fragment[4];
+	public Fragment[] fragments = new Fragment[4];
 	ViewPager mViewPager;
 	private UiLifecycleHelper uiHelper;
 	

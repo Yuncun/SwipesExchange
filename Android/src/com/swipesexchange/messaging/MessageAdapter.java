@@ -180,8 +180,9 @@ public class MessageAdapter extends BaseAdapter {
         v_holder.msg_txt.setText(message_string);
         v_holder.msg_time.setText(StaticHelpers.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
         
-        if(this.dotted_messages != null && this.dotted_messages.containsKey(key_str) && this.dotted_messages.get(key_str) && 
-        		!this.my_list.get(position).getMostRecentMessage().getSender().getUID().equals(Self.getUser().getUID()))
+        //if(this.dotted_messages != null && this.dotted_messages.containsKey(key_str) && this.dotted_messages.get(key_str) && 
+        		//!this.my_list.get(position).getMostRecentMessage().getSender().getUID().equals(Self.getUser().getUID()))
+        if(!this.my_list.get(position).getMostRecentMessage().getSender().getUID().equals(Self.getUser().getUID()) && this.my_list.get(position).getMostRecentMessage().getHasBeenReadFlag().equals("0"))
         	v_holder.blue_dot.setVisibility(View.VISIBLE);
         else
         	v_holder.blue_dot.setVisibility(View.GONE);

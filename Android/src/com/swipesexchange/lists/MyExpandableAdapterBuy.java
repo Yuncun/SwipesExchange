@@ -231,7 +231,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_any.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -240,7 +240,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_any)) {
 							l_any.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_any.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -287,7 +287,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_b_cafe.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_b_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -296,7 +296,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_bruin_cafe)) {
 							l_b_cafe.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_b_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -322,7 +322,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_cafe.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -331,7 +331,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_cafe_1919)) {
 							l_cafe.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_cafe.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -357,7 +357,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_covell.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_covell.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -366,7 +366,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_covell)) {
 							l_covell.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_covell.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -392,7 +392,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_de_neve.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_de_neve.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -401,7 +401,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_de_neve)) {
 							l_de_neve.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_de_neve.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -427,7 +427,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_feast.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_feast.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -436,7 +436,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_feast)) {
 							l_feast.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_feast.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -462,7 +462,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_hedrick.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_hedrick.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -471,7 +471,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_hedrick)) {
 							l_hedrick.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_hedrick.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -497,7 +497,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						{
 							l_rendezvous.setBackgroundResource(R.drawable.rectangle);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_rendezvous.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);
@@ -506,7 +506,7 @@ public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 						else if (!selectedVenues.contains(child_text_rendezvous)) {
 							l_rendezvous.setBackgroundResource(R.drawable.rectangle_red);
 							
-							int padding_in_dp = 2;
+							int padding_in_dp = 4;
 						    final float scale = view.getContext().getApplicationContext().getResources().getDisplayMetrics().density;
 						    int padding_in_px = (int) (padding_in_dp * scale + 0.5f);
 							l_rendezvous.setPadding(padding_in_px, padding_in_px, padding_in_px, padding_in_px);

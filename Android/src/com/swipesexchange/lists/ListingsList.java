@@ -887,9 +887,9 @@ public class ListingsList extends ListFragment
                 String uid = "";
                 for(int i=0; i < buyEntries.size(); i++)
                 {
+                	uid = buyEntries.get(i).getUser().getUID();
 	                try {
 	              
-	                	uid = buyEntries.get(i).getUser().getUID();
 	                	url = new URL("https://graph.facebook.com/" + uid + "/picture?type=large");
 	                	InputStream in = (InputStream) url.getContent();
 	                    Log.d("picture", "URL is: " + url.toString());
@@ -976,12 +976,11 @@ public class ListingsList extends ListFragment
                 String uid = "";
                 Bitmap guest_icon = BitmapFactory.decodeResource(context.getResources(),
                         R.drawable.bear_greyscale);
+            
                 for(int i=0; i < sellEntries.size(); i++)
                 {
+                    uid = sellEntries.get(i).getUser().getUID();
 	                try {
-	                
-	                	
-	                	uid = sellEntries.get(i).getUser().getUID();
 	                	url = new URL("https://graph.facebook.com/" + uid + "/picture?type=large");
 	                	InputStream in = (InputStream) url.getContent();
 	                    Log.d("picture", "URL is: " + url.toString());
@@ -1015,7 +1014,7 @@ public class ListingsList extends ListFragment
         	Log.d("ListingsList", "Forcing a BL Refresh"); 
        	 	bc = new BLConnectGet(getActivity(), true);
      	   	bc.execute();
-     	  //  setBLAdapter();
+     	   // setBLAdapter();
      	   	this.b_adapter.notifyDataSetChanged();
         }
         
@@ -1037,7 +1036,7 @@ public class ListingsList extends ListFragment
         	Log.d("ListingsList", "Forcing a SL Refresh"); 
        	 	sc = new SLConnectGet(getActivity(), true);
      	   	sc.execute();
-     	  //  setBLAdapter();
+     	 //   setSLAdapter();
      	   	this.s_adapter.notifyDataSetChanged();
         }
        

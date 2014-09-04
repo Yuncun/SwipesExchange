@@ -8,7 +8,10 @@ import java.util.Comparator;
 import java.util.Date;
 import java.util.List;
 
+import com.swipesexchange.helpers.ClosedInfo;
+import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.Message;
+import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.User;
 
 public class Conversation {
@@ -123,7 +126,6 @@ public class Conversation {
 
     	String oldDateString = date_str;
     	
-
     	SimpleDateFormat sdf = new SimpleDateFormat(OLD_FORMAT);
     	Date d = null;
 		try {
@@ -136,5 +138,20 @@ public class Conversation {
     	
     	return d;
     }
+	
+	public void markAllRead() {
+		for(int i = 0; i < this.message_list.size(); i++)
+		{
+			if(!this.message_list.get(i).getSender().equals(Self.getUser().getUID()) && this.message_list.get(i).getHasBeenReadFlag().equals("0"))
+			{
+				// set to "read" locally
+				this.message_list.get(i).setHasBeenReadFlag("1");
+				ClosedInfo.num_unread = ClosedInfo.num_unread - 1;
+				// send notification to server that message has been read
+				ConnectToServlet.markMessageRead(this.message_list.get(i).getMessageID());
+			}
+		}
+		
+	}
 	
 }

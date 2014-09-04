@@ -8,6 +8,8 @@ public class ClosedInfo {
 	
 	private static boolean minimized = true;
 	
+	public static int num_unread = 0;
+	
 	private static boolean received_message = false;
 	
 	public static boolean wasMinimized() {

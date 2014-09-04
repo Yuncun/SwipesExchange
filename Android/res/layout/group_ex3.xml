@@ -9,7 +9,7 @@
 
           <RelativeLayout 
         android:layout_width="wrap_content"
-        android:layout_height="45dp"
+        android:layout_height="55dp"
         android:layout_margin="10dp"
         android:layout_gravity="center"
         
@@ -20,7 +20,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle_red"
-        android:padding="2dp"
+        android:padding="4dp"
         >
 
               <TextView
@@ -39,7 +39,7 @@
         android:id="@+id/box_2"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:padding="2dp"
+        android:padding="4dp"
         android:background="@drawable/rectangle"
         android:layout_toRightOf="@id/box_1"
         android:layout_marginLeft="40dp"
@@ -65,7 +65,7 @@
         android:layout_height="wrap_content"
         android:background="@drawable/rectangle"
         android:layout_toRightOf="@id/box_2"
-        android:padding="2dp"
+        android:padding="4dp"
         android:layout_marginLeft="40dp"
          >
 
@@ -87,7 +87,7 @@
         android:layout_height="wrap_content"
         android:layout_toRightOf="@id/box_3"
         android:background="@drawable/rectangle"
-        android:padding="2dp"
+        android:padding="4dp"
         android:layout_marginLeft="40dp"
          >
 
@@ -109,8 +109,8 @@
         android:layout_height="wrap_content"
         android:layout_below="@id/box_1"
         android:background="@drawable/rectangle"
-        android:layout_marginTop="5dp"
-        android:padding="2dp"
+        android:layout_marginTop="8dp"
+        android:padding="4dp"
   
          >
 
@@ -134,9 +134,9 @@
         android:layout_below="@id/box_2"
         android:layout_marginLeft="40dp"
         android:background="@drawable/rectangle"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
        
-        android:padding="2dp"
+        android:padding="4dp"
   
          >
 
@@ -160,9 +160,9 @@
         android:layout_below="@id/box_3"
         android:layout_marginLeft="40dp"
         android:background="@drawable/rectangle"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
        
-        android:padding="2dp"
+        android:padding="4dp"
   
          >
 
@@ -187,9 +187,9 @@
         android:layout_below="@id/box_4"
         android:layout_marginLeft="38dp"
         android:background="@drawable/rectangle"
-        android:layout_marginTop="5dp"
+        android:layout_marginTop="8dp"
        
-        android:padding="2dp"
+        android:padding="4dp"
   
          >
 
