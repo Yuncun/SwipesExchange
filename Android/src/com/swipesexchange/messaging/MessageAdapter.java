@@ -21,6 +21,8 @@ import android.widget.TextView;
 import com.swipesexchange.R;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.helpers.StaticHelpers;
+import com.swipesexchange.lists.SelectionFragment;
+import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
 import com.swipesexchange.sharedObjects.Self;
 
@@ -321,6 +323,35 @@ public class MessageAdapter extends BaseAdapter {
 	
 	public synchronized void deleteAConversationAndUpdate(Conversation convo){
 		my_list.remove(convo);
+		
+		int num_unread_deleted = 0;
+		
+		for(int i = 0; i < convo.getNumMessages(); i++)
+		{
+			if(!convo.getAllMessages().get(i).getSender().equals(Self.getUser().getUID()) && convo.getAllMessages().get(i).getHasBeenReadFlag().equals("0"))
+			{
+				num_unread_deleted++;
+			}
+				
+		}
+		
+		if(num_unread_deleted > 0)
+		{
+		      MainActivity m = (MainActivity) this.myContext;
+		      ClosedInfo.num_unread = ClosedInfo.num_unread - num_unread_deleted;
+		      
+		       if(ClosedInfo.num_unread > 0)
+		       {
+			       ((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.VISIBLE);
+			       int num = ClosedInfo.num_unread;
+			       ((SelectionFragment) m.fragments[1]).num_unread.setText(Integer.toString(num));
+		       }
+		       else
+		       {
+		    	   ((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.GONE);
+		       }
+		}
+		
 		ConversationList.getConversations().remove(convo);
 		addAndUpdate(false);
 	   }
