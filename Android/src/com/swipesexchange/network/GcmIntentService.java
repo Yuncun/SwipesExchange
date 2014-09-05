@@ -89,6 +89,7 @@ import android.util.Log;
     	    Intent bIntent = new Intent("message_received");
     	    // You can also include some extra data.
     	    bIntent.putExtra("message", received.getText());
+    	    bIntent.putExtra("msg_id", received.getMessageID());
     	    LocalBroadcastManager.getInstance(mContext).sendBroadcast(bIntent);
 	    	}
 	    	

@@ -48,7 +48,6 @@ public class ConversationFragment extends ListFragment {
 		     // Get extra data included in the Intent
 		     String message = intent.getStringExtra("message");
 		     updateFragmentWithNoMessage();
-		     ClosedInfo.setReceivedMessage(true);
 		     
 		     MediaPlayer player = new MediaPlayer();
 		     AssetFileDescriptor afd = null;

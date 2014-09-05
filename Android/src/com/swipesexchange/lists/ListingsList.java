@@ -331,6 +331,28 @@ public class ListingsList extends ListFragment
 		                String message_contents = message_content_holder.getText().toString();
 		                if(message_contents == null || (message_contents.length() == 0))
 		                	return;
+		                
+		                if(message_contents.length() > 1000)
+		                {
+		                	final Dialog dialog = new Dialog(getActivity());
+		                	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		  		    	    dialog.setContentView(R.layout.message_length_dialog);
+		  		    	    
+			  		  		Button ok_button = (Button) dialog.findViewById(R.id.Ok_Button);
+						
+							ok_button.setOnClickListener(new View.OnClickListener() {
+								 
+				                 @Override
+				                 public void onClick(View view) {
+				                     
+				                     dialog.dismiss();
+		
+					                 }
+				             });
+		  		    	    
+		  		    	    dialog.show();
+		  		    	    return;
+		                }
 		          
 		                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
 		                
@@ -602,6 +624,28 @@ public class ListingsList extends ListFragment
 		                String message_contents = message_content_holder.getText().toString();
 		                if(message_contents == null || (message_contents.length() == 0))
 		                	return;
+		                
+		                if(message_contents.length() > 1000)
+		                {
+		                	final Dialog dialog = new Dialog(getActivity());
+		                	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+		  		    	    dialog.setContentView(R.layout.message_length_dialog);
+		  		    	    
+			  		  		Button ok_button = (Button) dialog.findViewById(R.id.Ok_Button);
+						
+							ok_button.setOnClickListener(new View.OnClickListener() {
+								 
+				                 @Override
+				                 public void onClick(View view) {
+				                     
+				                     dialog.dismiss();
+		
+					                 }
+				             });
+		  		    	    
+		  		    	    dialog.show();
+		  		    	    return;
+		                }
 		          
 		                Log.d("OTHERGUY ISSUE", "Sender is " + Self.getUser().getUID() + " and otherguy is " + receiver.getUID());
 		                

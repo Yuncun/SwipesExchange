@@ -45,10 +45,7 @@ public class MessageAdapter extends BaseAdapter {
 	  
 	  // are we in deletion_mode (set in MessagesFragment by the "Edit" button
 	  public boolean deletion_mode = false;
-	  
-	  // what Conversations contain new, unseen messages that we haven't read?
-	  public Map<String, Boolean> dotted_messages;
-	  
+
 	  // map that contains our ViewHolders (for view preservation/prevention of view recycling)
 	  public Map<String, ViewHolder> v_map;
 
@@ -72,8 +69,6 @@ public class MessageAdapter extends BaseAdapter {
 
 	            	}
             }
-            
-            this.dotted_messages = new HashMap<String, Boolean>();
             
             
             // by default, we don't want to slide_out or slide_in 
@@ -139,18 +134,7 @@ public class MessageAdapter extends BaseAdapter {
 		}
         
         lid_str = my_list.get(position).getLID();
-      
-        // the key string for the dotted_messages map, using listing id concatenated with sender id
-        String key_str = sid_str + lid_str;
-        
-        // if we are creating the view for the first Conversation but we already saw the new message that caused this conversation
-        // to be dotted (ie because we saw it in ConversationFragment), then un-dot the list item
-    	if(position == 0 && ClosedInfo.receivedMessage() && this.dotted_messages.containsKey(key_str))
-    	{
-    		this.dotted_messages.put(key_str, false);
-    		ClosedInfo.setReceivedMessage(false);
-    	}
-        
+
     	ViewHolder v_holder = null;
 
     	if(v_holder==null)
@@ -182,8 +166,6 @@ public class MessageAdapter extends BaseAdapter {
         v_holder.msg_txt.setText(message_string);
         v_holder.msg_time.setText(StaticHelpers.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
         
-        //if(this.dotted_messages != null && this.dotted_messages.containsKey(key_str) && this.dotted_messages.get(key_str) && 
-        		//!this.my_list.get(position).getMostRecentMessage().getSender().getUID().equals(Self.getUser().getUID()))
         if(!this.my_list.get(position).getMostRecentMessage().getSender().getUID().equals(Self.getUser().getUID()) && this.my_list.get(position).getMostRecentMessage().getHasBeenReadFlag().equals("0"))
         	v_holder.blue_dot.setVisibility(View.VISIBLE);
         else
@@ -271,36 +253,13 @@ public class MessageAdapter extends BaseAdapter {
        return trashButton;
    }
     
-    public void addAndUpdate(boolean dot) {
+    public void addAndUpdate() {
     	this.my_list = ConversationList.getConversations();
     	for(int i=0; i < ConversationList.getConversations().size(); i++)
     	{
     		Log.d("zebra", "Conversation " + i);
     	}
-    	
-    	String key_str;
-     	String lid_str = "";
-    	String sid_str = "";
-    	
-    	if(my_list != null && my_list.size() > 0)
-    	{
-	        if(Self.getUser().getUID().equals(my_list.get(0).getSender().getUID()))
-	        {
-	        	sid_str = my_list.get(0).getReceiver().getUID();
-	        }
-			else 
-			{
-				sid_str = my_list.get(0).getSender().getUID();
-			}
-	        
-	        lid_str = my_list.get(0).getLID();
-	        
-	        key_str = sid_str + lid_str;
-	        
-	    	if(dot)
-	    		this.dotted_messages.put(key_str, true);
-    	}
-    	
+
     	this.notifyDataSetChanged();
     }
 
@@ -353,7 +312,7 @@ public class MessageAdapter extends BaseAdapter {
 		}
 		
 		ConversationList.getConversations().remove(convo);
-		addAndUpdate(false);
+		addAndUpdate();
 	   }
 	
 

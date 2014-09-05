@@ -4,6 +4,7 @@ import java.lang.reflect.Field;
 import com.swipesexchange.R;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.messaging.MessagesFragment;
+import android.annotation.SuppressLint;
 import android.annotation.TargetApi;
 import android.app.ActionBar;
 import android.app.ActionBar.Tab;
@@ -34,8 +35,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	private static MessagesFragment m_frag;
 	private static ListingsList b_frag;
 	private static ListingsList l_frag;
-	
-	public int num_unread_tracker = 0;
+
 	public TextView num_unread;
 	
 	/**
@@ -43,7 +43,8 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 	 */
 	ViewPager mViewPager;
 	
-	@TargetApi(Build.VERSION_CODES.ICE_CREAM_SANDWICH)
+	
+	@SuppressLint("NewApi")
 	@Override
 	public View onCreateView(LayoutInflater inflater, 
 	        ViewGroup container, Bundle savedInstanceState) {
@@ -127,12 +128,12 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 			// the adapter. Also specify this Activity object, which implements
 			// the TabListener interface, as the callback (listener) for when
 			// this tab is selected.
-			View tabView;
+			View tabView = null;
 			if(i != 2)
 			{
 				tabView = getActivity().getLayoutInflater().inflate(R.layout.tab_layout, null);
 			}
-			else
+			else if(i==2)
 			{
 				tabView = getActivity().getLayoutInflater().inflate(R.layout.msg_tab_layout, null);
 				this.num_unread = (TextView) tabView.findViewById(R.id.num_unread);
@@ -316,7 +317,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 		   if(fragment != null)
 		   {
 			   MessagesFragment m_frag = (MessagesFragment) fragment;
-			   m_frag.updateFragmentWithMessage(false);
+			   m_frag.updateFragmentWithMessage();
 		   }
 	   }
 

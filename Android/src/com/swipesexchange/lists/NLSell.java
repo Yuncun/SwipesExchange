@@ -130,6 +130,28 @@ public class NLSell extends Fragment {
 		                    @Override
 		                    public void onClick(View view) {
 		                    	
+		                       	if(adapter.enterMessage.getText().length() > 1000)
+		                    	{
+		                           	final Dialog dialog = new Dialog(getActivity());
+				                	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+				  		    	    dialog.setContentView(R.layout.description_length_dialog);
+				  		    	    
+					  		  		Button ok_button = (Button) dialog.findViewById(R.id.Ok_Button);
+								
+									ok_button.setOnClickListener(new View.OnClickListener() {
+										 
+						                 @Override
+						                 public void onClick(View view) {
+						                     
+						                     dialog.dismiss();
+				
+							                 }
+						             });
+				  		    	    
+				  		    	    dialog.show();
+				  		    	    return;
+		                    	}
+		                    	
 		                    	String receivedString = adapter.enterMessage.getText().toString();	               
 				                messageFromEditText = receivedString;
 				                Log.v("myExpandableAdapterBuy", messageFromEditText);

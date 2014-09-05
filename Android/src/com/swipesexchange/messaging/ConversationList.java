@@ -113,5 +113,19 @@ public class ConversationList {
 		}
 	}
 	
+	public static int getConversationPositionContainingMessage(String m_id) {
+		for(int i = 0; i < ConversationList.getConversations().size(); i++)
+		{
+			Conversation c = ConversationList.getConversations().get(i);
+			for(int j = 0; j < c.getNumMessages(); j++)
+			{
+				if(c.getAllMessages().get(j).getMessageID().equals(m_id))
+					return i;
+			}
+			
+		}
+		return -1;
+	}
+	
 
 }

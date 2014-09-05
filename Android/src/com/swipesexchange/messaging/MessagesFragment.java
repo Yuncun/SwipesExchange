@@ -82,14 +82,14 @@ public class MessagesFragment extends ListFragment {
 	   		adapter.deletion_mode = false;
 	   		edit_button_text.setText("Edit");
 	   }
-	   this.updateFragmentWithMessage(false);
+	   this.updateFragmentWithMessage();
    }
    
    @Override
    public void onActivityResult(int requestCode, int resultCode, Intent data) {
        super.onActivityResult(requestCode, resultCode, data);
        // refresh
-       this.updateFragmentWithMessage(false);
+       this.updateFragmentWithMessage();
    }
    
    private BroadcastReceiver mMessageReceiver = new BroadcastReceiver() {
@@ -97,14 +97,38 @@ public class MessagesFragment extends ListFragment {
 	   public void onReceive(Context context, Intent intent) {
 	     // Get extra data included in the Intent
 	     String message = intent.getStringExtra("message");
-	     
-	     MainActivity m = (MainActivity) getActivity();
-     	((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.VISIBLE);
-     	ClosedInfo.num_unread = ClosedInfo.num_unread + 1;
-     	int num = ClosedInfo.num_unread;
-     	((SelectionFragment) m.fragments[1]).num_unread.setText(Integer.toString(num));
+	     String msg_id = intent.getStringExtra("msg_id");
 
-	     updateFragmentWithMessage(true);
+	     updateFragmentWithMessage();
+	     
+	     if(((MainActivity) getActivity()).isInFront)
+	     {
+		     MainActivity m = (MainActivity) getActivity();
+		     if(((SelectionFragment) m.fragments[1]).num_unread == null)
+		     {
+		    	 Log.d("NULL", "Tab text view is null!!");
+		     }
+		     else
+		     {
+		     	((SelectionFragment) m.fragments[1]).num_unread.setVisibility(View.VISIBLE);
+		     	ClosedInfo.num_unread = ClosedInfo.num_unread + 1;
+		     	int num = ClosedInfo.num_unread;
+		     	((SelectionFragment) m.fragments[1]).num_unread.setText(Integer.toString(num));
+		     }
+	     }
+	     else
+	     {
+	    	 // viewing the conversation contained received message, so mark the messages as read as they are received
+	    	 int pos = ConversationList.getConversationPositionContainingMessage(msg_id);
+	    	 
+	    	 if(pos == -1)
+	    		 return;
+	    	 else
+	    	 {
+	    		 ConversationList.getConversations().get(pos).markAllRead();
+	    	 }
+	     }
+
 	     
 	     MediaPlayer player = new MediaPlayer();
 	     AssetFileDescriptor afd = null;
@@ -217,16 +241,7 @@ public class MessagesFragment extends ListFragment {
        return view;
    }
    
-   /*
-   public void pullAndAddMessages() {
-	   
-		  MessageTask m_task = new MessageTask(getActivity());
-		  m_task.execute();
-		  
-		    
-	}
-   */
-   public void updateFragmentWithMessage(boolean dot) {
+   public void updateFragmentWithMessage() {
 	   
 		if(adapter != null && adapter.my_list.size() > 1) 
     	{
@@ -243,7 +258,7 @@ public class MessagesFragment extends ListFragment {
      	}
 
 		 if(this.adapter != null)
-			 this.adapter.addAndUpdate(dot);
+			 this.adapter.addAndUpdate();
 	 }
    
  
@@ -252,8 +267,6 @@ public class MessagesFragment extends ListFragment {
    public void onListItemClick(ListView l, View v, int position, long id) {
        super.onListItemClick(l, v, position, id);
        Log.d("pig", "[onListItemClick] Selected Position "+ position);
-      // Fragment conv_list = new MessageListFragment();
-       //this.pullAndAddMessages();
        
        // mark all messages in the conversation as read locally
        ConversationList.getConversations().get(position).markAllRead();
@@ -281,10 +294,6 @@ public class MessagesFragment extends ListFragment {
     	   other_person_uid = clicked_message.getReceiver().getUID();
        else
     	   other_person_uid = clicked_message.getSender().getUID();
-       
-       String key_str = other_person_uid+clicked_message.getListing_id();
-       if(this.adapter.dotted_messages.containsKey(key_str))
-    	   adapter.dotted_messages.put(other_person_uid+clicked_message.getListing_id(), false);
        
        User myUser = Self.getUser();
        nextScreen.putExtra("listing_id", clicked_message.getListing_id());

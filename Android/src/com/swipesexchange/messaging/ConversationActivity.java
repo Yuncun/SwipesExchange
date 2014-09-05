@@ -6,6 +6,7 @@ import java.util.Calendar;
 import java.util.Date;
 
 import android.app.ActionBar;
+import android.app.Dialog;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
@@ -15,6 +16,7 @@ import android.support.v4.app.FragmentManager;
 import android.text.format.Time;
 import android.util.Log;
 import android.view.View;
+import android.view.Window;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -62,6 +64,7 @@ public class ConversationActivity extends FragmentActivity {
 	        for(int j=0; j< this.passed_messages.size(); j++) 
 	        	Log.d("pig", this.passed_messages.get(j).getText());
 	     
+	        final int true_pos = pos;
 	        
 	        RelativeLayout close = (RelativeLayout) findViewById(R.id.go_back);
 	        
@@ -70,6 +73,7 @@ public class ConversationActivity extends FragmentActivity {
 				@Override
 				public void onClick(View v) {
 					ClosedInfo.setMinimized(false);
+					ConversationList.getConversations().get(true_pos).markAllRead();
 					Intent intent = new Intent(ConversationActivity.this, MainActivity.class);
 					//startActivityForResult(intent, RESULT_OK);
 					setResult(RESULT_OK, intent); 
@@ -108,6 +112,29 @@ public class ConversationActivity extends FragmentActivity {
 	                String message_contents = message_content_holder.getText().toString();
 	                if(message_contents == null || (message_contents.length() == 0))
 	                	return;
+	                
+	                if(message_contents.length() > 1000)
+	                {
+	                	final Dialog dialog = new Dialog(view.getContext());
+	                	dialog.requestWindowFeature(Window.FEATURE_NO_TITLE);
+	  		    	    dialog.setContentView(R.layout.message_length_dialog);
+	  		    	    
+		  		  		Button ok_button = (Button) dialog.findViewById(R.id.Ok_Button);
+					
+						ok_button.setOnClickListener(new View.OnClickListener() {
+							 
+			                 @Override
+			                 public void onClick(View view) {
+			                     
+			                     dialog.dismiss();
+	
+				                 }
+			             });
+	  		    	    
+	  		    	    dialog.show();
+	  		    	    return;
+	                }
+	                
 	                // create the message to be sent
 	                // TODO: make this accurate, check if EditText view is null
 	                //These IDs have to be real now - @ES

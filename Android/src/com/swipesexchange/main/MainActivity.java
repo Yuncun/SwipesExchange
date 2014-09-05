@@ -118,6 +118,9 @@ public class MainActivity extends FragmentActivity {
 	Dialog time_error_dialog;
 	TextView text_field;
 	
+	//Test variables
+	public boolean isInFront;
+	
 	
 	/**
 	 * onCreate function for FragmentActivity
@@ -441,6 +444,7 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	public void onPause() {
 		super.onPause();
+		this.isInFront = false;
 		is_resumed = false;
 		uiHelper.onPause();
 	}
@@ -864,6 +868,9 @@ public class MainActivity extends FragmentActivity {
 	public void onResume() {
 		super.onResume();
 		 Log.d("OnResume", "OnResume in MainActivity called");
+		 
+		 this.isInFront = true;
+		 
 		session = Session.getActiveSession();
 		
 		

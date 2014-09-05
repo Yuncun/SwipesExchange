@@ -10,22 +10,12 @@ public class ClosedInfo {
 	
 	public static int num_unread = 0;
 	
-	private static boolean received_message = false;
-	
 	public static boolean wasMinimized() {
 		return ClosedInfo.minimized;
 	}
 	
 	public static void setMinimized(boolean m) {
 		ClosedInfo.minimized = m;
-	}
-	
-	public static boolean receivedMessage() {
-		return ClosedInfo.received_message;
-	}
-	
-	public static void setReceivedMessage(boolean r) {
-		ClosedInfo.received_message = r;
 	}
 	
 }
