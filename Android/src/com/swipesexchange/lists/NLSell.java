@@ -12,6 +12,7 @@ import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.helpers.Constants;
 import com.swipesexchange.helpers.ListingsUpdateTimer;
 import com.swipesexchange.helpers.ParentRow;
+import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.helpers.TextRow;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
@@ -97,7 +98,22 @@ public class NLSell extends Fragment {
 				 		text_field_submit = (TextView) submit_dialog.findViewById(R.id.dialog_text_view);
 				 		
 						//text_field_submit.setText("Submit listing?");
-						text_field_submit.setText("Submit listing?" + '\n' + "Your listing will expire at " + String.format("%02d",adapter.getEndHours())+":"+String.format("%02d", adapter.getEndMinutes()));
+				 		
+				 		int confirm_hours = adapter.getEndHours();
+				 		
+				 		String ampm_suffix;
+				 		if (StaticHelpers.isPM(confirm_hours)){
+				 			ampm_suffix = "PM";
+				 		}
+				 		else{
+				 			ampm_suffix = "AM";
+				 		}
+				 		confirm_hours = StaticHelpers.fixHours(confirm_hours);
+				 		
+				 		
+						text_field_submit.setText("Submit listing?" + '\n' + "Your listing will expire at " + String.format("%02d", confirm_hours)+":"+String.format("%02d", adapter.getEndMinutes()) + ampm_suffix );
+						
+						//text_field_submit.setText("Submit listing?" + '\n' + "Your listing will expire at " + String.format("%02d",adapter.getEndHours())+":"+String.format("%02d", adapter.getEndMinutes()));
 						
 						cancel_button.setOnClickListener(new View.OnClickListener() {
 							 

@@ -80,6 +80,28 @@ public class StaticHelpers {
     	
         return newDateString;
     }
+   
+	 public static int fixHours(int hours_24)
+	 {
+		 if (hours_24 == 0)
+			 return 12;
+		 else if(hours_24 <= 12)
+			 return hours_24;
+		 else
+		 {
+			return hours_24 - 12;
+			 
+		 }
+	 }
+	 
+	 public static boolean isPM(int hours_24)
+	 {
+		 if (hours_24>=12)
+			 return true;
+		 
+		 return false;
+	 }
+	
 
 }
 

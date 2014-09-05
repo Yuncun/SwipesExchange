@@ -16,7 +16,7 @@ public class ListingsUpdateTimer {
 	//{bl, sl}
 	private static long[] timeOfLastUpdate = {Calendar.getInstance().getTimeInMillis(), Calendar.getInstance().getTimeInMillis()};
 	
-	private static final long periodBetweenUpdatesMs = 1000*8; //8 seconds
+	private static final long periodBetweenUpdatesMs = 1000*16; //16 seconds
 	
 	private static boolean justSubmittedAListing = false;
 	
