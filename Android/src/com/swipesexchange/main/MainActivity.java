@@ -14,6 +14,7 @@ import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.SharedPreferences.Editor;
 import android.content.pm.ActivityInfo;
 import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
@@ -443,6 +444,28 @@ public class MainActivity extends FragmentActivity {
 
 	}
 
+	@Override
+    protected void onStart() {
+        super.onStart();
+         
+        // Store our shared preference
+        SharedPreferences sp = getSharedPreferences("STATEINFO", MODE_PRIVATE);
+        Editor ed = sp.edit();
+        ed.putBoolean("active", true);
+        ed.commit();
+    }
+     
+    @Override
+    protected void onStop() {
+        super.onStop();
+         
+        // Store our shared preference
+        SharedPreferences sp = getSharedPreferences("STATEINFO", MODE_PRIVATE);
+        Editor ed = sp.edit();
+        ed.putBoolean("active", false);
+        ed.commit();
+    }
+	    
 	@Override
 	public void onPause() {
 		super.onPause();

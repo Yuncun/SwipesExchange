@@ -13,6 +13,7 @@ import android.app.NotificationManager;
 import android.app.PendingIntent;
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.os.SystemClock;
 import android.support.v4.app.NotificationCompat;
@@ -69,8 +70,16 @@ import android.util.Log;
 	                Log.i("LOUD AND CLEAR", "Completed work @ " + SystemClock.elapsedRealtime());
 	                // Post notification of received message.
 	                String gsondMessage = extras.getString("message");
+	                
 	                sendNotification(gsondMessage);
-	                updateLocal(gsondMessage);
+	                
+		    		SharedPreferences prefs = getSharedPreferences("STATEINFO", Context.MODE_PRIVATE);
+		    		boolean mainactivityState = prefs.getBoolean("active", false);
+		    		Log.d("GCMIntentService", "Mainactivitystate " + Boolean.toString(mainactivityState));
+		    		if (mainactivityState){
+		    			updateLocal(gsondMessage);
+		    		}
+	                
 	            }
 	        }
 	        // Release the wake lock provided by the WakefulBroadcastReceiver.
@@ -80,17 +89,21 @@ import android.util.Log;
 	    private void updateLocal(String msg)
 	    {
 	    	if (Self.getUser().getUID()!=null){
-	    	Gson gson = new Gson();
-	    	Message received = gson.fromJson(msg, Message.class);
-	    	String payload = received.getText();
-	    	String senderName = received.getSender().getName();
-	    	Log.d("GCM", "Updating local message lists with message " + payload + "from user" + senderName);
-	    	ConversationList.addMessage(received);
-    	    Intent bIntent = new Intent("message_received");
-    	    // You can also include some extra data.
-    	    bIntent.putExtra("message", received.getText());
-    	    bIntent.putExtra("msg_id", received.getMessageID());
-    	    LocalBroadcastManager.getInstance(mContext).sendBroadcast(bIntent);
+		    	Gson gson = new Gson();
+		    	Message received = gson.fromJson(msg, Message.class);
+		    	String payload = received.getText();
+		    	String senderName = received.getSender().getName();
+		    	Log.d("GCM", "Updating local message lists with message " + payload + "from user" + senderName);
+		    	ConversationList.addMessage(received);
+	    	    
+	    	    //Check if our Mainactivity is running - we only want to do this if our app is not destroyed
+
+	    		Intent bIntent = new Intent("message_received");
+	    	    bIntent.putExtra("message", received.getText());
+	    	    bIntent.putExtra("msg_id", received.getMessageID());
+	    	    LocalBroadcastManager.getInstance(mContext).sendBroadcast(bIntent);
+	    	    
+	    		
 	    	}
 	    	
 	    }
@@ -111,6 +124,8 @@ import android.util.Log;
 	    	        .setSmallIcon(R.drawable.icon)
 	    	        .setContentTitle(payload)
 	    	        .setContentText("New Message from " + senderName);
+	    			mBuilder.setAutoCancel(true);
+
 	    	// Creates an explicit intent for an Activity in your app
 	    	
 	    	/*
