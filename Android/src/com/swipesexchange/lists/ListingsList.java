@@ -882,7 +882,7 @@ public class ListingsList extends ListFragment
         	private ProgressDialog progressBar;
         	private Context context;
         	private int timeoutCounter; 
-        	
+        	private Exception doinbackground_exception;
         	//Currently, loop sleeps in intervals of 500ms, so a timeoutLimit of X will represent a time of X*1/2 seconds.
         	private static final int timeoutLimit = 40; //20 seconds
         	
@@ -890,6 +890,7 @@ public class ListingsList extends ListFragment
         	public PictureTaskBuy(Context context) {
         		this.context = context;
         		this.timeoutCounter = 0;
+        		doinbackground_exception = null;
         		
         	}
         	
@@ -918,8 +919,8 @@ public class ListingsList extends ListFragment
 	   	             } catch (Exception e) {
 	   	                 e.printStackTrace();
 	   	                 Log.d("waitForvalues", e.toString());
-	   	                 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
-	   	                 errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
+	   	               //  DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+	   	               //  errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
 	   	             }
             	
    	         
@@ -956,6 +957,14 @@ public class ListingsList extends ListFragment
             @Override
             protected void onPostExecute(Map<String, Bitmap> map) {
             	progressBar.dismiss();
+            	
+             	//Exception handling
+             	if (doinbackground_exception != null){
+             	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+                  errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
+             	}
+             	
+             	
                 PictureCache.cachePicMapBuy(map);
                 Log.d("picture", "Map size is: " + Integer.toString(map.size()));
                 setBLAdapter();
@@ -972,13 +981,14 @@ public class ListingsList extends ListFragment
         	private ProgressDialog progressBar;
         	private Context context;
         	private int timeoutCounter; 
-        	
+        	private Exception doinbackground_exception;
         	//Currently, loop sleeps in intervals of 500ms, so a timeoutLimit of X will represent a time of X*1/2 seconds.
         	private static final int timeoutLimit = 40; //20 seconds
         	
         	public PictureTaskSell(Context context) {
         		this.context = context;
         		timeoutCounter = 0;
+        		doinbackground_exception = null; 
         	}
         	
             @Override
@@ -1011,8 +1021,8 @@ public class ListingsList extends ListFragment
 	                 Log.d("PictureTaskSell", e.toString());
  	            }
    	             catch (Exception e){
-	                 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
-	                 errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
+   	            	 doinbackground_exception = e;
+	                
    	             }
    	         
    	  		 }
@@ -1047,6 +1057,13 @@ public class ListingsList extends ListFragment
             @Override
             protected void onPostExecute(Map<String, Bitmap> map) {
             	progressBar.dismiss();
+            	
+            	//Exception handling
+            	if (doinbackground_exception != null){
+            	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+                 errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
+            	}
+                 
                 PictureCache.cachePicMapSell(map);
                 Log.d("picture", "Map size is: " + Integer.toString(map.size()));
                 setSLAdapter();
@@ -1330,9 +1347,11 @@ public class ListingsList extends ListFragment
     	 	private Context context;
     	 	private int timeoutCounter = 0;
     	 	private final int timeoutLimit = 60; //currently in halfseconds
+    	 	private Exception doinbackground_exception;
     	 	
     	 	 public MessageTask(Context context) {
     		        	this.context = context;
+    		        	doinbackground_exception = null;
     		        }
     	 	
 
@@ -1363,8 +1382,8 @@ public class ListingsList extends ListFragment
     	             }
     	             catch (TimeoutException e){
     	            	 Log.d("Timeout in MessageTask", "Timeout in MessageTask ");
-    	            	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
-	   	                 errorDialog.showAlert(((MainActivity) context), "Timeout Exception - Could not resolve identity of client, possibly because of connection failure", true);
+    	            	 doinbackground_exception = e;
+    	            
     	             }
     	         
     	  		 }
@@ -1378,6 +1397,12 @@ public class ListingsList extends ListFragment
     	     @Override
     	     protected void onPostExecute(List<Message> msgs) {
     	     	
+             	//Exception handling
+             	if (doinbackground_exception != null){
+             	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+                  errorDialog.showAlert(((MainActivity) context), "Could not resolve identity of client, possibly because of connection failure", true);
+             	}
+             	
     	     	Log.d("LOUD AND CLEAR", "Adding messages...");
     	     	ConversationList.addMessageList(msgs);
     	     	ConversationList.is_set = true;

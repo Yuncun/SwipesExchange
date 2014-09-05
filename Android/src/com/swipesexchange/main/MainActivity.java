@@ -136,6 +136,8 @@ public class MainActivity extends FragmentActivity {
 		    finish();
 		}
 		
+		ClosedInfo.num_unread = 0;
+
 		
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
