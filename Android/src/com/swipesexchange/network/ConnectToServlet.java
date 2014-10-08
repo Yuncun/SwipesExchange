@@ -16,6 +16,9 @@ import com.swipesexchange.helpers.Constants;
 import com.swipesexchange.messaging.Conversation;
 import com.swipesexchange.sharedObjects.*;
 
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.util.Log;
 
  
@@ -639,5 +642,14 @@ public class ConnectToServlet {
 
 		 Log.d("handleIDAsync", "dmsg.getPayload() is " + dmsg.getPayload());
 			  return dmsg.getPayload();
+	}
+	
+	public static boolean isOnline(Context mcontext) {
+	    ConnectivityManager cm = (ConnectivityManager) mcontext.getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
 	}
 }

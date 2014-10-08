@@ -2,6 +2,8 @@ package com.swipesexchange.helpers;
 
 import java.util.Calendar;
 
+import com.swipesexchange.main.MainActivity;
+
 import android.os.SystemClock;
 import android.util.Log;
 
@@ -24,7 +26,13 @@ public class AccurateTimeHandler {
 	
 	public AccurateTimeHandler(){
 		client = new SntpClient();
-		client.requestTime();
+		
+		//	Log.d("AccurateTimeHandler", "sntpCLient detected no network; stopping application");
+		//	DisplayExceptionAlertDialog error = new DisplayExceptionAlertDialog();
+		//	error.showAlert(this, "No Network Detected", true);
+			client.requestTime();
+		
+		
 	}
 	
 	public static void completeTimeRetrieval(Boolean sntpSuccess){

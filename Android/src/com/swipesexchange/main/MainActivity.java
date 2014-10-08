@@ -20,6 +20,8 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +40,7 @@ import android.view.View.OnClickListener;
 import android.widget.Button;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import com.facebook.Request;
 import com.facebook.Response;
@@ -137,6 +140,13 @@ public class MainActivity extends FragmentActivity {
 		    finish();
 		}
 		
+		if (!isOnline()){
+			Log.d("MainActivity", "onCreate detected no network; stopping application");
+			DisplayExceptionAlertDialog error = new DisplayExceptionAlertDialog();
+			error.showAlert(this, "No Network Detected", true);
+			
+		}
+		
 		ClosedInfo.num_unread = 0;
 
 		
@@ -229,11 +239,8 @@ public class MainActivity extends FragmentActivity {
  	  	            	  
  	  	                Self.getUser().setUID(user.getId());
  	  	                Self.getUser().setName(user.getName());
- 	  	                Log.d("LOUD AND CLEAR", "****** SESSION STATE CHANGE ****** fbname: " + user.getName());
- 	  	                Log.d("LOUD AND CLEAR", "fbid " + user.getId());
  	  	                
  	  	             if (checkPlayServices()) {
- 	  	    			Log.d("LOUD AND CLEAR", "Creating GCM");
  	  	                gcm = GoogleCloudMessaging.getInstance(context);
  	  	                Self.getUser().setRegid(getRegistrationId(getApplicationContext()));
  	  	                if (getRegistrationId(getApplicationContext()).isEmpty()) {
@@ -260,12 +267,7 @@ public class MainActivity extends FragmentActivity {
 				    	getActionBar().hide();
 				    }
 				  
-				if (has_successfully_logged_in_sometime){/*
-				  Intent i = getBaseContext().getPackageManager()
-				             .getLaunchIntentForPackage( getBaseContext().getPackageName() );
-				i.addFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
-				startActivity(i);
-				*/
+				if (has_successfully_logged_in_sometime){
             	Log.d("logged out" , "Finishing all activities");
             	//activity.finish();
             	ConnectToServlet.logoutRemoveUIDRegIDPair(Self.getUser().getUID(), Self.getUser().getRegid());
@@ -327,10 +329,8 @@ public class MainActivity extends FragmentActivity {
 	 						ok_button.setOnClickListener(new View.OnClickListener() {
 	 							 
 	 		                    @Override
-	 		                    public void onClick(View view) {
-	 		                        
+	 		                    public void onClick(View view) {       
 	 		                        time_error_dialog.dismiss();
-	 		 
 	 		                    }
 	 		                });
 	 						
@@ -342,7 +342,6 @@ public class MainActivity extends FragmentActivity {
 	    				 Log.d("MainActivity Onclick for NL", "startActivityForResult(nextScreen, NL_REQUESTCODE);" );
 	    				 startActivityForResult(nextScreen, NL_REQUESTCODE);
 	    				 }
-	    				 
 	    			 }
 	    			}
 	    		});
@@ -381,8 +380,7 @@ public class MainActivity extends FragmentActivity {
 	    				 nextScreen.putExtra("new_listing_type", "sell");
 	    				 Log.d("MainActivity Onclick for SL", "startActivityForResult(nextScreen, SL_REQUESTCODE);" );
 	    				 startActivityForResult(nextScreen, SL_REQUESTCODE);
-	    				 }
-	    				 
+	    				 } 
 	    			 }
 	    			}
 	    		});
@@ -478,6 +476,7 @@ public class MainActivity extends FragmentActivity {
 	public void onDestroy() {
 		super.onDestroy();
 		//Stop the analytics tracking
+		DisplayExceptionAlertDialog.killDialog();
 		GoogleAnalytics.getInstance(this).reportActivityStop(this);
 		uiHelper.onDestroy();
 		
@@ -824,7 +823,12 @@ public class MainActivity extends FragmentActivity {
 	    checkPlayServices();
 	    session = Session.getActiveSession();
 
-
+		if (!isOnline()){
+			Log.d("MainActivity", "onCreate detected no network; stopping application");
+			DisplayExceptionAlertDialog error = new DisplayExceptionAlertDialog();
+			error.showAlert(this, "No Network Detected", true);
+		}
+		
 	    		
 	    if ((session != null && session.isOpened()) || Self.getUser().getUID()!=null) {
 	        // if the session is already open,
@@ -936,8 +940,8 @@ public class MainActivity extends FragmentActivity {
 	                msg = "Error :" + ex.getMessage();
 	                Log.d("LOUD AND CLEAR", "**** handleIDAsync error **** " + msg);
 	                Log.d("Timeout in MessageTask", "Timeout in MessageTask ");
-	            	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
-  	                 errorDialog.showAlert(((MainActivity) context), "Timeout Exception - Could not resolve identity of client, possibly because of connection failure", true);
+	           // 	 DisplayExceptionAlertDialog errorDialog = new DisplayExceptionAlertDialog();
+  	           //      errorDialog.showAlert(((MainActivity) context), "Timeout Exception - Could not resolve identity of client, possibly because of connection failure", true);
 	              
 	            }
 	            return msg;
@@ -950,5 +954,16 @@ public class MainActivity extends FragmentActivity {
 	    }.execute(UID, RegID, null);
 	    
 	}
+    
+    public boolean isOnline() {
+	    ConnectivityManager cm = (ConnectivityManager) getSystemService(Context.CONNECTIVITY_SERVICE);
+	    NetworkInfo netInfo = cm.getActiveNetworkInfo();
+	    if (netInfo != null && netInfo.isConnectedOrConnecting()) {
+	        return true;
+	    }
+	    return false;
+	}
+    
+
 
 }

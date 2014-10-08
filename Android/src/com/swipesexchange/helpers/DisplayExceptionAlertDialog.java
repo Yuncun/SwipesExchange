@@ -19,9 +19,9 @@ import android.widget.TextView;
 public class DisplayExceptionAlertDialog {
 	
 	protected Activity m_activity;
-	
+	public static boolean dialogOpened = false;
+	private static AlertDialog alert;
 	public DisplayExceptionAlertDialog(){
-		//
 	}
 	
 	
@@ -45,25 +45,40 @@ public class DisplayExceptionAlertDialog {
         builder.setCancelable(false);
         builder.setNegativeButton("OK", new DialogInterface.OnClickListener() {
             public void onClick(DialogInterface dialog, int id) {
-                dialog.cancel();
-
+                alert.dismiss();
+                dialogOpened = false;
                 if(fatal){
-                	
                 	Log.d("DisplayExceptionAlertDialog", "Fatal error, finishg activity");
+                	m_activity.finish();
                 	//activity.finish();
-                	
+                	/*
+                	 * 
                 	Intent intent = new Intent(m_activity, MainActivity.class);
                 	intent.setFlags(Intent.FLAG_ACTIVITY_CLEAR_TOP);
                 	intent.putExtra("EXIT", true);
-                	m_activity.startActivity(intent);
+                	m_activity.startActivity(intent);*/
+                	
                 }
             }
 
         });
 
-        AlertDialog alert = builder.create();
-        alert.show();
+        alert = builder.create();
+        if (!dialogOpened){
+        	alert.show();
+        	
+        	dialogOpened= true;
+        }
     }
+	
+	public static void killDialog(){
+		if (alert!=null){
+			if (alert.isShowing()){
+				alert.dismiss();
+			}
+		}
+		
+	}
 
 }
 

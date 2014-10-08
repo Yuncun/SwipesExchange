@@ -165,11 +165,14 @@ public class MessageAdapter extends BaseAdapter {
         message_string = my_list.get(position).getMostRecentMessage().getText();
         v_holder.msg_txt.setText(message_string);
         v_holder.msg_time.setText(StaticHelpers.getTimeText(my_list.get(position).getMostRecentMessage().getTime()));
-        
+        try{
         if(!this.my_list.get(position).getMostRecentMessage().getSender().getUID().equals(Self.getUser().getUID()) && this.my_list.get(position).getMostRecentMessage().getHasBeenReadFlag().equals("0"))
         	v_holder.blue_dot.setVisibility(View.VISIBLE);
         else
         	v_holder.blue_dot.setVisibility(View.GONE);
+        }catch(Exception e){
+        	v_holder.blue_dot.setVisibility(View.GONE);
+        }
 
         return view;
     }
