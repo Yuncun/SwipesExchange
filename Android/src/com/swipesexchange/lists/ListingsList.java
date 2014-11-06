@@ -23,22 +23,18 @@ import android.content.Context;
 import android.content.Intent;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Point;
 import android.graphics.drawable.ColorDrawable;
 import android.os.AsyncTask;
-import android.os.Build;
 import android.os.Bundle;
 import android.support.v4.app.ListFragment;
 import android.text.format.Time;
 import android.util.DisplayMetrics;
 import android.util.Log;
-import android.view.Display;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.view.ViewGroup.LayoutParams;
 import android.view.Window;
-import android.view.WindowManager;
 import android.view.inputmethod.InputMethodManager;
 import android.widget.Button;
 import android.widget.EditText;
@@ -884,7 +880,7 @@ public class ListingsList extends ListFragment
         	private int timeoutCounter; 
         	private Exception doinbackground_exception;
         	//Currently, loop sleeps in intervals of 500ms, so a timeoutLimit of X will represent a time of X*1/2 seconds.
-        	private static final int timeoutLimit = 40; //20 seconds
+        	private static final int timeoutLimit = 20; //10 seconds
         	
         	
         	public PictureTaskBuy(Context context) {
@@ -1346,7 +1342,7 @@ public class ListingsList extends ListFragment
     	 	private ProgressDialog progressBar;
     	 	private Context context;
     	 	private int timeoutCounter = 0;
-    	 	private final int timeoutLimit = 60; //currently in halfseconds
+    	 	private final int timeoutLimit = 20; //currently in halfseconds
     	 	private Exception doinbackground_exception;
     	 	
     	 	 public MessageTask(Context context) {

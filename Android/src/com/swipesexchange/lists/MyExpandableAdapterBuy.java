@@ -2,8 +2,6 @@ package com.swipesexchange.lists;
 
 
 import java.util.ArrayList;
-import android.text.format.Time;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;
@@ -47,7 +45,7 @@ import com.swipesexchange.helpers.ParentRow;
 public class MyExpandableAdapterBuy extends BaseExpandableListAdapter {
 
 	private LayoutInflater inflater;
-	private int minutes_end, hours_end, hours_start;
+	private int minutes_end, hours_end;
 	private TimePicker tp_end;
 	private String venue_name;
 	private ExpandableListView parent_list_view;

@@ -19,7 +19,6 @@ package com.swipesexchange.helpers;
 import android.os.AsyncTask;
 import android.os.SystemClock;
 import android.util.Log;
-import java.io.IOException;
 import java.net.DatagramPacket;
 import java.net.DatagramSocket;
 import java.net.InetAddress;
@@ -61,7 +60,6 @@ public class SntpClient implements OnTaskCompleted
     // round trip time in milliseconds
     private long mRoundTripTime;
     
-    private OnTaskCompleted listener;
     /**
      * Sends an SNTP request to the given host and processes the response.
      *

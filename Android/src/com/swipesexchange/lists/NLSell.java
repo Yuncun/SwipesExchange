@@ -16,7 +16,6 @@ import com.swipesexchange.helpers.StaticHelpers;
 import com.swipesexchange.helpers.TextRow;
 import com.swipesexchange.main.MainActivity;
 import com.swipesexchange.network.ConnectToServlet;
-import com.swipesexchange.sharedObjects.BuyListing;
 import com.swipesexchange.sharedObjects.MsgStruct;
 import com.swipesexchange.sharedObjects.Self;
 import com.swipesexchange.sharedObjects.SellListing;

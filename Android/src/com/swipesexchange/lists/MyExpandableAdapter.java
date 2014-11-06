@@ -2,8 +2,6 @@ package com.swipesexchange.lists;
 
 
 import java.util.ArrayList;
-import android.text.format.Time;
-
 import java.util.Calendar;
 import java.util.HashMap;
 import java.util.List;

@@ -6,8 +6,6 @@ import java.util.Calendar;
 import java.util.Date;
 import java.util.TimeZone;
 
-import com.swipesexchange.main.MainActivity;
-
 public class StaticHelpers {
 	
 	public static String figureOutExpirationTime(String timeCreated, String endTime) throws ParseException{

@@ -1,8 +1,8 @@
 package com.swipesexchange.helpers;
 
 import java.util.Calendar;
-
-import com.swipesexchange.main.MainActivity;
+import java.util.Date;
+import java.util.TimeZone;
 
 import android.os.SystemClock;
 import android.util.Log;
@@ -72,11 +72,22 @@ public class AccurateTimeHandler {
 	}
 	
 	public static long getAccurateTime_adjustedForPST(){
-		//TODO: Change this shitty implementation, use JodaTime instead of doing this shitty method
-		//I will lose sleep over this
+		//This is kind of a hack to get the correct time to be displayed; Usually, you would get the ms time since epoch and then convert into timezone
+		//However, since we ended up formatting our time using the Time object, the time zone conversion is FUBAR, so for now I'm jsut going to manually
+		//subtract the PST/PDT offset from epoch time. This is terrible, but will work until I start using JodaTime.
 		//PST is UTC-8, PDT is UTC-7
-		long PDT_ms = 60000*60*7; //7 hrs
+		long PDT_ms = 60000*60*7;
 		long PST_ms = 60000*60*8;
-		return (getAccurateTime()-PDT_ms);
+		
+		TimeZone tz = TimeZone.getTimeZone("EST");
+		boolean inDs = tz.inDaylightTime(new Date());
+		long PT;
+		if (inDs){
+			PT = PDT_ms;
+		 //7 hrs
+		}else{
+			PT = PST_ms;
+		}
+		return (getAccurateTime()-PT);
 	}
 }
