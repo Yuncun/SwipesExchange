@@ -139,6 +139,7 @@ public class SelectionFragment extends Fragment implements ActionBar.TabListener
 			
 			TextView tabText = (TextView) tabView.findViewById(R.id.tabText);
 			tabText.setText(mSectionsPagerAdapter.getPageTitle(i));
+			tabText.setTextSize(15);
 			
 		
 			//the following commented code can be used to create unique images to display on each tab

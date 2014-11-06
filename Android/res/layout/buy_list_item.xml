@@ -12,7 +12,7 @@
 
         android:scaleType="centerCrop"
          />
-        
+
              <TextView
         android:id="@+id/expiration_time"
         android:layout_width="40dp"

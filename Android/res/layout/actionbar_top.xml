@@ -7,28 +7,29 @@
     
     <Button
         android:id="@+id/new_button"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
-        android:layout_alignParentLeft="true"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
         android:layout_marginLeft="10dp"
-        android:background="@drawable/rectangle_grey"
+      
+        
+        android:background="@drawable/rectangle"
         android:padding="2dp"
-        android:text="NEW BUY"
-        android:textColor="@color/mycolor1"
+        android:text="Buy"
+        android:textColor="@color/White"
         android:textSize="12sp"
         android:textStyle="bold" />
     <Button
         android:id="@+id/new_button2"
-        android:layout_width="wrap_content"
-        android:layout_height="35dp"
+        android:layout_width="40dp"
+        android:layout_height="25dp"
         android:layout_toRightOf="@id/new_button"
-        android:text="NEW SELL"
         android:layout_marginLeft="10dp"
-        android:textColor="@color/mycolor1"
+        android:text="Sell"
+        android:textColor="@color/White"
         android:textSize="12sp"
         android:padding="2dp"
         android:textStyle="bold" 
-        android:background="@drawable/rectangle_grey"/>
+        android:background="@drawable/rectangle"/>
 
     
 
