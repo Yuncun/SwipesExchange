@@ -8,6 +8,7 @@ import java.util.List;
 import java.util.UUID;
 import java.util.concurrent.atomic.AtomicInteger;
 
+import android.app.ActionBar;
 import android.app.AlertDialog;
 import android.app.Dialog;
 import android.content.Context;
@@ -20,6 +21,7 @@ import android.content.pm.PackageInfo;
 import android.content.pm.PackageManager;
 import android.content.pm.PackageManager.NameNotFoundException;
 import android.content.pm.Signature;
+import android.graphics.Typeface;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
 import android.os.AsyncTask;
@@ -59,6 +61,7 @@ import com.swipesexchange.helpers.AccurateTimeHandler;
 import com.swipesexchange.helpers.ClosedInfo;
 import com.swipesexchange.helpers.Constants;
 import com.swipesexchange.helpers.DisplayExceptionAlertDialog;
+import com.swipesexchange.helpers.FontsOverride;
 import com.swipesexchange.lists.NewListingFragment;
 import com.swipesexchange.lists.NewListingFragmentBuy;
 import com.swipesexchange.lists.SelectionFragment;
@@ -133,6 +136,20 @@ public class MainActivity extends FragmentActivity {
 	@Override
 	protected void onCreate(Bundle savedInstanceState) {
 		super.onCreate(savedInstanceState);
+		FontsOverride.setDefaultFont(this, "MONOSPACE", "fonts/Arimo-Regular.ttf");
+	    getWindow().requestFeature(Window.FEATURE_ACTION_BAR);
+	    getActionBar().hide();
+	
+		
+		
+		//ActionBar actionBar = getActionBar();
+		//actionBar.hide();
+
+		//FontsOverride.setDefaultFont(this, "DEFAULT", "MyFontAsset.ttf");
+		
+		 
+		
+		//FontsOverride.setDefaultFont(this, "SANS_SERIF", "MyFontAsset3.ttf");
 		
 		//Used when we need to close all activities. Since MainActivity is our first activity, in order to close all activities we need to
 		//restart MainActivity, and then finish it. Therefore, sometimes this activity will be recreated when we want to close everything.
@@ -149,7 +166,6 @@ public class MainActivity extends FragmentActivity {
 		
 		ClosedInfo.num_unread = 0;
 
-		
 		uiHelper = new UiLifecycleHelper(this, callback);
 		uiHelper.onCreate(savedInstanceState);
 		
