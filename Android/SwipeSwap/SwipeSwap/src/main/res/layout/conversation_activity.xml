@@ -1,0 +1,101 @@
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+    <LinearLayout
+        android:id="@+id/buttonbar"
+        style="@android:style/ButtonBar"
+        android:layout_width="match_parent"
+        android:layout_height="47dp"
+        android:background="@color/holo_light_background"
+        android:focusable="true" 
+        android:focusableInTouchMode="true" 
+        
+        android:orientation="horizontal" >
+
+        <RelativeLayout
+            android:id="@+id/go_back"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true" >
+
+            <ImageView
+                android:id="@+id/back_arrow_conversation"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:paddingBottom="4.4dp"
+                android:rotation="180"
+                android:src="@drawable/ic_action_next_item" />
+
+            <TextView
+                android:id="@+id/close_conversation_view"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_toRightOf="@+id/back_arrow_conversation"
+                android:background="@android:color/transparent"
+                android:paddingTop="3.9dp"
+                android:textStyle="bold"
+                android:text="Back"
+                android:textColor="@color/mycolor1"
+                android:textSize="14sp" />
+        </RelativeLayout>
+    </LinearLayout>
+
+       <Button
+            android:id="@+id/chatSendButton"
+            android:layout_width="wrap_content"
+            android:layout_height="40dp"
+            android:layout_marginBottom="5dp"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentRight="true"
+            android:textSize="14sp"
+            android:textStyle="bold"
+            android:textColor="@color/mycolor1"
+            android:background="@android:color/transparent"
+            android:text="Send"
+          />
+     
+      <EditText
+            android:id="@+id/messageEdit"
+            android:layout_width="fill_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_marginBottom="4dp"
+            android:padding="2dp"
+            android:layout_toLeftOf="@+id/chatSendButton"
+            android:hint="Make a deal!"
+            android:background="@drawable/message_input_box"
+            android:layout_marginLeft="4dp"
+            android:inputType="textMultiLine"
+            android:maxHeight="140dp"
+            android:maxLength="2000"
+            android:minLines="2"
+            android:scrollbars="vertical"
+            android:textSize="12sp"
+            />
+     
+   
+        
+    <View
+    android:id="@+id/message_edit_bar"
+    android:layout_width="match_parent"
+    android:layout_height="2dp"
+    android:background="@color/LightGrey"
+    android:layout_marginBottom="5dp"
+    android:layout_above="@id/messageEdit"
+    />
+    
+<fragment
+        android:id="@+id/conversation_view"
+        android:layout_width="fill_parent"
+        android:layout_height="wrap_content"
+        android:layout_below="@id/buttonbar"
+        android:layout_above="@id/message_edit_bar"
+        android:name="io.swipeswap.messaging.ConversationFragment"
+        android:layout_marginRight="3dp"
+        android:layout_marginLeft="3dp" />
+  
+
+
+</RelativeLayout>

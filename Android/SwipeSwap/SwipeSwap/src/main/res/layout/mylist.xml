@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical" >
+
+  
+    <ListView
+        android:id="@android:id/list"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:divider="#D8D8D8"
+        android:dividerHeight="2dp" >
+    </ListView>
+    
+    <TextView 
+        android:id="@+id/hidden_message"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:hint="No current listings..."
+        android:textSize="12sp"
+        android:paddingTop="30dp"
+        android:gravity="center"
+        android:textStyle="italic"
+        android:visibility="gone"
+        
+        />
+
+</FrameLayout>

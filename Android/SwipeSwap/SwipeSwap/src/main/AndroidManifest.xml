@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    package="io.swipeswap"
+    android:versionCode="1"
+    android:versionName="1.0.0" >
+
+    <uses-sdk
+        android:minSdkVersion="13"
+        android:targetSdkVersion="21" />
+    
+    <uses-permission android:name="android.permission.INTERNET" /> 
+    <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+	<uses-permission android:name="android.permission.GET_ACCOUNTS" />
+    <uses-permission android:name="android.permission.WAKE_LOCK" />
+    <uses-permission android:name="com.google.android.c2dm.permission.RECEIVE" />
+
+    <permission android:name="com.example.gcm.permission.C2D_MESSAGE"
+        android:protectionLevel="signature" />
+    <uses-permission android:name="com.example.gcm.permission.C2D_MESSAGE" />
+
+    <application
+        android:name="io.swipeswap.main.MyApplication"
+        android:allowBackup="true"
+        android:icon="@drawable/circlebear_96x96"
+        android:label="@string/app_name"
+        android:theme="@style/AppTheme" 
+        >
+        
+        
+
+        <activity
+            android:name="io.swipeswap.main.MainActivity"
+            android:label="@string/app_name" 
+            android:launchMode = "standard"
+            
+            android:uiOptions="splitActionBarWhenNarrow"
+            android:screenOrientation="portrait">
+            <intent-filter>
+                <action android:name="android.intent.action.MAIN" />
+
+                <category android:name="android.intent.category.LAUNCHER" />
+            </intent-filter>
+        </activity>
+        <meta-data android:value="@string/app_id" android:name="com.facebook.sdk.ApplicationId"/>
+        
+        <!-- Google Analytics Version v4 needs this value for easy tracking -->
+		<meta-data android:name="com.google.android.gms.analytics.globalConfigResource"
+		android:resource="@xml/global_tracker" />
+
+        <activity android:name="com.facebook.LoginActivity"
+            android:screenOrientation="portrait"></activity>
+        
+         <activity android:name="io.swipeswap.messaging.ConversationActivity" android:windowSoftInputMode="stateUnchanged"
+             android:screenOrientation="portrait"></activity>
+
+         <activity android:name="io.swipeswap.lists.NewListingFragmentBuy" android:windowSoftInputMode="adjustPan"
+             android:screenOrientation="portrait"></activity>
+         
+         <activity android:name="io.swipeswap.lists.NewListingFragment" android:windowSoftInputMode="adjustPan"
+             android:screenOrientation="portrait"></activity>
+        
+        <receiver
+            android:name="io.swipeswap.network.GcmBroadcastReceiver"
+            android:permission="com.google.android.c2dm.permission.SEND" >
+            <intent-filter>
+                <action android:name="com.google.android.c2dm.intent.RECEIVE" />
+                <category android:name="com.example.gcm" />
+            </intent-filter>
+        </receiver>
+        <service android:name="io.swipeswap.network.GcmIntentService" />
+        <meta-data android:name="com.google.android.gms.version" android:value="@integer/google_play_services_version" />
+        
+    </application>
+
+</manifest>

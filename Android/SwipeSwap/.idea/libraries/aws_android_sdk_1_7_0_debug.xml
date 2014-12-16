@@ -1,0 +1,9 @@
+<component name="libraryTable">
+  <library name="aws-android-sdk-1.7.0-debug">
+    <CLASSES>
+      <root url="jar://$PROJECT_DIR$/SwipeSwap/libs/aws-android-sdk-1.7.0-debug.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES />
+  </library>
+</component>

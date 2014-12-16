@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="fill_parent"
+    android:layout_height="fill_parent"
+    android:orientation="vertical" >
+
+    <fragment
+        android:id="@+id/selection_fragment"
+        android:name="io.swipeswap.lists.SelectionFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/splash_fragment"
+        android:name="io.swipeswap.main.LoginFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+
+    <fragment
+        android:id="@+id/userSettingsFragment"
+        android:name="com.facebook.widget.UserSettingsFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+    
+   <fragment
+        android:id="@+id/guestlogoutfragment"
+        android:name="io.swipeswap.main.GuestLogoutFragment"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent" />
+   
+</LinearLayout>
