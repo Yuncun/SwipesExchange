@@ -17,8 +17,7 @@ BruinSwipes is a marketplace for UCLA students to buy and sell meal swipes.
 [![Listing][listing_th]][listing]
 [![Listing 2][listing2_th]][listing2]
 [![Inbox][inbox_th]][inbox]
-[![Edit][edit_screen_th]][edit_screen]
-[![Gyms][gym_screen_th]][gym_screen]
+[![chat][chat_th]][chat]
 
 [chat]: screenshots/full/chat.png
 [home]: screenshots/full/stat_screen_1.png
