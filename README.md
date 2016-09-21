@@ -1,15 +1,15 @@
 # BruinSwipes
 
-<a href='https://play.google.com/store/apps/details?id=com.swipesexchange&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png'/></a>
+<a href='https://play.google.com/store/apps/details?id=com.swipesexchange&utm_source=global_co&utm_medium=prtnr&utm_content=Mar2515&utm_campaign=PartBadge&pcampaignid=MKT-Other-global-all-co-prtnr-py-PartBadge-Mar2515-1'><img alt='Get it on Google Play' src='https://play.google.com/intl/en_us/badges/images/generic/en_badge_web_generic.png' height="75px"/></a>
 
-BruinSwipes is a marketplace for UCLA students to buy and sell meal swipes
+BruinSwipes is a marketplace for UCLA students to buy and sell meal swipes.
 
 ## How it works
 
-* **Browse** Look through listings made by other students
-* **Post** Or make your own buying/selling listing
-* **Chat** Get notified and chat in-app with other students
-* **Trade!** Make a trade
+* **Browse listings** Sort by "Selling" or "Buying" categories
+* **Post your own listing** You can sort by location, price, and time
+* **Chat and negotiate** Message another student directly from his or her listing
+* **Trade!** Meet up and make a trade
 
 ## Screenshots
 
