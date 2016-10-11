@@ -30,6 +30,14 @@ BruinSwipes is a marketplace for UCLA students to buy and sell meal swipes.
 [listing_th]: screenshots/thumbs/listing.png
 [listing2_th]: screenshots/thumbs/listing2.png
 
+## Developers
+
+Kyle Plutchak 
+
+Yuncun Shen 
+
+
+
 ## License
 
 <img align="right" src="https://www.gnu.org/graphics/gplv3-88x31.png">
